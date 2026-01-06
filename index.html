@@ -18,7 +18,7 @@
             --text: #334155;
             --text-light: #64748b;
             --white: #ffffff;
-            --gradient: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
         }
 
         * {
@@ -53,11 +53,11 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 80%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 60%);
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 80% 20%, rgba(251,191,36,0.08) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -151,8 +151,12 @@
 
         .section-subtitle {
             font-size: 1.1rem;
-            color: var(--text-light);
+            color: var(--text);
             max-width: 600px;
+        }
+
+        .mobile-break {
+            display: inline;
         }
 
         /* Problem section */
@@ -162,10 +166,9 @@
 
         .problem-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            grid-template-columns: 1fr;
+            gap: 40px;
             margin-top: 60px;
-            align-items: center;
         }
 
         .impact-card {
@@ -520,7 +523,64 @@
             }
 
             .impact-number {
-                font-size: 3rem;
+                font-size: 2.5rem;
+            }
+
+            .impact-card {
+                padding: 24px;
+            }
+
+            .impact-card h3 {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .impact-range {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 0 !important;
+            }
+
+            .impact-range .impact-number {
+                font-size: 2rem;
+            }
+
+            .impact-bar-container {
+                order: 2;
+                width: auto !important;
+                flex: none !important;
+            }
+
+            .impact-bar {
+                width: 8px !important;
+                height: 60px !important;
+                background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%) !important;
+                margin: 8px 0 !important;
+            }
+
+            .impact-bar > div:first-child {
+                top: 0 !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+
+            .impact-bar > div:last-child {
+                top: auto !important;
+                bottom: 0 !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+
+            .impact-range .impact-number:first-child {
+                order: 1;
+            }
+
+            .impact-range .impact-number:last-child {
+                order: 3;
+            }
+
+            .mobile-break {
+                display: block;
             }
 
             .timeline {
@@ -539,21 +599,31 @@
                 <h1>Tax relief for Philly's<br><span>true small businesses</span></h1>
                 <p class="subtitle">122,000 freelancers, artists, and independent workers are facing a massive tax increase.</p>
                 <p class="subtitle" style="font-weight: 700;">We're working together to change that.</p>
-                <div class="hero-signup" style="margin-top: 40px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px;">
+
+                <div class="hero-signup" style="margin-top: 32px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px;">
+                    <div class="lift-acronym" style="display: flex; justify-content: center; align-items: center; gap: 32px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15);">
+                        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.5;">
+                            <span><strong style="color: var(--gold);">L</strong>abor (1099)</span>
+                            <span><strong style="color: var(--gold);">I</strong>ndividual Enterprise</span>
+                            <span><strong style="color: var(--gold);">F</strong>amily Enterprise</span>
+                            <span><strong style="color: var(--gold);">T</strong>ax Reform</span>
+                        </div>
+                        <span style="font-size: 7rem; font-weight: 800; color: var(--gold); letter-spacing: 0.05em; line-height: 0.85;">LIFT</span>
+                    </div>
                     <script async data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
                 </div>
-                <div class="hero-stats" style="margin-top: 40px;">
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">122K</div>
-                        <div class="hero-stat-label">Businesses affected</div>
+                <div class="hero-stats" style="margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 580px; margin-left: auto; margin-right: auto;">
+                    <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">122K</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Employer & Non-Employer businesses affected</div>
                     </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">85%</div>
-                        <div class="hero-stat-label">Of Philly businesses are single-owner</div>
+                    <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">85%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Of Philly businesses are single-owner</div>
                     </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">&lt;1%</div>
-                        <div class="hero-stat-label">City budget impact</div>
+                    <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">&lt;1%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Fiscally responsible, impacts less than 1% of city budget</div>
                     </div>
                 </div>
             </div>
@@ -565,16 +635,38 @@
         <div class="container">
             <div class="section-label">The Problem</div>
             <h2 class="section-title">Philadelphia's tax code wasn't built for the modern workforce</h2>
-            <p class="section-subtitle">The current system was designed for a W-2 economy. Today's independent workers are getting crushed.</p>
+            <p class="section-subtitle">Starting in 2026, all businesses in Philadelphia are about to be hit with a new—and probably surprise—tax bill.</p>
+            <p class="section-subtitle" style="margin-top: 16px;">For the last 10 years, the smallest businesses in Philadelphia had a shield from the regressive Business Income and Receipts Tax, lovingly known as BIRT.</p>
+            <p class="section-subtitle" style="margin-top: 16px;">That shield allowed them to start and grow into a business that could support themselves, their family, their community, and employ other Philadelphians.</p>
+            <p class="section-subtitle" style="margin-top: 16px;"><strong>In 2026, that shield is gone.</strong></p>
 
+            <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">The scale of the problem</h3>
+            <p class="section-subtitle">While this information is public, most people don't realize the scale of the impact it's about to have on Philadelphians who run a small business as a way to simply survive.</p>
             <div class="problem-grid">
                 <div class="impact-card">
-                    <h3>If you earn $50K as a true small business</h3>
-                    <div class="impact-number">+$1,208</div>
-                    <div class="impact-label">Additional tax bill in April 2026</div>
-                    <div class="impact-comparison">
-                        That's <strong>three months' rent</strong> for many Philadelphians.<br>
-                        Ongoing annual increase: <strong>$3,236</strong>
+                    <div style="margin-bottom: 24px; text-align: center; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb;">
+                        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4; font-weight: 600;"><strong>If in</strong> <span style="font-size: 1.75rem; font-weight: 800; color: var(--navy);">2025</span> <strong>you earned</strong> <span style="font-size: 1.75rem; font-weight: 800; color: var(--navy);">$50,000</span> <span class="mobile-break"></span><strong>and you are a:</strong></p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem;">Laborer (1099)</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem;">Individual Enterprise</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem;">Family Enterprise</span>
+                        </div>
+                    </div>
+                    <div style="margin: 24px 0;">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 20px;">In April 2026, your Philadelphia tax bill <span class="mobile-break"></span>will increase by:</h3>
+                        <div class="impact-range" style="display: flex; align-items: center; gap: 16px;">
+                            <div class="impact-number">+$1,208</div>
+                            <div class="impact-bar-container" style="flex: 1; display: flex; align-items: center;">
+                                <div class="impact-bar" style="width: 100%; height: 8px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 4px; position: relative;">
+                                    <div style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #dc2626; border-radius: 50%; border: 3px solid white;"></div>
+                                    <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #991b1b; border-radius: 50%; border: 3px solid white;"></div>
+                                </div>
+                            </div>
+                            <div class="impact-number">+$3,236</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                        <p style="font-size: 1.25rem; color: var(--navy);">That's <strong>between 1 and 3 months' rent</strong> for many Philadelphians.</p>
                     </div>
                 </div>
                 <div class="problem-text">
