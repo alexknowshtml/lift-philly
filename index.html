@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Philly - Tax Relief for Philadelphia's Solo Businesses</title>
+    <meta name="description" content="Join the coalition supporting tax relief for Philadelphia's 122,000 solo business owners. The LIFT Act would exempt sole proprietors and single-member LLCs from the BIRT Net Income Tax.">
+    <style>
+        :root {
+            --navy: #1a365d;
+            --gold: #d69e2e;
+            --cream: #faf5eb;
+            --text: #2d3748;
+            --light-gray: #f7fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--navy);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .hero .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats bar */
+        .stats {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Problem section */
+        .problem {
+            background: var(--cream);
+            padding: 50px 20px;
+        }
+
+        .problem h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .impact-box {
+            background: white;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .impact-box h3 {
+            color: #e53e3e;
+            margin-bottom: 10px;
+        }
+
+        .impact-example {
+            font-size: 1.1rem;
+        }
+
+        .impact-example strong {
+            color: #e53e3e;
+        }
+
+        /* Solution section */
+        .solution {
+            padding: 50px 20px;
+        }
+
+        .solution h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .solution-box {
+            background: var(--light-gray);
+            border-left: 4px solid var(--gold);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .solution-box h3 {
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .checkmark-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checkmark-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .checkmark-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #38a169;
+            font-weight: bold;
+        }
+
+        /* Who this affects */
+        .affected {
+            background: var(--navy);
+            color: white;
+            padding: 50px 20px;
+        }
+
+        .affected h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .affected-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .affected-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        /* Sign up section */
+        .signup {
+            background: var(--cream);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .signup h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .signup .subtitle {
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Coalition section */
+        .coalition {
+            padding: 50px 20px;
+        }
+
+        .coalition h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .coalition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .coalition-member {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .coalition-member h4 {
+            color: var(--navy);
+            margin-bottom: 5px;
+        }
+
+        .coalition-member .org {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        /* Resources */
+        .resources {
+            background: var(--light-gray);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .resources h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--navy);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #2c5282;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+        }
+
+        .btn-outline:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>LIFT Philly</h1>
+            <p class="tagline">Tax Relief for Philadelphia's Solo Businesses</p>
+            <p class="subtitle">A coalition supporting the LIFT Act to exempt sole proprietors and single-member LLCs from the BIRT Net Income Tax</p>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat">
+                <div class="stat-number">122,000</div>
+                <div class="stat-label">Small Businesses Affected</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">85%</div>
+                <div class="stat-label">of Philly Businesses are Solo</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">&lt;1%</div>
+                <div class="stat-label">City Budget Impact</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="problem">
+        <div class="container">
+            <h2>The Problem</h2>
+            <p>Philadelphia's tax system was designed for a W-2 economy, not today's independent workforce. Starting in April 2026, solo business owners face a massive tax increase they weren't expecting.</p>
+
+            <div class="impact-box">
+                <h3>Real Impact: $50,000 Annual Earner</h3>
+                <p class="impact-example">
+                    April 2026 tax bill increases by <strong>$1,208</strong> &mdash; equivalent to <strong>three months' rent</strong>
+                </p>
+                <p style="margin-top: 10px;">Ongoing annual increase: <strong>$3,236</strong></p>
+            </div>
+
+            <p style="text-align: center; font-weight: 600; margin-top: 20px; color: var(--navy);">
+                "We are taxing working families out of their homes."
+            </p>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section class="solution">
+        <div class="container">
+            <h2>The Solution: The LIFT Act</h2>
+            <p>Create a third tax class for individuals and single-member LLCs, exempting them from the BIRT Net Income Tax while maintaining other tax obligations.</p>
+
+            <div class="solution-box">
+                <h3>What the LIFT Act Does</h3>
+                <ul class="checkmark-list">
+                    <li>Exempts sole proprietors and single-member LLCs from BIRT Net Income Tax (5.71%)</li>
+                    <li>Maintains Gross Receipts Tax (0.141%)</li>
+                    <li>Maintains Net Profits Tax (3.74%)</li>
+                    <li>Reduces double-taxation on individual business owners</li>
+                    <li>Aligns Philadelphia with state and federal treatment</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 20px;">
+                <strong>Bill introduced:</strong> November 20, 2025 by Councilman Mike Driscoll<br>
+                <strong>Finance Committee hearing:</strong> Expected early February 2026<br>
+                <strong>Effective date:</strong> July 1, 2026
+            </p>
+        </div>
+    </section>
+
+    <!-- Who This Affects -->
+    <section class="affected">
+        <div class="container">
+            <h2>Who This Affects</h2>
+            <div class="affected-grid">
+                <div class="affected-item">Freelancers & Consultants</div>
+                <div class="affected-item">Artists & Creatives</div>
+                <div class="affected-item">Rideshare Drivers</div>
+                <div class="affected-item">Home Daycare Providers</div>
+                <div class="affected-item">Barbers & Stylists</div>
+                <div class="affected-item">Food Truck Vendors</div>
+                <div class="affected-item">Tradespeople</div>
+                <div class="affected-item">Corner Store Owners</div>
+                <div class="affected-item">Therapists & Caregivers</div>
+                <div class="affected-item">Social Media Creators</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign Up -->
+    <section class="signup" id="join">
+        <div class="container">
+            <h2>Join the Coalition</h2>
+            <p class="subtitle">Get updates on hearings, actions you can take, and ways to support the LIFT Act.</p>
+
+            <div class="form-container">
+                <script async data-uid="664a32ac0f" src="https://lift-philly.kit.com/664a32ac0f/index.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coalition Members -->
+    <section class="coalition">
+        <div class="container">
+            <h2>Coalition Partners</h2>
+            <div class="coalition-grid">
+                <div class="coalition-member">
+                    <h4>Northeast Philadelphia Small Business Alliance</h4>
+                    <p class="org">1,500+ member businesses</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>West Philadelphia Corridor Collaborative</h4>
+                    <p class="org">14 business corridors</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>Mural Arts Philadelphia</h4>
+                    <p class="org">Artist community advocacy</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>Merchants Fund</h4>
+                    <p class="org">Small business support</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>SCORE Philadelphia</h4>
+                    <p class="org">Business mentorship</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>Asian American Chamber of Commerce</h4>
+                    <p class="org">Business community</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>Hispanic Chamber of Commerce</h4>
+                    <p class="org">Business community</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>African American Chamber of Commerce</h4>
+                    <p class="org">Business community</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>Mom Your Business</h4>
+                    <p class="org">Parent entrepreneurs</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>Indy Hall</h4>
+                    <p class="org">Coworking community</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>10k Independents</h4>
+                    <p class="org">Solopreneur advocacy</p>
+                </div>
+                <div class="coalition-member">
+                    <h4>The Welcoming Center</h4>
+                    <p class="org">Immigrant entrepreneurs</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: #718096;">
+                Want to add your organization? <a href="#join" style="color: var(--navy);">Join the coalition</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="resources">
+        <div class="container">
+            <h2>Resources</h2>
+            <div>
+                <a href="https://docs.google.com/document/d/1GSzoetFV-clBDcLri4p0ypxykaD5gjNfWoHiR1CKHLE/edit?usp=sharing" class="btn" target="_blank">One-Pager Summary</a>
+                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">Sign Up to Testify</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>LIFT</strong> = Labor, Individual enterprises, Family enterprises, Tax relief</p>
+            <p style="margin-top: 10px;">Building Better, Together</p>
+        </div>
+    </footer>
+</body>
+</html>
