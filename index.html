@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIFT Philly - Tax Relief for Philadelphia's Solo Businesses</title>
-    <meta name="description" content="Join the coalition supporting tax relief for Philadelphia's 122,000 solo business owners. The LIFT Act would exempt sole proprietors and single-member LLCs from the BIRT Net Income Tax.">
+    <meta name="description" content="Join the coalition supporting tax relief for Philadelphia's 122,000 solo business owners.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #1a365d;
-            --gold: #d69e2e;
-            --cream: #faf5eb;
-            --text: #2d3748;
-            --light-gray: #f7fafc;
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
         }
 
         * {
@@ -21,303 +28,498 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: var(--text);
+            background: var(--white);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         /* Hero */
         .hero {
-            background: var(--navy);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
+            background: var(--gradient);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(251,191,36,0.15);
+            color: var(--gold);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            border: 1px solid rgba(251,191,36,0.3);
         }
 
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
         }
 
-        .hero .tagline {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 20px;
+        .hero h1 span {
+            color: var(--gold);
         }
 
         .hero .subtitle {
-            font-size: 1rem;
-            opacity: 0.8;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+            max-width: 540px;
         }
 
-        /* Stats bar */
-        .stats {
-            background: var(--gold);
-            color: var(--navy);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stats-grid {
+        .hero-stats {
             display: flex;
-            justify-content: center;
-            gap: 40px;
+            gap: 48px;
             flex-wrap: wrap;
         }
 
-        .stat {
-            text-align: center;
+        .hero-stat {
+            text-align: left;
         }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
         }
 
-        .stat-label {
+        .hero-stat-label {
             font-size: 0.9rem;
-            font-weight: 500;
+            color: rgba(255,255,255,0.7);
+            margin-top: 4px;
+        }
+
+        /* Section styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold-dark);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
         }
 
         /* Problem section */
         .problem {
-            background: var(--cream);
-            padding: 50px 20px;
+            background: linear-gradient(180deg, #f8fafc 0%, var(--white) 100%);
         }
 
-        .problem h2 {
-            color: var(--navy);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+            align-items: center;
         }
 
-        .impact-box {
-            background: white;
-            border-left: 4px solid #e53e3e;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
+        .impact-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
-        .impact-box h3 {
-            color: #e53e3e;
-            margin-bottom: 10px;
+        .impact-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 16px;
         }
 
-        .impact-example {
+        .impact-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #dc2626;
+            line-height: 1;
+        }
+
+        .impact-label {
             font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 8px;
         }
 
-        .impact-example strong {
-            color: #e53e3e;
+        .impact-comparison {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .impact-comparison strong {
+            color: #dc2626;
+        }
+
+        .problem-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .problem-text p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            font-style: italic;
+            margin-top: 32px;
+            padding-left: 24px;
+            border-left: 4px solid var(--gold);
         }
 
         /* Solution section */
         .solution {
-            padding: 50px 20px;
-        }
-
-        .solution h2 {
-            color: var(--navy);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .solution-box {
-            background: var(--light-gray);
-            border-left: 4px solid var(--gold);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .solution-box h3 {
-            color: var(--navy);
-            margin-bottom: 10px;
-        }
-
-        .checkmark-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .checkmark-list li {
-            padding: 8px 0;
-            padding-left: 30px;
-            position: relative;
-        }
-
-        .checkmark-list li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #38a169;
-            font-weight: bold;
-        }
-
-        /* Who this affects */
-        .affected {
             background: var(--navy);
-            color: white;
-            padding: 50px 20px;
+            color: var(--white);
         }
 
-        .affected h2 {
-            font-size: 1.8rem;
+        .solution .section-label {
+            color: var(--gold);
+        }
+
+        .solution .section-title {
+            color: var(--white);
+        }
+
+        .solution .section-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .solution-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .solution-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             margin-bottom: 20px;
+        }
+
+        .solution-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .solution-card p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        .timeline {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-item {
             text-align: center;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .timeline-text {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Affected section */
+        .affected {
+            background: var(--cream);
         }
 
         .affected-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            max-width: 700px;
-            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 40px;
+            justify-content: center;
         }
 
-        .affected-item {
-            background: rgba(255,255,255,0.1);
-            padding: 12px 15px;
-            border-radius: 6px;
-            text-align: center;
-        }
-
-        /* Sign up section */
-        .signup {
-            background: var(--cream);
-            padding: 50px 20px;
-            text-align: center;
-        }
-
-        .signup h2 {
+        .affected-tag {
+            background: var(--white);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 500;
             color: var(--navy);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .signup .subtitle {
-            margin-bottom: 30px;
-            color: var(--text);
+        .affected-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        /* Signup section */
+        .signup {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .signup .section-title {
+            max-width: 500px;
+            margin: 0 auto 20px;
         }
 
         .form-container {
-            max-width: 500px;
-            margin: 0 auto;
+            max-width: 480px;
+            margin: 40px auto 0;
         }
 
         /* Coalition section */
         .coalition {
-            padding: 50px 20px;
-        }
-
-        .coalition h2 {
-            color: var(--navy);
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            text-align: center;
+            background: #f8fafc;
         }
 
         .coalition-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
         }
 
-        .coalition-member {
-            background: var(--light-gray);
-            padding: 20px;
-            border-radius: 8px;
+        .coalition-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .coalition-member h4 {
+        .coalition-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .coalition-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--navy);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
-        .coalition-member .org {
-            font-size: 0.9rem;
-            color: #718096;
+        .coalition-card p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .coalition-cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .coalition-cta a {
+            color: var(--navy);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 2px;
+            transition: border-color 0.2s;
+        }
+
+        .coalition-cta a:hover {
+            border-color: var(--navy);
         }
 
         /* Resources */
         .resources {
-            background: var(--light-gray);
-            padding: 50px 20px;
+            background: var(--white);
             text-align: center;
+            padding: 80px 0;
         }
 
-        .resources h2 {
-            color: var(--navy);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 32px;
         }
 
         .btn {
-            display: inline-block;
-            background: var(--navy);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 6px;
-            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 600;
-            margin: 10px;
-            transition: background 0.2s;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn:hover {
-            background: #2c5282;
+        .btn-primary {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15,23,42,0.25);
         }
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--navy);
             color: var(--navy);
+            border: 2px solid var(--navy);
         }
 
         .btn-outline:hover {
             background: var(--navy);
-            color: white;
+            color: var(--white);
         }
 
         /* Footer */
         footer {
             background: var(--navy);
-            color: white;
-            padding: 30px 20px;
+            color: var(--white);
+            padding: 48px 0;
             text-align: center;
         }
 
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .footer-brand span {
+            color: var(--gold);
+        }
+
         footer p {
-            opacity: 0.8;
+            color: rgba(255,255,255,0.6);
             font-size: 0.9rem;
         }
 
         /* Responsive */
+        @media (max-width: 900px) {
+            .problem-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                gap: 32px;
+            }
+        }
+
         @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 1.8rem;
+            section {
+                padding: 60px 0;
             }
 
-            .stats-grid {
-                gap: 20px;
+            .hero {
+                min-height: auto;
+                padding: 80px 0;
             }
 
-            .stat-number {
-                font-size: 1.5rem;
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .impact-number {
+                font-size: 3rem;
+            }
+
+            .timeline {
+                flex-direction: column;
+                gap: 24px;
             }
         }
     </style>
@@ -326,26 +528,24 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <h1>LIFT Philly</h1>
-            <p class="tagline">Tax Relief for Philadelphia's Solo Businesses</p>
-            <p class="subtitle">A coalition supporting the LIFT Act to exempt sole proprietors and single-member LLCs from the BIRT Net Income Tax</p>
-        </div>
-    </section>
-
-    <!-- Stats -->
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat">
-                <div class="stat-number">122,000</div>
-                <div class="stat-label">Small Businesses Affected</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">85%</div>
-                <div class="stat-label">of Philly Businesses are Solo</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">&lt;1%</div>
-                <div class="stat-label">City Budget Impact</div>
+            <div class="hero-content">
+                <div class="badge">Coalition for Tax Reform</div>
+                <h1>Tax relief for Philly's <span>solo businesses</span></h1>
+                <p class="subtitle">122,000 freelancers, artists, and independent workers are facing a massive tax increase. We're fighting to change that.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">122K</div>
+                        <div class="hero-stat-label">Businesses affected</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">85%</div>
+                        <div class="hero-stat-label">Of Philly businesses are solo</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">&lt;1%</div>
+                        <div class="hero-stat-label">City budget impact</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -353,63 +553,92 @@
     <!-- Problem -->
     <section class="problem">
         <div class="container">
-            <h2>The Problem</h2>
-            <p>Philadelphia's tax system was designed for a W-2 economy, not today's independent workforce. Starting in April 2026, solo business owners face a massive tax increase they weren't expecting.</p>
+            <div class="section-label">The Problem</div>
+            <h2 class="section-title">Philadelphia's tax code wasn't built for the modern workforce</h2>
+            <p class="section-subtitle">The current system was designed for a W-2 economy. Today's independent workers are getting crushed.</p>
 
-            <div class="impact-box">
-                <h3>Real Impact: $50,000 Annual Earner</h3>
-                <p class="impact-example">
-                    April 2026 tax bill increases by <strong>$1,208</strong> &mdash; equivalent to <strong>three months' rent</strong>
-                </p>
-                <p style="margin-top: 10px;">Ongoing annual increase: <strong>$3,236</strong></p>
+            <div class="problem-grid">
+                <div class="impact-card">
+                    <h3>If you earn $50K as a solo business</h3>
+                    <div class="impact-number">+$1,208</div>
+                    <div class="impact-label">Additional tax bill in April 2026</div>
+                    <div class="impact-comparison">
+                        That's <strong>three months' rent</strong> for many Philadelphians.<br>
+                        Ongoing annual increase: <strong>$3,236</strong>
+                    </div>
+                </div>
+                <div class="problem-text">
+                    <h3>A structural problem, not a rate problem</h3>
+                    <p>Philadelphia's two-class tax structure treats every non-corporation the same, whether you're a solo freelancer or a 50-person partnership.</p>
+                    <p>This means individual business owners face double taxation on income already captured by the Net Profits Tax.</p>
+                    <div class="quote">"We are taxing working families out of their homes."</div>
+                </div>
             </div>
-
-            <p style="text-align: center; font-weight: 600; margin-top: 20px; color: var(--navy);">
-                "We are taxing working families out of their homes."
-            </p>
         </div>
     </section>
 
     <!-- Solution -->
     <section class="solution">
         <div class="container">
-            <h2>The Solution: The LIFT Act</h2>
-            <p>Create a third tax class for individuals and single-member LLCs, exempting them from the BIRT Net Income Tax while maintaining other tax obligations.</p>
+            <div class="section-label">The Solution</div>
+            <h2 class="section-title">The LIFT Act</h2>
+            <p class="section-subtitle">Create a third tax class for individuals and single-member LLCs, ending double taxation on solo businesses.</p>
 
-            <div class="solution-box">
-                <h3>What the LIFT Act Does</h3>
-                <ul class="checkmark-list">
-                    <li>Exempts sole proprietors and single-member LLCs from BIRT Net Income Tax (5.71%)</li>
-                    <li>Maintains Gross Receipts Tax (0.141%)</li>
-                    <li>Maintains Net Profits Tax (3.74%)</li>
-                    <li>Reduces double-taxation on individual business owners</li>
-                    <li>Aligns Philadelphia with state and federal treatment</li>
-                </ul>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">📋</div>
+                    <h4>Exempt from BIRT Net Income</h4>
+                    <p>Removes the 5.71% BIRT Net Income Tax for sole proprietors and single-member LLCs.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">✓</div>
+                    <h4>Keep other taxes</h4>
+                    <p>Gross Receipts Tax (0.141%) and Net Profits Tax (3.74%) still apply. This isn't a free ride.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">⚖️</div>
+                    <h4>Legally sound</h4>
+                    <p>City Law Department confirmed this approach satisfies Uniformity Clause requirements.</p>
+                </div>
             </div>
 
-            <p style="text-align: center; margin-top: 20px;">
-                <strong>Bill introduced:</strong> November 20, 2025 by Councilman Mike Driscoll<br>
-                <strong>Finance Committee hearing:</strong> Expected early February 2026<br>
-                <strong>Effective date:</strong> July 1, 2026
-            </p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Nov 2025</div>
+                    <div class="timeline-text">Bill introduced</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Feb 2026</div>
+                    <div class="timeline-text">Finance Committee hearing</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">July 2026</div>
+                    <div class="timeline-text">Effective date</div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Who This Affects -->
     <section class="affected">
-        <div class="container">
-            <h2>Who This Affects</h2>
+        <div class="container" style="text-align: center;">
+            <div class="section-label">Who This Affects</div>
+            <h2 class="section-title">The backbone of Philadelphia's economy</h2>
+            <p class="section-subtitle" style="margin: 0 auto;">These are your neighbors, the people who power your community.</p>
+
             <div class="affected-grid">
-                <div class="affected-item">Freelancers & Consultants</div>
-                <div class="affected-item">Artists & Creatives</div>
-                <div class="affected-item">Rideshare Drivers</div>
-                <div class="affected-item">Home Daycare Providers</div>
-                <div class="affected-item">Barbers & Stylists</div>
-                <div class="affected-item">Food Truck Vendors</div>
-                <div class="affected-item">Tradespeople</div>
-                <div class="affected-item">Corner Store Owners</div>
-                <div class="affected-item">Therapists & Caregivers</div>
-                <div class="affected-item">Social Media Creators</div>
+                <span class="affected-tag">Freelancers</span>
+                <span class="affected-tag">Artists & Creatives</span>
+                <span class="affected-tag">Rideshare Drivers</span>
+                <span class="affected-tag">Home Daycare Providers</span>
+                <span class="affected-tag">Barbers & Stylists</span>
+                <span class="affected-tag">Food Truck Owners</span>
+                <span class="affected-tag">Plumbers & Electricians</span>
+                <span class="affected-tag">Consultants</span>
+                <span class="affected-tag">Therapists</span>
+                <span class="affected-tag">Social Media Creators</span>
+                <span class="affected-tag">Corner Store Owners</span>
+                <span class="affected-tag">Caregivers</span>
             </div>
         </div>
     </section>
@@ -417,8 +646,9 @@
     <!-- Sign Up -->
     <section class="signup" id="join">
         <div class="container">
-            <h2>Join the Coalition</h2>
-            <p class="subtitle">Get updates on hearings, actions you can take, and ways to support the LIFT Act.</p>
+            <div class="section-label">Take Action</div>
+            <h2 class="section-title">Join the coalition</h2>
+            <p class="section-subtitle" style="margin: 0 auto;">Get updates on hearings, actions you can take, and ways to support the LIFT Act.</p>
 
             <div class="form-container">
                 <script async data-uid="664a32ac0f" src="https://lift-philly.kit.com/664a32ac0f/index.js"></script>
@@ -429,70 +659,80 @@
     <!-- Coalition Members -->
     <section class="coalition">
         <div class="container">
-            <h2>Coalition Partners</h2>
+            <div style="text-align: center;">
+                <div class="section-label">Coalition</div>
+                <h2 class="section-title">Organizations standing together</h2>
+            </div>
+
             <div class="coalition-grid">
-                <div class="coalition-member">
-                    <h4>Northeast Philadelphia Small Business Alliance</h4>
-                    <p class="org">1,500+ member businesses</p>
+                <div class="coalition-card">
+                    <h4>NE Philly Small Business Alliance</h4>
+                    <p>1,500+ member businesses</p>
                 </div>
-                <div class="coalition-member">
-                    <h4>West Philadelphia Corridor Collaborative</h4>
-                    <p class="org">14 business corridors</p>
+                <div class="coalition-card">
+                    <h4>West Philly Corridor Collaborative</h4>
+                    <p>14 business corridors</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>Mural Arts Philadelphia</h4>
-                    <p class="org">Artist community advocacy</p>
+                    <p>Artist community</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>Merchants Fund</h4>
-                    <p class="org">Small business support</p>
+                    <p>Small business support</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>SCORE Philadelphia</h4>
-                    <p class="org">Business mentorship</p>
+                    <p>Business mentorship</p>
                 </div>
-                <div class="coalition-member">
-                    <h4>Asian American Chamber of Commerce</h4>
-                    <p class="org">Business community</p>
+                <div class="coalition-card">
+                    <h4>Asian American Chamber</h4>
+                    <p>Business community</p>
                 </div>
-                <div class="coalition-member">
-                    <h4>Hispanic Chamber of Commerce</h4>
-                    <p class="org">Business community</p>
+                <div class="coalition-card">
+                    <h4>Hispanic Chamber</h4>
+                    <p>Business community</p>
                 </div>
-                <div class="coalition-member">
-                    <h4>African American Chamber of Commerce</h4>
-                    <p class="org">Business community</p>
+                <div class="coalition-card">
+                    <h4>African American Chamber</h4>
+                    <p>Business community</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>Mom Your Business</h4>
-                    <p class="org">Parent entrepreneurs</p>
+                    <p>Parent entrepreneurs</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>Indy Hall</h4>
-                    <p class="org">Coworking community</p>
+                    <p>Coworking community</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>10k Independents</h4>
-                    <p class="org">Solopreneur advocacy</p>
+                    <p>Solopreneur advocacy</p>
                 </div>
-                <div class="coalition-member">
+                <div class="coalition-card">
                     <h4>The Welcoming Center</h4>
-                    <p class="org">Immigrant entrepreneurs</p>
+                    <p>Immigrant entrepreneurs</p>
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 30px; color: #718096;">
-                Want to add your organization? <a href="#join" style="color: var(--navy);">Join the coalition</a>
-            </p>
+
+            <div class="coalition-cta">
+                <a href="#join">Add your organization →</a>
+            </div>
         </div>
     </section>
 
     <!-- Resources -->
     <section class="resources">
         <div class="container">
-            <h2>Resources</h2>
-            <div>
-                <a href="https://docs.google.com/document/d/1GSzoetFV-clBDcLri4p0ypxykaD5gjNfWoHiR1CKHLE/edit?usp=sharing" class="btn" target="_blank">One-Pager Summary</a>
-                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">Sign Up to Testify</a>
+            <div class="section-label">Resources</div>
+            <h2 class="section-title">Learn more & get involved</h2>
+            <div class="btn-group">
+                <a href="https://docs.google.com/document/d/1GSzoetFV-clBDcLri4p0ypxykaD5gjNfWoHiR1CKHLE/edit?usp=sharing" class="btn btn-primary" target="_blank">
+                    Read the One-Pager
+                </a>
+                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">
+                    Sign Up to Testify
+                </a>
             </div>
         </div>
     </section>
@@ -500,8 +740,8 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p><strong>LIFT</strong> = Labor, Individual enterprises, Family enterprises, Tax relief</p>
-            <p style="margin-top: 10px;">Building Better, Together</p>
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Labor · Individual enterprises · Family enterprises · Tax relief</p>
         </div>
     </footer>
 </body>
