@@ -38,6 +38,7 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 24px;
+            overflow-x: hidden;
         }
 
         /* Hero */
@@ -551,6 +552,29 @@
             .hero-stats {
                 flex-direction: column;
                 gap: 24px;
+            }
+
+            .hero-stat {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 8px !important;
+                padding: 12px 12px !important;
+            }
+
+            .hero-stat-number {
+                min-width: auto !important;
+            }
+
+            .hero-stat-label {
+                font-size: 0.8rem !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+
+            .hero-stats {
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
             }
 
             .solution-grid {
