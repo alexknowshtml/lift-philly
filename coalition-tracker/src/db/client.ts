@@ -46,9 +46,18 @@ export function getDatabase(): Database {
         password_hash TEXT NOT NULL,
         display_name TEXT NOT NULL,
         is_admin INTEGER DEFAULT 0,
+        role TEXT DEFAULT 'viewer' CHECK(role IN ('viewer', 'editor', 'admin')),
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Migration: add role column if it doesn't exist
+    try {
+      db.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'viewer' CHECK(role IN ('viewer', 'editor', 'admin'))");
+    } catch (e) { /* column already exists */ }
+
+    // Migration: set role based on is_admin for existing users
+    db.exec("UPDATE users SET role = 'admin' WHERE is_admin = 1 AND role = 'viewer'");
 
     // Create sessions table
     db.exec(`
@@ -108,12 +117,15 @@ export interface CoalitionMember {
   updated_by: number | null;
 }
 
+export type UserRole = 'viewer' | 'editor' | 'admin';
+
 export interface User {
   id: number;
   username: string;
   password_hash: string;
   display_name: string;
   is_admin: number;
+  role: UserRole;
   created_at: string;
 }
 
@@ -233,19 +245,20 @@ export function getUserById(id: number): User | null {
   return db.query('SELECT * FROM users WHERE id = ?').get(id) as User | null;
 }
 
-export function createUser(username: string, passwordHash: string, displayName: string, isAdmin: boolean = false): User {
+export function createUser(username: string, passwordHash: string, displayName: string, role: UserRole = 'viewer'): User {
   const db = getDatabase();
+  const isAdmin = role === 'admin' ? 1 : 0;
   const stmt = db.prepare(`
-    INSERT INTO users (username, password_hash, display_name, is_admin)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO users (username, password_hash, display_name, is_admin, role)
+    VALUES (?, ?, ?, ?, ?)
   `);
-  const result = stmt.run(username, passwordHash, displayName, isAdmin ? 1 : 0);
+  const result = stmt.run(username, passwordHash, displayName, isAdmin, role);
   return getUserById(Number(result.lastInsertRowid))!;
 }
 
 export function getAllUsers(): Omit<User, 'password_hash'>[] {
   const db = getDatabase();
-  return db.query('SELECT id, username, display_name, is_admin, created_at FROM users ORDER BY display_name').all() as Omit<User, 'password_hash'>[];
+  return db.query('SELECT id, username, display_name, is_admin, role, created_at FROM users ORDER BY display_name').all() as Omit<User, 'password_hash'>[];
 }
 
 export function deleteUser(id: number): boolean {
@@ -264,6 +277,21 @@ export function updateUserPassword(username: string, newPasswordHash: string): b
   const db = getDatabase();
   const result = db.prepare('UPDATE users SET password_hash = ? WHERE username = ?').run(newPasswordHash, username);
   return result.changes > 0;
+}
+
+export function updateUser(id: number, updates: { display_name?: string; role?: UserRole }): User | null {
+  const db = getDatabase();
+  const user = getUserById(id);
+  if (!user) return null;
+
+  const newDisplayName = updates.display_name ?? user.display_name;
+  const newRole = updates.role ?? user.role;
+  const newIsAdmin = newRole === 'admin' ? 1 : 0;
+
+  db.prepare('UPDATE users SET display_name = ?, role = ?, is_admin = ? WHERE id = ?')
+    .run(newDisplayName, newRole, newIsAdmin, id);
+
+  return getUserById(id);
 }
 
 // ============ Session Functions ============
@@ -286,7 +314,7 @@ export function createSession(userId: number): string {
 export function getSessionByToken(token: string): (Session & { user: Omit<User, 'password_hash'> }) | null {
   const db = getDatabase();
   const session = db.query(`
-    SELECT s.*, u.id as user_id, u.username, u.display_name, u.is_admin, u.created_at as user_created_at
+    SELECT s.*, u.id as user_id, u.username, u.display_name, u.is_admin, u.role, u.created_at as user_created_at
     FROM sessions s
     JOIN users u ON s.user_id = u.id
     WHERE s.token = ? AND s.expires_at > datetime('now')
@@ -305,6 +333,7 @@ export function getSessionByToken(token: string): (Session & { user: Omit<User, 
       username: session.username,
       display_name: session.display_name,
       is_admin: session.is_admin,
+      role: session.role || 'viewer',
       created_at: session.user_created_at
     }
   };

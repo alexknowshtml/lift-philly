@@ -59,9 +59,23 @@ export async function optionalAuth(c: Context, next: Next) {
 export async function requireAdmin(c: Context, next: Next) {
   const user = c.get('user');
 
-  if (!user || !user.is_admin) {
+  if (!user || user.role !== 'admin') {
     if (c.req.path.startsWith('/api/')) {
       return c.json({ error: 'Admin access required' }, 403);
+    }
+    return c.redirect('/');
+  }
+
+  await next();
+}
+
+// Middleware to require editor or admin privileges (can create/edit)
+export async function requireEditor(c: Context, next: Next) {
+  const user = c.get('user');
+
+  if (!user || (user.role !== 'editor' && user.role !== 'admin')) {
+    if (c.req.path.startsWith('/api/')) {
+      return c.json({ error: 'Editor access required' }, 403);
     }
     return c.redirect('/');
   }

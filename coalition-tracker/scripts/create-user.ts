@@ -1,16 +1,17 @@
 #!/usr/bin/env bun
 /**
- * CLI script to create users for the coalition tracker
+ * CLI script to manage users for the coalition tracker
  *
  * Usage:
- *   bun run scripts/create-user.ts <username> <password> <display_name> [--admin]
+ *   bun run scripts/create-user.ts <username> <password> <display_name> [--role=viewer|editor|admin]
  *
  * Examples:
- *   bun run scripts/create-user.ts alex secret123 "Alex Hillman" --admin
- *   bun run scripts/create-user.ts member pass123 "Team Member"
+ *   bun run scripts/create-user.ts alex secret123 "Alex Hillman" --role=admin
+ *   bun run scripts/create-user.ts sarah pass123 "Sarah Smith" --role=editor
+ *   bun run scripts/create-user.ts member pass123 "Team Member"  # defaults to viewer
  */
 
-import { getDatabase, createUser, getUserByUsername, getAllUsers, updateUserPassword } from '../src/db/client';
+import { getDatabase, createUser, getUserByUsername, getAllUsers, updateUserPassword, type UserRole } from '../src/db/client';
 import { hashPassword } from '../src/auth/utils';
 
 async function main() {
@@ -21,11 +22,14 @@ async function main() {
     getDatabase(); // Initialize DB
     const users = getAllUsers();
     console.log('\nExisting users:');
-    console.log('─'.repeat(60));
+    console.log('─'.repeat(70));
+    console.log(`  ${'USERNAME'.padEnd(18)} ${'DISPLAY NAME'.padEnd(25)} ${'ROLE'.padEnd(10)}`);
+    console.log('─'.repeat(70));
     for (const user of users) {
-      console.log(`  ${user.username.padEnd(20)} ${user.display_name.padEnd(25)} ${user.is_admin ? '[ADMIN]' : ''}`);
+      const roleDisplay = user.role.toUpperCase();
+      console.log(`  ${user.username.padEnd(18)} ${user.display_name.padEnd(25)} ${roleDisplay.padEnd(10)}`);
     }
-    console.log('─'.repeat(60));
+    console.log('─'.repeat(70));
     console.log(`Total: ${users.length} user(s)\n`);
     process.exit(0);
   }
@@ -71,7 +75,7 @@ Example:
   // Validate arguments
   if (args.length < 3) {
     console.error(`
-Usage: bun run scripts/create-user.ts <username> <password> <display_name> [--admin]
+Usage: bun run scripts/create-user.ts <username> <password> <display_name> [--role=viewer|editor|admin]
 
 Commands:
   list                              List all existing users
@@ -81,10 +85,16 @@ Arguments:
   username      Unique login name (no spaces)
   password      User password
   display_name  Name shown in the UI (use quotes for spaces)
-  --admin       Give admin privileges (optional)
+  --role=X      Set role: viewer (default), editor, or admin
+
+Roles:
+  viewer  - Can view data only
+  editor  - Can view, add, and edit data
+  admin   - Full access including delete and user management
 
 Examples:
-  bun run scripts/create-user.ts alex secret123 "Alex Hillman" --admin
+  bun run scripts/create-user.ts alex secret123 "Alex Hillman" --role=admin
+  bun run scripts/create-user.ts sarah pass123 "Sarah Smith" --role=editor
   bun run scripts/create-user.ts member pass123 "Team Member"
   bun run scripts/create-user.ts list
   bun run scripts/create-user.ts passwd alex newSecurePassword123
@@ -95,7 +105,21 @@ Examples:
   const username = args[0];
   const password = args[1];
   const displayName = args[2];
-  const isAdmin = args.includes('--admin');
+
+  // Parse role from --role=X or --admin (legacy support)
+  let role: UserRole = 'viewer';
+  const roleArg = args.find(a => a.startsWith('--role='));
+  if (roleArg) {
+    const roleValue = roleArg.split('=')[1];
+    if (!['viewer', 'editor', 'admin'].includes(roleValue)) {
+      console.error(`Error: Invalid role '${roleValue}'. Must be viewer, editor, or admin`);
+      process.exit(1);
+    }
+    role = roleValue as UserRole;
+  } else if (args.includes('--admin')) {
+    // Legacy support
+    role = 'admin';
+  }
 
   // Validate username
   if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
@@ -119,16 +143,16 @@ Examples:
   }
 
   // Hash password and create user
-  console.log(`Creating user '${username}'...`);
+  console.log(`Creating user '${username}' with role '${role}'...`);
   const passwordHash = await hashPassword(password);
-  const user = createUser(username, passwordHash, displayName, isAdmin);
+  const user = createUser(username, passwordHash, displayName, role);
 
   console.log(`
 ✓ User created successfully!
 
   Username:     ${user.username}
   Display Name: ${user.display_name}
-  Admin:        ${user.is_admin ? 'Yes' : 'No'}
+  Role:         ${user.role}
   Created:      ${user.created_at}
 `);
 }

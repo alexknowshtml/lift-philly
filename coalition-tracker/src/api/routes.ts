@@ -8,18 +8,24 @@ import {
   deleteMember,
   getStats,
   getUserByUsername,
+  getUserById,
+  getAllUsers,
+  createUser,
+  updateUser,
+  deleteUser,
   createSession,
   deleteSession,
   logAuditEntry,
   computeChanges,
   getAuditLogForMember,
   getAuditLog,
-  getUserById,
-  type CoalitionMember
+  type CoalitionMember,
+  type UserRole
 } from '../db/client';
 import { getIndexHtml } from '../ui/index';
 import { getLoginHtml } from '../ui/login';
-import { requireAuth } from '../auth/middleware';
+import { getAdminHtml } from '../ui/admin';
+import { requireAuth, requireEditor, requireAdmin } from '../auth/middleware';
 import { hashPassword, verifyPassword, getSessionCookie, createSessionCookie, createLogoutCookie } from '../auth/utils';
 
 const app = new Hono();
@@ -130,8 +136,8 @@ app.get('/api/members/:id', requireAuth, (c) => {
   return c.json(member);
 });
 
-// Create member
-app.post('/api/members', requireAuth, async (c) => {
+// Create member (editor+)
+app.post('/api/members', requireAuth, requireEditor, async (c) => {
   const userId = c.get('userId');
   const body = await c.req.json<Partial<CoalitionMember>>();
 
@@ -147,8 +153,8 @@ app.post('/api/members', requireAuth, async (c) => {
   return c.json(member, 201);
 });
 
-// Update member
-app.put('/api/members/:id', requireAuth, async (c) => {
+// Update member (editor+)
+app.put('/api/members/:id', requireAuth, requireEditor, async (c) => {
   const userId = c.get('userId');
   const id = parseInt(c.req.param('id'), 10);
   const body = await c.req.json<Partial<CoalitionMember>>();
@@ -174,8 +180,8 @@ app.put('/api/members/:id', requireAuth, async (c) => {
   return c.json(member);
 });
 
-// Delete member
-app.delete('/api/members/:id', requireAuth, (c) => {
+// Delete member (admin only)
+app.delete('/api/members/:id', requireAuth, requireAdmin, (c) => {
   const userId = c.get('userId');
   const id = parseInt(c.req.param('id'), 10);
 
@@ -210,6 +216,84 @@ app.get('/api/audit-log', requireAuth, (c) => {
   const offset = parseInt(c.req.query('offset') || '0', 10);
   const log = getAuditLog(limit, offset);
   return c.json(log);
+});
+
+// ============ Admin Routes (User Management) ============
+
+// Admin page
+app.get('/admin', requireAuth, requireAdmin, (c) => {
+  const user = c.get('user');
+  return c.html(getAdminHtml(user));
+});
+
+// Get all users
+app.get('/api/users', requireAuth, requireAdmin, (c) => {
+  const users = getAllUsers();
+  return c.json(users);
+});
+
+// Create user
+app.post('/api/users', requireAuth, requireAdmin, async (c) => {
+  const body = await c.req.json<{ username: string; password: string; display_name: string; role: UserRole }>();
+
+  if (!body.username || !body.password || !body.display_name) {
+    return c.json({ error: 'Username, password, and display name required' }, 400);
+  }
+
+  // Check if username exists
+  const existing = getUserByUsername(body.username);
+  if (existing) {
+    return c.json({ error: 'Username already exists' }, 400);
+  }
+
+  const passwordHash = await hashPassword(body.password);
+  const user = createUser(body.username, passwordHash, body.display_name, body.role || 'viewer');
+
+  return c.json({ id: user.id, username: user.username, display_name: user.display_name, role: user.role }, 201);
+});
+
+// Update user
+app.put('/api/users/:id', requireAuth, requireAdmin, async (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const body = await c.req.json<{ display_name?: string; role?: UserRole; password?: string }>();
+
+  const existing = getUserById(id);
+  if (!existing) {
+    return c.json({ error: 'User not found' }, 404);
+  }
+
+  // Update password if provided
+  if (body.password) {
+    const passwordHash = await hashPassword(body.password);
+    const { updateUserPassword } = require('../db/client');
+    updateUserPassword(existing.username, passwordHash);
+  }
+
+  // Update other fields
+  const updated = updateUser(id, { display_name: body.display_name, role: body.role });
+  if (!updated) {
+    return c.json({ error: 'User not found' }, 404);
+  }
+
+  return c.json({ id: updated.id, username: updated.username, display_name: updated.display_name, role: updated.role });
+});
+
+// Delete user
+app.delete('/api/users/:id', requireAuth, requireAdmin, (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const currentUser = c.get('user');
+
+  // Can't delete yourself
+  if (id === currentUser.id) {
+    return c.json({ error: 'Cannot delete your own account' }, 400);
+  }
+
+  const deleted = deleteUser(id);
+  if (!deleted) {
+    return c.json({ error: 'Cannot delete user (may be the last admin)' }, 400);
+  }
+
+  return c.json({ success: true });
 });
 
 // ============ UI Routes ============

@@ -163,6 +163,17 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       background: rgba(255,255,255,0.2);
     }
 
+    .admin-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .admin-link:hover {
+      text-decoration: underline;
+    }
+
     /* Container */
     .container {
       max-width: 1400px;
@@ -1135,6 +1146,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         </div>
         <div class="user-info">
           <span class="user-name" id="user-name"></span>
+          <a href="/admin" class="admin-link" id="admin-link" style="display: none;">Admin</a>
           <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
       </div>
@@ -1263,9 +1275,20 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     let searchTerm = '';
     let editingId = null;
 
+    // Permission helpers
+    const canEdit = currentUser && (currentUser.role === 'editor' || currentUser.role === 'admin');
+    const canDelete = currentUser && currentUser.role === 'admin';
+    const isAdmin = currentUser && currentUser.role === 'admin';
+
     // Initialize user display
     if (currentUser) {
       document.getElementById('user-name').textContent = currentUser.display_name;
+      if (isAdmin) {
+        document.getElementById('admin-link').style.display = 'inline';
+      }
+      if (!canEdit) {
+        document.getElementById('add-btn').style.display = 'none';
+      }
     }
 
     async function logout() {
@@ -1370,7 +1393,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
                   </div>
                 </div>
                 <div class="edit-panel-actions">
-                  <button type="button" class="btn btn-danger" onclick="deleteMember(\${m.id})">Delete</button>
+                  \${canDelete ? \`<button type="button" class="btn btn-danger" onclick="deleteMember(\${m.id})">Delete</button>\` : ''}
                   <button type="button" class="btn btn-history" onclick="showHistory(\${m.id})">History</button>
                   <div style="flex: 1;"></div>
                   <button type="button" class="btn btn-secondary" onclick="closeEditPanel()">Cancel</button>
@@ -1408,24 +1431,28 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         let html = \`
           <tr data-id="\${m.id}" class="\${rowClass}">
             <td>
-              <select class="status-select \${getStatusClass(m.status)}" onchange="updateStatus(\${m.id}, this.value)">
-                <option value="prospect" \${m.status === 'prospect' ? 'selected' : ''}>Prospect</option>
-                <option value="contacted" \${m.status === 'contacted' ? 'selected' : ''}>Contacted</option>
-                <option value="active" \${m.status === 'active' ? 'selected' : ''}>Active</option>
-                <option value="inactive" \${m.status === 'inactive' ? 'selected' : ''}>Inactive</option>
-              </select>
+              \${canEdit ? \`
+                <select class="status-select \${getStatusClass(m.status)}" onchange="updateStatus(\${m.id}, this.value)">
+                  <option value="prospect" \${m.status === 'prospect' ? 'selected' : ''}>Prospect</option>
+                  <option value="contacted" \${m.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                  <option value="active" \${m.status === 'active' ? 'selected' : ''}>Active</option>
+                  <option value="inactive" \${m.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+                </select>
+              \` : \`
+                <span class="status-select \${getStatusClass(m.status)}" style="cursor: default;">\${m.status}</span>
+              \`}
             </td>
             <td><span class="org-name">\${m.name || '-'}</span></td>
             <td>\${m.contact_name || '-'}</td>
             <td>\${m.type ? \`<span class="type-badge">\${m.type.replace('_', ' ')}</span>\` : '-'}</td>
             <td><span class="connected-via">\${m.connected_via || '-'}</span></td>
             <td>
-              <button class="action-btn" onclick="toggleEditPanel(\${m.id})">\${isEditing ? 'Close' : 'Open'}</button>
+              \${canEdit ? \`<button class="action-btn" onclick="toggleEditPanel(\${m.id})">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
             </td>
           </tr>
         \`;
 
-        if (isEditing) {
+        if (isEditing && canEdit) {
           html += renderEditPanel(m);
         }
 
@@ -1455,12 +1482,16 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
               \${m.contact_name ? \`<div class="card-contact">\${m.contact_name}</div>\` : ''}
             </div>
             <div class="card-status">
-              <select class="status-select \${getStatusClass(m.status)}" onchange="updateStatus(\${m.id}, this.value)">
-                <option value="prospect" \${m.status === 'prospect' ? 'selected' : ''}>Prospect</option>
-                <option value="contacted" \${m.status === 'contacted' ? 'selected' : ''}>Contacted</option>
-                <option value="active" \${m.status === 'active' ? 'selected' : ''}>Active</option>
-                <option value="inactive" \${m.status === 'inactive' ? 'selected' : ''}>Inactive</option>
-              </select>
+              \${canEdit ? \`
+                <select class="status-select \${getStatusClass(m.status)}" onchange="updateStatus(\${m.id}, this.value)">
+                  <option value="prospect" \${m.status === 'prospect' ? 'selected' : ''}>Prospect</option>
+                  <option value="contacted" \${m.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                  <option value="active" \${m.status === 'active' ? 'selected' : ''}>Active</option>
+                  <option value="inactive" \${m.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+                </select>
+              \` : \`
+                <span class="status-select \${getStatusClass(m.status)}" style="cursor: default;">\${m.status}</span>
+              \`}
             </div>
           </div>
           <div class="card-body">
@@ -1484,10 +1515,12 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
             \` : ''}
           </div>
           \${m.notes ? \`<div class="card-notes">\${m.notes}</div>\` : ''}
-          <div class="card-actions">
-            <button class="action-btn" onclick="editMemberMobile(\${m.id})">Edit</button>
-            <button class="action-btn delete" onclick="deleteMember(\${m.id})">Delete</button>
-          </div>
+          \${canEdit ? \`
+            <div class="card-actions">
+              <button class="action-btn" onclick="editMemberMobile(\${m.id})">Edit</button>
+              \${canDelete ? \`<button class="action-btn delete" onclick="deleteMember(\${m.id})">Delete</button>\` : ''}
+            </div>
+          \` : ''}
         </div>
       \`).join('');
     }
@@ -1570,8 +1603,8 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       document.getElementById('drawer-website').value = member.website || '';
       document.getElementById('drawer-notes').value = member.notes || '';
 
-      // Show delete and history buttons when editing
-      document.getElementById('drawer-delete-btn').style.display = 'block';
+      // Show delete (admin only) and history buttons when editing
+      document.getElementById('drawer-delete-btn').style.display = canDelete ? 'block' : 'none';
       document.getElementById('drawer-history-btn').style.display = 'block';
 
       openDrawer();

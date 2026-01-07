@@ -2,12 +2,15 @@
 
 A web application for tracking coalition members, partners, and stakeholders for LIFT Philly.
 
+**Live at:** https://data.liftphilly.org
+
 ## Features
 
 - Track organizations, individuals, businesses, and elected officials
 - Status tracking (prospect → contacted → active → inactive)
-- Multi-user authentication with audit logging
-- Full change history per member
+- Multi-user authentication with role-based permissions
+- Full audit logging with change history per member
+- Admin panel for user management
 - Responsive design (desktop inline edit, mobile drawer)
 - Containerized deployment with Podman
 
@@ -17,6 +20,14 @@ A web application for tracking coalition members, partners, and stakeholders for
 - **Framework**: Hono
 - **Database**: SQLite (WAL mode)
 - **Container**: Podman
+
+## User Roles
+
+| Role   | View | Add/Edit | Delete | Manage Users |
+|--------|------|----------|--------|--------------|
+| Viewer | Yes  | No       | No     | No           |
+| Editor | Yes  | Yes      | No     | No           |
+| Admin  | Yes  | Yes      | Yes    | Yes          |
 
 ## Development
 
@@ -42,33 +53,43 @@ podman logs -f coalition-tracker
 
 ## User Management
 
-Users are managed via CLI. Run commands inside the container:
+### Via Web (Admin Panel)
+
+Admins can manage users at `/admin` - add, edit roles, reset passwords, and delete users.
+
+### Via CLI
+
+Run commands inside the container:
 
 ```bash
 # List all users
 podman exec coalition-tracker bun run scripts/create-user.ts list
 
-# Create a new user
+# Create a new user (defaults to viewer role)
 podman exec coalition-tracker bun run scripts/create-user.ts <username> <password> "<Display Name>"
 
-# Create an admin user
-podman exec coalition-tracker bun run scripts/create-user.ts <username> <password> "<Display Name>" --admin
+# Create user with specific role
+podman exec coalition-tracker bun run scripts/create-user.ts <username> <password> "<Display Name>" --role=editor
+podman exec coalition-tracker bun run scripts/create-user.ts <username> <password> "<Display Name>" --role=admin
 
 # Change a user's password
-podman exec coalition-tracker bun run scripts/create-user.ts passwd <username> <new_password>
+podman exec coalition-tracker bun run scripts/create-user.ts passwd <username> '<new_password>'
 ```
 
 ### Examples
 
 ```bash
 # Create admin user
-podman exec coalition-tracker bun run scripts/create-user.ts alex secretpass "Alex Hillman" --admin
+podman exec coalition-tracker bun run scripts/create-user.ts alex secretpass "Alex Hillman" --role=admin
 
-# Create regular user
-podman exec coalition-tracker bun run scripts/create-user.ts sarah pass123 "Sarah Smith"
+# Create editor user
+podman exec coalition-tracker bun run scripts/create-user.ts sarah pass123 "Sarah Smith" --role=editor
 
-# Change password
-podman exec coalition-tracker bun run scripts/create-user.ts passwd alex newSecurePassword
+# Create viewer user (default)
+podman exec coalition-tracker bun run scripts/create-user.ts guest pass123 "Guest User"
+
+# Change password (use single quotes for special characters)
+podman exec coalition-tracker bun run scripts/create-user.ts passwd alex 'NewP@ss!word'
 ```
 
 ## Database
@@ -78,7 +99,7 @@ SQLite database is stored at `/data/liftphilly.db` inside the container, mounted
 ### Tables
 
 - `coalition` - Member records
-- `users` - User accounts
+- `users` - User accounts with roles
 - `sessions` - Login sessions (7-day expiry)
 - `audit_log` - Change history
 
