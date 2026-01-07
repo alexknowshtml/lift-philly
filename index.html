@@ -969,7 +969,7 @@
                 </button>
             </div>
 
-            <dialog id="shareModal" style="border: none; border-radius: 16px; padding: 24px; width: calc(100% - 48px); max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); inset: 0; margin: auto;">
+            <dialog id="shareModal" onclick="if(event.target===this)this.close()" style="border: none; border-radius: 16px; padding: 24px; width: calc(100% - 48px); max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); inset: 0; margin: auto;">
                 <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; text-align: center;">Share with Your Community</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://liftphilly.org&title=LIFT%20Philly%20-%20Tax%20Reform%20for%20Small%20Businesses" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
