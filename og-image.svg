@@ -27,14 +27,13 @@
   <!-- Tagline - aligned with LIFT -->
   <text x="110" y="250" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="28" font-weight="500" fill="rgba(255,255,255,0.7)">Coalition for Effective, Efficient, &amp; Equitable Tax Reform</text>
 
-  <!-- Quote -->
-  <text x="110" y="360" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="44" font-weight="600" fill="#ffffff">"We are taxing</text>
-  <text x="110" y="420" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="44" font-weight="600" fill="#fbbf24">working families</text>
-  <text x="110" y="480" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="44" font-weight="600" fill="#ffffff">into poverty."</text>
+  <!-- Quote - two balanced lines -->
+  <text x="110" y="380" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="48" font-weight="600" fill="#ffffff">"We are taxing <tspan fill="#fbbf24">working families</tspan></text>
+  <text x="110" y="450" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="48" font-weight="600" fill="#ffffff">into poverty."</text>
 
   <!-- Attribution -->
-  <text x="110" y="540" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.6)">— Rep. Mike Driscoll, PA House of Representatives</text>
+  <text x="110" y="520" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.6)">— Councilmember Mike Driscoll, Philadelphia City Council</text>
 
   <!-- URL -->
-  <text x="110" y="590" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)">liftphilly.org</text>
+  <text x="110" y="580" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)">liftphilly.org</text>
 </svg>
