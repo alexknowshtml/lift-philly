@@ -1,0 +1,17 @@
+{
+  "name": "coalition-tracker",
+  "version": "0.1.0",
+  "description": "LIFT Philly Coalition Database Manager",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  }
+}
