@@ -747,28 +747,90 @@
             height: 14px;
         }
 
-        /* Google Translate widget styling */
-        .goog-te-gadget {
-            font-family: 'Inter', sans-serif !important;
-            font-size: 0.8rem !important;
+        /* Custom Language Selector */
+        .language-selector {
+            position: relative;
         }
 
-        .goog-te-gadget-simple {
-            background: transparent !important;
-            border: 1px solid rgba(255,255,255,0.3) !important;
-            border-radius: 6px !important;
-            padding: 4px 10px !important;
+        .language-selector-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: rgba(255,255,255,0.9);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
         }
 
-        .goog-te-gadget-simple .goog-te-menu-value {
-            color: rgba(255,255,255,0.9) !important;
+        .language-selector-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        .goog-te-gadget-simple .goog-te-menu-value span {
-            color: rgba(255,255,255,0.9) !important;
+        .language-selector-btn svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.2s;
         }
 
-        .goog-te-gadget img {
+        .language-selector.open .language-selector-btn svg {
+            transform: rotate(180deg);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            background: var(--navy-light);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .language-selector.open .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .language-dropdown button:hover {
+            background: rgba(251,191,36,0.15);
+            color: var(--gold);
+        }
+
+        .language-dropdown button.active {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* Hide Google Translate elements */
+        #google_translate_element {
             display: none !important;
         }
 
@@ -780,34 +842,52 @@
             top: 0 !important;
         }
 
-        /* Hide only the top banner Google adds after translation, not the widget itself */
-        .goog-te-banner-frame.skiptranslate {
+        .skiptranslate {
             display: none !important;
         }
 
-        #google_translate_element .goog-te-gadget-simple {
-            display: inline-flex !important;
-            align-items: center !important;
-        }
-
-        #google_translate_element .goog-te-gadget {
-            color: transparent !important;
-        }
-
-        #google_translate_element .goog-te-gadget > span {
+        .goog-te-spinner-pos {
             display: none !important;
         }
     </style>
 
-    <!-- Google Translate -->
+    <!-- Google Translate (hidden, triggered by custom dropdown) -->
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
                 includedLanguages: 'es,zh-CN,vi,ko,ru,ar,fr,pt,hi,tl',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false
             }, 'google_translate_element');
+        }
+
+        // Custom language selector logic
+        function translatePage(langCode) {
+            // Set the Google Translate cookie
+            var domain = window.location.hostname;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/; domain=' + domain;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/';
+
+            // Reload to apply translation
+            window.location.reload();
+        }
+
+        function toggleLanguageDropdown() {
+            document.querySelector('.language-selector').classList.toggle('open');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            var selector = document.querySelector('.language-selector');
+            if (selector && !selector.contains(e.target)) {
+                selector.classList.remove('open');
+            }
+        });
+
+        // Get current language from cookie
+        function getCurrentLang() {
+            var match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+            return match ? match[1] : 'en';
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -817,6 +897,30 @@
     <div class="language-bar">
         <div class="container">
             <div id="google_translate_element"></div>
+            <div class="language-selector">
+                <button class="language-selector-btn" onclick="toggleLanguageDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                    </svg>
+                    <span>Translate</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 12px; height: 12px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="language-dropdown">
+                    <button onclick="translatePage('en')">English</button>
+                    <button onclick="translatePage('es')">Español</button>
+                    <button onclick="translatePage('zh-CN')">中文 (简体)</button>
+                    <button onclick="translatePage('vi')">Tiếng Việt</button>
+                    <button onclick="translatePage('ko')">한국어</button>
+                    <button onclick="translatePage('ru')">Русский</button>
+                    <button onclick="translatePage('ar')">العربية</button>
+                    <button onclick="translatePage('fr')">Français</button>
+                    <button onclick="translatePage('pt')">Português</button>
+                    <button onclick="translatePage('hi')">हिन्दी</button>
+                    <button onclick="translatePage('tl')">Filipino</button>
+                </div>
+            </div>
             <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="translate-help">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
