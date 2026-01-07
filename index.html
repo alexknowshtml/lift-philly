@@ -711,9 +711,111 @@
                 display: block;
             }
         }
+        /* Language Bar */
+        .language-bar {
+            background: var(--navy);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .language-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .language-bar .translate-help {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .language-bar .translate-help:hover {
+            color: var(--gold);
+        }
+
+        .language-bar .translate-help svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Google Translate widget styling */
+        .goog-te-gadget {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.8rem !important;
+        }
+
+        .goog-te-gadget-simple {
+            background: transparent !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+            border-radius: 6px !important;
+            padding: 4px 10px !important;
+        }
+
+        .goog-te-gadget-simple .goog-te-menu-value {
+            color: rgba(255,255,255,0.9) !important;
+        }
+
+        .goog-te-gadget-simple .goog-te-menu-value span {
+            color: rgba(255,255,255,0.9) !important;
+        }
+
+        .goog-te-gadget img {
+            display: none !important;
+        }
+
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        body {
+            top: 0 !important;
+        }
+
+        .skiptranslate {
+            display: none !important;
+        }
+
+        #google_translate_element .goog-te-gadget-simple {
+            display: inline-flex !important;
+            align-items: center !important;
+        }
     </style>
+
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'es,zh-CN,vi,ko,ru,ar,fr,pt,hi,tl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
+    <!-- Language Bar -->
+    <div class="language-bar">
+        <div class="container">
+            <div id="google_translate_element"></div>
+            <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="translate-help">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Help us translate
+            </a>
+        </div>
+    </div>
+
     <!-- Hero -->
     <section class="hero">
         <div class="container">
