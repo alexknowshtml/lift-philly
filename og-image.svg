@@ -27,11 +27,12 @@
   <!-- Tagline - aligned with LIFT -->
   <text x="110" y="250" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="28" font-weight="500" fill="rgba(255,255,255,0.7)">Coalition for Effective, Efficient, &amp; Equitable Tax Reform</text>
 
-  <!-- Quote - single line -->
-  <text x="110" y="420" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="42" font-weight="600" fill="#ffffff">"We are taxing <tspan fill="#fbbf24">working families</tspan> into poverty."</text>
+  <!-- Quote - two lines -->
+  <text x="110" y="390" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="38" font-weight="600" fill="#ffffff">"This could be the difference between</text>
+  <text x="110" y="445" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="38" font-weight="600" fill="#ffffff">those businesses being <tspan fill="#fbbf24">open or closed</tspan>."</text>
 
   <!-- Attribution -->
-  <text x="110" y="475" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.6)">— Councilmember Mike Driscoll, Philadelphia City Council</text>
+  <text x="110" y="500" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.6)">— Councilmember Mike Driscoll, Philadelphia City Council</text>
 
   <!-- URL -->
   <text x="1120" y="590" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)" text-anchor="end">liftphilly.org</text>
