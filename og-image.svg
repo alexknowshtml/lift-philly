@@ -31,7 +31,7 @@
   <text x="110" y="420" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="42" font-weight="600" fill="#ffffff">"We are taxing <tspan fill="#fbbf24">working families</tspan> into poverty."</text>
 
   <!-- Attribution -->
-  <text x="110" y="520" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.6)">— Councilmember Mike Driscoll, Philadelphia City Council</text>
+  <text x="110" y="475" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.6)">— Councilmember Mike Driscoll, Philadelphia City Council</text>
 
   <!-- URL -->
   <text x="110" y="580" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)">liftphilly.org</text>
