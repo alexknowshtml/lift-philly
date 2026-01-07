@@ -1,0 +1,38 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="50%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#1a365d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="80%" cy="20%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(251,191,36,0.15)"/>
+      <stop offset="100%" style="stop-color:rgba(251,191,36,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Gold accent bar -->
+  <rect x="80" y="100" width="6" height="120" fill="#fbbf24" rx="3"/>
+
+  <!-- LIFT text -->
+  <text x="110" y="180" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="90" font-weight="800" fill="#fbbf24">LIFT</text>
+
+  <!-- Philly text -->
+  <text x="340" y="180" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="90" font-weight="800" fill="#ffffff">Philly</text>
+
+  <!-- Tagline -->
+  <text x="110" y="260" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="36" font-weight="500" fill="rgba(255,255,255,0.8)">Coalition for Effective, Efficient, &amp; Equitable Tax Reform</text>
+
+  <!-- Main headline -->
+  <text x="110" y="380" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="52" font-weight="700" fill="#ffffff">122,000 small businesses</text>
+  <text x="110" y="450" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="52" font-weight="700" fill="#ffffff">face a</text>
+  <text x="290" y="450" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="52" font-weight="700" fill="#fbbf24">massive tax increase</text>
+  <text x="110" y="520" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="52" font-weight="700" fill="#ffffff">in 2026.</text>
+
+  <!-- URL -->
+  <text x="110" y="580" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)">liftphilly.org</text>
+</svg>
