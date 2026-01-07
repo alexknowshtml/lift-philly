@@ -230,23 +230,14 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       max-width: 280px;
     }
 
-    .search-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-
     .search-input {
       width: 100%;
-      padding: 10px 12px 10px 38px;
+      padding: 10px 12px 10px 36px;
       border: 1px solid var(--border);
       border-radius: 10px;
       font-size: 0.875rem;
       font-family: var(--font-body);
-      background: var(--white);
+      background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;
       transition: all 0.2s var(--ease-out);
     }
 
@@ -680,7 +671,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
 
     /* Drawer - slides up from bottom on mobile, centered modal on desktop */
     .drawer-overlay {
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -688,22 +678,32 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       height: 100%;
       background: rgba(15, 23, 42, 0.6);
       backdrop-filter: blur(4px);
-      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      z-index: -1;
+      transition: opacity 0.2s, visibility 0.2s;
     }
 
-    .drawer-overlay.open { display: block; }
+    .drawer-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      z-index: 1000;
+    }
 
     .drawer {
       position: fixed;
       background: var(--white);
-      z-index: 1001;
+      z-index: -1;
       overflow-y: auto;
       transform: translateY(100%);
       transition: transform 0.3s var(--ease-out);
+      pointer-events: none;
     }
 
     .drawer.open {
       transform: translateY(0);
+      z-index: 1001;
+      pointer-events: auto;
     }
 
     /* Desktop: centered modal style */
@@ -1163,10 +1163,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         <button class="filter-btn" data-status="inactive">Inactive</button>
       </div>
       <div class="search-wrapper">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
-        </svg>
         <input type="text" class="search-input" id="search" placeholder="Search members...">
       </div>
       <button class="add-btn" id="add-btn">+ Add Member</button>
