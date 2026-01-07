@@ -729,21 +729,81 @@
             overflow: visible;
         }
 
-        .language-bar .translate-help {
+        /* Help Translate Dropdown */
+        .translate-help-wrapper {
+            position: relative;
+        }
+
+        .translate-help-btn {
+            background: transparent;
+            border: none;
             color: rgba(255,255,255,0.7);
+            font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
-            text-decoration: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             transition: color 0.2s;
+            padding: 6px 0;
         }
 
-        .language-bar .translate-help:hover {
+        .translate-help-btn:hover {
             color: var(--gold);
         }
 
-        .language-bar .translate-help svg {
+        .translate-help-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .translate-help-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            background: var(--navy-light);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 16px;
+            width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .translate-help-wrapper.open .translate-help-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .translate-help-dropdown p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .translate-help-dropdown a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .translate-help-dropdown a:hover {
+            opacity: 0.8;
+        }
+
+        .translate-help-dropdown a svg {
             width: 14px;
             height: 14px;
         }
@@ -876,13 +936,24 @@
 
         function toggleLanguageDropdown() {
             document.querySelector('.language-selector').classList.toggle('open');
+            document.querySelector('.translate-help-wrapper').classList.remove('open');
         }
 
-        // Close dropdown when clicking outside
+        function toggleHelpDropdown() {
+            document.querySelector('.translate-help-wrapper').classList.toggle('open');
+            document.querySelector('.language-selector').classList.remove('open');
+        }
+
+        // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
-            var selector = document.querySelector('.language-selector');
-            if (selector && !selector.contains(e.target)) {
-                selector.classList.remove('open');
+            var langSelector = document.querySelector('.language-selector');
+            var helpWrapper = document.querySelector('.translate-help-wrapper');
+
+            if (langSelector && !langSelector.contains(e.target)) {
+                langSelector.classList.remove('open');
+            }
+            if (helpWrapper && !helpWrapper.contains(e.target)) {
+                helpWrapper.classList.remove('open');
             }
         });
 
@@ -923,12 +994,23 @@
                     <button onclick="translatePage('tl')">Filipino</button>
                 </div>
             </div>
-            <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="translate-help">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-                Help us translate
-            </a>
+            <div class="translate-help-wrapper">
+                <button class="translate-help-btn" onclick="toggleHelpDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Help us translate
+                </button>
+                <div class="translate-help-dropdown">
+                    <p>If you or your organization would like to contribute better translations, we'd love your help!</p>
+                    <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        Contact us
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
