@@ -779,13 +779,22 @@
             top: 0 !important;
         }
 
-        .skiptranslate {
+        /* Hide only the top banner Google adds after translation, not the widget itself */
+        .goog-te-banner-frame.skiptranslate {
             display: none !important;
         }
 
         #google_translate_element .goog-te-gadget-simple {
             display: inline-flex !important;
             align-items: center !important;
+        }
+
+        #google_translate_element .goog-te-gadget {
+            color: transparent !important;
+        }
+
+        #google_translate_element .goog-te-gadget > span {
+            display: none !important;
         }
     </style>
 
