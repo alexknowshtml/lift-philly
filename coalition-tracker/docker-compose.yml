@@ -11,8 +11,3 @@ services:
       - DATABASE_PATH=/data/liftphilly.db
       - API_PORT=3000
       - TZ=America/New_York
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
