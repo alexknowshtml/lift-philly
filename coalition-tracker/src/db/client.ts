@@ -38,6 +38,16 @@ export function getDatabase(): Database {
       db.exec('ALTER TABLE coalition ADD COLUMN updated_by INTEGER');
     } catch (e) { /* column already exists */ }
 
+    // Migration: add connected_via_id for member relations
+    try {
+      db.exec('ALTER TABLE coalition ADD COLUMN connected_via_id INTEGER REFERENCES coalition(id)');
+    } catch (e) { /* column already exists */ }
+
+    // Migration: rename connected_via to connected_via_notes
+    try {
+      db.exec('ALTER TABLE coalition RENAME COLUMN connected_via TO connected_via_notes');
+    } catch (e) { /* column already renamed or doesn't exist */ }
+
     // Create users table
     db.exec(`
       CREATE TABLE IF NOT EXISTS users (
@@ -110,11 +120,14 @@ export interface CoalitionMember {
   notes: string | null;
   public_display: number;
   status: 'prospect' | 'contacted' | 'active' | 'inactive';
-  connected_via: string | null;
+  connected_via_id: number | null;
+  connected_via_notes: string | null;
   created_at: string;
   updated_at: string;
   created_by: number | null;
   updated_by: number | null;
+  // Joined fields for display
+  connected_via_name?: string | null;
 }
 
 export type UserRole = 'viewer' | 'editor' | 'admin';
@@ -151,7 +164,13 @@ export interface AuditLogEntry {
 
 export function getAllMembers(): CoalitionMember[] {
   const db = getDatabase();
-  return db.query('SELECT * FROM coalition ORDER BY status, name').all() as CoalitionMember[];
+  return db.query(`
+    SELECT c.*,
+           cv.contact_name as connected_via_name
+    FROM coalition c
+    LEFT JOIN coalition cv ON c.connected_via_id = cv.id
+    ORDER BY c.status, c.name
+  `).all() as CoalitionMember[];
 }
 
 export function getMemberById(id: number): CoalitionMember | null {
@@ -162,8 +181,8 @@ export function getMemberById(id: number): CoalitionMember | null {
 export function createMember(member: Partial<CoalitionMember>, userId?: number): CoalitionMember {
   const db = getDatabase();
   const stmt = db.prepare(`
-    INSERT INTO coalition (name, type, contact_name, contact_email, website, notes, public_display, status, connected_via, created_by, updated_by)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO coalition (name, type, contact_name, contact_email, website, notes, public_display, status, connected_via_id, connected_via_notes, created_by, updated_by)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const result = stmt.run(
     member.name || '',
@@ -174,7 +193,8 @@ export function createMember(member: Partial<CoalitionMember>, userId?: number):
     member.notes || null,
     member.public_display || 0,
     member.status || 'prospect',
-    member.connected_via || null,
+    member.connected_via_id || null,
+    member.connected_via_notes || null,
     userId || null,
     userId || null
   );
@@ -196,7 +216,8 @@ export function updateMember(id: number, member: Partial<CoalitionMember>, userI
       notes = ?,
       public_display = ?,
       status = ?,
-      connected_via = ?,
+      connected_via_id = ?,
+      connected_via_notes = ?,
       updated_by = ?,
       updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
@@ -210,7 +231,8 @@ export function updateMember(id: number, member: Partial<CoalitionMember>, userI
     member.notes ?? existing.notes,
     member.public_display ?? existing.public_display,
     member.status ?? existing.status,
-    member.connected_via ?? existing.connected_via,
+    member.connected_via_id !== undefined ? member.connected_via_id : existing.connected_via_id,
+    member.connected_via_notes !== undefined ? member.connected_via_notes : existing.connected_via_notes,
     userId || null,
     id
   );
@@ -403,7 +425,7 @@ export function computeChanges(
   const changes: Record<string, { old: any; new: any }> = {};
   const fields: (keyof CoalitionMember)[] = [
     'name', 'type', 'contact_name', 'contact_email', 'website',
-    'notes', 'status', 'connected_via'
+    'notes', 'status', 'connected_via_id', 'connected_via_notes'
   ];
 
   for (const field of fields) {

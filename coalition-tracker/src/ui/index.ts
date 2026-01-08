@@ -136,42 +136,98 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     .user-info {
       display: flex;
       align-items: center;
-      gap: 12px;
       padding-left: 24px;
       border-left: 1px solid rgba(255,255,255,0.15);
       margin-left: 8px;
     }
 
-    .user-name {
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.8);
+    .user-menu {
+      position: relative;
     }
 
-    .logout-btn {
-      padding: 6px 12px;
+    .user-menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 6px;
       color: var(--white);
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.15s;
     }
 
-    .logout-btn:hover {
+    .user-menu-btn:hover {
       background: rgba(255,255,255,0.2);
     }
 
-    .admin-link {
-      color: var(--gold);
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: 500;
+    .user-menu-btn svg {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.15s;
     }
 
-    .admin-link:hover {
-      text-decoration: underline;
+    .user-menu.open .user-menu-btn svg {
+      transform: rotate(180deg);
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      min-width: 160px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all 0.15s;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .user-menu.open .user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .user-dropdown a,
+    .user-dropdown button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 0.875rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.1s;
+      text-align: left;
+    }
+
+    .user-dropdown a:hover,
+    .user-dropdown button:hover {
+      background: var(--bg);
+    }
+
+    .user-dropdown svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+
+    .user-dropdown .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
     }
 
     /* Container */
@@ -312,6 +368,10 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     tr:last-child td { border-bottom: none; }
     tr.has-edit-panel td { border-bottom: none; }
 
+    tr.clickable-row {
+      cursor: pointer;
+    }
+
     tr:hover:not(.edit-panel-row) td {
       background: var(--bg-warm);
     }
@@ -368,7 +428,11 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
 
     /* Organization Name */
     .org-name {
-      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Contact Name */
+    .contact-name {
       color: var(--navy);
     }
 
@@ -405,6 +469,131 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    /* Searchable Combobox */
+    .combobox {
+      position: relative;
+    }
+
+    .combobox-input {
+      width: 100%;
+      padding: 10px 36px 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: var(--white);
+      cursor: text;
+    }
+
+    .combobox-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+    }
+
+    .combobox-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .combobox-clear:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .combobox.has-value .combobox-clear {
+      display: flex;
+    }
+
+    .combobox-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+    }
+
+    .combobox.open .combobox-dropdown {
+      display: block;
+    }
+
+    .combobox-option {
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .combobox-option:last-child {
+      border-bottom: none;
+    }
+
+    .combobox-option:hover,
+    .combobox-option.highlighted {
+      background: var(--bg);
+    }
+
+    .combobox-option.selected {
+      background: rgba(15, 23, 42, 0.05);
+      font-weight: 500;
+    }
+
+    .combobox-option-name {
+      color: var(--text);
+    }
+
+    .combobox-option-org {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .combobox-empty {
+      padding: 12px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .combobox-add-new {
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .combobox-add-new:hover,
+    .combobox-add-new.highlighted {
+      background: var(--bg);
+    }
+
+    .combobox-add-new svg {
+      width: 16px;
+      height: 16px;
     }
 
     /* Notes */
@@ -1038,8 +1227,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     @media (max-width: 900px) {
       .header-inner {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
         text-align: center;
+        padding: 16px;
       }
 
       .logo {
@@ -1048,12 +1238,26 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       }
 
       .stats {
-        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        row-gap: 12px;
       }
 
       .stat::after {
-        right: -12px;
+        right: -10px;
         height: 24px;
+      }
+
+      .user-info {
+        width: 100%;
+        justify-content: center;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.15);
+        padding-left: 0;
+        padding-top: 12px;
+        margin-left: 0;
+        margin-top: 4px;
       }
 
       .toolbar {
@@ -1090,11 +1294,15 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       }
 
       .header-inner {
-        padding: 16px;
+        padding: 14px 16px;
       }
 
       .logo h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+      }
+
+      .logo-tag {
+        font-size: 0.65rem;
       }
 
       .stats {
@@ -1102,7 +1310,26 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       }
 
       .stat-number {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+      }
+
+      .stat-label {
+        font-size: 0.6rem;
+      }
+
+      .stat::after {
+        right: -8px;
+        height: 20px;
+      }
+
+      .user-info {
+        gap: 10px;
+        font-size: 0.85rem;
+      }
+
+      .logout-btn {
+        padding: 6px 12px;
+        font-size: 0.7rem;
       }
 
       .filter-group {
@@ -1145,9 +1372,32 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
           <div class="stat-label">Prospects</div>
         </div>
         <div class="user-info">
-          <span class="user-name" id="user-name"></span>
-          <a href="/admin" class="admin-link" id="admin-link" style="display: none;">Admin</a>
-          <button class="logout-btn" onclick="logout()">Logout</button>
+          <div class="user-menu" id="user-menu">
+            <button class="user-menu-btn" onclick="toggleUserMenu(event)">
+              <span id="user-name"></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="user-dropdown">
+              <a href="/admin" id="admin-link" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                </svg>
+                Admin Panel
+              </a>
+              <div class="divider" id="admin-divider" style="display: none;"></div>
+              <button onclick="logout()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Logout
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1174,8 +1424,8 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         <thead>
           <tr>
             <th>Status</th>
-            <th>Organization</th>
             <th>Contact</th>
+            <th>Organization</th>
             <th>Type</th>
             <th>Connected Via</th>
             <th>Actions</th>
@@ -1232,7 +1482,21 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       </div>
       <div class="form-group">
         <label>Connected Via</label>
-        <input type="text" id="drawer-connected_via" placeholder="Who introduced them?">
+        <div class="combobox" id="drawer-connected-via-combobox">
+          <input type="text" class="combobox-input" id="drawer-connected_via_search" placeholder="Search members..." autocomplete="off">
+          <input type="hidden" id="drawer-connected_via_id">
+          <button type="button" class="combobox-clear" onclick="clearDrawerConnectedVia()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <div class="combobox-dropdown" id="drawer-connected_via_dropdown"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Connection Notes</label>
+        <input type="text" id="drawer-connected_via_notes" placeholder="How you know them...">
       </div>
       <div class="form-group">
         <label>Website</label>
@@ -1280,12 +1544,26 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     if (currentUser) {
       document.getElementById('user-name').textContent = currentUser.display_name;
       if (isAdmin) {
-        document.getElementById('admin-link').style.display = 'inline';
+        document.getElementById('admin-link').style.display = 'flex';
+        document.getElementById('admin-divider').style.display = 'block';
       }
       if (!canEdit) {
         document.getElementById('add-btn').style.display = 'none';
       }
     }
+
+    function toggleUserMenu(e) {
+      e.stopPropagation();
+      document.getElementById('user-menu').classList.toggle('open');
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('user-menu');
+      if (!menu.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
 
     async function logout() {
       await fetch('/api/logout', { method: 'POST' });
@@ -1330,7 +1608,8 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
           (m.contact_name || '').toLowerCase().includes(term) ||
           (m.contact_email || '').toLowerCase().includes(term) ||
           (m.notes || '').toLowerCase().includes(term) ||
-          (m.connected_via || '').toLowerCase().includes(term)
+          (m.connected_via_name || '').toLowerCase().includes(term) ||
+          (m.connected_via_notes || '').toLowerCase().includes(term)
         );
       }
 
@@ -1377,7 +1656,21 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
                   </div>
                   <div class="form-group">
                     <label>Connected Via</label>
-                    <input type="text" id="edit-connected_via-\${m.id}" value="\${(m.connected_via || '').replace(/"/g, '&quot;')}">
+                    <div class="combobox" id="edit-connected-via-combobox-\${m.id}">
+                      <input type="text" class="combobox-input" id="edit-connected_via_search-\${m.id}" placeholder="Search members..." autocomplete="off" value="\${m.connected_via_name || ''}" data-member-id="\${m.id}">
+                      <input type="hidden" id="edit-connected_via_id-\${m.id}" value="\${m.connected_via_id || ''}">
+                      <button type="button" class="combobox-clear" onclick="clearEditConnectedVia(\${m.id})">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                      </button>
+                      <div class="combobox-dropdown" id="edit-connected_via_dropdown-\${m.id}"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Connection Notes</label>
+                    <input type="text" id="edit-connected_via_notes-\${m.id}" value="\${(m.connected_via_notes || '').replace(/"/g, '&quot;')}">
                   </div>
                   <div class="form-group">
                     <label>Website</label>
@@ -1425,10 +1718,10 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         const rowClass = isEditing ? 'editing has-edit-panel' : '';
 
         let html = \`
-          <tr data-id="\${m.id}" class="\${rowClass}">
+          <tr data-id="\${m.id}" class="\${rowClass} clickable-row" onclick="handleRowClick(event, \${m.id})">
             <td>
               \${canEdit ? \`
-                <select class="status-select \${getStatusClass(m.status)}" onchange="updateStatus(\${m.id}, this.value)">
+                <select class="status-select \${getStatusClass(m.status)}" onchange="updateStatus(\${m.id}, this.value)" onclick="event.stopPropagation()">
                   <option value="prospect" \${m.status === 'prospect' ? 'selected' : ''}>Prospect</option>
                   <option value="contacted" \${m.status === 'contacted' ? 'selected' : ''}>Contacted</option>
                   <option value="active" \${m.status === 'active' ? 'selected' : ''}>Active</option>
@@ -1438,12 +1731,12 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
                 <span class="status-select \${getStatusClass(m.status)}" style="cursor: default;">\${m.status}</span>
               \`}
             </td>
+            <td><span class="contact-name">\${m.contact_name || '-'}</span></td>
             <td><span class="org-name">\${m.name || '-'}</span></td>
-            <td>\${m.contact_name || '-'}</td>
             <td>\${m.type ? \`<span class="type-badge">\${m.type.replace('_', ' ')}</span>\` : '-'}</td>
-            <td><span class="connected-via">\${m.connected_via || '-'}</span></td>
+            <td><span class="connected-via">\${m.connected_via_name || m.connected_via_notes || '-'}</span></td>
             <td>
-              \${canEdit ? \`<button class="action-btn" onclick="toggleEditPanel(\${m.id})">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
+              \${canEdit ? \`<button class="action-btn" onclick="event.stopPropagation(); toggleEditPanel(\${m.id})">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
             </td>
           </tr>
         \`;
@@ -1503,10 +1796,10 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
                 <span class="card-value"><span class="type-badge">\${m.type.replace('_', ' ')}</span></span>
               </div>
             \` : ''}
-            \${m.connected_via ? \`
+            \${(m.connected_via_name || m.connected_via_notes) ? \`
               <div class="card-row">
                 <span class="card-label">Via</span>
-                <span class="card-value">\${m.connected_via}</span>
+                <span class="card-value">\${m.connected_via_name || m.connected_via_notes}</span>
               </div>
             \` : ''}
           </div>
@@ -1538,6 +1831,14 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         editingId = id;
       }
       renderTable();
+      // Initialize combobox for the edit panel
+      if (editingId) {
+        setTimeout(() => initEditCombobox(editingId), 0);
+      }
+    }
+
+    function handleRowClick(event, id) {
+      toggleEditPanel(id);
     }
 
     function closeEditPanel() {
@@ -1548,13 +1849,15 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     async function saveInlineEdit(event, id) {
       event.preventDefault();
 
+      const connectedViaIdVal = document.getElementById(\`edit-connected_via_id-\${id}\`).value;
       const data = {
         name: document.getElementById(\`edit-name-\${id}\`).value,
         contact_name: document.getElementById(\`edit-contact_name-\${id}\`).value || null,
         contact_email: document.getElementById(\`edit-contact_email-\${id}\`).value || null,
         type: document.getElementById(\`edit-type-\${id}\`).value || null,
         status: document.getElementById(\`edit-status-\${id}\`).value,
-        connected_via: document.getElementById(\`edit-connected_via-\${id}\`).value || null,
+        connected_via_id: connectedViaIdVal ? parseInt(connectedViaIdVal, 10) : null,
+        connected_via_notes: document.getElementById(\`edit-connected_via_notes-\${id}\`).value || null,
         website: document.getElementById(\`edit-website-\${id}\`).value || null,
         notes: document.getElementById(\`edit-notes-\${id}\`).value || null
       };
@@ -1583,6 +1886,258 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       document.body.style.overflow = '';
     }
 
+    // Combobox for connected via - shared logic
+    let activeCombobox = null;
+    let highlightedIndex = 0;
+
+    function renderComboboxOptions(dropdown, filteredMembers, selectedId, excludeId, highlightFirst = true, searchQuery = '') {
+      const filtered = filteredMembers.filter(m => !excludeId || m.id !== parseInt(excludeId, 10));
+      const addNewIndex = filtered.length;
+
+      // Reset highlight to first item when rendering
+      if (highlightFirst) {
+        highlightedIndex = filtered.length > 0 ? 0 : addNewIndex;
+      }
+
+      let html = '';
+
+      if (filtered.length === 0) {
+        html += '<div class="combobox-empty">No matching members</div>';
+      } else {
+        html += filtered.map((m, idx) => \`
+          <div class="combobox-option \${m.id === selectedId ? 'selected' : ''} \${idx === highlightedIndex ? 'highlighted' : ''}" data-id="\${m.id}" data-name="\${(m.contact_name || m.name).replace(/"/g, '&quot;')}" data-index="\${idx}">
+            <div class="combobox-option-name">\${m.contact_name || m.name}</div>
+            \${m.name && m.contact_name ? \`<div class="combobox-option-org">\${m.name}</div>\` : ''}
+          </div>
+        \`).join('');
+      }
+
+      // Always show "Add new" option
+      html += \`
+        <div class="combobox-add-new \${highlightedIndex === addNewIndex ? 'highlighted' : ''}" data-action="add-new" data-index="\${addNewIndex}" data-prefill="\${searchQuery.replace(/"/g, '&quot;')}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add new member\${searchQuery ? \`: "\${searchQuery}"\` : '...'}
+        </div>
+      \`;
+
+      dropdown.innerHTML = html;
+    }
+
+    function updateHighlight(dropdown, newIndex) {
+      const options = dropdown.querySelectorAll('.combobox-option, .combobox-add-new');
+      if (options.length === 0) return;
+
+      // Clamp index
+      highlightedIndex = Math.max(0, Math.min(newIndex, options.length - 1));
+
+      // Update classes
+      options.forEach((opt, idx) => {
+        opt.classList.toggle('highlighted', idx === highlightedIndex);
+      });
+
+      // Scroll into view
+      options[highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+    }
+
+    function selectHighlighted(dropdown, hidden, input, combobox) {
+      // Check for highlighted member option
+      const highlighted = dropdown.querySelector('.combobox-option.highlighted');
+      if (highlighted) {
+        hidden.value = highlighted.dataset.id;
+        input.value = highlighted.dataset.name;
+        combobox.classList.remove('open');
+        combobox.classList.add('has-value');
+        activeCombobox = null;
+        return 'selected';
+      }
+
+      // Check for highlighted "add new" option
+      const addNew = dropdown.querySelector('.combobox-add-new.highlighted');
+      if (addNew) {
+        combobox.classList.remove('open');
+        activeCombobox = null;
+        return { action: 'add-new', prefill: addNew.dataset.prefill || '' };
+      }
+
+      return false;
+    }
+
+    function handleAddNew(prefill) {
+      // Open drawer with prefilled contact name
+      document.getElementById('drawer-title').textContent = 'Add Member';
+      document.getElementById('drawer-form').reset();
+      document.getElementById('drawer-member-id').value = '';
+      document.getElementById('drawer-contact_name').value = prefill;
+      clearDrawerConnectedVia();
+      initDrawerCombobox();
+      document.getElementById('drawer-delete-btn').style.display = 'none';
+      document.getElementById('drawer-history-btn').style.display = 'none';
+      openDrawer();
+      // Focus on the org name field since we prefilled contact
+      if (prefill) {
+        setTimeout(() => document.getElementById('drawer-name').focus(), 100);
+      }
+    }
+
+    function filterMembers(query, excludeId = null) {
+      const term = query.toLowerCase();
+      return members
+        .filter(m => !excludeId || m.id !== parseInt(excludeId, 10))
+        .filter(m =>
+          (m.contact_name || '').toLowerCase().includes(term) ||
+          (m.name || '').toLowerCase().includes(term)
+        )
+        .sort((a, b) => (a.contact_name || a.name).localeCompare(b.contact_name || b.name));
+    }
+
+    function setupCombobox(inputId, hiddenId, dropdownId, comboboxId, excludeId = null) {
+      const input = document.getElementById(inputId);
+      const hidden = document.getElementById(hiddenId);
+      const dropdown = document.getElementById(dropdownId);
+      const combobox = document.getElementById(comboboxId);
+
+      if (!input || !dropdown || !combobox) return;
+
+      // Update has-value class
+      if (hidden.value) {
+        combobox.classList.add('has-value');
+      } else {
+        combobox.classList.remove('has-value');
+      }
+
+      // Show dropdown on focus
+      input.addEventListener('focus', () => {
+        activeCombobox = comboboxId;
+        combobox.classList.add('open');
+        highlightedIndex = 0;
+        const filtered = filterMembers(input.value, excludeId);
+        renderComboboxOptions(dropdown, filtered, parseInt(hidden.value, 10) || null, excludeId, true, input.value);
+      });
+
+      // Filter on input
+      input.addEventListener('input', () => {
+        highlightedIndex = 0;
+        const filtered = filterMembers(input.value, excludeId);
+        renderComboboxOptions(dropdown, filtered, parseInt(hidden.value, 10) || null, excludeId, true, input.value);
+      });
+
+      // Keyboard navigation
+      input.addEventListener('keydown', (e) => {
+        if (!combobox.classList.contains('open')) {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            combobox.classList.add('open');
+            const filtered = filterMembers(input.value, excludeId);
+            renderComboboxOptions(dropdown, filtered, parseInt(hidden.value, 10) || null, excludeId, true, input.value);
+          }
+          return;
+        }
+
+        switch (e.key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            updateHighlight(dropdown, highlightedIndex + 1);
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            updateHighlight(dropdown, highlightedIndex - 1);
+            break;
+          case 'Enter':
+            e.preventDefault();
+            const result = selectHighlighted(dropdown, hidden, input, combobox);
+            if (result && result.action === 'add-new') {
+              handleAddNew(result.prefill);
+            }
+            break;
+          case 'Escape':
+            e.preventDefault();
+            combobox.classList.remove('open');
+            activeCombobox = null;
+            break;
+          case 'Tab':
+            // Select on tab if there's a highlighted option
+            if (selectHighlighted(dropdown, hidden, input, combobox)) {
+              // Let tab continue to next field
+            }
+            break;
+        }
+      });
+
+      // Handle option click
+      dropdown.addEventListener('click', (e) => {
+        const option = e.target.closest('.combobox-option');
+        if (option) {
+          hidden.value = option.dataset.id;
+          input.value = option.dataset.name;
+          combobox.classList.remove('open');
+          combobox.classList.add('has-value');
+          activeCombobox = null;
+          return;
+        }
+
+        // Handle "add new" click
+        const addNew = e.target.closest('.combobox-add-new');
+        if (addNew) {
+          combobox.classList.remove('open');
+          activeCombobox = null;
+          handleAddNew(addNew.dataset.prefill || '');
+        }
+      });
+
+      // Hover to highlight
+      dropdown.addEventListener('mouseover', (e) => {
+        const option = e.target.closest('.combobox-option, .combobox-add-new');
+        if (option && option.dataset.index !== undefined) {
+          updateHighlight(dropdown, parseInt(option.dataset.index, 10));
+        }
+      });
+    }
+
+    // Close any open combobox when clicking outside
+    document.addEventListener('click', (e) => {
+      if (activeCombobox) {
+        const combobox = document.getElementById(activeCombobox);
+        if (combobox && !combobox.contains(e.target)) {
+          combobox.classList.remove('open');
+          activeCombobox = null;
+        }
+      }
+    });
+
+    function clearDrawerConnectedVia() {
+      document.getElementById('drawer-connected_via_id').value = '';
+      document.getElementById('drawer-connected_via_search').value = '';
+      document.getElementById('drawer-connected-via-combobox').classList.remove('has-value');
+    }
+
+    function clearEditConnectedVia(memberId) {
+      document.getElementById(\`edit-connected_via_id-\${memberId}\`).value = '';
+      document.getElementById(\`edit-connected_via_search-\${memberId}\`).value = '';
+      document.getElementById(\`edit-connected-via-combobox-\${memberId}\`).classList.remove('has-value');
+    }
+
+    function initDrawerCombobox(excludeId = null) {
+      setupCombobox(
+        'drawer-connected_via_search',
+        'drawer-connected_via_id',
+        'drawer-connected_via_dropdown',
+        'drawer-connected-via-combobox',
+        excludeId
+      );
+    }
+
+    function initEditCombobox(memberId) {
+      setupCombobox(
+        \`edit-connected_via_search-\${memberId}\`,
+        \`edit-connected_via_id-\${memberId}\`,
+        \`edit-connected_via_dropdown-\${memberId}\`,
+        \`edit-connected-via-combobox-\${memberId}\`,
+        memberId
+      );
+    }
+
     // Mobile edit uses drawer
     function editMemberMobile(id) {
       const member = members.find(m => m.id === id);
@@ -1595,9 +2150,22 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       document.getElementById('drawer-contact_email').value = member.contact_email || '';
       document.getElementById('drawer-type').value = member.type || '';
       document.getElementById('drawer-status').value = member.status || 'prospect';
-      document.getElementById('drawer-connected_via').value = member.connected_via || '';
+      document.getElementById('drawer-connected_via_id').value = member.connected_via_id || '';
+      document.getElementById('drawer-connected_via_search').value = member.connected_via_name || '';
+      document.getElementById('drawer-connected_via_notes').value = member.connected_via_notes || '';
       document.getElementById('drawer-website').value = member.website || '';
       document.getElementById('drawer-notes').value = member.notes || '';
+
+      // Update combobox has-value class
+      const combobox = document.getElementById('drawer-connected-via-combobox');
+      if (member.connected_via_id) {
+        combobox.classList.add('has-value');
+      } else {
+        combobox.classList.remove('has-value');
+      }
+
+      // Initialize combobox
+      initDrawerCombobox(id);
 
       // Show delete (admin only) and history buttons when editing
       document.getElementById('drawer-delete-btn').style.display = canDelete ? 'block' : 'none';
@@ -1653,6 +2221,10 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       document.getElementById('drawer-title').textContent = 'Add Member';
       document.getElementById('drawer-form').reset();
       document.getElementById('drawer-member-id').value = '';
+      // Clear combobox
+      clearDrawerConnectedVia();
+      // Initialize combobox
+      initDrawerCombobox();
       // Hide delete and history buttons when adding new
       document.getElementById('drawer-delete-btn').style.display = 'none';
       document.getElementById('drawer-history-btn').style.display = 'none';
@@ -1665,13 +2237,15 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     document.getElementById('drawer-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = document.getElementById('drawer-member-id').value;
+      const connectedViaIdVal = document.getElementById('drawer-connected_via_id').value;
       const data = {
         name: document.getElementById('drawer-name').value,
         contact_name: document.getElementById('drawer-contact_name').value || null,
         contact_email: document.getElementById('drawer-contact_email').value || null,
         type: document.getElementById('drawer-type').value || null,
         status: document.getElementById('drawer-status').value,
-        connected_via: document.getElementById('drawer-connected_via').value || null,
+        connected_via_id: connectedViaIdVal ? parseInt(connectedViaIdVal, 10) : null,
+        connected_via_notes: document.getElementById('drawer-connected_via_notes').value || null,
         website: document.getElementById('drawer-website').value || null,
         notes: document.getElementById('drawer-notes').value || null
       };
