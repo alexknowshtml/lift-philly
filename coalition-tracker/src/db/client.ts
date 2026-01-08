@@ -48,6 +48,14 @@ export function getDatabase(): Database {
       db.exec('ALTER TABLE coalition RENAME COLUMN connected_via TO connected_via_notes');
     } catch (e) { /* column already renamed or doesn't exist */ }
 
+    // Migration: add last_contact and last_contacted_by fields
+    try {
+      db.exec('ALTER TABLE coalition ADD COLUMN last_contact DATE');
+    } catch (e) { /* column already exists */ }
+    try {
+      db.exec('ALTER TABLE coalition ADD COLUMN last_contacted_by INTEGER REFERENCES users(id)');
+    } catch (e) { /* column already exists */ }
+
     // Create users table
     db.exec(`
       CREATE TABLE IF NOT EXISTS users (
@@ -122,12 +130,15 @@ export interface CoalitionMember {
   status: 'prospect' | 'contacted' | 'active' | 'inactive';
   connected_via_id: number | null;
   connected_via_notes: string | null;
+  last_contact: string | null;
+  last_contacted_by: number | null;
   created_at: string;
   updated_at: string;
   created_by: number | null;
   updated_by: number | null;
   // Joined fields for display
   connected_via_name?: string | null;
+  last_contacted_by_name?: string | null;
 }
 
 export type UserRole = 'viewer' | 'editor' | 'admin';
@@ -166,9 +177,11 @@ export function getAllMembers(): CoalitionMember[] {
   const db = getDatabase();
   return db.query(`
     SELECT c.*,
-           cv.contact_name as connected_via_name
+           cv.contact_name as connected_via_name,
+           u.display_name as last_contacted_by_name
     FROM coalition c
     LEFT JOIN coalition cv ON c.connected_via_id = cv.id
+    LEFT JOIN users u ON c.last_contacted_by = u.id
     ORDER BY c.status, c.name
   `).all() as CoalitionMember[];
 }
@@ -181,8 +194,8 @@ export function getMemberById(id: number): CoalitionMember | null {
 export function createMember(member: Partial<CoalitionMember>, userId?: number): CoalitionMember {
   const db = getDatabase();
   const stmt = db.prepare(`
-    INSERT INTO coalition (name, type, contact_name, contact_email, website, notes, public_display, status, connected_via_id, connected_via_notes, created_by, updated_by)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO coalition (name, type, contact_name, contact_email, website, notes, public_display, status, connected_via_id, connected_via_notes, last_contact, last_contacted_by, created_by, updated_by)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const result = stmt.run(
     member.name || '',
@@ -195,6 +208,8 @@ export function createMember(member: Partial<CoalitionMember>, userId?: number):
     member.status || 'prospect',
     member.connected_via_id || null,
     member.connected_via_notes || null,
+    member.last_contact || null,
+    member.last_contacted_by || null,
     userId || null,
     userId || null
   );
@@ -218,6 +233,8 @@ export function updateMember(id: number, member: Partial<CoalitionMember>, userI
       status = ?,
       connected_via_id = ?,
       connected_via_notes = ?,
+      last_contact = ?,
+      last_contacted_by = ?,
       updated_by = ?,
       updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
@@ -233,6 +250,8 @@ export function updateMember(id: number, member: Partial<CoalitionMember>, userI
     member.status ?? existing.status,
     member.connected_via_id !== undefined ? member.connected_via_id : existing.connected_via_id,
     member.connected_via_notes !== undefined ? member.connected_via_notes : existing.connected_via_notes,
+    member.last_contact !== undefined ? member.last_contact : existing.last_contact,
+    member.last_contacted_by !== undefined ? member.last_contacted_by : existing.last_contacted_by,
     userId || null,
     id
   );
@@ -425,7 +444,8 @@ export function computeChanges(
   const changes: Record<string, { old: any; new: any }> = {};
   const fields: (keyof CoalitionMember)[] = [
     'name', 'type', 'contact_name', 'contact_email', 'website',
-    'notes', 'status', 'connected_via_id', 'connected_via_notes'
+    'notes', 'status', 'connected_via_id', 'connected_via_notes',
+    'last_contact', 'last_contacted_by'
   ];
 
   for (const field of fields) {

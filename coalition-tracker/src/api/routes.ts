@@ -301,7 +301,9 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, (c) => {
 // Serve UI (protected)
 app.get('/', requireAuth, (c) => {
   const user = c.get('user');
-  return c.html(getIndexHtml(user));
+  // Pass users list for "last contacted by" dropdown (editors/admins only)
+  const users = (user?.role === 'editor' || user?.role === 'admin') ? getAllUsers() : [];
+  return c.html(getIndexHtml(user, users));
 });
 
 export default app;

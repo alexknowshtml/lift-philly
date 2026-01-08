@@ -1,7 +1,8 @@
 import { User } from '../db/client';
 
-export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
+export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit<User, 'password_hash'>[]): string {
   const userJson = user ? JSON.stringify(user) : 'null';
+  const usersJson = allUsers ? JSON.stringify(allUsers) : '[]';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1612,6 +1613,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
 
   <script>
     const currentUser = ${userJson};
+    const allUsers = ${usersJson};
     let members = [];
     let currentFilter = '';
     let searchTerm = '';
@@ -1772,6 +1774,19 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
                   <div class="form-group">
                     <label>Connection Notes</label>
                     <input type="text" id="edit-connected_via_notes-\${m.id}" value="\${(m.connected_via_notes || '').replace(/"/g, '&quot;')}">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Last Contact</label>
+                      <input type="date" id="edit-last_contact-\${m.id}" value="\${m.last_contact || ''}">
+                    </div>
+                    <div class="form-group">
+                      <label>Last Contacted By</label>
+                      <select id="edit-last_contacted_by-\${m.id}">
+                        <option value="">-</option>
+                        \${allUsers.map(u => \`<option value="\${u.id}" \${m.last_contacted_by === u.id ? 'selected' : ''}>\${u.display_name}</option>\`).join('')}
+                      </select>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label>Website</label>
@@ -1978,6 +1993,8 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         status: document.getElementById(\`edit-status-\${id}\`).value,
         connected_via_id: connectedViaIdVal ? parseInt(connectedViaIdVal, 10) : null,
         connected_via_notes: document.getElementById(\`edit-connected_via_notes-\${id}\`).value || null,
+        last_contact: document.getElementById(\`edit-last_contact-\${id}\`).value || null,
+        last_contacted_by: document.getElementById(\`edit-last_contacted_by-\${id}\`).value ? parseInt(document.getElementById(\`edit-last_contacted_by-\${id}\`).value, 10) : null,
         website: document.getElementById(\`edit-website-\${id}\`).value || null,
         notes: document.getElementById(\`edit-notes-\${id}\`).value || null
       };
