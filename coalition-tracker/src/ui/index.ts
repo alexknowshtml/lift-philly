@@ -1409,6 +1409,26 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         transform: translateY(-8px);
       }
     }
+
+    /* Button spinner */
+    .btn-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .action-btn.saving {
+      pointer-events: none;
+      opacity: 0.7;
+    }
   </style>
 </head>
 <body>
@@ -1818,7 +1838,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
             <td>\${m.type ? \`<span class="type-badge">\${m.type.replace('_', ' ')}</span>\` : '-'}</td>
             <td><span class="connected-via">\${m.connected_via_name || m.connected_via_notes || '-'}</span></td>
             <td>
-              \${canEdit ? \`<button class="action-btn" onclick="event.stopPropagation(); toggleEditPanel(\${m.id})">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
+              \${canEdit ? \`<button class="action-btn" id="action-btn-\${m.id}" onclick="event.stopPropagation(); toggleEditPanel(\${m.id}, this)">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
             </td>
           </tr>
         \`;
@@ -1906,14 +1926,22 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       loadStats();
     }
 
-    async function toggleEditPanel(id) {
+    async function toggleEditPanel(id, btn) {
+      // Get button reference if not passed
+      if (!btn) btn = document.getElementById(\`action-btn-\${id}\`);
+
       // Save current panel if switching to a different one
       if (editingId && editingId !== id) {
         await saveEditData(editingId);
       }
 
       if (editingId === id) {
-        // Closing current panel - save first
+        // Closing current panel - show spinner and save
+        if (btn) {
+          const originalText = btn.textContent;
+          btn.innerHTML = '<span class="btn-spinner"></span>';
+          btn.classList.add('saving');
+        }
         await saveEditData(id);
         editingId = null;
         loadMembers();
@@ -1956,15 +1984,13 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         notes: document.getElementById(\`edit-notes-\${id}\`).value || null
       };
 
-      // Optimistic: show toast immediately
-      showToast('Saved');
-
-      // Fire and forget - don't wait
-      fetch(\`/api/members/\${id}\`, {
+      await fetch(\`/api/members/\${id}\`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+
+      showToast('Saved');
     }
 
     async function saveInlineEdit(event, id) {
