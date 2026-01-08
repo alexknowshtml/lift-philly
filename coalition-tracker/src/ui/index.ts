@@ -1349,6 +1349,66 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         padding: 20px;
       }
     }
+
+    /* Toast notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: var(--navy);
+      color: var(--white);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toast-in 0.3s var(--ease-out);
+    }
+
+    .toast.success {
+      background: var(--success);
+    }
+
+    .toast.hiding {
+      animation: toast-out 0.2s var(--ease-out) forwards;
+    }
+
+    .toast-check {
+      width: 16px;
+      height: 16px;
+    }
+
+    @keyframes toast-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes toast-out {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -1438,6 +1498,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     <!-- Mobile Cards View -->
     <div class="cards-view" id="cards-view"></div>
   </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
 
   <!-- Drawer for add/edit -->
   <div class="drawer-overlay" id="drawer-overlay"></div>
@@ -1534,6 +1597,25 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     let currentFilter = '';
     let searchTerm = '';
     let editingId = null;
+
+    // Toast notifications
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = \`toast \${type}\`;
+      toast.innerHTML = \`
+        <svg class="toast-check" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+        \${message}
+      \`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 200);
+      }, 1500);
+    }
 
     // Permission helpers
     const canEdit = currentUser && (currentUser.role === 'editor' || currentUser.role === 'admin');
@@ -1858,9 +1940,12 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
     }
 
     async function saveEditData(id) {
-      const connectedViaIdVal = document.getElementById(\`edit-connected_via_id-\${id}\`).value;
+      const connectedViaIdVal = document.getElementById(\`edit-connected_via_id-\${id}\`)?.value;
+      const nameEl = document.getElementById(\`edit-name-\${id}\`);
+      if (!nameEl) return; // Panel already closed
+
       const data = {
-        name: document.getElementById(\`edit-name-\${id}\`).value,
+        name: nameEl.value,
         contact_name: document.getElementById(\`edit-contact_name-\${id}\`).value || null,
         contact_email: document.getElementById(\`edit-contact_email-\${id}\`).value || null,
         type: document.getElementById(\`edit-type-\${id}\`).value || null,
@@ -1871,7 +1956,11 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         notes: document.getElementById(\`edit-notes-\${id}\`).value || null
       };
 
-      await fetch(\`/api/members/\${id}\`, {
+      // Optimistic: show toast immediately
+      showToast('Saved');
+
+      // Fire and forget - don't wait
+      fetch(\`/api/members/\${id}\`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
