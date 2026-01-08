@@ -578,6 +578,17 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       font-size: 0.85rem;
     }
 
+    .combobox-section {
+      padding: 6px 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
     .combobox-add-new {
       padding: 10px 12px;
       cursor: pointer;
@@ -2186,12 +2197,29 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       if (filtered.length === 0) {
         html += '<div class="combobox-empty">No matching members</div>';
       } else {
-        html += filtered.map((m, idx) => \`
-          <div class="combobox-option \${m.id === selectedId ? 'selected' : ''} \${idx === highlightedIndex ? 'highlighted' : ''}" data-id="\${m.id}" data-name="\${(m.contact_name || m.name).replace(/"/g, '&quot;')}" data-index="\${idx}">
-            <div class="combobox-option-name">\${m.contact_name || m.name}</div>
-            \${m.name && m.contact_name ? \`<div class="combobox-option-org">\${m.name}</div>\` : ''}
-          </div>
-        \`).join('');
+        const hasFrequent = filtered.some(m => m._isFrequent);
+        const hasOthers = filtered.some(m => !m._isFrequent);
+        let inFrequentSection = null;
+
+        filtered.forEach((m, idx) => {
+          // Add section headers
+          if (hasFrequent && hasOthers) {
+            if (m._isFrequent && inFrequentSection !== true) {
+              html += '<div class="combobox-section">Frequently Connected</div>';
+              inFrequentSection = true;
+            } else if (!m._isFrequent && inFrequentSection !== false) {
+              html += '<div class="combobox-section">All Members</div>';
+              inFrequentSection = false;
+            }
+          }
+
+          html += \`
+            <div class="combobox-option \${m.id === selectedId ? 'selected' : ''} \${idx === highlightedIndex ? 'highlighted' : ''}" data-id="\${m.id}" data-name="\${(m.contact_name || m.name).replace(/"/g, '&quot;')}" data-index="\${idx}">
+              <div class="combobox-option-name">\${m.contact_name || m.name}</div>
+              \${m.name && m.contact_name ? \`<div class="combobox-option-org">\${m.name}</div>\` : ''}
+            </div>
+          \`;
+        });
       }
 
       // Always show "Add new" option
@@ -2264,15 +2292,41 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       }
     }
 
+    function getConnectionCounts() {
+      const counts = {};
+      members.forEach(m => {
+        if (m.connected_via_id) {
+          counts[m.connected_via_id] = (counts[m.connected_via_id] || 0) + 1;
+        }
+      });
+      return counts;
+    }
+
     function filterMembers(query, excludeId = null) {
       const term = query.toLowerCase();
-      return members
+      const connectionCounts = getConnectionCounts();
+
+      const filtered = members
         .filter(m => !excludeId || m.id !== parseInt(excludeId, 10))
         .filter(m =>
           (m.contact_name || '').toLowerCase().includes(term) ||
           (m.name || '').toLowerCase().includes(term)
-        )
+        );
+
+      // Split into frequent connectors (2+ connections) and others
+      const frequent = filtered
+        .filter(m => (connectionCounts[m.id] || 0) >= 2)
+        .sort((a, b) => (connectionCounts[b.id] || 0) - (connectionCounts[a.id] || 0));
+
+      const others = filtered
+        .filter(m => (connectionCounts[m.id] || 0) < 2)
         .sort((a, b) => (a.contact_name || a.name).localeCompare(b.contact_name || b.name));
+
+      // Mark frequent ones for section header display
+      frequent.forEach(m => m._isFrequent = true);
+      others.forEach(m => m._isFrequent = false);
+
+      return [...frequent, ...others];
     }
 
     function setupCombobox(inputId, hiddenId, dropdownId, comboboxId, excludeId = null, onSelect = null) {
