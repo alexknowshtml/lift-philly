@@ -1788,7 +1788,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
                   <button type="button" class="btn btn-history" onclick="showHistory(\${m.id})">History</button>
                   <div style="flex: 1;"></div>
                   <button type="button" class="btn btn-secondary" onclick="closeEditPanel()">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="submit" class="btn btn-primary" id="save-btn-\${m.id}">Save Changes</button>
                 </div>
               </form>
             </div>
@@ -1995,6 +1995,11 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
 
     async function saveInlineEdit(event, id) {
       event.preventDefault();
+      const btn = document.getElementById(\`save-btn-\${id}\`);
+      if (btn) {
+        btn.innerHTML = '<span class="btn-spinner"></span> Saving';
+        btn.disabled = true;
+      }
       await saveEditData(id);
       editingId = null;
       loadMembers();
