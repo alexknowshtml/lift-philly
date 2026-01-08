@@ -1507,7 +1507,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
             <th>Contact</th>
             <th>Organization</th>
             <th>Type</th>
-            <th>Connected Via</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -1836,7 +1835,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
             <td><span class="contact-name">\${m.contact_name || '-'}</span></td>
             <td><span class="org-name">\${m.name || '-'}</span></td>
             <td>\${m.type ? \`<span class="type-badge">\${m.type.replace('_', ' ')}</span>\` : '-'}</td>
-            <td><span class="connected-via">\${m.connected_via_name || m.connected_via_notes || '-'}</span></td>
             <td>
               \${canEdit ? \`<button class="action-btn" id="action-btn-\${m.id}" onclick="event.stopPropagation(); toggleEditPanel(\${m.id}, this)">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
             </td>
