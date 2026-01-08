@@ -599,6 +599,32 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       height: 16px;
     }
 
+    /* Inline combobox for table cells */
+    .combobox-inline {
+      min-width: 140px;
+    }
+
+    .combobox-inline .combobox-input {
+      padding: 6px 28px 6px 8px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    .combobox-inline .combobox-clear {
+      right: 4px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .combobox-inline .combobox-dropdown {
+      min-width: 200px;
+    }
+
+    .combobox-inline .combobox-option {
+      padding: 8px 10px;
+      font-size: 0.8rem;
+    }
+
     /* Notes */
     .notes-cell {
       max-width: 150px;
@@ -1573,6 +1599,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
             <th>Contact</th>
             <th>Organization</th>
             <th>Type</th>
+            <th>Connected Via</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -1787,7 +1814,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
     function renderEditPanel(m) {
       return \`
         <tr class="edit-panel-row" data-edit-id="\${m.id}">
-          <td colspan="5">
+          <td colspan="6">
             <div class="edit-panel">
               <form onsubmit="saveInlineEdit(event, \${m.id})">
                 <div class="edit-panel-grid">
@@ -1924,6 +1951,21 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
             <td><span class="contact-name">\${m.contact_name || '-'}</span></td>
             <td><span class="org-name">\${m.name || '-'}</span></td>
             <td>\${m.type ? \`<span class="type-badge">\${m.type.replace('_', ' ')}</span>\` : '-'}</td>
+            <td onclick="event.stopPropagation()">
+              \${canEdit ? \`
+                <div class="combobox combobox-inline" id="table-connected-via-combobox-\${m.id}">
+                  <input type="text" class="combobox-input" id="table-connected_via_search-\${m.id}" placeholder="Select..." autocomplete="off" value="\${m.connected_via_name || ''}" data-member-id="\${m.id}">
+                  <input type="hidden" id="table-connected_via_id-\${m.id}" value="\${m.connected_via_id || ''}">
+                  <button type="button" class="combobox-clear" onclick="clearTableConnectedVia(\${m.id})">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                  <div class="combobox-dropdown" id="table-connected_via_dropdown-\${m.id}"></div>
+                </div>
+              \` : \`<span class="connected-via">\${m.connected_via_name || '-'}</span>\`}
+            </td>
             <td>
               \${canEdit ? \`<button class="action-btn" id="action-btn-\${m.id}" onclick="event.stopPropagation(); toggleEditPanel(\${m.id}, this)">\${isEditing ? 'Close' : 'Open'}</button>\` : ''}
             </td>
@@ -1936,6 +1978,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
 
         return html;
       }).join('');
+
+      // Initialize table comboboxes after render
+      setTimeout(initAllTableComboboxes, 0);
     }
 
     function renderCards() {
@@ -2230,7 +2275,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
         .sort((a, b) => (a.contact_name || a.name).localeCompare(b.contact_name || b.name));
     }
 
-    function setupCombobox(inputId, hiddenId, dropdownId, comboboxId, excludeId = null) {
+    function setupCombobox(inputId, hiddenId, dropdownId, comboboxId, excludeId = null, onSelect = null) {
       const input = document.getElementById(inputId);
       const hidden = document.getElementById(hiddenId);
       const dropdown = document.getElementById(dropdownId);
@@ -2311,6 +2356,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
           combobox.classList.remove('open');
           combobox.classList.add('has-value');
           activeCombobox = null;
+          if (onSelect) onSelect(parseInt(option.dataset.id, 10));
           return;
         }
 
@@ -2373,6 +2419,49 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
         \`edit-connected-via-combobox-\${memberId}\`,
         memberId
       );
+    }
+
+    function clearTableConnectedVia(memberId) {
+      document.getElementById(\`table-connected_via_id-\${memberId}\`).value = '';
+      document.getElementById(\`table-connected_via_search-\${memberId}\`).value = '';
+      document.getElementById(\`table-connected-via-combobox-\${memberId}\`).classList.remove('has-value');
+      // Save immediately
+      saveTableConnectedVia(memberId, null);
+    }
+
+    function initTableCombobox(memberId) {
+      setupCombobox(
+        \`table-connected_via_search-\${memberId}\`,
+        \`table-connected_via_id-\${memberId}\`,
+        \`table-connected_via_dropdown-\${memberId}\`,
+        \`table-connected-via-combobox-\${memberId}\`,
+        memberId,
+        (selectedId) => saveTableConnectedVia(memberId, selectedId)
+      );
+    }
+
+    async function saveTableConnectedVia(memberId, connectedViaId) {
+      await fetch(\`/api/members/\${memberId}\`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ connected_via_id: connectedViaId })
+      });
+      showToast('Saved');
+    }
+
+    function initAllTableComboboxes() {
+      if (!canEdit) return;
+      members.forEach(m => {
+        const input = document.getElementById(\`table-connected_via_search-\${m.id}\`);
+        if (input) {
+          initTableCombobox(m.id);
+          // Set has-value class if needed
+          const combobox = document.getElementById(\`table-connected-via-combobox-\${m.id}\`);
+          if (m.connected_via_id && combobox) {
+            combobox.classList.add('has-value');
+          }
+        }
+      });
     }
 
     // Mobile edit uses drawer
