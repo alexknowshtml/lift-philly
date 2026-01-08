@@ -1824,15 +1824,22 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       loadStats();
     }
 
-    function toggleEditPanel(id) {
+    async function toggleEditPanel(id) {
+      // Save current panel if switching to a different one
+      if (editingId && editingId !== id) {
+        await saveEditData(editingId);
+      }
+
       if (editingId === id) {
+        // Closing current panel - save first
+        await saveEditData(id);
         editingId = null;
+        loadMembers();
+        loadStats();
       } else {
         editingId = id;
-      }
-      renderTable();
-      // Initialize combobox for the edit panel
-      if (editingId) {
+        renderTable();
+        // Initialize combobox for the edit panel
         setTimeout(() => initEditCombobox(editingId), 0);
       }
     }
@@ -1841,14 +1848,16 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
       toggleEditPanel(id);
     }
 
-    function closeEditPanel() {
+    async function closeEditPanel() {
+      if (editingId) {
+        await saveEditData(editingId);
+      }
       editingId = null;
-      renderTable();
+      loadMembers();
+      loadStats();
     }
 
-    async function saveInlineEdit(event, id) {
-      event.preventDefault();
-
+    async function saveEditData(id) {
       const connectedViaIdVal = document.getElementById(\`edit-connected_via_id-\${id}\`).value;
       const data = {
         name: document.getElementById(\`edit-name-\${id}\`).value,
@@ -1867,7 +1876,11 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>): string {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+    }
 
+    async function saveInlineEdit(event, id) {
+      event.preventDefault();
+      await saveEditData(id);
       editingId = null;
       loadMembers();
       loadStats();
