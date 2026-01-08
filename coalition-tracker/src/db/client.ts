@@ -8,7 +8,7 @@ export function getDatabase(): Database {
   if (!db) {
     console.log(`Opening database at ${DATABASE_PATH}`);
     db = new Database(DATABASE_PATH);
-    db.exec('PRAGMA journal_mode = WAL');
+    db.exec('PRAGMA journal_mode = DELETE');
 
     // Create coalition table if it doesn't exist
     db.exec(`
