@@ -13,6 +13,8 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <style>
     :root {
       --navy: #0f172a;
@@ -1430,6 +1432,69 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       pointer-events: none;
       opacity: 0.7;
     }
+
+    /* Flatpickr overrides */
+    .flatpickr-calendar {
+      font-family: var(--font-body);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .flatpickr-day.selected,
+    .flatpickr-day.selected:hover {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .flatpickr-day:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+    }
+
+    .flatpickr-months .flatpickr-month {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .flatpickr-months .flatpickr-prev-month,
+    .flatpickr-months .flatpickr-next-month {
+      fill: var(--white);
+    }
+
+    .flatpickr-months .flatpickr-prev-month:hover svg,
+    .flatpickr-months .flatpickr-next-month:hover svg {
+      fill: var(--gold);
+    }
+
+    span.flatpickr-weekday {
+      color: var(--navy-muted);
+      font-weight: 600;
+    }
+
+    /* Edit panel section headers */
+    .edit-section-header {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 16px 0 8px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      grid-column: 1 / -1;
+    }
+
+    .edit-section-header:first-child {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
@@ -1722,10 +1787,12 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
     function renderEditPanel(m) {
       return \`
         <tr class="edit-panel-row" data-edit-id="\${m.id}">
-          <td colspan="6">
+          <td colspan="5">
             <div class="edit-panel">
               <form onsubmit="saveInlineEdit(event, \${m.id})">
                 <div class="edit-panel-grid">
+                  <!-- Basic Info -->
+                  <div class="edit-section-header">Basic Info</div>
                   <div class="form-group">
                     <label>Organization / Name</label>
                     <input type="text" id="edit-name-\${m.id}" value="\${(m.name || '').replace(/"/g, '&quot;')}" required>
@@ -1748,6 +1815,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
                       <option value="elected_official" \${m.type === 'elected_official' ? 'selected' : ''}>Elected Official</option>
                     </select>
                   </div>
+
+                  <!-- Status & Connection -->
+                  <div class="edit-section-header">Status & Connection</div>
                   <div class="form-group">
                     <label>Status</label>
                     <select id="edit-status-\${m.id}">
@@ -1771,30 +1841,34 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
                       <div class="combobox-dropdown" id="edit-connected_via_dropdown-\${m.id}"></div>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group span-2">
                     <label>Connection Notes</label>
                     <input type="text" id="edit-connected_via_notes-\${m.id}" value="\${(m.connected_via_notes || '').replace(/"/g, '&quot;')}">
                   </div>
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label>Last Contact</label>
-                      <input type="date" id="edit-last_contact-\${m.id}" value="\${m.last_contact || ''}">
-                    </div>
-                    <div class="form-group">
-                      <label>Last Contacted By</label>
-                      <select id="edit-last_contacted_by-\${m.id}">
-                        <option value="">-</option>
-                        \${allUsers.map(u => \`<option value="\${u.id}" \${m.last_contacted_by === u.id ? 'selected' : ''}>\${u.display_name}</option>\`).join('')}
-                      </select>
-                    </div>
+
+                  <!-- Contact Tracking -->
+                  <div class="edit-section-header">Contact Tracking</div>
+                  <div class="form-group">
+                    <label>Last Contact</label>
+                    <input type="text" id="edit-last_contact-\${m.id}" class="flatpickr-date" value="\${m.last_contact || ''}" placeholder="Select date...">
+                  </div>
+                  <div class="form-group">
+                    <label>Last Contacted By</label>
+                    <select id="edit-last_contacted_by-\${m.id}">
+                      <option value="">-</option>
+                      \${allUsers.map(u => \`<option value="\${u.id}" \${m.last_contacted_by === u.id ? 'selected' : ''}>\${u.display_name}</option>\`).join('')}
+                    </select>
                   </div>
                   <div class="form-group">
                     <label>Website</label>
                     <input type="url" id="edit-website-\${m.id}" value="\${(m.website || '').replace(/"/g, '&quot;')}">
                   </div>
-                  <div class="form-group">
-                    <label>Notes</label>
-                    <textarea id="edit-notes-\${m.id}">\${m.notes || ''}</textarea>
+                  <div class="form-group"></div>
+
+                  <!-- Notes -->
+                  <div class="edit-section-header">Notes</div>
+                  <div class="form-group" style="grid-column: 1 / -1;">
+                    <textarea id="edit-notes-\${m.id}" rows="3">\${m.notes || ''}</textarea>
                   </div>
                 </div>
                 <div class="edit-panel-actions">
@@ -1962,8 +2036,23 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       } else {
         editingId = id;
         renderTable();
-        // Initialize combobox for the edit panel
-        setTimeout(() => initEditCombobox(editingId), 0);
+        // Initialize combobox and datepicker for the edit panel
+        setTimeout(() => {
+          initEditCombobox(editingId);
+          initDatePicker(editingId);
+        }, 0);
+      }
+    }
+
+    function initDatePicker(memberId) {
+      const dateInput = document.getElementById(\`edit-last_contact-\${memberId}\`);
+      if (dateInput && typeof flatpickr !== 'undefined') {
+        flatpickr(dateInput, {
+          dateFormat: 'Y-m-d',
+          altInput: true,
+          altFormat: 'M j, Y',
+          allowInput: true
+        });
       }
     }
 
