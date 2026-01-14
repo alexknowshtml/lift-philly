@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIRT Tax Calculator - LIFT Philly</title>
+    <meta name="description" content="Calculate how the BIRT exemption removal will affect your Philadelphia small business taxes in 2026 and beyond.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liftphilly.org/calculator.html">
+    <meta property="og:title" content="BIRT Tax Calculator - LIFT Philly">
+    <meta property="og:description" content="Calculate how the BIRT exemption removal will affect your Philadelphia small business taxes in 2026 and beyond.">
+    <meta property="og:image" content="https://liftphilly.org/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --red: #dc2626;
+            --red-dark: #991b1b;
+            --green: #16a34a;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: var(--navy);
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .back-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--gold);
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--gradient);
+            padding: 60px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            padding: 60px 0;
+            background: linear-gradient(180deg, #f8fafc 0%, var(--white) 100%);
+        }
+
+        .calculator-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-hint {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1.1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15,23,42,0.25);
+        }
+
+        /* Results */
+        .results {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .results.visible {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .results-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .scenario-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .scenario-a {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--red);
+        }
+
+        .scenario-b {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--gold-dark);
+        }
+
+        /* Impact Summary */
+        .impact-summary {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .impact-summary h3 {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .impact-amount {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .impact-detail {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            margin-top: 12px;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(251, 191, 36, 0.1);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .warning-box h4 {
+            color: var(--gold-dark);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box p {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            margin-top: 32px;
+        }
+
+        .timeline-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .year-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--navy);
+        }
+
+        .year-card.shock-year {
+            border-left-color: var(--red);
+            background: rgba(220, 38, 38, 0.05);
+        }
+
+        .year-card.baseline {
+            border-left-color: var(--green);
+        }
+
+        .year-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .year-label {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 1.1rem;
+        }
+
+        .year-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .year-badge.baseline {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--green);
+        }
+
+        .year-badge.shock {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--red);
+        }
+
+        .year-badge.filed {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-light);
+        }
+
+        .year-total {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .year-breakdown {
+            display: grid;
+            gap: 8px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .breakdown-row.subtotal {
+            color: var(--text);
+            font-weight: 500;
+            padding-top: 8px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .formula {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: rgba(0,0,0,0.03);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--cream);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            color: var(--text);
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15,23,42,0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+        }
+
+        .btn-outline:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .footer-brand span {
+            color: var(--gold);
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .calculator-card {
+                padding: 24px;
+            }
+
+            .impact-amount {
+                font-size: 2.25rem;
+            }
+
+            .year-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">LIFT <span>Philly</span></a>
+                <a href="/" class="back-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Calculate Your <span>Tax Impact</span></h1>
+            <p>See how the removal of the $100K BIRT exemption will affect your Philadelphia small business starting in 2026.</p>
+        </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="calculator-card">
+                <form id="calculator-form">
+                    <div class="form-group">
+                        <label class="form-label">Average Annual Net Income</label>
+                        <p class="form-hint">Your business profit after expenses (what you'd report on your taxes)</p>
+                        <input type="text" id="netIncome" class="form-input" placeholder="$50,000" inputmode="numeric">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Average Annual Gross Receipts</label>
+                        <p class="form-hint">Your total revenue before expenses</p>
+                        <input type="text" id="grossReceipts" class="form-input" placeholder="$75,000" inputmode="numeric">
+                    </div>
+
+                    <button type="submit" class="calculate-btn">Calculate My Tax Impact</button>
+                </form>
+
+                <!-- Results -->
+                <div id="results" class="results">
+                    <div class="results-header">
+                        <h2>Your Tax Impact</h2>
+                        <span id="scenario-badge" class="scenario-badge"></span>
+                    </div>
+
+                    <div class="impact-summary">
+                        <h3>Your Shock Year Tax Increase</h3>
+                        <div id="impact-amount" class="impact-amount"></div>
+                        <p id="impact-detail" class="impact-detail"></p>
+                    </div>
+
+                    <div id="warning-box" class="warning-box" style="display: none;">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
+                            </svg>
+                            Don't be fooled by 2025
+                        </h4>
+                        <p>Your 2025 cash outlay looks lower because it's your first year filing BIRT. But in 2026, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
+                    </div>
+
+                    <div class="timeline-section">
+                        <h3>Year-by-Year Breakdown</h3>
+                        <div id="timeline"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Take Action?</h2>
+            <p>Join the coalition fighting for fair tax treatment of Philadelphia's small businesses.</p>
+            <div class="btn-group">
+                <a href="/#join" class="btn btn-primary">Join the Coalition</a>
+                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">Sign Up to Testify</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Labor · Individual Enterprises · Family Enterprises · Tax Reform</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tax rates by year
+        const TAX_RATES = {
+            2024: { birtNI: 0.0581, birtGR: 0.001415, npt: 0.0375 },
+            2025: { birtNI: 0.0571, birtGR: 0.00141, npt: 0.0374 },
+            2026: { birtNI: 0.0565, birtGR: 0.001395, npt: 0.03735 },
+            2027: { birtNI: 0.056, birtGR: 0.00139, npt: 0.0373 }
+        };
+
+        const BIRT_CREDIT_RATE = 0.6;
+        const NPT_ESTIMATED_RATE = 0.5;
+        const NPT_ESTIMATED_MINIMUM = 100;
+
+        // Format currency
+        function formatCurrency(amount) {
+            return '$' + Math.round(amount).toLocaleString();
+        }
+
+        // Parse currency input
+        function parseCurrency(str) {
+            return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
+        }
+
+        // Calculate taxes for a given year
+        function calculateYear(netIncome, grossReceipts, year, isFirstYearFiler, prevYearData) {
+            const rates = TAX_RATES[year];
+
+            // BIRT calculations
+            const birtNI = netIncome * rates.birtNI;
+            const birtGR = grossReceipts * rates.birtGR;
+            const birtTotal = birtNI + birtGR;
+
+            // NPT calculations
+            const nptGross = netIncome * rates.npt;
+            const birtCredit = birtNI * BIRT_CREDIT_RATE;
+            const nptAfterCredit = Math.max(0, nptGross - birtCredit);
+
+            // NPT estimated payment calculation
+            let nptEstimatedBase = nptAfterCredit;
+            let nptEstimated = 0;
+            if (nptEstimatedBase > NPT_ESTIMATED_MINIMUM) {
+                nptEstimated = nptEstimatedBase * NPT_ESTIMATED_RATE;
+            }
+
+            // BIRT estimated payment (100% of current year, but only if not first-year filer)
+            let birtEstimated = 0;
+            if (!isFirstYearFiler) {
+                birtEstimated = birtTotal;
+            }
+
+            // Total cash outlay for this year (paid in April of following year)
+            // Tax due + estimated payments for next year
+            const taxDue = birtTotal + nptAfterCredit;
+            const estimatedPayments = birtEstimated + nptEstimated;
+            const totalCashOutlay = taxDue + estimatedPayments;
+
+            return {
+                year,
+                birtNI,
+                birtGR,
+                birtTotal,
+                nptGross,
+                birtCredit,
+                nptAfterCredit,
+                nptEstimated,
+                birtEstimated,
+                taxDue,
+                estimatedPayments,
+                totalCashOutlay,
+                isFirstYearFiler,
+                rates
+            };
+        }
+
+        // Main calculation function
+        function calculate(netIncome, grossReceipts) {
+            // Determine scenario based on gross receipts
+            const isScenarioA = grossReceipts > 100000;
+            const shockYear = isScenarioA ? 2025 : 2026;
+
+            // Calculate each year
+            // For Scenario B: 2024 is exempt (no BIRT), 2025 is first-year filer (no BIRT estimates)
+            const years = {};
+
+            if (isScenarioA) {
+                // Scenario A: Already paying BIRT (gross receipts > $100K)
+                // 2024 - baseline (with exemption still in effect for those under $100K, but we're over)
+                years[2024] = calculateYear(netIncome, grossReceipts, 2024, false, null);
+                years[2025] = calculateYear(netIncome, grossReceipts, 2025, false, years[2024]);
+                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, years[2025]);
+                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, years[2026]);
+            } else {
+                // Scenario B: Newly subject to BIRT (gross receipts <= $100K)
+                // 2024 - exempt from BIRT
+                years[2024] = {
+                    year: 2024,
+                    birtNI: 0,
+                    birtGR: 0,
+                    birtTotal: 0,
+                    nptGross: netIncome * TAX_RATES[2024].npt,
+                    birtCredit: 0,
+                    nptAfterCredit: netIncome * TAX_RATES[2024].npt,
+                    nptEstimated: (netIncome * TAX_RATES[2024].npt) > NPT_ESTIMATED_MINIMUM ?
+                        (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0,
+                    birtEstimated: 0,
+                    taxDue: netIncome * TAX_RATES[2024].npt,
+                    estimatedPayments: (netIncome * TAX_RATES[2024].npt) > NPT_ESTIMATED_MINIMUM ?
+                        (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0,
+                    totalCashOutlay: (netIncome * TAX_RATES[2024].npt) +
+                        ((netIncome * TAX_RATES[2024].npt) > NPT_ESTIMATED_MINIMUM ?
+                            (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0),
+                    isFirstYearFiler: false,
+                    isExempt: true,
+                    rates: TAX_RATES[2024]
+                };
+
+                // 2025 - first year filing BIRT (no BIRT estimates)
+                years[2025] = calculateYear(netIncome, grossReceipts, 2025, true, years[2024]);
+                // 2026 - second year, now pays BIRT estimates
+                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, years[2025]);
+                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, years[2026]);
+            }
+
+            // Calculate increase from baseline to shock year
+            const baseline = years[2024];
+            const shock = years[shockYear];
+            const increase = shock.totalCashOutlay - baseline.totalCashOutlay;
+
+            return {
+                isScenarioA,
+                shockYear,
+                years,
+                increase,
+                baseline,
+                shock
+            };
+        }
+
+        // Render year card
+        function renderYearCard(data, isBaseline, isShock, cashOutlayYear) {
+            let badgeHtml = '';
+            let cardClass = 'year-card';
+
+            if (isBaseline) {
+                badgeHtml = '<span class="year-badge baseline">Baseline Year</span>';
+                cardClass += ' baseline';
+            } else if (isShock) {
+                badgeHtml = '<span class="year-badge shock">Shock Year</span>';
+                cardClass += ' shock-year';
+            } else {
+                badgeHtml = '<span class="year-badge filed">Filed Year</span>';
+            }
+
+            const exemptNote = data.isExempt ? ' <span style="color: var(--green);">(Exempt)</span>' : '';
+            const firstYearNote = data.isFirstYearFiler ? ' <span style="color: var(--gold-dark);">(First Year - No BIRT Est.)</span>' : '';
+
+            return `
+                <div class="${cardClass}">
+                    <div class="year-header">
+                        <span class="year-label">Tax Year ${data.year} <span style="font-weight: 400; color: var(--text-light);">(Paid April ${cashOutlayYear})</span></span>
+                        ${badgeHtml}
+                    </div>
+                    <div class="year-total">${formatCurrency(data.totalCashOutlay)} total cash outlay</div>
+                    <div class="year-breakdown">
+                        <div class="breakdown-row">
+                            <span>BIRT (Net Income)${exemptNote}</span>
+                            <span>${formatCurrency(data.birtNI)} <span class="formula">${(data.rates.birtNI * 100).toFixed(2)}%</span></span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>BIRT (Gross Receipts)${exemptNote}</span>
+                            <span>${formatCurrency(data.birtGR)} <span class="formula">${(data.rates.birtGR * 100).toFixed(4)}%</span></span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>NPT (before credit)</span>
+                            <span>${formatCurrency(data.nptGross)} <span class="formula">${(data.rates.npt * 100).toFixed(2)}%</span></span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>BIRT Credit (60% of BIRT NI)</span>
+                            <span>-${formatCurrency(data.birtCredit)}</span>
+                        </div>
+                        <div class="breakdown-row subtotal">
+                            <span>Tax Due</span>
+                            <span>${formatCurrency(data.taxDue)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>+ BIRT Estimated${firstYearNote}</span>
+                            <span>${formatCurrency(data.birtEstimated)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>+ NPT Estimated (50%)</span>
+                            <span>${formatCurrency(data.nptEstimated)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Handle form submission
+        document.getElementById('calculator-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const netIncome = parseCurrency(document.getElementById('netIncome').value);
+            const grossReceipts = parseCurrency(document.getElementById('grossReceipts').value);
+
+            if (netIncome <= 0 || grossReceipts <= 0) {
+                alert('Please enter valid amounts for both fields.');
+                return;
+            }
+
+            const result = calculate(netIncome, grossReceipts);
+
+            // Update scenario badge
+            const badge = document.getElementById('scenario-badge');
+            if (result.isScenarioA) {
+                badge.textContent = 'Scenario A: Already paying BIRT';
+                badge.className = 'scenario-badge scenario-a';
+            } else {
+                badge.textContent = 'Scenario B: Newly subject to BIRT';
+                badge.className = 'scenario-badge scenario-b';
+            }
+
+            // Update impact summary
+            document.getElementById('impact-amount').textContent = '+' + formatCurrency(result.increase);
+            document.getElementById('impact-detail').textContent =
+                `Comparing ${result.shockYear} to your 2024 baseline`;
+
+            // Show warning for Scenario B
+            const warningBox = document.getElementById('warning-box');
+            warningBox.style.display = result.isScenarioA ? 'none' : 'block';
+
+            // Render timeline
+            const timeline = document.getElementById('timeline');
+            let timelineHtml = '';
+
+            [2024, 2025, 2026, 2027].forEach(year => {
+                const data = result.years[year];
+                const isBaseline = year === 2024;
+                const isShock = year === result.shockYear;
+                const cashOutlayYear = year + 1;
+                timelineHtml += renderYearCard(data, isBaseline, isShock, cashOutlayYear);
+            });
+
+            timeline.innerHTML = timelineHtml;
+
+            // Show results
+            document.getElementById('results').classList.add('visible');
+
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Format input as currency on blur
+        ['netIncome', 'grossReceipts'].forEach(id => {
+            const input = document.getElementById(id);
+            input.addEventListener('blur', function() {
+                const value = parseCurrency(this.value);
+                if (value > 0) {
+                    this.value = formatCurrency(value);
+                }
+            });
+            input.addEventListener('focus', function() {
+                const value = parseCurrency(this.value);
+                if (value > 0) {
+                    this.value = value;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
