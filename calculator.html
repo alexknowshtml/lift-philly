@@ -222,6 +222,36 @@
             color: var(--gold-dark);
         }
 
+        /* Run Rate Summary */
+        .run-rate-summary {
+            background: var(--cream);
+            border: 2px solid var(--gold);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .run-rate-summary h3 {
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .run-rate-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red);
+            line-height: 1;
+        }
+
+        .run-rate-detail {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
         /* Impact Summary */
         .impact-summary {
             background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%);
@@ -529,6 +559,12 @@
                         <span id="scenario-badge" class="scenario-badge"></span>
                     </div>
 
+                    <div class="run-rate-summary">
+                        <h3>Your Annual Tax Increase</h3>
+                        <div id="run-rate-amount" class="run-rate-amount"></div>
+                        <p class="run-rate-detail">Every year, ongoing (tax due only, no estimated payments)</p>
+                    </div>
+
                     <div class="impact-summary">
                         <h3>Your Shock Year Tax Increase</h3>
                         <div id="impact-amount" class="impact-amount"></div>
@@ -795,10 +831,14 @@
                 badge.className = 'scenario-badge scenario-b';
             }
 
-            // Update impact summary
+            // Update run rate summary (tax due only, no estimated payments)
+            const runRateIncrease = result.shock.taxDue - result.baseline.taxDue;
+            document.getElementById('run-rate-amount').textContent = '+' + formatCurrency(runRateIncrease);
+
+            // Update impact summary (total cash outlay including estimates)
             document.getElementById('impact-amount').textContent = '+' + formatCurrency(result.increase);
             document.getElementById('impact-detail').textContent =
-                `Comparing ${result.shockYear} to your 2024 baseline`;
+                `Comparing ${result.shockYear} to your 2024 baseline (includes estimated payments)`;
 
             // Show warning for Scenario B
             const warningBox = document.getElementById('warning-box');
