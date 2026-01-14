@@ -622,6 +622,7 @@
         const BIRT_CREDIT_RATE = 0.6;
         const NPT_ESTIMATED_RATE = 0.5;
         const NPT_ESTIMATED_MINIMUM = 100;
+        const EXEMPTION_AMOUNT = 100000;
 
         // Format currency
         function formatCurrency(amount) {
@@ -633,16 +634,38 @@
             return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
         }
 
+        // Calculate statutory net income deduction (Worksheet S-EZ formula)
+        // S1 = min(exemption, $100K)
+        // S4 = Net Income / Gross Receipts (cannot exceed 1.0)
+        // S5 = S1 * S4 (statutory deduction, cannot exceed $100K)
+        function calculateStatutoryDeduction(netIncome, grossReceipts) {
+            const s1 = Math.min(EXEMPTION_AMOUNT, 100000);
+            const s4 = Math.min(netIncome / grossReceipts, 1.0);
+            const s5 = s1 * s4;
+            return Math.min(s5, 100000);
+        }
+
         // Calculate taxes for a given year
-        function calculateYear(netIncome, grossReceipts, year, isFirstYearFiler, prevYearData) {
+        function calculateYear(netIncome, grossReceipts, year, isFirstYearFiler, applyExemption = false) {
             const rates = TAX_RATES[year];
 
+            let taxableNI = netIncome;
+            let taxableGR = grossReceipts;
+            let statutoryDeduction = 0;
+
+            // Apply 2024 exemption if applicable
+            if (applyExemption) {
+                statutoryDeduction = calculateStatutoryDeduction(netIncome, grossReceipts);
+                taxableNI = Math.max(0, netIncome - statutoryDeduction);
+                taxableGR = Math.max(0, grossReceipts - EXEMPTION_AMOUNT);
+            }
+
             // BIRT calculations
-            const birtNI = netIncome * rates.birtNI;
-            const birtGR = grossReceipts * rates.birtGR;
+            const birtNI = taxableNI * rates.birtNI;
+            const birtGR = taxableGR * rates.birtGR;
             const birtTotal = birtNI + birtGR;
 
-            // NPT calculations
+            // NPT calculations (NPT is on full net income, no exemption)
             const nptGross = netIncome * rates.npt;
             const birtCredit = birtNI * BIRT_CREDIT_RATE;
             const nptAfterCredit = Math.max(0, nptGross - birtCredit);
@@ -668,6 +691,9 @@
 
             return {
                 year,
+                taxableNI,
+                taxableGR,
+                statutoryDeduction,
                 birtNI,
                 birtGR,
                 birtTotal,
@@ -680,6 +706,7 @@
                 estimatedPayments,
                 totalCashOutlay,
                 isFirstYearFiler,
+                applyExemption,
                 rates
             };
         }
@@ -696,16 +723,20 @@
 
             if (isScenarioA) {
                 // Scenario A: Already paying BIRT (gross receipts > $100K)
-                // 2024 - baseline (with exemption still in effect for those under $100K, but we're over)
-                years[2024] = calculateYear(netIncome, grossReceipts, 2024, false, null);
-                years[2025] = calculateYear(netIncome, grossReceipts, 2025, false, years[2024]);
-                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, years[2025]);
-                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, years[2026]);
+                // 2024 - baseline WITH statutory exemption (they still get the deduction)
+                years[2024] = calculateYear(netIncome, grossReceipts, 2024, false, true);  // applyExemption = true
+                // 2025+ - no exemption
+                years[2025] = calculateYear(netIncome, grossReceipts, 2025, false, false);
+                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, false);
+                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, false);
             } else {
-                // Scenario B: Newly subject to BIRT (gross receipts <= $100K)
-                // 2024 - exempt from BIRT
+                // Scenario B: Fully exempt from BIRT in 2024 (gross receipts <= $100K)
+                // 2024 - fully exempt from BIRT, only pay NPT
                 years[2024] = {
                     year: 2024,
+                    taxableNI: 0,
+                    taxableGR: 0,
+                    statutoryDeduction: netIncome,  // Full exemption
                     birtNI: 0,
                     birtGR: 0,
                     birtTotal: 0,
@@ -723,14 +754,15 @@
                             (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0),
                     isFirstYearFiler: false,
                     isExempt: true,
+                    applyExemption: true,
                     rates: TAX_RATES[2024]
                 };
 
                 // 2025 - first year filing BIRT (no BIRT estimates)
-                years[2025] = calculateYear(netIncome, grossReceipts, 2025, true, years[2024]);
+                years[2025] = calculateYear(netIncome, grossReceipts, 2025, true, false);
                 // 2026 - second year, now pays BIRT estimates
-                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, years[2025]);
-                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, years[2026]);
+                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, false);
+                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, false);
             }
 
             // Calculate increase from baseline to shock year
@@ -832,9 +864,8 @@
             }
 
             // Update run rate summary (tax due only, no estimated payments)
-            // Use 2026 as the "steady state" year to compare against 2024 baseline
-            const steadyStateYear = result.years[2026];
-            const runRateIncrease = steadyStateYear.taxDue - result.baseline.taxDue;
+            // Compare 2025 tax due vs 2024 tax due - the annual increase
+            const runRateIncrease = result.years[2025].taxDue - result.baseline.taxDue;
             document.getElementById('run-rate-amount').textContent = '+' + formatCurrency(runRateIncrease);
 
             // Update impact summary (total cash outlay including estimates)
