@@ -832,7 +832,9 @@
             }
 
             // Update run rate summary (tax due only, no estimated payments)
-            const runRateIncrease = result.shock.taxDue - result.baseline.taxDue;
+            // Use 2026 as the "steady state" year to compare against 2024 baseline
+            const steadyStateYear = result.years[2026];
+            const runRateIncrease = steadyStateYear.taxDue - result.baseline.taxDue;
             document.getElementById('run-rate-amount').textContent = '+' + formatCurrency(runRateIncrease);
 
             // Update impact summary (total cash outlay including estimates)
