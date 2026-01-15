@@ -222,6 +222,21 @@
             color: var(--gold-dark);
         }
 
+        /* Adjustment Note */
+        .adjustment-note {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+
+        .adjustment-note p {
+            color: var(--text);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
         /* Run Rate Summary */
         .run-rate-summary {
             background: var(--cream);
@@ -279,6 +294,13 @@
             color: rgba(255,255,255,0.7);
             font-size: 0.95rem;
             margin-top: 12px;
+        }
+
+        .cash-shock-year {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 8px;
         }
 
         /* Warning Box */
@@ -396,6 +418,62 @@
             font-weight: 500;
             padding-top: 8px;
             border-top: 1px solid #e5e7eb;
+        }
+
+        .breakdown-row.total {
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 1rem;
+            padding-top: 12px;
+            margin-top: 4px;
+            border-top: 2px solid var(--navy);
+        }
+
+        /* Estimated Quote Section */
+        .estimated-quote {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .estimated-quote h4 {
+            color: var(--gold);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .estimated-quote p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .estimated-quote .quote-cta {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 16px;
+        }
+
+        .estimated-quote .quote-btn {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .estimated-quote .quote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
         }
 
         .formula {
@@ -549,6 +627,10 @@
                         <input type="text" id="netIncome" class="form-input" placeholder="$50,000" inputmode="numeric">
                     </div>
 
+                    <div id="income-adjustment-note" class="adjustment-note" style="display: none;">
+                        <p><strong>Note:</strong> Philadelphia Sales and Income Impact Calculation. Your income has been adjusted to equal your gross receipts. Adjust your income if you have separate expenses attributed to just Philadelphia.</p>
+                    </div>
+
                     <button type="submit" class="calculate-btn">Calculate My Tax Impact</button>
                 </form>
 
@@ -569,6 +651,7 @@
                         <h3>Your Shock Year Tax Increase</h3>
                         <div id="impact-amount" class="impact-amount"></div>
                         <p id="impact-detail" class="impact-detail"></p>
+                        <p id="cash-shock-year" class="cash-shock-year"></p>
                     </div>
 
                     <div id="warning-box" class="warning-box" style="display: none;">
@@ -584,6 +667,15 @@
                     <div class="timeline-section">
                         <h3>Year-by-Year Breakdown</h3>
                         <div id="timeline"></div>
+                    </div>
+
+                    <div class="estimated-quote">
+                        <h4>What are estimated payments?</h4>
+                        <p>Estimated payments mean you hand over money before you make it.</p>
+                        <p><strong>You carry the risk. They hold the cash.</strong></p>
+                        <p>You front the City. The City doesn't front you.</p>
+                        <p class="quote-cta">Remember: CASH RULES EVERYTHING AROUND ME</p>
+                        <a href="/#join" class="quote-btn">JOIN THE COALITION AND TESTIFY!</a>
                     </div>
                 </div>
             </div>
@@ -834,6 +926,10 @@
                             <span>+ NPT Estimated (50%)</span>
                             <span>${formatCurrency(data.nptEstimated)}</span>
                         </div>
+                        <div class="breakdown-row total">
+                            <span>Total (Tax Due + Estimated)</span>
+                            <span>${formatCurrency(data.totalCashOutlay)}</span>
+                        </div>
                     </div>
                 </div>
             `;
@@ -843,12 +939,22 @@
         document.getElementById('calculator-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const netIncome = parseCurrency(document.getElementById('netIncome').value);
+            let netIncome = parseCurrency(document.getElementById('netIncome').value);
             const grossReceipts = parseCurrency(document.getElementById('grossReceipts').value);
 
             if (netIncome <= 0 || grossReceipts <= 0) {
                 alert('Please enter valid amounts for both fields.');
                 return;
+            }
+
+            // If net income > gross receipts, adjust to equal gross receipts and show note
+            const adjustmentNote = document.getElementById('income-adjustment-note');
+            if (netIncome > grossReceipts) {
+                netIncome = grossReceipts;
+                document.getElementById('netIncome').value = formatCurrency(netIncome);
+                adjustmentNote.style.display = 'block';
+            } else {
+                adjustmentNote.style.display = 'none';
             }
 
             const result = calculate(netIncome, grossReceipts);
@@ -866,12 +972,16 @@
             // Update run rate summary (tax due only, no estimated payments)
             // Compare 2025 tax due vs 2024 tax due - the annual increase
             const runRateIncrease = result.years[2025].taxDue - result.baseline.taxDue;
-            document.getElementById('run-rate-amount').textContent = '+' + formatCurrency(runRateIncrease);
+            document.getElementById('run-rate-amount').textContent = '↑' + formatCurrency(runRateIncrease);
 
             // Update impact summary (total cash outlay including estimates)
-            document.getElementById('impact-amount').textContent = '+' + formatCurrency(result.increase);
+            document.getElementById('impact-amount').textContent = '↑' + formatCurrency(result.increase);
             document.getElementById('impact-detail').textContent =
                 `Comparing ${result.shockYear} to your 2024 baseline (includes estimated payments)`;
+
+            // Show cash shock year (payment is due the year after)
+            const cashShockYear = result.shockYear + 1;
+            document.getElementById('cash-shock-year').textContent = `Cash Shock Year: ${cashShockYear}`;
 
             // Show warning for Scenario B
             const warningBox = document.getElementById('warning-box');
