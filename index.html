@@ -719,115 +719,19 @@
                 display: block;
             }
         }
-        /* Language Bar */
-        .language-bar {
-            background: var(--navy);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 0;
-            position: relative;
-            z-index: 100;
-        }
-
-        .language-bar .container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 16px;
-            overflow: visible;
-        }
-
-        /* Help Translate Dropdown */
-        .translate-help-wrapper {
+        /* Translate dropdown in nav */
+        .nav-translate {
             position: relative;
         }
 
-        .translate-help-btn {
-            background: transparent;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
-            padding: 6px 0;
-        }
-
-        .translate-help-btn:hover {
-            color: var(--gold);
-        }
-
-        .translate-help-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .translate-help-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 4px;
-            background: var(--navy-light);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 8px;
-            padding: 16px;
-            width: 280px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-8px);
-            transition: all 0.2s;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
-        .translate-help-wrapper.open .translate-help-dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .translate-help-dropdown p {
-            color: rgba(255,255,255,0.8);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-
-        .translate-help-dropdown a {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--gold);
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .translate-help-dropdown a:hover {
-            opacity: 0.8;
-        }
-
-        .translate-help-dropdown a svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* Custom Language Selector */
-        .language-selector {
-            position: relative;
-        }
-
-        .language-selector-btn {
+        .nav-translate-btn {
             background: transparent;
             border: 1px solid rgba(255,255,255,0.3);
             border-radius: 6px;
             padding: 6px 12px;
             color: rgba(255,255,255,0.9);
             font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -835,31 +739,36 @@
             transition: all 0.2s;
         }
 
-        .language-selector-btn:hover {
+        .nav-translate-btn:hover {
             border-color: var(--gold);
             color: var(--gold);
         }
 
-        .language-selector-btn svg {
-            width: 14px;
-            height: 14px;
+        .nav-translate-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-translate-btn .chevron {
+            width: 12px;
+            height: 12px;
             transition: transform 0.2s;
         }
 
-        .language-selector.open .language-selector-btn svg {
+        .nav-translate.open .nav-translate-btn .chevron {
             transform: rotate(180deg);
         }
 
-        .language-dropdown {
+        .nav-translate-dropdown {
             position: absolute;
             top: 100%;
             right: 0;
-            margin-top: 4px;
+            margin-top: 8px;
             background: var(--navy-light);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 8px;
-            padding: 8px 0;
-            min-width: 180px;
+            padding: 12px 0;
+            min-width: 220px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-8px);
@@ -868,34 +777,59 @@
             z-index: 1000;
         }
 
-        .language-selector.open .language-dropdown {
+        .nav-translate.open .nav-translate-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
 
-        .language-dropdown button {
+        .nav-translate-dropdown .lang-list {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .nav-translate-dropdown button {
             display: block;
             width: 100%;
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: none;
             border: none;
             color: rgba(255,255,255,0.8);
             font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-align: left;
             cursor: pointer;
             transition: all 0.15s;
         }
 
-        .language-dropdown button:hover {
+        .nav-translate-dropdown button:hover {
             background: rgba(251,191,36,0.15);
             color: var(--gold);
         }
 
-        .language-dropdown button.active {
+        .nav-translate-dropdown .help-divider {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 8px 0;
+        }
+
+        .nav-translate-dropdown .help-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
             color: var(--gold);
-            font-weight: 500;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-translate-dropdown .help-link:hover {
+            opacity: 0.8;
+        }
+
+        .nav-translate-dropdown .help-link svg {
+            width: 14px;
+            height: 14px;
         }
 
         /* Hide Google Translate elements */
@@ -986,6 +920,10 @@
         }
 
         @media (max-width: 768px) {
+            .nav .container {
+                flex-wrap: wrap;
+            }
+
             .nav-links {
                 display: none;
                 position: absolute;
@@ -1026,6 +964,20 @@
             .nav-toggle.open span:nth-child(3) {
                 transform: rotate(-45deg) translate(5px, -5px);
             }
+
+            .nav-translate {
+                order: 3;
+                margin-left: auto;
+                margin-right: 8px;
+            }
+
+            .nav-translate-btn span {
+                display: none;
+            }
+
+            .nav-translate-btn {
+                padding: 6px 8px;
+            }
         }
     </style>
 
@@ -1050,34 +1002,17 @@
             window.location.reload();
         }
 
-        function toggleLanguageDropdown() {
-            document.querySelector('.language-selector').classList.toggle('open');
-            document.querySelector('.translate-help-wrapper').classList.remove('open');
+        function toggleTranslateDropdown() {
+            document.querySelector('.nav-translate').classList.toggle('open');
         }
 
-        function toggleHelpDropdown() {
-            document.querySelector('.translate-help-wrapper').classList.toggle('open');
-            document.querySelector('.language-selector').classList.remove('open');
-        }
-
-        // Close dropdowns when clicking outside
+        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
-            var langSelector = document.querySelector('.language-selector');
-            var helpWrapper = document.querySelector('.translate-help-wrapper');
-
-            if (langSelector && !langSelector.contains(e.target)) {
-                langSelector.classList.remove('open');
-            }
-            if (helpWrapper && !helpWrapper.contains(e.target)) {
-                helpWrapper.classList.remove('open');
+            var translateDropdown = document.querySelector('.nav-translate');
+            if (translateDropdown && !translateDropdown.contains(e.target)) {
+                translateDropdown.classList.remove('open');
             }
         });
-
-        // Get current language from cookie
-        function getCurrentLang() {
-            var match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
-            return match ? match[1] : 'en';
-        }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
@@ -1096,56 +1031,42 @@
                 <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
                 <li><a href="#join">Join Coalition</a></li>
             </ul>
-        </div>
-    </nav>
-
-    <!-- Language Bar -->
-    <div class="language-bar">
-        <div class="container">
-            <div id="google_translate_element"></div>
-            <div class="language-selector">
-                <button class="language-selector-btn" onclick="toggleLanguageDropdown()">
+            <div class="nav-translate">
+                <button class="nav-translate-btn" onclick="toggleTranslateDropdown()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                     </svg>
                     <span>Translate</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 12px; height: 12px;">
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div class="language-dropdown">
-                    <button onclick="translatePage('en')">English</button>
-                    <button onclick="translatePage('es')">Español</button>
-                    <button onclick="translatePage('zh-CN')">中文 (简体)</button>
-                    <button onclick="translatePage('vi')">Tiếng Việt</button>
-                    <button onclick="translatePage('ko')">한국어</button>
-                    <button onclick="translatePage('ru')">Русский</button>
-                    <button onclick="translatePage('ar')">العربية</button>
-                    <button onclick="translatePage('fr')">Français</button>
-                    <button onclick="translatePage('pt')">Português</button>
-                    <button onclick="translatePage('hi')">हिन्दी</button>
-                    <button onclick="translatePage('tl')">Filipino</button>
-                </div>
-            </div>
-            <div class="translate-help-wrapper">
-                <button class="translate-help-btn" onclick="toggleHelpDropdown()">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                    Help us translate
-                </button>
-                <div class="translate-help-dropdown">
-                    <p>If you or your organization would like to contribute better translations, we'd love your help!</p>
-                    <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly">
+                <div class="nav-translate-dropdown">
+                    <div class="lang-list">
+                        <button onclick="translatePage('en')">English</button>
+                        <button onclick="translatePage('es')">Español</button>
+                        <button onclick="translatePage('zh-CN')">中文 (简体)</button>
+                        <button onclick="translatePage('vi')">Tiếng Việt</button>
+                        <button onclick="translatePage('ko')">한국어</button>
+                        <button onclick="translatePage('ru')">Русский</button>
+                        <button onclick="translatePage('ar')">العربية</button>
+                        <button onclick="translatePage('fr')">Français</button>
+                        <button onclick="translatePage('pt')">Português</button>
+                        <button onclick="translatePage('hi')">हिन्दी</button>
+                        <button onclick="translatePage('tl')">Filipino</button>
+                    </div>
+                    <div class="help-divider"></div>
+                    <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="help-link">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
-                        Contact us
+                        Help us translate
                     </a>
                 </div>
             </div>
+            <div id="google_translate_element"></div>
         </div>
-    </div>
+    </nav>
 
     <!-- Hero -->
     <section class="hero">
