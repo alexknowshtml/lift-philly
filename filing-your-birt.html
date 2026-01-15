@@ -363,6 +363,25 @@
             border-top: 1px solid #e5e7eb;
             color: var(--text-light);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .letter-date .email-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .letter-date .email-link:hover {
+            color: var(--gold-dark);
+        }
+
+        .letter-date .email-link svg {
+            width: 16px;
+            height: 16px;
         }
 
         .letter-body h2 {
@@ -764,7 +783,14 @@
                         <dt>To</dt>
                         <dd>Philadelphia Small Business Owners</dd>
                     </dl>
-                    <div class="letter-date">January 15, 2026</div>
+                    <div class="letter-date">
+                        January 15, 2026
+                        <a href="https://myemail.constantcontact.com/What-you-need-to-know-before-filing-your-first-BIRT.html?soid=1120526976020&aid=Ttl7j9SNh5Q" target="_blank" class="email-link" title="View original email">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </a>
+                    </div>
                 </header>
 
                 <div class="letter-body">
