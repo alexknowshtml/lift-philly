@@ -305,7 +305,7 @@
 
         .source-badge .tooltip {
             position: absolute;
-            bottom: 100%;
+            top: 100%;
             left: 50%;
             transform: translateX(-50%);
             background: var(--navy);
@@ -317,18 +317,18 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.2s, visibility 0.2s;
-            margin-bottom: 8px;
+            margin-top: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         .source-badge .tooltip::after {
             content: '';
             position: absolute;
-            top: 100%;
+            bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
             border: 6px solid transparent;
-            border-top-color: var(--navy);
+            border-bottom-color: var(--navy);
         }
 
         .source-badge:hover .tooltip {
