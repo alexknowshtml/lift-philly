@@ -742,6 +742,66 @@
             opacity: 0.8;
         }
 
+        /* Comparison Section */
+        .comparison-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .comparison-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .comparison-item {
+            text-align: center;
+            flex: 1;
+            max-width: 160px;
+        }
+
+        .comparison-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .comparison-amount {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .with-exemption .comparison-amount {
+            color: var(--green);
+        }
+
+        .without-exemption .comparison-amount {
+            color: var(--red);
+        }
+
+        .comparison-arrow {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        @media (max-width: 500px) {
+            .comparison-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .comparison-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
         /* Estimated Quote Section */
         .estimated-quote {
             background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%);
@@ -1054,6 +1114,21 @@
                         <h3>Total Cash Outlay</h3>
                         <div id="run-rate-amount" class="run-rate-amount"></div>
                         <p class="run-rate-detail" id="cash-outlay-detail">Tax due + estimated payments − prior credits</p>
+                    </div>
+
+                    <!-- Comparison Section -->
+                    <div class="comparison-section">
+                        <div class="comparison-row">
+                            <div class="comparison-item with-exemption">
+                                <span class="comparison-label">With exemption</span>
+                                <span id="with-exemption-amount" class="comparison-amount">$0</span>
+                            </div>
+                            <div class="comparison-arrow">→</div>
+                            <div class="comparison-item without-exemption">
+                                <span class="comparison-label">Without exemption</span>
+                                <span id="without-exemption-amount" class="comparison-amount">$0</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="warning-box" class="warning-box" style="display: none;">
@@ -1373,6 +1448,10 @@
 
             // Update cash outlay
             document.getElementById('run-rate-amount').textContent = formatCurrency(result.totalCashOutlay);
+
+            // Update comparison section
+            document.getElementById('with-exemption-amount').textContent = formatCurrency(result.actualTaxWithExemption);
+            document.getElementById('without-exemption-amount').textContent = formatCurrency(result.actualTaxDue);
 
             // Hide/show warning box based on scenario
             const warningBox = document.getElementById('warning-box');
