@@ -1440,6 +1440,18 @@
             const hadBIRTInFirstYear = netIncome > firstYearExemption || firstYearExemption === 0;
             const firstYearGraceApplies = isFirstYearFiling && hadBIRTInFirstYear;
 
+            // DEBUG
+            if (year === 2023) {
+                console.log('=== DEBUG Year 2023 ===');
+                console.log('startYear:', startYear, 'startYearInt:', startYearInt);
+                console.log('netIncome:', netIncome);
+                console.log('isFirstYearFiling:', isFirstYearFiling, '(year-1:', year-1, '=== startYearInt:', startYearInt, ')');
+                console.log('firstYearExemption:', firstYearExemption);
+                console.log('hadBIRTInFirstYear:', hadBIRTInFirstYear, '(', netIncome, '>', firstYearExemption, '||', firstYearExemption, '=== 0)');
+                console.log('firstYearGraceApplies:', firstYearGraceApplies);
+                console.log('priorYear.birtTotal:', priorYear.birtTotal);
+            }
+
             // Check if they paid BIRT during exemption period (net income > $100K)
             const paidBIRTDuringExemption = netIncome > 100000;
 
