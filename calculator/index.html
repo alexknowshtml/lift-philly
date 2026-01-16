@@ -1218,7 +1218,7 @@
                 <!-- Results -->
                 <div id="results" class="results">
                     <div class="results-header">
-                        <h2>Your Tax Impact</h2>
+                        <h2>Your Tax Burden Increase</h2>
                         <span id="scenario-badge" class="scenario-badge"></span>
                     </div>
 
@@ -1661,10 +1661,11 @@
             // Show results
             document.getElementById('results').classList.add('visible');
 
-            // Gentle scroll - bring results header into view with breathing room
+            // Gentle scroll - bring results header into view, accounting for sticky nav
             const resultsHeader = document.querySelector('.results-header');
             const headerRect = resultsHeader.getBoundingClientRect();
-            const scrollTarget = window.scrollY + headerRect.top - 20; // 20px padding from top
+            const navHeight = document.querySelector('.nav').offsetHeight;
+            const scrollTarget = window.scrollY + headerRect.top - navHeight - 16; // nav height + breathing room
             window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
         });
 
