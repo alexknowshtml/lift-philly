@@ -1166,7 +1166,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2025 at 2:26 PM</div>
+                <div class="last-updated">Last updated: Jan 16, 2025 at 2:32 PM</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
@@ -1417,28 +1417,39 @@
             const taxDue = priorYear.totalTax;
 
             // Estimated payments are based on PRIOR year values
-            // Est BIRT = prior year BIRT × 100% (but $0 in first year of filing)
+            // Est BIRT = prior year BIRT × 100%
             // Est NPT = prior year NPT × 50%
-            // First year filing: No BIRT estimates, but NPT estimates still apply
+            //
+            // GRACE YEAR for BIRT estimates:
+            // - First year of business: No BIRT estimates (you have no prior BIRT history)
+            // - First year after exemption removed: No BIRT estimates (prior year was first real BIRT)
+            //
+            // 2025 is first year without exemption, so 2026 is the grace year for BIRT estimates
+            // because estimates in 2026 would be based on 2025 (first year of real BIRT)
             const startYearInt = parseInt(startYear);
             const isFirstYearFiling = (year - 1 === startYearInt);
-            const priorYearHadExemption = EXEMPTION_BY_YEAR[year - 1] > 0;
-            const isGraceYear = priorYearHadExemption;
 
-            // Estimated BIRT payment = PRIOR year BIRT * 100% (but $0 in first year)
-            const estBIRT = isFirstYearFiling ? 0 : priorYear.birtTotal;
+            // Prior year was the first year without exemption (first real BIRT payment)
+            const priorYearWasFirstRealBIRT = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
+            const isGraceYear = priorYearWasFirstRealBIRT;
+
+            // Estimated BIRT payment = PRIOR year BIRT * 100%
+            // $0 if: first year of business OR prior year was first real BIRT year (grace)
+            const estBIRT = (isFirstYearFiling || priorYearWasFirstRealBIRT) ? 0 : priorYear.birtTotal;
 
             // Estimated NPT payment = PRIOR year NPT after credit * 50%
             const estNPT = priorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
 
             // Adjustment = credit back for estimated payments made in prior filing
-            // Prior filing paid Est BIRT (unless it was first year) + Est NPT
+            // Prior filing paid Est BIRT (unless it was first year or grace year) + Est NPT
             const priorPriorYear = taxLiabilities[year - 2];
             let adjustment = 0;
             if (priorPriorYear && priorPriorYear.businessExisted) {
                 const wasFirstYearFiling = (year - 2 === startYearInt);
-                // Prior filing's estimates: BIRT (unless first year) + NPT
-                const priorEstBIRT = wasFirstYearFiling ? 0 : priorPriorYear.birtTotal;
+                // Check if prior filing was a grace year (year-2 was first real BIRT year)
+                const priorFilingWasGraceYear = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
+                // Prior filing's estimates: BIRT (unless first year or grace year) + NPT
+                const priorEstBIRT = (wasFirstYearFiling || priorFilingWasGraceYear) ? 0 : priorPriorYear.birtTotal;
                 const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
                 adjustment = -(priorEstBIRT + priorEstNPT);
             }
@@ -1548,10 +1559,16 @@
             const hasExemption = exemption > 0;
             const exemptNote = hasExemption ? ' <span style="color: var(--green);">(w/ exemption)</span>' : '';
 
-            // First year filing note for BIRT estimates
+            // Note for when BIRT estimates are $0
             const startYearInt = parseInt(startYear);
             const isFirstYearFiling = priorTaxData && (year - 1 === startYearInt);
-            const firstYearNote = isFirstYearFiling ? ' <span style="color: var(--gold-dark);">(1st year)</span>' : '';
+            const isGraceYear = cashData && cashData.isGraceYear;
+            let estBirtNote = '';
+            if (isFirstYearFiling) {
+                estBirtNote = ' <span style="color: var(--gold-dark);">(1st year)</span>';
+            } else if (isGraceYear) {
+                estBirtNote = ' <span style="color: var(--green);">(grace year)</span>';
+            }
 
             const totalCash = cashData ? cashData.totalCashBurden : taxData.totalTax;
 
@@ -1608,7 +1625,7 @@
                             <span>${formatCurrency(cashData.taxDue)}</span>
                         </div>
                         <div class="breakdown-row">
-                            <span>+ Est. BIRT (based on ${year - 1})${firstYearNote}</span>
+                            <span>+ Est. BIRT (based on ${year - 1})${estBirtNote}</span>
                             <span>${formatCurrency(cashData.estBIRT)}</span>
                         </div>
                         <div class="breakdown-row">
