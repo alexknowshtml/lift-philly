@@ -834,6 +834,40 @@
             border-top: 2px solid var(--navy);
         }
 
+        /* Tax Boxes */
+        .tax-boxes {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tax-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .tax-box.tax-due-box {
+            background: #fefce8;
+            border-color: var(--gold);
+        }
+
+        .tax-box-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .tax-due-box .tax-box-header {
+            border-bottom-color: var(--gold);
+        }
+
         /* Breakdown Sections */
         .breakdown-section {
             margin-bottom: 20px;
@@ -1476,8 +1510,8 @@
             };
         }
 
-        // Render year card
-        function renderYearCard(taxData, cashData, isBaseline, isShock, startYear) {
+        // Render year card with two boxes: Tax Liability and Tax Due for Payment
+        function renderYearCard(taxData, cashData, priorTaxData, isBaseline, isShock, startYear) {
             const year = taxData.year;
             const businessExisted = taxData.businessExisted;
             const cashOutlayYear = year + 1;
@@ -1513,56 +1547,97 @@
             const exemption = EXEMPTION_BY_YEAR[year];
             const hasExemption = exemption > 0;
             const exemptNote = hasExemption ? ' <span style="color: var(--green);">(w/ exemption)</span>' : '';
-            const graceYearNote = cashData && cashData.isGraceYear ? ' <span style="color: var(--gold-dark);">(Grace Year - No BIRT Est.)</span>' : '';
+
+            // First year filing note for BIRT estimates
+            const startYearInt = parseInt(startYear);
+            const isFirstYearFiling = priorTaxData && (year - 1 === startYearInt);
+            const firstYearNote = isFirstYearFiling ? ' <span style="color: var(--gold-dark);">(1st year)</span>' : '';
 
             const totalCash = cashData ? cashData.totalCashBurden : taxData.totalTax;
+
+            // Box 1: Tax Liability for this year
+            const taxLiabilityBox = `
+                <div class="tax-box">
+                    <div class="tax-box-header">Tax Liability (${year})</div>
+                    <div class="year-breakdown">
+                        <div class="breakdown-row">
+                            <span>BIRT (Net Income)${exemptNote}</span>
+                            <span>${formatCurrency(taxData.birtNI)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>BIRT (Gross Receipts)${exemptNote}</span>
+                            <span>${formatCurrency(taxData.birtGR)}</span>
+                        </div>
+                        <div class="breakdown-row subtotal">
+                            <span>Total BIRT</span>
+                            <span>${formatCurrency(taxData.birtTotal)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>NPT (before credit)</span>
+                            <span>${formatCurrency(taxData.nptGross)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>BIRT Credit (60%)</span>
+                            <span>-${formatCurrency(taxData.birtCredit)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>NPT After Credit</span>
+                            <span>${formatCurrency(taxData.nptAfterCredit)}</span>
+                        </div>
+                        <div class="breakdown-row total">
+                            <span>Total Tax Liability</span>
+                            <span>${formatCurrency(taxData.totalTax)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Box 2: Tax Due for Payment (paid in April of year+1)
+            let taxDueBox = '';
+            if (cashData && priorTaxData) {
+                const priorExemption = EXEMPTION_BY_YEAR[year - 1];
+                const priorHasExemption = priorExemption > 0;
+                const priorExemptNote = priorHasExemption ? ' <span style="color: var(--green);">(w/ exemption)</span>' : '';
+
+                taxDueBox = `
+                <div class="tax-box tax-due-box">
+                    <div class="tax-box-header">Tax Due for Payment (April ${cashOutlayYear})</div>
+                    <div class="year-breakdown">
+                        <div class="breakdown-row">
+                            <span>Tax Liability from ${year - 1}${priorExemptNote}</span>
+                            <span>${formatCurrency(cashData.taxDue)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>+ Est. BIRT (based on ${year - 1})${firstYearNote}</span>
+                            <span>${formatCurrency(cashData.estBIRT)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>+ Est. NPT (based on ${year - 1})</span>
+                            <span>${formatCurrency(cashData.estNPT)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>- Prior Year Adjustment</span>
+                            <span>${formatCurrency(cashData.adjustment)}</span>
+                        </div>
+                        <div class="breakdown-row total">
+                            <span>Total Cash Outlay</span>
+                            <span>${formatCurrency(cashData.totalCashBurden)}</span>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
 
             return `
                 <div class="${cardClass}">
                     <div class="year-header">
-                        <span class="year-label">Tax Year ${year} <span style="font-weight: 400; color: var(--text-light);">(Paid April ${cashOutlayYear})</span></span>
+                        <span class="year-label">Tax Year ${year}</span>
                         ${badgeHtml}
                     </div>
-                    <div class="year-total">${formatCurrency(totalCash)} total cash outlay</div>
-                    <div class="year-breakdown">
-                        <div class="breakdown-row">
-                            <span>BIRT (Net Income)${exemptNote}</span>
-                            <span>${formatCurrency(taxData.birtNI)} <span class="formula">${(taxData.rates.birtNI * 100).toFixed(2)}%</span></span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>BIRT (Gross Receipts)${exemptNote}</span>
-                            <span>${formatCurrency(taxData.birtGR)} <span class="formula">${(taxData.rates.birtGR * 100).toFixed(4)}%</span></span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>NPT (before credit)</span>
-                            <span>${formatCurrency(taxData.nptGross)} <span class="formula">${(taxData.rates.npt * 100).toFixed(2)}%</span></span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>BIRT Credit (60% of BIRT NI)</span>
-                            <span>-${formatCurrency(taxData.birtCredit)}</span>
-                        </div>
-                        <div class="breakdown-row subtotal">
-                            <span>Tax Due</span>
-                            <span>${formatCurrency(taxData.totalTax)}</span>
-                        </div>
-                        ${cashData ? `
-                        <div class="breakdown-row">
-                            <span>+ BIRT Estimated${graceYearNote}</span>
-                            <span>${formatCurrency(cashData.estBIRT)}</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>+ NPT Estimated (50%)</span>
-                            <span>${formatCurrency(cashData.estNPT)}</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>- Prior Year Est. Adjustment</span>
-                            <span>${formatCurrency(cashData.adjustment)}</span>
-                        </div>
-                        <div class="breakdown-row total">
-                            <span>Total Cash Burden</span>
-                            <span>${formatCurrency(cashData.totalCashBurden)}</span>
-                        </div>
-                        ` : ''}
+                    <div class="year-total">${formatCurrency(totalCash)} total cash outlay <span style="font-weight: 400; color: var(--text-light);">(April ${cashOutlayYear})</span></div>
+                    <div class="tax-boxes">
+                        ${taxLiabilityBox}
+                        ${taxDueBox}
                     </div>
                 </div>
             `;
@@ -1641,9 +1716,10 @@
             yearsToShow.forEach(year => {
                 const taxData = result.taxLiabilities[year];
                 const cashData = result.cashFlows[year];
+                const priorTaxData = result.taxLiabilities[year - 1];
                 const isBaseline = year === 2024;
                 const isShock = year === result.shockYear;
-                timelineHtml += renderYearCard(taxData, cashData, isBaseline, isShock, startYear);
+                timelineHtml += renderYearCard(taxData, cashData, priorTaxData, isBaseline, isShock, startYear);
             });
 
             timeline.innerHTML = timelineHtml;
