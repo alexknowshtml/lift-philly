@@ -434,6 +434,34 @@
             }
         }
 
+        /* Year section transitions */
+        .year-section {
+            overflow: hidden;
+        }
+
+        .year-expanded {
+            animation: fadeSlideIn 0.3s ease-out;
+        }
+
+        .year-collapsed {
+            animation: fadeSlideIn 0.3s ease-out;
+        }
+
+        .calculator-step {
+            animation: fadeSlideIn 0.3s ease-out;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Year section collapsed state */
         .year-collapsed {
             display: flex;
@@ -1649,19 +1677,29 @@
             });
         });
 
+        // Helper to re-trigger animation
+        function triggerAnimation(element) {
+            element.style.animation = 'none';
+            element.offsetHeight; // Force reflow
+            element.style.animation = '';
+        }
+
         // Collapse year picker and show revenue section
         function collapseYearPicker() {
             const selectedYear = document.querySelector('input[name="startYear"]:checked').value;
             yearCollapsedValue.textContent = yearLabels[selectedYear];
             yearExpanded.style.display = 'none';
             yearCollapsed.style.display = 'flex';
+            triggerAnimation(yearCollapsed);
             revenueSection.style.display = 'block';
+            triggerAnimation(revenueSection);
         }
 
         // Expand year picker
         function expandYearPicker() {
             yearCollapsed.style.display = 'none';
             yearExpanded.style.display = 'block';
+            triggerAnimation(yearExpanded);
         }
 
         // Handle continue button
