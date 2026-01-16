@@ -1357,7 +1357,7 @@
                     estNPT: 0,
                     adjustment: 0,
                     totalCashBurden: 0,
-                    isFirstYear: true,
+                    isGraceYear: false,
                     paidInYear: year + 1
                 };
             }
@@ -1365,23 +1365,27 @@
             // Tax due = prior year's total tax liability
             const taxDue = priorYear.totalTax;
 
-            // Is this the first year of BIRT filing? (start year = no BIRT estimates)
-            const isFirstYearBIRT = (parseInt(startYear) === year - 1);
+            // Grace year logic: No BIRT estimates if PRIOR year had exemption
+            // (meaning their BIRT was ~$0, so we can't base estimates on it)
+            // 2025 is grace year because 2024 had exemption (BIRT was ~$0)
+            // 2026 is shock year - first year with BIRT estimates required
+            const priorYearHadExemption = EXEMPTION_BY_YEAR[year - 1] > 0;
+            const isGraceYear = priorYearHadExemption;
 
-            // Estimated BIRT payment = prior year BIRT * 100% (unless first year)
-            const estBIRT = isFirstYearBIRT ? 0 : priorYear.birtTotal;
+            // Estimated BIRT payment = prior year BIRT * 100% (unless grace year)
+            const estBIRT = isGraceYear ? 0 : priorYear.birtTotal;
 
             // Estimated NPT payment = prior year NPT after credit * 50%
             const estNPT = priorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
 
             // Adjustment = credit back for prior year's estimated payments
-            const priorCashFlow = year > 2023 ? taxLiabilities[year - 2] : null;
+            const priorPriorYear = taxLiabilities[year - 2];
             let adjustment = 0;
-            if (priorCashFlow && priorCashFlow.businessExisted) {
-                const priorPriorYear = taxLiabilities[year - 2];
-                const wasFirstYearBIRT = (parseInt(startYear) === year - 2);
-                const priorEstBIRT = wasFirstYearBIRT ? 0 : (priorPriorYear ? priorPriorYear.birtTotal : 0);
-                const priorEstNPT = priorPriorYear ? priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE : 0;
+            if (priorPriorYear && priorPriorYear.businessExisted) {
+                // Check if the prior year was a grace year (prior prior had exemption)
+                const priorPriorHadExemption = EXEMPTION_BY_YEAR[year - 2] > 0;
+                const priorEstBIRT = priorPriorHadExemption ? 0 : priorPriorYear.birtTotal;
+                const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
                 adjustment = -(priorEstBIRT + priorEstNPT);
             }
 
@@ -1394,7 +1398,7 @@
                 estNPT,
                 adjustment,
                 totalCashBurden,
-                isFirstYearBIRT,
+                isGraceYear,
                 paidInYear: year + 1
             };
         }
@@ -1416,11 +1420,10 @@
                 cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear);
             }
 
-            // Determine shock year = first year with BIRT estimated payments
-            // This is startYear + 1 (the year after you start filing)
-            let shockYear = startYearInt + 1;
-            if (shockYear < 2023) shockYear = 2023;
-            if (shockYear > 2027) shockYear = 2027;
+            // Shock year = 2026 for everyone (first year with BIRT estimated payments)
+            // 2025 is grace year (first year with meaningful BIRT, but no estimates required)
+            // 2026 is when BIRT estimates kick in
+            const shockYear = 2026;
 
             // Baseline is always 2024 (last year with exemption)
             const baseline2024Tax = taxLiabilities[2024];
@@ -1489,7 +1492,7 @@
             const exemption = EXEMPTION_BY_YEAR[year];
             const hasExemption = exemption > 0;
             const exemptNote = hasExemption ? ' <span style="color: var(--green);">(w/ exemption)</span>' : '';
-            const firstYearNote = cashData && cashData.isFirstYearBIRT ? ' <span style="color: var(--gold-dark);">(First Year - No BIRT Est.)</span>' : '';
+            const graceYearNote = cashData && cashData.isGraceYear ? ' <span style="color: var(--gold-dark);">(Grace Year - No BIRT Est.)</span>' : '';
 
             const totalCash = cashData ? cashData.totalCashBurden : taxData.totalTax;
 
@@ -1523,7 +1526,7 @@
                         </div>
                         ${cashData ? `
                         <div class="breakdown-row">
-                            <span>+ BIRT Estimated${firstYearNote}</span>
+                            <span>+ BIRT Estimated${graceYearNote}</span>
                             <span>${formatCurrency(cashData.estBIRT)}</span>
                         </div>
                         <div class="breakdown-row">
@@ -1591,33 +1594,18 @@
             const cashShockYear = result.shockYear + 1;
             document.getElementById('cash-shock-year').textContent = `Cash Shock Year: April ${cashShockYear}`;
 
-            // Show contextual warning
+            // Show contextual warning - explains the grace year concept
             const warningBox = document.getElementById('warning-box');
-            if (result.startYear >= 2024) {
-                warningBox.innerHTML = `
-                    <h4>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
-                        </svg>
-                        New Business Note
-                    </h4>
-                    <p>Since you started in ${result.startYear}, your first year filing won't include BIRT estimated payments. But in ${result.shockYear}, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
-                `;
-                warningBox.style.display = 'block';
-            } else if (result.startYear === 2023) {
-                warningBox.innerHTML = `
-                    <h4>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
-                        </svg>
-                        Timing Note
-                    </h4>
-                    <p>Since you started in 2023, you were exempt from BIRT estimated payments in your first filing year. Your shock year is ${result.shockYear} when the exemption removal fully impacts your cash flow.</p>
-                `;
-                warningBox.style.display = 'block';
-            } else {
-                warningBox.style.display = 'none';
-            }
+            warningBox.innerHTML = `
+                <h4>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
+                    </svg>
+                    Why 2026 is the Shock Year
+                </h4>
+                <p>In 2025, BIRT jumps up because the exemption is gone. But you get a grace year - no BIRT estimated payments are due because your 2024 BIRT was essentially $0. In 2026, you'll owe BIRT estimates based on 2025, plus your 2025 tax bill. That's the cash shock.</p>
+            `;
+            warningBox.style.display = 'block';
 
             // Determine which years to show (from start year to 2027, max 6 years)
             const yearsToShow = [];
