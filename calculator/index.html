@@ -448,9 +448,16 @@
             font-family: inherit;
         }
 
-        .calculate-btn:hover {
+        .calculate-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(15,23,42,0.25);
+        }
+
+        .calculate-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Results */
@@ -1058,25 +1065,14 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card">
-                <form id="calculator-form">
-                    <div class="form-group">
-                        <label class="form-label">Average Annual Gross Receipts</label>
-                        <p class="form-hint">Your total revenue before expenses</p>
-                        <input type="text" id="grossReceipts" class="form-input" placeholder="$75,000" inputmode="numeric">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Average Annual Net Income</label>
-                        <p class="form-hint">Your business profit after expenses (what you'd report on your taxes)</p>
-                        <input type="text" id="netIncome" class="form-input" placeholder="$50,000" inputmode="numeric">
-                    </div>
-
+                <!-- Step 1: Year Selection -->
+                <div id="step-1" class="calculator-step">
                     <div class="form-group">
                         <label class="form-label">When did your business start?</label>
                         <p class="form-hint">This affects your estimated payment requirements</p>
                         <div class="start-year-picker">
                             <label class="start-year-option">
-                                <input type="radio" name="startYear" value="2022" checked>
+                                <input type="radio" name="startYear" value="2022">
                                 <span class="start-year-label">2022 or earlier</span>
                             </label>
                             <label class="start-year-option">
@@ -1089,13 +1085,31 @@
                             </label>
                         </div>
                     </div>
+                    <button type="button" id="step-1-continue" class="calculate-btn" disabled>Continue</button>
+                </div>
 
-                    <div id="income-adjustment-note" class="adjustment-note" style="display: none;">
-                        <p><strong>Note:</strong> Philadelphia Sales and Income Impact Calculation. Your income has been adjusted to equal your gross receipts. Adjust your income if you have separate expenses attributed to just Philadelphia.</p>
-                    </div>
+                <!-- Step 2: Revenue Inputs -->
+                <div id="step-2" class="calculator-step" style="display: none;">
+                    <form id="calculator-form">
+                        <div class="form-group">
+                            <label class="form-label">Average Annual Gross Receipts</label>
+                            <p class="form-hint">Your total revenue before expenses</p>
+                            <input type="text" id="grossReceipts" class="form-input" placeholder="$75,000" inputmode="numeric">
+                        </div>
 
-                    <button type="submit" class="calculate-btn">Calculate My Tax Impact</button>
-                </form>
+                        <div class="form-group">
+                            <label class="form-label">Average Annual Net Income</label>
+                            <p class="form-hint">Your business profit after expenses (what you'd report on your taxes)</p>
+                            <input type="text" id="netIncome" class="form-input" placeholder="$50,000" inputmode="numeric">
+                        </div>
+
+                        <div id="income-adjustment-note" class="adjustment-note" style="display: none;">
+                            <p><strong>Note:</strong> Philadelphia Sales and Income Impact Calculation. Your income has been adjusted to equal your gross receipts. Adjust your income if you have separate expenses attributed to just Philadelphia.</p>
+                        </div>
+
+                        <button type="submit" class="calculate-btn">Calculate My Tax Impact</button>
+                    </form>
+                </div>
 
                 <!-- Results -->
                 <div id="results" class="results">
@@ -1551,6 +1565,25 @@
                     this.value = value;
                 }
             });
+        });
+
+        // Step navigation
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const step1Continue = document.getElementById('step-1-continue');
+        const startYearRadios = document.querySelectorAll('input[name="startYear"]');
+
+        // Enable continue button when a year is selected
+        startYearRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                step1Continue.disabled = false;
+            });
+        });
+
+        // Handle step 1 continue
+        step1Continue.addEventListener('click', function() {
+            step1.style.display = 'none';
+            step2.style.display = 'block';
         });
     </script>
 </body>
