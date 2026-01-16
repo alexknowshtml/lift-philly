@@ -358,6 +358,17 @@
             margin: 0 auto;
         }
 
+        .last-updated {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
         .form-group {
             margin-bottom: 24px;
         }
@@ -1115,7 +1126,8 @@
     <!-- Calculator -->
     <section class="calculator-section">
         <div class="container">
-            <div class="calculator-card">
+            <div class="calculator-card" style="position: relative;">
+                <div class="last-updated">Last updated: Jan 16, 2025</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
