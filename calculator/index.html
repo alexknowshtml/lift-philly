@@ -1644,11 +1644,11 @@
                 warningBox.style.display = 'none';
             }
 
-            // Render timeline
+            // Render timeline - only show 2024, 2025, 2026 (no 2027)
             const timeline = document.getElementById('timeline');
             let timelineHtml = '';
 
-            [2024, 2025, 2026, 2027].forEach(year => {
+            [2024, 2025, 2026].forEach(year => {
                 const data = result.years[year];
                 const isBaseline = year === 2024;
                 const isShock = year === result.shockYear;
