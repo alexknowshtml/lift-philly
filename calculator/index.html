@@ -1044,17 +1044,16 @@
                         <span id="scenario-badge" class="scenario-badge"></span>
                     </div>
 
-                    <div class="run-rate-summary">
-                        <h3>Actual Tax Due</h3>
-                        <div id="run-rate-amount" class="run-rate-amount"></div>
-                        <p class="run-rate-detail">BIRT + NPT (after BIRT credit)</p>
-                    </div>
-
                     <div class="impact-summary">
-                        <h3>Total Cash Outlay</h3>
+                        <h3>Your Annual Tax Increase</h3>
                         <div id="impact-amount" class="impact-amount"></div>
                         <p id="impact-detail" class="impact-detail"></p>
-                        <p id="cash-shock-year" class="cash-shock-year"></p>
+                    </div>
+
+                    <div class="run-rate-summary">
+                        <h3>Total Cash Outlay</h3>
+                        <div id="run-rate-amount" class="run-rate-amount"></div>
+                        <p class="run-rate-detail" id="cash-outlay-detail">Tax due + estimated payments − prior credits</p>
                     </div>
 
                     <div id="warning-box" class="warning-box" style="display: none;">
@@ -1115,6 +1114,7 @@
 
         const BIRT_CREDIT_RATE = 0.6;
         const NPT_ESTIMATED_RATE = 0.5;
+        const EXEMPTION_AMOUNT = 100000;
 
         // Format currency
         function formatCurrency(amount) {
@@ -1187,6 +1187,24 @@
             // --- TOTAL CASH OUTLAY ---
             const totalCashOutlay = actualTaxDue + estimatedPaymentsTotal - priorYearCreditsTotal;
 
+            // --- EXEMPTION INCREASE CALCULATION ---
+            // Calculate what they WOULD have paid with the $100K exemption
+            // Statutory deduction formula: min(exemption, net income) for NI, full $100K for GR
+            const statutoryDeductionNI = Math.min(EXEMPTION_AMOUNT, netIncome);
+            const taxableNIWithExemption = Math.max(0, netIncome - statutoryDeductionNI);
+            const taxableGRWithExemption = Math.max(0, grossReceipts - EXEMPTION_AMOUNT);
+
+            const birtNIWithExemption = taxableNIWithExemption * rates.birtNI;
+            const birtGRWithExemption = taxableGRWithExemption * rates.birtGR;
+            const birtTotalWithExemption = birtNIWithExemption + birtGRWithExemption;
+
+            // NPT with exemption (BIRT credit is based on exempted BIRT NI)
+            const birtCreditWithExemption = birtNIWithExemption * BIRT_CREDIT_RATE;
+            const nptAfterCreditWithExemption = Math.max(0, nptGross - birtCreditWithExemption);
+
+            const actualTaxWithExemption = birtTotalWithExemption + nptAfterCreditWithExemption;
+            const exemptionIncrease = actualTaxDue - actualTaxWithExemption;
+
             return {
                 startYear,
                 rates,
@@ -1207,7 +1225,10 @@
                 nptEstimatedCredit,
                 priorYearCreditsTotal,
                 // Total
-                totalCashOutlay
+                totalCashOutlay,
+                // Exemption Increase
+                actualTaxWithExemption,
+                exemptionIncrease
             };
         }
 
@@ -1346,19 +1367,12 @@
                 badge.className = 'scenario-badge scenario-b';
             }
 
-            // Update impact summary
-            document.getElementById('run-rate-amount').textContent = formatCurrency(result.actualTaxDue);
-            document.getElementById('impact-amount').textContent = formatCurrency(result.totalCashOutlay);
-            document.getElementById('impact-detail').textContent = 'Tax due + estimated payments − prior credits';
+            // Update impact summary - show the INCREASE from exemption removal
+            document.getElementById('impact-amount').textContent = '+' + formatCurrency(result.exemptionIncrease);
+            document.getElementById('impact-detail').textContent = 'Due to the removal of the $100K BIRT exemption';
 
-            // Update cash shock info
-            if (startYear === '2024') {
-                document.getElementById('cash-shock-year').textContent = 'First year filing - higher outlay expected';
-            } else if (startYear === '2023') {
-                document.getElementById('cash-shock-year').textContent = 'BIRT estimates will be due starting 2026';
-            } else {
-                document.getElementById('cash-shock-year').textContent = 'Steady state - estimates offset credits';
-            }
+            // Update cash outlay
+            document.getElementById('run-rate-amount').textContent = formatCurrency(result.totalCashOutlay);
 
             // Hide/show warning box based on scenario
             const warningBox = document.getElementById('warning-box');
