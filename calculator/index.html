@@ -1166,7 +1166,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2025 at 2:40 PM</div>
+                <div class="last-updated">Last updated: Jan 16, 2025 at 2:43 PM</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
@@ -1395,7 +1395,7 @@
         }
 
         // Calculate cash flow for a year (what you actually pay in April of year+1)
-        function calculateCashFlow(taxLiabilities, year, startYear) {
+        function calculateCashFlow(taxLiabilities, year, startYear, netIncome) {
             const currentYear = taxLiabilities[year];
             const priorYear = taxLiabilities[year - 1];
 
@@ -1422,26 +1422,30 @@
             //
             // GRACE YEAR for BIRT estimates:
             // - First year of business: No BIRT estimates (you have no prior BIRT history)
-            // - First year after exemption removed: No BIRT estimates IF they didn't already
-            //   get a first-year grace (can't double-dip on grace years)
+            // - First year paying BIRT after exemption removed: No BIRT estimates IF they
+            //   never paid BIRT during the exemption period
             //
-            // 2025 is first year without exemption, so 2026 would be the grace year for BIRT
-            // estimates - BUT only for businesses that started before the exemption was removed.
-            // If you started in 2024 or 2025, you already got your first-year grace.
+            // Key insight: Even during exemption period, if net income > $100K, you paid BIRT
+            // (exemption only covers first $100K). So if you made > $100K and started during
+            // exemption period, you already got your first-year grace when you first paid BIRT.
             const startYearInt = parseInt(startYear);
             const isFirstYearFiling = (year - 1 === startYearInt);
 
-            // Prior year was the first year without exemption (first real BIRT payment)
-            const priorYearWasFirstRealBIRT = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
+            // Prior year was the first year without exemption (2025)
+            const priorYearWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
 
-            // Check if they already used their grace year for first-year filing
-            // If business started during exemption period, they got first-year grace then
-            // and shouldn't get exemption-removal grace too
-            const alreadyUsedFirstYearGrace = startYearInt <= 2024 && startYearInt >= 2022;
-            const isGraceYear = priorYearWasFirstRealBIRT && !alreadyUsedFirstYearGrace;
+            // Check if they ever paid BIRT during the exemption period
+            // They paid BIRT if: started during exemption period AND net income > $100K
+            const startedDuringExemptionPeriod = startYearInt <= 2024 && startYearInt >= 2022;
+            const paidBIRTDuringExemption = startedDuringExemptionPeriod && netIncome > 100000;
+
+            // Grace year for exemption removal only applies if:
+            // 1. Prior year was first year without exemption (2025)
+            // 2. They did NOT pay BIRT during exemption period (never exceeded $100K before)
+            const isGraceYear = priorYearWasFirstNoExemption && !paidBIRTDuringExemption;
 
             // Estimated BIRT payment = PRIOR year BIRT * 100%
-            // $0 if: first year of business (but NOT exemption-removal grace if they already had first-year grace)
+            // $0 if: first year of business OR exemption-removal grace year
             const estBIRT = isFirstYearFiling ? 0 : (isGraceYear ? 0 : priorYear.birtTotal);
 
             // Estimated NPT payment = PRIOR year NPT after credit * 50%
@@ -1454,9 +1458,9 @@
             if (priorPriorYear && priorPriorYear.businessExisted) {
                 const wasFirstYearFiling = (year - 2 === startYearInt);
                 // Check if prior filing was an exemption-removal grace year
-                // (only applies if they didn't already use first-year grace)
-                const priorFilingWasFirstRealBIRT = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
-                const priorFilingWasGraceYear = priorFilingWasFirstRealBIRT && !alreadyUsedFirstYearGrace;
+                // Same logic: grace only if prior year was first no-exemption AND they didn't pay BIRT during exemption
+                const priorFilingWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
+                const priorFilingWasGraceYear = priorFilingWasFirstNoExemption && !paidBIRTDuringExemption;
                 // Prior filing's estimates: BIRT (unless first year or grace year) + NPT
                 const priorEstBIRT = wasFirstYearFiling ? 0 : (priorFilingWasGraceYear ? 0 : priorPriorYear.birtTotal);
                 const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
@@ -1491,7 +1495,7 @@
             // Calculate cash flows for all years
             const cashFlows = {};
             for (let year = 2023; year <= 2027; year++) {
-                cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear);
+                cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear, netIncome);
             }
 
             // Shock year = 2026 for everyone (first year with big BIRT estimated payments)
