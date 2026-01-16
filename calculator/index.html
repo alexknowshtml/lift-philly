@@ -394,12 +394,23 @@
         /* Start Year Picker */
         .start-year-picker {
             display: flex;
-            gap: 12px;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .start-year-option {
-            flex: 1;
             cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+            max-height: 60px;
+            opacity: 1;
+        }
+
+        .start-year-option.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
         }
 
         .start-year-option input {
@@ -427,24 +438,19 @@
             border-color: var(--gold);
         }
 
-        @media (max-width: 500px) {
-            .start-year-picker {
-                flex-direction: column;
-                gap: 8px;
-            }
+        /* Collapsed state - question hidden */
+        #year-question.collapsed {
+            display: none;
+        }
+
+        /* Continue button hidden in collapsed state */
+        #year-continue-btn.collapsed {
+            display: none;
         }
 
         /* Year section transitions */
         .year-section {
             overflow: hidden;
-        }
-
-        .year-expanded {
-            animation: fadeSlideIn 0.3s ease-out;
-        }
-
-        .year-collapsed {
-            animation: fadeSlideIn 0.3s ease-out;
         }
 
         .calculator-step {
@@ -462,51 +468,9 @@
             }
         }
 
-        /* Year section collapsed state */
-        .year-collapsed {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f8fafc;
-            border: 2px solid var(--navy);
-            border-radius: 12px;
-            padding: 14px 20px;
+        /* Year picker collapsed state - margin below selected option */
+        #year-picker.collapsed {
             margin-bottom: 20px;
-        }
-
-        .year-collapsed-content {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .year-collapsed-label {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        .year-collapsed-value {
-            color: var(--navy);
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .year-change-btn {
-            background: transparent;
-            border: 1px solid var(--navy);
-            color: var(--navy);
-            padding: 6px 16px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        .year-change-btn:hover {
-            background: var(--navy);
-            color: var(--white);
         }
 
         .calculate-btn {
@@ -1142,34 +1106,25 @@
             <div class="calculator-card">
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
-                    <!-- Collapsed view -->
-                    <div id="year-collapsed" class="year-collapsed" style="display: none;">
-                        <div class="year-collapsed-content">
-                            <span class="year-collapsed-label">Business started:</span>
-                            <span id="year-collapsed-value" class="year-collapsed-value"></span>
-                        </div>
-                        <button type="button" id="year-change-btn" class="year-change-btn">Change</button>
-                    </div>
-
-                    <!-- Expanded view -->
-                    <div id="year-expanded" class="year-expanded">
-                        <div class="form-group">
+                    <!-- Year picker with fan collapse -->
+                    <div id="year-picker-section">
+                        <div id="year-question" class="form-group">
                             <label class="form-label">What was your first year doing business in Philadelphia?</label>
                             <p class="form-hint">This must be accurate for the calculator to work correctly</p>
-                            <div class="start-year-picker">
-                                <label class="start-year-option">
-                                    <input type="radio" name="startYear" value="2022">
-                                    <span class="start-year-label">2022 or earlier</span>
-                                </label>
-                                <label class="start-year-option">
-                                    <input type="radio" name="startYear" value="2023">
-                                    <span class="start-year-label">2023</span>
-                                </label>
-                                <label class="start-year-option">
-                                    <input type="radio" name="startYear" value="2024">
-                                    <span class="start-year-label">2024</span>
-                                </label>
-                            </div>
+                        </div>
+                        <div id="year-picker" class="start-year-picker">
+                            <label class="start-year-option" data-year="2022">
+                                <input type="radio" name="startYear" value="2022">
+                                <span class="start-year-label">2022 or earlier</span>
+                            </label>
+                            <label class="start-year-option" data-year="2023">
+                                <input type="radio" name="startYear" value="2023">
+                                <span class="start-year-label">2023</span>
+                            </label>
+                            <label class="start-year-option" data-year="2024">
+                                <input type="radio" name="startYear" value="2024">
+                                <span class="start-year-label">2024</span>
+                            </label>
                         </div>
                         <button type="button" id="year-continue-btn" class="calculate-btn" disabled>Continue</button>
                     </div>
@@ -1654,21 +1609,15 @@
             });
         });
 
-        // Year section elements
-        const yearCollapsed = document.getElementById('year-collapsed');
-        const yearExpanded = document.getElementById('year-expanded');
-        const yearCollapsedValue = document.getElementById('year-collapsed-value');
+        // Year picker elements
+        const yearPicker = document.getElementById('year-picker');
+        const yearQuestion = document.getElementById('year-question');
         const yearContinueBtn = document.getElementById('year-continue-btn');
-        const yearChangeBtn = document.getElementById('year-change-btn');
         const revenueSection = document.getElementById('revenue-section');
+        const yearOptions = document.querySelectorAll('.start-year-option');
         const startYearRadios = document.querySelectorAll('input[name="startYear"]');
 
-        // Year display labels
-        const yearLabels = {
-            '2022': '2022 or earlier',
-            '2023': '2023',
-            '2024': '2024'
-        };
+        let isYearCollapsed = false;
 
         // Enable continue button when a year is selected
         startYearRadios.forEach(radio => {
@@ -1677,38 +1626,58 @@
             });
         });
 
-        // Helper to re-trigger animation
-        function triggerAnimation(element) {
-            element.style.animation = 'none';
-            element.offsetHeight; // Force reflow
-            element.style.animation = '';
-        }
-
-        // Collapse year picker and show revenue section
+        // Collapse year picker - hide unselected options, keep selected
         function collapseYearPicker() {
             const selectedYear = document.querySelector('input[name="startYear"]:checked').value;
-            yearCollapsedValue.textContent = yearLabels[selectedYear];
-            yearExpanded.style.display = 'none';
-            yearCollapsed.style.display = 'flex';
-            triggerAnimation(yearCollapsed);
+
+            // Hide question and continue button
+            yearQuestion.classList.add('collapsed');
+            yearContinueBtn.classList.add('collapsed');
+
+            // Collapse unselected options
+            yearOptions.forEach(option => {
+                if (option.dataset.year !== selectedYear) {
+                    option.classList.add('collapsed');
+                }
+            });
+
+            yearPicker.classList.add('collapsed');
+            isYearCollapsed = true;
+
+            // Show revenue section
             revenueSection.style.display = 'block';
-            triggerAnimation(revenueSection);
         }
 
-        // Expand year picker
+        // Expand year picker - show all options
         function expandYearPicker() {
-            yearCollapsed.style.display = 'none';
-            yearExpanded.style.display = 'block';
-            triggerAnimation(yearExpanded);
+            // Show question and continue button
+            yearQuestion.classList.remove('collapsed');
+            yearContinueBtn.classList.remove('collapsed');
+
+            // Expand all options
+            yearOptions.forEach(option => {
+                option.classList.remove('collapsed');
+            });
+
+            yearPicker.classList.remove('collapsed');
+            isYearCollapsed = false;
         }
 
         // Handle continue button
         yearContinueBtn.addEventListener('click', collapseYearPicker);
 
-        // Handle change button
-        yearChangeBtn.addEventListener('click', expandYearPicker);
+        // Handle clicking on selected year to toggle expand/collapse
+        yearOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                if (isYearCollapsed) {
+                    // If collapsed, expand the picker
+                    e.preventDefault();
+                    expandYearPicker();
+                }
+            });
+        });
 
-        // When year changes in expanded state after results shown, auto-recalculate
+        // When year changes, auto-recalculate if results visible
         startYearRadios.forEach(radio => {
             radio.addEventListener('change', function() {
                 // If results are visible, recalculate
