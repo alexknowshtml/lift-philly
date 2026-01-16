@@ -1166,7 +1166,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2025 at 2:32 PM</div>
+                <div class="last-updated">Last updated: Jan 16, 2025 at 2:40 PM</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
@@ -1422,34 +1422,43 @@
             //
             // GRACE YEAR for BIRT estimates:
             // - First year of business: No BIRT estimates (you have no prior BIRT history)
-            // - First year after exemption removed: No BIRT estimates (prior year was first real BIRT)
+            // - First year after exemption removed: No BIRT estimates IF they didn't already
+            //   get a first-year grace (can't double-dip on grace years)
             //
-            // 2025 is first year without exemption, so 2026 is the grace year for BIRT estimates
-            // because estimates in 2026 would be based on 2025 (first year of real BIRT)
+            // 2025 is first year without exemption, so 2026 would be the grace year for BIRT
+            // estimates - BUT only for businesses that started before the exemption was removed.
+            // If you started in 2024 or 2025, you already got your first-year grace.
             const startYearInt = parseInt(startYear);
             const isFirstYearFiling = (year - 1 === startYearInt);
 
             // Prior year was the first year without exemption (first real BIRT payment)
             const priorYearWasFirstRealBIRT = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
-            const isGraceYear = priorYearWasFirstRealBIRT;
+
+            // Check if they already used their grace year for first-year filing
+            // If business started during exemption period, they got first-year grace then
+            // and shouldn't get exemption-removal grace too
+            const alreadyUsedFirstYearGrace = startYearInt <= 2024 && startYearInt >= 2022;
+            const isGraceYear = priorYearWasFirstRealBIRT && !alreadyUsedFirstYearGrace;
 
             // Estimated BIRT payment = PRIOR year BIRT * 100%
-            // $0 if: first year of business OR prior year was first real BIRT year (grace)
-            const estBIRT = (isFirstYearFiling || priorYearWasFirstRealBIRT) ? 0 : priorYear.birtTotal;
+            // $0 if: first year of business (but NOT exemption-removal grace if they already had first-year grace)
+            const estBIRT = isFirstYearFiling ? 0 : (isGraceYear ? 0 : priorYear.birtTotal);
 
             // Estimated NPT payment = PRIOR year NPT after credit * 50%
             const estNPT = priorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
 
             // Adjustment = credit back for estimated payments made in prior filing
-            // Prior filing paid Est BIRT (unless it was first year or grace year) + Est NPT
+            // Prior filing paid Est BIRT (unless it was first year or exemption-removal grace) + Est NPT
             const priorPriorYear = taxLiabilities[year - 2];
             let adjustment = 0;
             if (priorPriorYear && priorPriorYear.businessExisted) {
                 const wasFirstYearFiling = (year - 2 === startYearInt);
-                // Check if prior filing was a grace year (year-2 was first real BIRT year)
-                const priorFilingWasGraceYear = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
+                // Check if prior filing was an exemption-removal grace year
+                // (only applies if they didn't already use first-year grace)
+                const priorFilingWasFirstRealBIRT = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
+                const priorFilingWasGraceYear = priorFilingWasFirstRealBIRT && !alreadyUsedFirstYearGrace;
                 // Prior filing's estimates: BIRT (unless first year or grace year) + NPT
-                const priorEstBIRT = (wasFirstYearFiling || priorFilingWasGraceYear) ? 0 : priorPriorYear.birtTotal;
+                const priorEstBIRT = wasFirstYearFiling ? 0 : (priorFilingWasGraceYear ? 0 : priorPriorYear.birtTotal);
                 const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
                 adjustment = -(priorEstBIRT + priorEstNPT);
             }
