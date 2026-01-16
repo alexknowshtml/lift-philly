@@ -1706,6 +1706,15 @@
         // Collapse year picker - hide unselected options, keep selected
         function collapseYearPicker() {
             const selectedYear = document.querySelector('input[name="startYear"]:checked').value;
+            const selectedOption = document.querySelector(`.start-year-option[data-year="${selectedYear}"]`);
+            const selectedLabel = selectedOption.querySelector('.start-year-label');
+
+            // Update label to "Started in [year]"
+            if (selectedYear === '2022') {
+                selectedLabel.textContent = 'Started in 2022 or earlier';
+            } else {
+                selectedLabel.textContent = `Started in ${selectedYear}`;
+            }
 
             // Hide question and continue button
             yearQuestion.classList.add('collapsed');
@@ -1727,6 +1736,17 @@
 
         // Expand year picker - show all options
         function expandYearPicker() {
+            // Restore original labels
+            yearOptions.forEach(option => {
+                const label = option.querySelector('.start-year-label');
+                const year = option.dataset.year;
+                if (year === '2022') {
+                    label.textContent = '2022 or earlier';
+                } else {
+                    label.textContent = year;
+                }
+            });
+
             // Show question and continue button
             yearQuestion.classList.remove('collapsed');
             yearContinueBtn.classList.remove('collapsed');
