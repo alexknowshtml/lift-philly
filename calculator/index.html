@@ -631,6 +631,57 @@
             margin-top: 8px;
         }
 
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: relative;
+            text-align: center;
+            margin: 24px 0 32px;
+        }
+
+        .scroll-fade {
+            position: absolute;
+            top: -40px;
+            left: -32px;
+            right: -32px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--white));
+            pointer-events: none;
+        }
+
+        .scroll-link {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .scroll-link:hover {
+            background: rgba(15, 23, 42, 0.05);
+        }
+
+        .bounce-arrow {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(6px);
+            }
+            60% {
+                transform: translateY(3px);
+            }
+        }
+
         /* Warning Box */
         .warning-box {
             background: rgba(251, 191, 36, 0.1);
@@ -1184,6 +1235,17 @@
                         <p id="cash-shock-year" class="cash-shock-year"></p>
                     </div>
 
+                    <!-- Scroll indicator -->
+                    <div class="scroll-indicator">
+                        <div class="scroll-fade"></div>
+                        <a href="#timeline-section" class="scroll-link" id="scroll-to-breakdown">
+                            <span>See full breakdown</span>
+                            <svg class="bounce-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                            </svg>
+                        </a>
+                    </div>
+
                     <div id="warning-box" class="warning-box" style="display: none;">
                         <h4>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1194,7 +1256,7 @@
                         <p>Your 2025 cash outlay looks lower because it's your first year filing BIRT. But in 2026, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
                     </div>
 
-                    <div class="timeline-section">
+                    <div id="timeline-section" class="timeline-section">
                         <h3>Year-by-Year Breakdown</h3>
                         <div id="timeline"></div>
                     </div>
@@ -1599,8 +1661,11 @@
             // Show results
             document.getElementById('results').classList.add('visible');
 
-            // Scroll to results
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Gentle scroll - bring results header into view with breathing room
+            const resultsHeader = document.querySelector('.results-header');
+            const headerRect = resultsHeader.getBoundingClientRect();
+            const scrollTarget = window.scrollY + headerRect.top - 20; // 20px padding from top
+            window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
         });
 
         // Format input as currency on blur
@@ -1699,6 +1764,15 @@
                     document.getElementById('calculator-form').dispatchEvent(new Event('submit'));
                 }
             });
+        });
+
+        // Scroll to breakdown link handler
+        document.getElementById('scroll-to-breakdown').addEventListener('click', function(e) {
+            e.preventDefault();
+            const timelineSection = document.getElementById('timeline-section');
+            const rect = timelineSection.getBoundingClientRect();
+            const scrollTarget = window.scrollY + rect.top - 20;
+            window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
         });
     </script>
 </body>
