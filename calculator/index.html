@@ -1166,7 +1166,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2025 at 2:43 PM</div>
+                <div class="last-updated">Last updated: Jan 16, 2025 at 2:48 PM</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
@@ -1434,15 +1434,19 @@
             // Prior year was the first year without exemption (2025)
             const priorYearWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
 
-            // Check if they ever paid BIRT during the exemption period
-            // They paid BIRT if: started during exemption period AND net income > $100K
+            // Check if they already got a first-year grace (started during exemption period)
+            // Anyone who started 2022-2024 got first-year grace, so no exemption-removal grace
             const startedDuringExemptionPeriod = startYearInt <= 2024 && startYearInt >= 2022;
-            const paidBIRTDuringExemption = startedDuringExemptionPeriod && netIncome > 100000;
+
+            // Check if they paid BIRT during exemption (for businesses that started before 2022)
+            // They paid BIRT if: net income > $100K during exemption years
+            const paidBIRTDuringExemption = netIncome > 100000;
 
             // Grace year for exemption removal only applies if:
             // 1. Prior year was first year without exemption (2025)
-            // 2. They did NOT pay BIRT during exemption period (never exceeded $100K before)
-            const isGraceYear = priorYearWasFirstNoExemption && !paidBIRTDuringExemption;
+            // 2. They did NOT start during exemption period (already got first-year grace)
+            // 3. They did NOT pay BIRT during exemption period (never exceeded $100K)
+            const isGraceYear = priorYearWasFirstNoExemption && !startedDuringExemptionPeriod && !paidBIRTDuringExemption;
 
             // Estimated BIRT payment = PRIOR year BIRT * 100%
             // $0 if: first year of business OR exemption-removal grace year
@@ -1458,9 +1462,9 @@
             if (priorPriorYear && priorPriorYear.businessExisted) {
                 const wasFirstYearFiling = (year - 2 === startYearInt);
                 // Check if prior filing was an exemption-removal grace year
-                // Same logic: grace only if prior year was first no-exemption AND they didn't pay BIRT during exemption
+                // Same logic: grace only if didn't start during exemption AND didn't pay BIRT during exemption
                 const priorFilingWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
-                const priorFilingWasGraceYear = priorFilingWasFirstNoExemption && !paidBIRTDuringExemption;
+                const priorFilingWasGraceYear = priorFilingWasFirstNoExemption && !startedDuringExemptionPeriod && !paidBIRTDuringExemption;
                 // Prior filing's estimates: BIRT (unless first year or grace year) + NPT
                 const priorEstBIRT = wasFirstYearFiling ? 0 : (priorFilingWasGraceYear ? 0 : priorPriorYear.birtTotal);
                 const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
