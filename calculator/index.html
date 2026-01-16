@@ -9,7 +9,7 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://liftphilly.org/calculator.html">
+    <meta property="og:url" content="https://liftphilly.org/calculator/">
     <meta property="og:title" content="BIRT Tax Calculator - LIFT Philly">
     <meta property="og:description" content="Calculate how the BIRT exemption removal will affect your Philadelphia small business taxes in 2026 and beyond.">
     <meta property="og:image" content="https://liftphilly.org/og-image.png">
@@ -736,6 +736,11 @@
             border-left-color: var(--green);
         }
 
+        .year-card.inactive {
+            opacity: 0.5;
+            border-left-color: #94a3b8;
+        }
+
         .year-header {
             display: flex;
             justify-content: space-between;
@@ -769,6 +774,11 @@
         }
 
         .year-badge.filed {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-light);
+        }
+
+        .year-badge.inactive {
             background: rgba(100, 116, 139, 0.1);
             color: var(--text-light);
         }
@@ -848,66 +858,6 @@
             font-style: italic;
             font-size: 0.85em;
             opacity: 0.8;
-        }
-
-        /* Comparison Section */
-        .comparison-section {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .comparison-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .comparison-item {
-            text-align: center;
-            flex: 1;
-            max-width: 160px;
-        }
-
-        .comparison-label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .comparison-amount {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .with-exemption .comparison-amount {
-            color: var(--green);
-        }
-
-        .without-exemption .comparison-amount {
-            color: var(--red);
-        }
-
-        .comparison-arrow {
-            font-size: 1.5rem;
-            color: var(--text-light);
-            font-weight: 300;
-        }
-
-        @media (max-width: 500px) {
-            .comparison-row {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .comparison-arrow {
-                transform: rotate(90deg);
-            }
         }
 
         /* Estimated Quote Section */
@@ -1247,13 +1197,6 @@
                     </div>
 
                     <div id="warning-box" class="warning-box" style="display: none;">
-                        <h4>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
-                            </svg>
-                            Don't be fooled by 2025
-                        </h4>
-                        <p>Your 2025 cash outlay looks lower because it's your first year filing BIRT. But in 2026, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
                     </div>
 
                     <div id="timeline-section" class="timeline-section">
@@ -1297,18 +1240,28 @@
     </footer>
 
     <script>
-        // Tax rates by year
+        // Tax rates by year (from Jigar's model)
         const TAX_RATES = {
+            2022: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
+            2023: { birtNI: 0.0581, birtGR: 0.00141, npt: 0.0375 },
             2024: { birtNI: 0.0581, birtGR: 0.001415, npt: 0.0375 },
             2025: { birtNI: 0.0571, birtGR: 0.00141, npt: 0.0374 },
             2026: { birtNI: 0.0565, birtGR: 0.001395, npt: 0.03735 },
             2027: { birtNI: 0.056, birtGR: 0.00139, npt: 0.0373 }
         };
 
+        // Exemption by year (removed starting 2025)
+        const EXEMPTION_BY_YEAR = {
+            2022: 100000,
+            2023: 100000,
+            2024: 100000,
+            2025: 0,
+            2026: 0,
+            2027: 0
+        };
+
         const BIRT_CREDIT_RATE = 0.6;
         const NPT_ESTIMATED_RATE = 0.5;
-        const NPT_ESTIMATED_MINIMUM = 100;
-        const EXEMPTION_AMOUNT = 100000;
 
         // Format currency
         function formatCurrency(amount) {
@@ -1320,194 +1273,198 @@
             return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
         }
 
-        // Calculate statutory net income deduction (Worksheet S-EZ formula)
-        // S1 = min(exemption, $100K)
-        // S4 = Net Income / Gross Receipts (cannot exceed 1.0)
-        // S5 = S1 * S4 (statutory deduction, cannot exceed $100K)
-        function calculateStatutoryDeduction(netIncome, grossReceipts) {
-            const s1 = Math.min(EXEMPTION_AMOUNT, 100000);
-            const s4 = Math.min(netIncome / grossReceipts, 1.0);
-            const s5 = s1 * s4;
-            return Math.min(s5, 100000);
+        // Calculate taxable amounts for a year
+        function calculateTaxableAmounts(netIncome, grossReceipts, year, businessExisted) {
+            if (!businessExisted) {
+                return { taxableGR: 0, taxableNI_NPT: 0, taxableNI_BIRT: 0 };
+            }
+
+            const exemption = EXEMPTION_BY_YEAR[year];
+
+            // Taxable Gross Receipts = max(0, grossReceipts - exemption)
+            const taxableGR = Math.max(0, grossReceipts - exemption);
+
+            // Taxable Net Income (NPT basis) = full net income (no exemption for NPT)
+            const taxableNI_NPT = netIncome;
+
+            // Taxable Net Income (BIRT basis) - uses statutory deduction formula
+            // If gross < exemption: deduction = (netIncome/grossReceipts) * grossReceipts = netIncome
+            // If gross >= exemption: deduction = (netIncome/grossReceipts) * exemption
+            let statutoryDeduction = 0;
+            if (exemption > 0 && grossReceipts > 0) {
+                const ratio = Math.min(netIncome / grossReceipts, 1.0);
+                if (grossReceipts < exemption) {
+                    statutoryDeduction = ratio * grossReceipts;
+                } else {
+                    statutoryDeduction = ratio * exemption;
+                }
+            }
+            const taxableNI_BIRT = Math.max(0, netIncome - statutoryDeduction);
+
+            return { taxableGR, taxableNI_NPT, taxableNI_BIRT, statutoryDeduction };
         }
 
-        // Calculate taxes for a given year
-        function calculateYear(netIncome, grossReceipts, year, isFirstYearFiler, applyExemption = false) {
+        // Calculate tax liability for a year
+        function calculateTaxLiability(netIncome, grossReceipts, year, businessExisted) {
             const rates = TAX_RATES[year];
+            const { taxableGR, taxableNI_NPT, taxableNI_BIRT } = calculateTaxableAmounts(netIncome, grossReceipts, year, businessExisted);
 
-            let taxableNI = netIncome;
-            let taxableGR = grossReceipts;
-            let statutoryDeduction = 0;
-
-            // Apply 2024 exemption if applicable
-            if (applyExemption) {
-                statutoryDeduction = calculateStatutoryDeduction(netIncome, grossReceipts);
-                taxableNI = Math.max(0, netIncome - statutoryDeduction);
-                taxableGR = Math.max(0, grossReceipts - EXEMPTION_AMOUNT);
-            }
-
-            // BIRT calculations
-            const birtNI = taxableNI * rates.birtNI;
+            // BIRT taxes
             const birtGR = taxableGR * rates.birtGR;
-            const birtTotal = birtNI + birtGR;
+            const birtNI = taxableNI_BIRT * rates.birtNI;
+            const birtTotal = birtGR + birtNI;
 
-            // NPT calculations (NPT is on full net income, no exemption)
-            const nptGross = netIncome * rates.npt;
+            // NPT tax
+            const nptGross = taxableNI_NPT * rates.npt;
+
+            // BIRT credit against NPT (60% of BIRT Net Income portion)
             const birtCredit = birtNI * BIRT_CREDIT_RATE;
+
+            // NPT after credit (cannot go below 0)
             const nptAfterCredit = Math.max(0, nptGross - birtCredit);
 
-            // NPT estimated payment calculation
-            let nptEstimatedBase = nptAfterCredit;
-            let nptEstimated = 0;
-            if (nptEstimatedBase > NPT_ESTIMATED_MINIMUM) {
-                nptEstimated = nptEstimatedBase * NPT_ESTIMATED_RATE;
-            }
-
-            // BIRT estimated payment (100% of current year, but only if not first-year filer)
-            let birtEstimated = 0;
-            if (!isFirstYearFiler) {
-                birtEstimated = birtTotal;
-            }
-
-            // Total cash outlay for this year (paid in April of following year)
-            // Tax due + estimated payments for next year
-            const taxDue = birtTotal + nptAfterCredit;
-            const estimatedPayments = birtEstimated + nptEstimated;
-            const totalCashOutlay = taxDue + estimatedPayments;
+            // Total tax liability
+            const totalTax = birtTotal + nptAfterCredit;
 
             return {
                 year,
-                taxableNI,
+                businessExisted,
                 taxableGR,
-                statutoryDeduction,
-                birtNI,
+                taxableNI_BIRT,
+                taxableNI_NPT,
                 birtGR,
+                birtNI,
                 birtTotal,
                 nptGross,
                 birtCredit,
                 nptAfterCredit,
-                nptEstimated,
-                birtEstimated,
-                taxDue,
-                estimatedPayments,
-                totalCashOutlay,
-                isFirstYearFiler,
-                applyExemption,
+                totalTax,
                 rates
             };
         }
 
-        // Determine if a business is in their first year of BIRT filing for a given tax year
-        // Based on when business started and their scenario
-        function isFirstYearBIRT(taxYear, startYear, isScenarioA) {
-            // Scenario A: Already paying BIRT (gross > $100K)
-            // - If started 2022 or earlier: never first year
-            // - If started 2023: 2023 was first year, so 2024+ = not first year
-            // - If started 2024: 2024 is first year
-            //
-            // Scenario B: Newly subject to BIRT (gross <= $100K)
-            // - Exempt in 2024 (no BIRT at all)
-            // - 2025 is their first year filing BIRT regardless of when biz started
-            // - 2026+ is not first year
+        // Calculate cash flow for a year (what you actually pay in April of year+1)
+        function calculateCashFlow(taxLiabilities, year, startYear) {
+            const currentYear = taxLiabilities[year];
+            const priorYear = taxLiabilities[year - 1];
 
-            if (isScenarioA) {
-                // Scenario A logic based on start year
-                if (startYear === '2022') {
-                    return false; // Established, never first year
-                } else if (startYear === '2023') {
-                    return taxYear === 2023; // 2023 was first, 2024+ not first
-                } else if (startYear === '2024') {
-                    return taxYear === 2024; // 2024 is first year
-                }
-            } else {
-                // Scenario B: exempt in 2024, first year filing BIRT in 2025
-                return taxYear === 2025;
+            if (!priorYear || !priorYear.businessExisted) {
+                // No cash flow if business didn't exist in prior year
+                return {
+                    year,
+                    taxDue: 0,
+                    estBIRT: 0,
+                    estNPT: 0,
+                    adjustment: 0,
+                    totalCashBurden: 0,
+                    isFirstYear: true,
+                    paidInYear: year + 1
+                };
             }
-            return false;
+
+            // Tax due = prior year's total tax liability
+            const taxDue = priorYear.totalTax;
+
+            // Is this the first year of BIRT filing? (start year = no BIRT estimates)
+            const isFirstYearBIRT = (parseInt(startYear) === year - 1);
+
+            // Estimated BIRT payment = prior year BIRT * 100% (unless first year)
+            const estBIRT = isFirstYearBIRT ? 0 : priorYear.birtTotal;
+
+            // Estimated NPT payment = prior year NPT after credit * 50%
+            const estNPT = priorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
+
+            // Adjustment = credit back for prior year's estimated payments
+            const priorCashFlow = year > 2023 ? taxLiabilities[year - 2] : null;
+            let adjustment = 0;
+            if (priorCashFlow && priorCashFlow.businessExisted) {
+                const priorPriorYear = taxLiabilities[year - 2];
+                const wasFirstYearBIRT = (parseInt(startYear) === year - 2);
+                const priorEstBIRT = wasFirstYearBIRT ? 0 : (priorPriorYear ? priorPriorYear.birtTotal : 0);
+                const priorEstNPT = priorPriorYear ? priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE : 0;
+                adjustment = -(priorEstBIRT + priorEstNPT);
+            }
+
+            const totalCashBurden = taxDue + estBIRT + estNPT + adjustment;
+
+            return {
+                year,
+                taxDue,
+                estBIRT,
+                estNPT,
+                adjustment,
+                totalCashBurden,
+                isFirstYearBIRT,
+                paidInYear: year + 1
+            };
         }
 
         // Main calculation function
         function calculate(netIncome, grossReceipts, startYear) {
-            // Determine scenario based on gross receipts
-            const isScenarioA = grossReceipts > 100000;
-            const shockYear = isScenarioA ? 2025 : 2026;
+            const startYearInt = parseInt(startYear);
 
-            // Calculate each year
-            const years = {};
-
-            if (isScenarioA) {
-                // Scenario A: Already paying BIRT (gross receipts > $100K)
-                // 2024 - baseline WITH statutory exemption (they still get the deduction)
-                const isFirst2024 = isFirstYearBIRT(2024, startYear, true);
-                years[2024] = calculateYear(netIncome, grossReceipts, 2024, isFirst2024, true);  // applyExemption = true
-
-                // 2025+ - no exemption, check first year status
-                const isFirst2025 = isFirstYearBIRT(2025, startYear, true);
-                years[2025] = calculateYear(netIncome, grossReceipts, 2025, isFirst2025, false);
-
-                const isFirst2026 = isFirstYearBIRT(2026, startYear, true);
-                years[2026] = calculateYear(netIncome, grossReceipts, 2026, isFirst2026, false);
-
-                const isFirst2027 = isFirstYearBIRT(2027, startYear, true);
-                years[2027] = calculateYear(netIncome, grossReceipts, 2027, isFirst2027, false);
-            } else {
-                // Scenario B: Fully exempt from BIRT in 2024 (gross receipts <= $100K)
-                // 2024 - fully exempt from BIRT, only pay NPT
-                years[2024] = {
-                    year: 2024,
-                    taxableNI: 0,
-                    taxableGR: 0,
-                    statutoryDeduction: netIncome,  // Full exemption
-                    birtNI: 0,
-                    birtGR: 0,
-                    birtTotal: 0,
-                    nptGross: netIncome * TAX_RATES[2024].npt,
-                    birtCredit: 0,
-                    nptAfterCredit: netIncome * TAX_RATES[2024].npt,
-                    nptEstimated: (netIncome * TAX_RATES[2024].npt) > NPT_ESTIMATED_MINIMUM ?
-                        (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0,
-                    birtEstimated: 0,
-                    taxDue: netIncome * TAX_RATES[2024].npt,
-                    estimatedPayments: (netIncome * TAX_RATES[2024].npt) > NPT_ESTIMATED_MINIMUM ?
-                        (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0,
-                    totalCashOutlay: (netIncome * TAX_RATES[2024].npt) +
-                        ((netIncome * TAX_RATES[2024].npt) > NPT_ESTIMATED_MINIMUM ?
-                            (netIncome * TAX_RATES[2024].npt) * NPT_ESTIMATED_RATE : 0),
-                    isFirstYearFiler: false,
-                    isExempt: true,
-                    applyExemption: true,
-                    rates: TAX_RATES[2024]
-                };
-
-                // 2025 - first year filing BIRT (no BIRT estimates)
-                years[2025] = calculateYear(netIncome, grossReceipts, 2025, true, false);
-                // 2026 - second year, now pays BIRT estimates
-                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, false);
-                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, false);
+            // Calculate tax liabilities for all years
+            const taxLiabilities = {};
+            for (let year = 2022; year <= 2027; year++) {
+                const businessExisted = year >= startYearInt;
+                taxLiabilities[year] = calculateTaxLiability(netIncome, grossReceipts, year, businessExisted);
             }
 
-            // Calculate increase from baseline to shock year
-            const baseline = years[2024];
-            const shock = years[shockYear];
-            const increase = shock.totalCashOutlay - baseline.totalCashOutlay;
+            // Calculate cash flows for all years
+            const cashFlows = {};
+            for (let year = 2023; year <= 2027; year++) {
+                cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear);
+            }
+
+            // Determine shock year = first year with BIRT estimated payments
+            // This is startYear + 1 (the year after you start filing)
+            let shockYear = startYearInt + 1;
+            if (shockYear < 2023) shockYear = 2023;
+            if (shockYear > 2027) shockYear = 2027;
+
+            // Baseline is always 2024 (last year with exemption)
+            const baseline2024Tax = taxLiabilities[2024];
+            const baseline2024Cash = cashFlows[2024] || { totalCashBurden: 0 };
+
+            // 2025 tax for run rate comparison
+            const tax2025 = taxLiabilities[2025];
+
+            // Shock year cash flow
+            const shockCash = cashFlows[shockYear] || { totalCashBurden: 0 };
+
+            // Annual tax increase = 2025 tax due - 2024 tax due
+            const annualTaxIncrease = tax2025.totalTax - baseline2024Tax.totalTax;
+
+            // Shock year cash increase = shock year cash burden - 2024 cash burden
+            const shockCashIncrease = shockCash.totalCashBurden - baseline2024Cash.totalCashBurden;
 
             return {
-                isScenarioA,
+                startYear: startYearInt,
                 shockYear,
-                startYear,
-                years,
-                increase,
-                baseline,
-                shock
+                taxLiabilities,
+                cashFlows,
+                baseline2024Tax,
+                baseline2024Cash,
+                annualTaxIncrease,
+                shockCashIncrease,
+                grossReceipts,
+                netIncome
             };
         }
 
         // Render year card
-        function renderYearCard(data, isBaseline, isShock, cashOutlayYear) {
+        function renderYearCard(taxData, cashData, isBaseline, isShock, startYear) {
+            const year = taxData.year;
+            const businessExisted = taxData.businessExisted;
+            const cashOutlayYear = year + 1;
+
             let badgeHtml = '';
             let cardClass = 'year-card';
 
-            if (isBaseline) {
+            if (!businessExisted) {
+                badgeHtml = '<span class="year-badge inactive">Not in Business</span>';
+                cardClass += ' inactive';
+            } else if (isBaseline) {
                 badgeHtml = '<span class="year-badge baseline">Baseline Year</span>';
                 cardClass += ' baseline';
             } else if (isShock) {
@@ -1517,49 +1474,71 @@
                 badgeHtml = '<span class="year-badge filed">Filed Year</span>';
             }
 
-            const exemptNote = data.isExempt ? ' <span style="color: var(--green);">(Exempt)</span>' : '';
-            const firstYearNote = data.isFirstYearFiler ? ' <span style="color: var(--gold-dark);">(First Year - No BIRT Est.)</span>' : '';
+            if (!businessExisted) {
+                return `
+                    <div class="${cardClass}">
+                        <div class="year-header">
+                            <span class="year-label">Tax Year ${year}</span>
+                            ${badgeHtml}
+                        </div>
+                        <div class="year-total" style="color: var(--text-light);">Business not yet started</div>
+                    </div>
+                `;
+            }
+
+            const exemption = EXEMPTION_BY_YEAR[year];
+            const hasExemption = exemption > 0;
+            const exemptNote = hasExemption ? ' <span style="color: var(--green);">(w/ exemption)</span>' : '';
+            const firstYearNote = cashData && cashData.isFirstYearBIRT ? ' <span style="color: var(--gold-dark);">(First Year - No BIRT Est.)</span>' : '';
+
+            const totalCash = cashData ? cashData.totalCashBurden : taxData.totalTax;
 
             return `
                 <div class="${cardClass}">
                     <div class="year-header">
-                        <span class="year-label">Tax Year ${data.year} <span style="font-weight: 400; color: var(--text-light);">(Paid April ${cashOutlayYear})</span></span>
+                        <span class="year-label">Tax Year ${year} <span style="font-weight: 400; color: var(--text-light);">(Paid April ${cashOutlayYear})</span></span>
                         ${badgeHtml}
                     </div>
-                    <div class="year-total">${formatCurrency(data.totalCashOutlay)} total cash outlay</div>
+                    <div class="year-total">${formatCurrency(totalCash)} total cash outlay</div>
                     <div class="year-breakdown">
                         <div class="breakdown-row">
                             <span>BIRT (Net Income)${exemptNote}</span>
-                            <span>${formatCurrency(data.birtNI)} <span class="formula">${(data.rates.birtNI * 100).toFixed(2)}%</span></span>
+                            <span>${formatCurrency(taxData.birtNI)} <span class="formula">${(taxData.rates.birtNI * 100).toFixed(2)}%</span></span>
                         </div>
                         <div class="breakdown-row">
                             <span>BIRT (Gross Receipts)${exemptNote}</span>
-                            <span>${formatCurrency(data.birtGR)} <span class="formula">${(data.rates.birtGR * 100).toFixed(4)}%</span></span>
+                            <span>${formatCurrency(taxData.birtGR)} <span class="formula">${(taxData.rates.birtGR * 100).toFixed(4)}%</span></span>
                         </div>
                         <div class="breakdown-row">
                             <span>NPT (before credit)</span>
-                            <span>${formatCurrency(data.nptGross)} <span class="formula">${(data.rates.npt * 100).toFixed(2)}%</span></span>
+                            <span>${formatCurrency(taxData.nptGross)} <span class="formula">${(taxData.rates.npt * 100).toFixed(2)}%</span></span>
                         </div>
                         <div class="breakdown-row">
                             <span>BIRT Credit (60% of BIRT NI)</span>
-                            <span>-${formatCurrency(data.birtCredit)}</span>
+                            <span>-${formatCurrency(taxData.birtCredit)}</span>
                         </div>
                         <div class="breakdown-row subtotal">
                             <span>Tax Due</span>
-                            <span>${formatCurrency(data.taxDue)}</span>
+                            <span>${formatCurrency(taxData.totalTax)}</span>
                         </div>
+                        ${cashData ? `
                         <div class="breakdown-row">
                             <span>+ BIRT Estimated${firstYearNote}</span>
-                            <span>${formatCurrency(data.birtEstimated)}</span>
+                            <span>${formatCurrency(cashData.estBIRT)}</span>
                         </div>
                         <div class="breakdown-row">
                             <span>+ NPT Estimated (50%)</span>
-                            <span>${formatCurrency(data.nptEstimated)}</span>
+                            <span>${formatCurrency(cashData.estNPT)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>- Prior Year Est. Adjustment</span>
+                            <span>${formatCurrency(cashData.adjustment)}</span>
                         </div>
                         <div class="breakdown-row total">
-                            <span>Total (Tax Due + Estimated)</span>
-                            <span>${formatCurrency(data.totalCashOutlay)}</span>
+                            <span>Total Cash Burden</span>
+                            <span>${formatCurrency(cashData.totalCashBurden)}</span>
                         </div>
+                        ` : ''}
                     </div>
                 </div>
             `;
@@ -1590,70 +1569,72 @@
 
             const result = calculate(netIncome, grossReceipts, startYear);
 
-            // Update scenario badge
+            // Update scenario badge based on gross receipts
             const badge = document.getElementById('scenario-badge');
-            if (result.isScenarioA) {
-                badge.textContent = 'Scenario A: Already paying BIRT';
+            if (grossReceipts > 100000) {
+                badge.textContent = 'Gross Receipts > $100K';
                 badge.className = 'scenario-badge scenario-a';
             } else {
-                badge.textContent = 'Scenario B: Newly subject to BIRT';
+                badge.textContent = 'Gross Receipts ≤ $100K';
                 badge.className = 'scenario-badge scenario-b';
             }
 
-            // Update run rate summary (tax due only, no estimated payments)
-            // Compare 2025 tax due vs 2024 tax due - the annual increase
-            const runRateIncrease = result.years[2025].taxDue - result.baseline.taxDue;
-            document.getElementById('run-rate-amount').textContent = '↑' + formatCurrency(runRateIncrease);
+            // Update run rate summary (annual tax increase vs 2024 baseline)
+            document.getElementById('run-rate-amount').textContent = '↑' + formatCurrency(result.annualTaxIncrease);
 
-            // Update impact summary (total cash outlay including estimates)
-            document.getElementById('impact-amount').textContent = '↑' + formatCurrency(result.increase);
+            // Update impact summary (shock year cash increase vs 2024 baseline)
+            document.getElementById('impact-amount').textContent = '↑' + formatCurrency(result.shockCashIncrease);
             document.getElementById('impact-detail').textContent =
                 `Comparing ${result.shockYear} to your 2024 baseline (includes estimated payments)`;
 
             // Show cash shock year (payment is due the year after)
             const cashShockYear = result.shockYear + 1;
-            document.getElementById('cash-shock-year').textContent = `Cash Shock Year: ${cashShockYear}`;
+            document.getElementById('cash-shock-year').textContent = `Cash Shock Year: April ${cashShockYear}`;
 
-            // Show contextual warning based on scenario and start year
+            // Show contextual warning
             const warningBox = document.getElementById('warning-box');
-            if (!result.isScenarioA) {
-                // Scenario B: Newly subject to BIRT
+            if (result.startYear >= 2024) {
                 warningBox.innerHTML = `
                     <h4>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
                         </svg>
-                        Don't be fooled by 2025
+                        New Business Note
                     </h4>
-                    <p>Your 2025 cash outlay looks lower because it's your first year filing BIRT. But in 2026, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
+                    <p>Since you started in ${result.startYear}, your first year filing won't include BIRT estimated payments. But in ${result.shockYear}, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
                 `;
                 warningBox.style.display = 'block';
-            } else if (result.isScenarioA && startYear === '2024') {
-                // Scenario A + new business: first year in 2024
+            } else if (result.startYear === 2023) {
                 warningBox.innerHTML = `
                     <h4>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
                         </svg>
-                        First Year Business Note
+                        Timing Note
                     </h4>
-                    <p>Since 2024 is your first year, you won't owe BIRT estimated payments for 2025. But starting in 2026, you'll be in the full cycle with both tax due AND estimated payments.</p>
+                    <p>Since you started in 2023, you were exempt from BIRT estimated payments in your first filing year. Your shock year is ${result.shockYear} when the exemption removal fully impacts your cash flow.</p>
                 `;
                 warningBox.style.display = 'block';
             } else {
                 warningBox.style.display = 'none';
             }
 
-            // Render timeline - only show 2024, 2025, 2026 (no 2027)
+            // Determine which years to show (from start year to 2027, max 6 years)
+            const yearsToShow = [];
+            for (let y = result.startYear; y <= 2027; y++) {
+                yearsToShow.push(y);
+            }
+
+            // Render timeline
             const timeline = document.getElementById('timeline');
             let timelineHtml = '';
 
-            [2024, 2025, 2026].forEach(year => {
-                const data = result.years[year];
+            yearsToShow.forEach(year => {
+                const taxData = result.taxLiabilities[year];
+                const cashData = result.cashFlows[year];
                 const isBaseline = year === 2024;
                 const isShock = year === result.shockYear;
-                const cashOutlayYear = year + 1;
-                timelineHtml += renderYearCard(data, isBaseline, isShock, cashOutlayYear);
+                timelineHtml += renderYearCard(taxData, cashData, isBaseline, isShock, startYear);
             });
 
             timeline.innerHTML = timelineHtml;
@@ -1665,7 +1646,7 @@
             const resultsHeader = document.querySelector('.results-header');
             const headerRect = resultsHeader.getBoundingClientRect();
             const navHeight = document.querySelector('.nav').offsetHeight;
-            const scrollTarget = window.scrollY + headerRect.top - navHeight - 16; // nav height + breathing room
+            const scrollTarget = window.scrollY + headerRect.top - navHeight - 16;
             window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
         });
 
