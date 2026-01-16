@@ -1071,6 +1071,25 @@
                         <input type="text" id="netIncome" class="form-input" placeholder="$50,000" inputmode="numeric">
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label">When did your business start?</label>
+                        <p class="form-hint">This affects your estimated payment requirements</p>
+                        <div class="start-year-picker">
+                            <label class="start-year-option">
+                                <input type="radio" name="startYear" value="2022" checked>
+                                <span class="start-year-label">2022 or earlier</span>
+                            </label>
+                            <label class="start-year-option">
+                                <input type="radio" name="startYear" value="2023">
+                                <span class="start-year-label">2023</span>
+                            </label>
+                            <label class="start-year-option">
+                                <input type="radio" name="startYear" value="2024">
+                                <span class="start-year-label">2024</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div id="income-adjustment-note" class="adjustment-note" style="display: none;">
                         <p><strong>Note:</strong> Philadelphia Sales and Income Impact Calculation. Your income has been adjusted to equal your gross receipts. Adjust your income if you have separate expenses attributed to just Philadelphia.</p>
                     </div>
@@ -1249,24 +1268,59 @@
             };
         }
 
+        // Determine if a business is in their first year of BIRT filing for a given tax year
+        // Based on when business started and their scenario
+        function isFirstYearBIRT(taxYear, startYear, isScenarioA) {
+            // Scenario A: Already paying BIRT (gross > $100K)
+            // - If started 2022 or earlier: never first year
+            // - If started 2023: 2023 was first year, so 2024+ = not first year
+            // - If started 2024: 2024 is first year
+            //
+            // Scenario B: Newly subject to BIRT (gross <= $100K)
+            // - Exempt in 2024 (no BIRT at all)
+            // - 2025 is their first year filing BIRT regardless of when biz started
+            // - 2026+ is not first year
+
+            if (isScenarioA) {
+                // Scenario A logic based on start year
+                if (startYear === '2022') {
+                    return false; // Established, never first year
+                } else if (startYear === '2023') {
+                    return taxYear === 2023; // 2023 was first, 2024+ not first
+                } else if (startYear === '2024') {
+                    return taxYear === 2024; // 2024 is first year
+                }
+            } else {
+                // Scenario B: exempt in 2024, first year filing BIRT in 2025
+                return taxYear === 2025;
+            }
+            return false;
+        }
+
         // Main calculation function
-        function calculate(netIncome, grossReceipts) {
+        function calculate(netIncome, grossReceipts, startYear) {
             // Determine scenario based on gross receipts
             const isScenarioA = grossReceipts > 100000;
             const shockYear = isScenarioA ? 2025 : 2026;
 
             // Calculate each year
-            // For Scenario B: 2024 is exempt (no BIRT), 2025 is first-year filer (no BIRT estimates)
             const years = {};
 
             if (isScenarioA) {
                 // Scenario A: Already paying BIRT (gross receipts > $100K)
                 // 2024 - baseline WITH statutory exemption (they still get the deduction)
-                years[2024] = calculateYear(netIncome, grossReceipts, 2024, false, true);  // applyExemption = true
-                // 2025+ - no exemption
-                years[2025] = calculateYear(netIncome, grossReceipts, 2025, false, false);
-                years[2026] = calculateYear(netIncome, grossReceipts, 2026, false, false);
-                years[2027] = calculateYear(netIncome, grossReceipts, 2027, false, false);
+                const isFirst2024 = isFirstYearBIRT(2024, startYear, true);
+                years[2024] = calculateYear(netIncome, grossReceipts, 2024, isFirst2024, true);  // applyExemption = true
+
+                // 2025+ - no exemption, check first year status
+                const isFirst2025 = isFirstYearBIRT(2025, startYear, true);
+                years[2025] = calculateYear(netIncome, grossReceipts, 2025, isFirst2025, false);
+
+                const isFirst2026 = isFirstYearBIRT(2026, startYear, true);
+                years[2026] = calculateYear(netIncome, grossReceipts, 2026, isFirst2026, false);
+
+                const isFirst2027 = isFirstYearBIRT(2027, startYear, true);
+                years[2027] = calculateYear(netIncome, grossReceipts, 2027, isFirst2027, false);
             } else {
                 // Scenario B: Fully exempt from BIRT in 2024 (gross receipts <= $100K)
                 // 2024 - fully exempt from BIRT, only pay NPT
@@ -1311,6 +1365,7 @@
             return {
                 isScenarioA,
                 shockYear,
+                startYear,
                 years,
                 increase,
                 baseline,
@@ -1387,6 +1442,7 @@
 
             let netIncome = parseCurrency(document.getElementById('netIncome').value);
             const grossReceipts = parseCurrency(document.getElementById('grossReceipts').value);
+            const startYear = document.querySelector('input[name="startYear"]:checked').value;
 
             if (netIncome <= 0 || grossReceipts <= 0) {
                 alert('Please enter valid amounts for both fields.');
@@ -1403,7 +1459,7 @@
                 adjustmentNote.style.display = 'none';
             }
 
-            const result = calculate(netIncome, grossReceipts);
+            const result = calculate(netIncome, grossReceipts, startYear);
 
             // Update scenario badge
             const badge = document.getElementById('scenario-badge');
@@ -1429,9 +1485,35 @@
             const cashShockYear = result.shockYear + 1;
             document.getElementById('cash-shock-year').textContent = `Cash Shock Year: ${cashShockYear}`;
 
-            // Show warning for Scenario B
+            // Show contextual warning based on scenario and start year
             const warningBox = document.getElementById('warning-box');
-            warningBox.style.display = result.isScenarioA ? 'none' : 'block';
+            if (!result.isScenarioA) {
+                // Scenario B: Newly subject to BIRT
+                warningBox.innerHTML = `
+                    <h4>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
+                        </svg>
+                        Don't be fooled by 2025
+                    </h4>
+                    <p>Your 2025 cash outlay looks lower because it's your first year filing BIRT. But in 2026, you'll get hit with the full estimated payment requirement on top of your tax due.</p>
+                `;
+                warningBox.style.display = 'block';
+            } else if (result.isScenarioA && startYear === '2024') {
+                // Scenario A + new business: first year in 2024
+                warningBox.innerHTML = `
+                    <h4>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
+                        </svg>
+                        First Year Business Note
+                    </h4>
+                    <p>Since 2024 is your first year, you won't owe BIRT estimated payments for 2025. But starting in 2026, you'll be in the full cycle with both tax due AND estimated payments.</p>
+                `;
+                warningBox.style.display = 'block';
+            } else {
+                warningBox.style.display = 'none';
+            }
 
             // Render timeline
             const timeline = document.getElementById('timeline');
