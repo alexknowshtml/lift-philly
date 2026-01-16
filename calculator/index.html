@@ -434,6 +434,53 @@
             }
         }
 
+        /* Year section collapsed state */
+        .year-collapsed {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            border: 2px solid var(--navy);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+        }
+
+        .year-collapsed-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .year-collapsed-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .year-collapsed-value {
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .year-change-btn {
+            background: transparent;
+            border: 1px solid var(--navy);
+            color: var(--navy);
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .year-change-btn:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+
         .calculate-btn {
             width: 100%;
             padding: 16px 32px;
@@ -1065,31 +1112,43 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card">
-                <!-- Step 1: Year Selection -->
-                <div id="step-1" class="calculator-step">
-                    <div class="form-group">
-                        <label class="form-label">When did your business start?</label>
-                        <p class="form-hint">This affects your estimated payment requirements</p>
-                        <div class="start-year-picker">
-                            <label class="start-year-option">
-                                <input type="radio" name="startYear" value="2022">
-                                <span class="start-year-label">2022 or earlier</span>
-                            </label>
-                            <label class="start-year-option">
-                                <input type="radio" name="startYear" value="2023">
-                                <span class="start-year-label">2023</span>
-                            </label>
-                            <label class="start-year-option">
-                                <input type="radio" name="startYear" value="2024">
-                                <span class="start-year-label">2024</span>
-                            </label>
+                <!-- Year Selection (collapsible) -->
+                <div id="year-section" class="year-section">
+                    <!-- Collapsed view -->
+                    <div id="year-collapsed" class="year-collapsed" style="display: none;">
+                        <div class="year-collapsed-content">
+                            <span class="year-collapsed-label">Business started:</span>
+                            <span id="year-collapsed-value" class="year-collapsed-value"></span>
                         </div>
+                        <button type="button" id="year-change-btn" class="year-change-btn">Change</button>
                     </div>
-                    <button type="button" id="step-1-continue" class="calculate-btn" disabled>Continue</button>
+
+                    <!-- Expanded view -->
+                    <div id="year-expanded" class="year-expanded">
+                        <div class="form-group">
+                            <label class="form-label">When did your business start?</label>
+                            <p class="form-hint">This affects your estimated payment requirements</p>
+                            <div class="start-year-picker">
+                                <label class="start-year-option">
+                                    <input type="radio" name="startYear" value="2022">
+                                    <span class="start-year-label">2022 or earlier</span>
+                                </label>
+                                <label class="start-year-option">
+                                    <input type="radio" name="startYear" value="2023">
+                                    <span class="start-year-label">2023</span>
+                                </label>
+                                <label class="start-year-option">
+                                    <input type="radio" name="startYear" value="2024">
+                                    <span class="start-year-label">2024</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="button" id="year-continue-btn" class="calculate-btn" disabled>Continue</button>
+                    </div>
                 </div>
 
-                <!-- Step 2: Revenue Inputs -->
-                <div id="step-2" class="calculator-step" style="display: none;">
+                <!-- Revenue Inputs -->
+                <div id="revenue-section" class="calculator-step" style="display: none;">
                     <form id="calculator-form">
                         <div class="form-group">
                             <label class="form-label">Average Annual Gross Receipts</label>
@@ -1567,23 +1626,61 @@
             });
         });
 
-        // Step navigation
-        const step1 = document.getElementById('step-1');
-        const step2 = document.getElementById('step-2');
-        const step1Continue = document.getElementById('step-1-continue');
+        // Year section elements
+        const yearCollapsed = document.getElementById('year-collapsed');
+        const yearExpanded = document.getElementById('year-expanded');
+        const yearCollapsedValue = document.getElementById('year-collapsed-value');
+        const yearContinueBtn = document.getElementById('year-continue-btn');
+        const yearChangeBtn = document.getElementById('year-change-btn');
+        const revenueSection = document.getElementById('revenue-section');
         const startYearRadios = document.querySelectorAll('input[name="startYear"]');
+
+        // Year display labels
+        const yearLabels = {
+            '2022': '2022 or earlier',
+            '2023': '2023',
+            '2024': '2024'
+        };
 
         // Enable continue button when a year is selected
         startYearRadios.forEach(radio => {
             radio.addEventListener('change', function() {
-                step1Continue.disabled = false;
+                yearContinueBtn.disabled = false;
             });
         });
 
-        // Handle step 1 continue
-        step1Continue.addEventListener('click', function() {
-            step1.style.display = 'none';
-            step2.style.display = 'block';
+        // Collapse year picker and show revenue section
+        function collapseYearPicker() {
+            const selectedYear = document.querySelector('input[name="startYear"]:checked').value;
+            yearCollapsedValue.textContent = yearLabels[selectedYear];
+            yearExpanded.style.display = 'none';
+            yearCollapsed.style.display = 'flex';
+            revenueSection.style.display = 'block';
+        }
+
+        // Expand year picker
+        function expandYearPicker() {
+            yearCollapsed.style.display = 'none';
+            yearExpanded.style.display = 'block';
+        }
+
+        // Handle continue button
+        yearContinueBtn.addEventListener('click', collapseYearPicker);
+
+        // Handle change button
+        yearChangeBtn.addEventListener('click', expandYearPicker);
+
+        // When year changes in expanded state after results shown, auto-recalculate
+        startYearRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // If results are visible, recalculate
+                if (document.getElementById('results').classList.contains('visible')) {
+                    // Collapse the picker
+                    collapseYearPicker();
+                    // Trigger recalculation
+                    document.getElementById('calculator-form').dispatchEvent(new Event('submit'));
+                }
+            });
         });
     </script>
 </body>
