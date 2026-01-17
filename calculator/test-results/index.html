@@ -338,15 +338,6 @@
         <p>Review scenarios for accuracy</p>
     </div>
 
-    <div class="nav-controls">
-        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592;</button>
-        <div>
-            <div class="scenario-indicator" id="indicator">Scenario 1 of 6</div>
-            <div class="scenario-dots" id="dots"></div>
-        </div>
-        <button class="nav-btn" id="next-btn" onclick="navigate(1)">&#8594;</button>
-    </div>
-
     <div class="comparison-section">
         <button class="comparison-toggle" onclick="toggleTable()">Compare All Scenarios</button>
         <table class="comparison-table" id="comparison-table">
@@ -415,6 +406,15 @@
             <p><strong>Legend:</strong> <span class="legend-highlight">Gold</span> = varies from baseline &nbsp;|&nbsp; <span class="legend-muted">Gray</span> = constant across scenarios</p>
             <p class="math-note"><strong>Why the numbers:</strong> Annual savings come from BIRT/NPT tax reductions. "Shock +" is cumulative savings through 2024 (when LIFT ends). Scenario 5 shows less total savings because starting in 2024 means only one year in the program.</p>
         </div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592;</button>
+        <div>
+            <div class="scenario-indicator" id="indicator">Scenario 1 of 6</div>
+            <div class="scenario-dots" id="dots"></div>
+        </div>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">&#8594;</button>
     </div>
 
     <div class="swipe-hint">Swipe left/right or use arrows</div>
