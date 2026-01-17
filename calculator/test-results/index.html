@@ -277,25 +277,24 @@
         }
         .comparison-toggle {
             display: block;
-            width: 100%;
-            padding: 12px 20px;
-            background: #0f172a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            width: auto;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
             cursor: pointer;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
-        .comparison-toggle:hover { background: #1e293b; }
+        .comparison-toggle:hover { background: #e2e8f0; }
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
-            display: none;
         }
-        .comparison-table.visible { display: table; }
+        .comparison-table.hidden { display: none; }
         .comparison-table th {
             background: #f1f5f9;
             padding: 10px 8px;
@@ -340,7 +339,7 @@
     </div>
 
     <div class="comparison-section">
-        <button class="comparison-toggle" onclick="toggleTable()">Compare All Scenarios</button>
+        <button class="comparison-toggle" id="table-toggle" onclick="toggleTable()">Hide Table</button>
         <table class="comparison-table" id="comparison-table">
             <thead>
                 <tr>
@@ -859,7 +858,10 @@
         }
 
         function toggleTable() {
-            document.getElementById('comparison-table').classList.toggle('visible');
+            const table = document.getElementById('comparison-table');
+            const btn = document.getElementById('table-toggle');
+            table.classList.toggle('hidden');
+            btn.textContent = table.classList.contains('hidden') ? 'Show Table' : 'Hide Table';
         }
 
         // Swipe support
