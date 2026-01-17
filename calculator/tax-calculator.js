@@ -237,9 +237,7 @@
         const fmtPct = (rate) => (rate * 100).toFixed(rate < 0.01 ? 3 : 2) + '%';
 
         // ========== PART 1: ANNUAL TAX INCREASE ==========
-        let html = `<h4 style="color: #0f172a; border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin-bottom: 12px;">📊 Annual Tax Increase Calculation</h4>`;
-
-        html += `<h4>${yearWith} Tax Liability (With $${exemption/1000}K Exemption)</h4>`;
+        let html = `<h4>${yearWith} Tax Liability (With $${exemption/1000}K Exemption)</h4>`;
 
         // With exemption section
         html += `<div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, ${fmtK(grossReceipts)} - ${fmtK(exemption)})</span><span class="value">${formatCurrency(withExemption.taxableGR)}</span></div>`;

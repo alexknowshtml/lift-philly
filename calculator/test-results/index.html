@@ -171,7 +171,7 @@
             cursor: pointer;
             font-weight: 600;
             color: #475569;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .flowchart-toggle:hover { background: #e2e8f0; }
         .flowchart {
@@ -183,25 +183,35 @@
             border: 1px solid #e2e8f0;
             font-size: 0.8rem;
             line-height: 1.6;
+            position: relative;
         }
         .flowchart.hidden { display: none; }
-        .flowchart-actions {
+        .flowchart-header {
             display: flex;
-            gap: 12px;
-            margin-top: 12px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #fbbf24;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .flowchart-title {
+            margin: 0;
+            color: #0f172a;
+            font-size: 1rem;
+            font-weight: 600;
         }
         .export-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
+            gap: 4px;
+            padding: 4px 10px;
             background: #0f172a;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
             cursor: pointer;
+            white-space: nowrap;
         }
         .export-btn:hover { background: #1e293b; }
         .flowchart h4 {
@@ -465,11 +475,12 @@
                                         <span class="summary-value negative">+${formatCurrency(summary.shockIncrease)}</span>
                                     </div>
                                 </div>
-                                <div class="flowchart-actions">
-                                    <button class="flowchart-toggle" onclick="toggleFlowchart(${s.id})">Hide Calculation Breakdown</button>
-                                    <button class="export-btn" onclick="exportCSV(${s.id})">📄 Export CSV</button>
-                                </div>
+                                <button class="flowchart-toggle" onclick="toggleFlowchart(${s.id})">Hide Calculation Breakdown</button>
                                 <div class="flowchart" id="flowchart-${s.id}">
+                                    <div class="flowchart-header">
+                                        <span class="flowchart-title">📊 Annual Tax Increase Calculation</span>
+                                        <button class="export-btn" onclick="exportCSV(${s.id})">📄 Export CSV</button>
+                                    </div>
                                     ${flowchartHTML}
                                 </div>
                                 <img src="scenario_${s.id}.png" alt="Scenario ${s.id}" class="screenshot" onclick="showModal(this.src)">
