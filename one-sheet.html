@@ -74,9 +74,18 @@
 
         .acronym {
             font-size: 8pt;
-            color: rgba(255,255,255,0.7);
-            text-align: right;
-            line-height: 1.3;
+            color: rgba(255,255,255,0.9);
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .acronym-item {
+            white-space: nowrap;
+        }
+
+        .acronym-letter {
+            color: var(--gold);
+            font-weight: 700;
         }
 
         /* Section headers */
@@ -355,8 +364,10 @@
         <div class="header">
             <div class="logo">LIFT <span>Philly</span></div>
             <div class="acronym">
-                <strong>L</strong>abor · <strong>I</strong>ndependent Enterprise<br>
-                <strong>F</strong>amily Enterprise · <strong>T</strong>ax Reform
+                <span class="acronym-item"><span class="acronym-letter">L</span>abor (1099)</span><br>
+                <span class="acronym-item"><span class="acronym-letter">I</span>ndividual Enterprise</span><br>
+                <span class="acronym-item"><span class="acronym-letter">F</span>amily Enterprise</span><br>
+                <span class="acronym-item"><span class="acronym-letter">T</span>ax Reform</span>
             </div>
         </div>
 
