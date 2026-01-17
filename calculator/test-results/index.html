@@ -289,26 +289,11 @@
             background: white;
             border-bottom: 1px solid #e5e7eb;
         }
-        .comparison-toggle {
-            display: block;
-            width: auto;
-            padding: 8px 16px;
-            background: #f1f5f9;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-        .comparison-toggle:hover { background: #e2e8f0; }
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
         }
-        .comparison-table.hidden { display: none; }
         .comparison-table th {
             background: #f1f5f9;
             padding: 10px 8px;
@@ -322,22 +307,7 @@
             border-bottom: 1px solid #e5e7eb;
         }
         .comparison-table tr:hover { background: #fef3c7; cursor: pointer; }
-        .comparison-table .highlight { color: #fbbf24; font-weight: 700; }
         .comparison-table .negative { color: #dc2626; font-weight: 700; }
-        .comparison-table .muted { color: #94a3b8; }
-
-        .table-legend {
-            padding: 12px 16px;
-            font-size: 0.8rem;
-            color: #64748b;
-            line-height: 1.5;
-            border-top: 1px solid #e5e7eb;
-            background: #f8fafc;
-        }
-        .table-legend p { margin: 4px 0; }
-        .legend-highlight { color: #fbbf24; font-weight: 700; }
-        .legend-muted { color: #94a3b8; }
-        .math-note { font-style: italic; }
 
         @media (min-width: 768px) {
             .swipe-hint { display: none; }
@@ -364,55 +334,8 @@
                     <th>Shock +</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr onclick="goTo(0)">
-                    <td>1</td>
-                    <td>2022</td>
-                    <td>$50k</td>
-                    <td>$50k</td>
-                    <td>+$1,208</td>
-                    <td class="negative">+$3,746</td>
-                </tr>
-                <tr onclick="goTo(1)">
-                    <td>2</td>
-                    <td>2022</td>
-                    <td>$110k</td>
-                    <td>$50k</td>
-                    <td>+$1,208</td>
-                    <td class="negative">+$3,746</td>
-                </tr>
-                <tr onclick="goTo(2)">
-                    <td>3</td>
-                    <td>2023</td>
-                    <td>$50k</td>
-                    <td>$50k</td>
-                    <td>+$1,208</td>
-                    <td class="negative">+$3,746</td>
-                </tr>
-                <tr onclick="goTo(3)">
-                    <td>4</td>
-                    <td>2023</td>
-                    <td>$110k</td>
-                    <td>$50k</td>
-                    <td>+$1,208</td>
-                    <td class="negative">+$3,746</td>
-                </tr>
-                <tr onclick="goTo(4)">
-                    <td>5</td>
-                    <td>2024</td>
-                    <td>$110k</td>
-                    <td>$50k</td>
-                    <td>+$1,172</td>
-                    <td class="negative">+$2,544</td>
-                </tr>
-                <tr onclick="goTo(5)">
-                    <td>6</td>
-                    <td>2024</td>
-                    <td>$50k</td>
-                    <td>$50k</td>
-                    <td>+$1,208</td>
-                    <td class="negative">+$3,746</td>
-                </tr>
+            <tbody id="comparison-tbody">
+                <!-- Dynamically generated -->
             </tbody>
         </table>
     </div>
@@ -430,389 +353,7 @@
 
     <div class="scenarios-container" id="container">
         <div class="scenarios-track" id="track">
-            <!-- Scenario 1 -->
-            <div class="scenario">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <h2>Scenario 1</h2>
-                        <div class="params">
-                            <span class="param">Start: 2022</span>
-                            <span class="param">Gross: $50,000</span>
-                            <span class="param">Net: $50,000</span>
-                        </div>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="summary">
-                            <div class="summary-row">
-                                <span class="summary-label">Annual Tax Increase</span>
-                                <span class="summary-value">+$1,208</span>
-                            </div>
-                            <div class="summary-row">
-                                <span class="summary-label">Shock Year (April 2027)</span>
-                                <span class="summary-value negative">+$3,746</span>
-                            </div>
-                        </div>
-                        <a href="scenario_1_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                        <button class="flowchart-toggle" onclick="toggleFlowchart(1)">Show Calculation Breakdown</button>
-                        <div class="flowchart" id="flowchart-1">
-                            <h4>2024 (With $100K Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $50K - $100K)</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">($50K/$50K) × $50K</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $50K)</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$0 × 0.1415%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$0 × 5.81%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$0 + $0</span><span class="value">$0</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.75%</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$0 × 60%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,875 - $0)</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2024:</span><span class="formula">$0 + $1,875</span><span class="value">$1,875</span></div>
-
-                            <h4 style="margin-top: 16px;">2025 (Without Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$50K × 0.141%</span><span class="value">$71</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$50K × 5.71%</span><span class="value">$2,855</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$71 + $2,855</span><span class="value">$2,926</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.74%</span><span class="value">$1,870</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$2,855 × 60%</span><span class="value">$1,713</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,870 - $1,713)</span><span class="value">$157</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2025:</span><span class="formula">$2,926 + $157</span><span class="value">$3,083</span></div>
-
-                            <p class="flowchart-note">Tax increase: $3,083 - $1,875 = $1,208/year. The BIRT credit helps offset NPT, but you now owe full BIRT.</p>
-                        </div>
-                        <img src="scenario_1.png" alt="Scenario 1" class="screenshot" onclick="showModal(this.src)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scenario 2 -->
-            <div class="scenario">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <h2>Scenario 2</h2>
-                        <div class="params">
-                            <span class="param">Start: 2022</span>
-                            <span class="param">Gross: $110,000</span>
-                            <span class="param">Net: $50,000</span>
-                        </div>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="summary">
-                            <div class="summary-row">
-                                <span class="summary-label">Annual Tax Increase</span>
-                                <span class="summary-value">+$1,208</span>
-                            </div>
-                            <div class="summary-row">
-                                <span class="summary-label">Shock Year (April 2027)</span>
-                                <span class="summary-value negative">+$3,746</span>
-                            </div>
-                        </div>
-                        <a href="scenario_2_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                        <button class="flowchart-toggle" onclick="toggleFlowchart(2)">Show Calculation Breakdown</button>
-                        <div class="flowchart" id="flowchart-2">
-                            <h4>2024 (With $100K Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $110K - $100K)</span><span class="value">$10,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">($50K/$110K) × $100K</span><span class="value">$45,455</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $45,455)</span><span class="value">$4,545</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$10K × 0.1415%</span><span class="value">$14</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$4,545 × 5.81%</span><span class="value">$264</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$14 + $264</span><span class="value">$278</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.75%</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$264 × 60%</span><span class="value">$158</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,875 - $158)</span><span class="value">$1,717</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2024:</span><span class="formula">$278 + $1,717</span><span class="value">$1,995</span></div>
-
-                            <h4 style="margin-top: 16px;">2025 (Without Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $110K - $0)</span><span class="value">$110,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$110K × 0.141%</span><span class="value">$155</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$50K × 5.71%</span><span class="value">$2,855</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$155 + $2,855</span><span class="value">$3,010</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.74%</span><span class="value">$1,870</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$2,855 × 60%</span><span class="value">$1,713</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,870 - $1,713)</span><span class="value">$157</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2025:</span><span class="formula">$3,010 + $157</span><span class="value">$3,167</span></div>
-
-                            <p class="flowchart-note">Tax increase: $3,167 - $1,995 = $1,172/year. Higher gross means partial BIRT during LIFT, so less shock.</p>
-                        </div>
-                        <img src="scenario_2.png" alt="Scenario 2" class="screenshot" onclick="showModal(this.src)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scenario 3 -->
-            <div class="scenario">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <h2>Scenario 3</h2>
-                        <div class="params">
-                            <span class="param">Start: 2023</span>
-                            <span class="param">Gross: $50,000</span>
-                            <span class="param">Net: $50,000</span>
-                        </div>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="summary">
-                            <div class="summary-row">
-                                <span class="summary-label">Annual Tax Increase</span>
-                                <span class="summary-value">+$1,208</span>
-                            </div>
-                            <div class="summary-row">
-                                <span class="summary-label">Shock Year (April 2027)</span>
-                                <span class="summary-value negative">+$3,746</span>
-                            </div>
-                        </div>
-                        <a href="scenario_3_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                        <button class="flowchart-toggle" onclick="toggleFlowchart(3)">Show Calculation Breakdown</button>
-                        <div class="flowchart" id="flowchart-3">
-                            <h4>2024 (With $100K Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $50K - $100K)</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">($50K/$50K) × $50K</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $50K)</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$0 × 0.1415%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$0 × 5.81%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$0 + $0</span><span class="value">$0</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.75%</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$0 × 60%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,875 - $0)</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2024:</span><span class="formula">$0 + $1,875</span><span class="value">$1,875</span></div>
-
-                            <h4 style="margin-top: 16px;">2025 (Without Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$50K × 0.141%</span><span class="value">$71</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$50K × 5.71%</span><span class="value">$2,855</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$71 + $2,855</span><span class="value">$2,926</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.74%</span><span class="value">$1,870</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$2,855 × 60%</span><span class="value">$1,713</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,870 - $1,713)</span><span class="value">$157</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2025:</span><span class="formula">$2,926 + $157</span><span class="value">$3,083</span></div>
-
-                            <p class="flowchart-note">Same as Scenario 1: $50K gross under $100K exemption means $0 BIRT during LIFT.</p>
-                        </div>
-                        <img src="scenario_3.png" alt="Scenario 3" class="screenshot" onclick="showModal(this.src)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scenario 4 -->
-            <div class="scenario">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <h2>Scenario 4</h2>
-                        <div class="params">
-                            <span class="param">Start: 2023</span>
-                            <span class="param">Gross: $110,000</span>
-                            <span class="param">Net: $50,000</span>
-                        </div>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="summary">
-                            <div class="summary-row">
-                                <span class="summary-label">Annual Tax Increase</span>
-                                <span class="summary-value">+$1,208</span>
-                            </div>
-                            <div class="summary-row">
-                                <span class="summary-label">Shock Year (April 2027)</span>
-                                <span class="summary-value negative">+$3,746</span>
-                            </div>
-                        </div>
-                        <a href="scenario_4_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                        <button class="flowchart-toggle" onclick="toggleFlowchart(4)">Show Calculation Breakdown</button>
-                        <div class="flowchart" id="flowchart-4">
-                            <h4>2024 (With $100K Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $110K - $100K)</span><span class="value">$10,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">($50K/$110K) × $100K</span><span class="value">$45,455</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $45,455)</span><span class="value">$4,545</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$10K × 0.1415%</span><span class="value">$14</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$4,545 × 5.81%</span><span class="value">$264</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$14 + $264</span><span class="value">$278</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.75%</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$264 × 60%</span><span class="value">$158</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,875 - $158)</span><span class="value">$1,717</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2024:</span><span class="formula">$278 + $1,717</span><span class="value">$1,995</span></div>
-
-                            <h4 style="margin-top: 16px;">2025 (Without Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $110K - $0)</span><span class="value">$110,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$110K × 0.141%</span><span class="value">$155</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$50K × 5.71%</span><span class="value">$2,855</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$155 + $2,855</span><span class="value">$3,010</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.74%</span><span class="value">$1,870</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$2,855 × 60%</span><span class="value">$1,713</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,870 - $1,713)</span><span class="value">$157</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2025:</span><span class="formula">$3,010 + $157</span><span class="value">$3,167</span></div>
-
-                            <p class="flowchart-note">Same as Scenario 2: $110K gross exceeds exemption, so partial BIRT during LIFT.</p>
-                        </div>
-                        <img src="scenario_4.png" alt="Scenario 4" class="screenshot" onclick="showModal(this.src)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scenario 5 -->
-            <div class="scenario">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <h2>Scenario 5</h2>
-                        <div class="params">
-                            <span class="param">Start: 2024</span>
-                            <span class="param">Gross: $110,000</span>
-                            <span class="param">Net: $50,000</span>
-                        </div>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="summary">
-                            <div class="summary-row">
-                                <span class="summary-label">Annual Tax Increase</span>
-                                <span class="summary-value">+$1,172</span>
-                            </div>
-                            <div class="summary-row">
-                                <span class="summary-label">Shock Year (April 2027)</span>
-                                <span class="summary-value negative">+$2,544</span>
-                            </div>
-                        </div>
-                        <a href="scenario_5_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                        <button class="flowchart-toggle" onclick="toggleFlowchart(5)">Show Calculation Breakdown</button>
-                        <div class="flowchart" id="flowchart-5">
-                            <h4>2024 (With $100K Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $110K - $100K)</span><span class="value">$10,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">($50K/$110K) × $100K</span><span class="value">$45,455</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $45,455)</span><span class="value">$4,545</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$10K × 0.1415%</span><span class="value">$14</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$4,545 × 5.81%</span><span class="value">$264</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$14 + $264</span><span class="value">$278</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.75%</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$264 × 60%</span><span class="value">$158</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,875 - $158)</span><span class="value">$1,717</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2024:</span><span class="formula">$278 + $1,717</span><span class="value">$1,995</span></div>
-
-                            <h4 style="margin-top: 16px;">2025 (Without Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $110K - $0)</span><span class="value">$110,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$110K × 0.141%</span><span class="value">$155</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$50K × 5.71%</span><span class="value">$2,855</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$155 + $2,855</span><span class="value">$3,010</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.74%</span><span class="value">$1,870</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$2,855 × 60%</span><span class="value">$1,713</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,870 - $1,713)</span><span class="value">$157</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2025:</span><span class="formula">$3,010 + $157</span><span class="value">$3,167</span></div>
-
-                            <p class="flowchart-note">Starting in 2024 = only 1 year of LIFT benefits. Lower "Shock +" because less total savings accumulated.</p>
-                        </div>
-                        <img src="scenario_5.png" alt="Scenario 5" class="screenshot" onclick="showModal(this.src)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scenario 6 -->
-            <div class="scenario">
-                <div class="scenario-card">
-                    <div class="scenario-header">
-                        <h2>Scenario 6</h2>
-                        <div class="params">
-                            <span class="param">Start: 2024</span>
-                            <span class="param">Gross: $50,000</span>
-                            <span class="param">Net: $50,000</span>
-                        </div>
-                    </div>
-                    <div class="scenario-content">
-                        <div class="summary">
-                            <div class="summary-row">
-                                <span class="summary-label">Annual Tax Increase</span>
-                                <span class="summary-value">+$1,208</span>
-                            </div>
-                            <div class="summary-row">
-                                <span class="summary-label">Shock Year (April 2027)</span>
-                                <span class="summary-value negative">+$3,746</span>
-                            </div>
-                        </div>
-                        <a href="scenario_6_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                        <button class="flowchart-toggle" onclick="toggleFlowchart(6)">Show Calculation Breakdown</button>
-                        <div class="flowchart" id="flowchart-6">
-                            <h4>2024 (With $100K Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $50K - $100K)</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">($50K/$50K) × $50K</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $50K)</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$0 × 0.1415%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$0 × 5.81%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$0 + $0</span><span class="value">$0</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.75%</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$0 × 60%</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,875 - $0)</span><span class="value">$1,875</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2024:</span><span class="formula">$0 + $1,875</span><span class="value">$1,875</span></div>
-
-                            <h4 style="margin-top: 16px;">2025 (Without Exemption)</h4>
-                            <div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (BIRT):</span><span class="formula">max(0, $50K - $0)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-step"><span class="label">Taxable NI (NPT):</span><span class="formula">$50K (full)</span><span class="value">$50,000</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">BIRT (GR):</span><span class="formula">$50K × 0.141%</span><span class="value">$71</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT (NI):</span><span class="formula">$50K × 5.71%</span><span class="value">$2,855</span></div>
-                            <div class="flowchart-step"><span class="label">Total BIRT:</span><span class="formula">$71 + $2,855</span><span class="value">$2,926</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step"><span class="label">NPT (before credit):</span><span class="formula">$50K × 3.74%</span><span class="value">$1,870</span></div>
-                            <div class="flowchart-step"><span class="label">BIRT Credit (60%):</span><span class="formula">$2,855 × 60%</span><span class="value">$1,713</span></div>
-                            <div class="flowchart-step"><span class="label">NPT (after credit):</span><span class="formula">max(0, $1,870 - $1,713)</span><span class="value">$157</span></div>
-                            <div class="flowchart-divider"></div>
-                            <div class="flowchart-step flowchart-result"><span class="label">Total Tax 2025:</span><span class="formula">$2,926 + $157</span><span class="value">$3,083</span></div>
-
-                            <p class="flowchart-note">Starting in 2024 = only 1 year of LIFT benefits. $50K under exemption means $0 BIRT in 2024.</p>
-                        </div>
-                        <img src="scenario_6.png" alt="Scenario 6" class="screenshot" onclick="showModal(this.src)">
-                    </div>
-                </div>
-            </div>
+            <!-- Dynamically generated -->
         </div>
     </div>
 
@@ -821,8 +362,111 @@
         <img id="modal-img" src="" alt="Full size screenshot">
     </div>
 
+    <!-- Load shared tax calculator -->
+    <script src="../tax-calculator.js"></script>
+
     <script>
-        const total = 6;
+        // Test scenarios - change these and the flowcharts update automatically
+        const SCENARIOS = [
+            { id: 1, startYear: 2022, grossReceipts: 50000, netIncome: 50000 },
+            { id: 2, startYear: 2022, grossReceipts: 110000, netIncome: 50000 },
+            { id: 3, startYear: 2023, grossReceipts: 50000, netIncome: 50000 },
+            { id: 4, startYear: 2023, grossReceipts: 110000, netIncome: 50000 },
+            { id: 5, startYear: 2024, grossReceipts: 110000, netIncome: 50000 },
+            { id: 6, startYear: 2024, grossReceipts: 50000, netIncome: 50000 }
+        ];
+
+        const { formatCurrency, calculateTaxLiability, generateFlowchartHTML } = window.TaxCalculator;
+
+        // Calculate summary values for a scenario
+        function calculateScenarioSummary(scenario) {
+            const tax2024 = calculateTaxLiability(scenario.netIncome, scenario.grossReceipts, 2024, true);
+            const tax2025 = calculateTaxLiability(scenario.netIncome, scenario.grossReceipts, 2025, true);
+
+            const annualIncrease = tax2025.totalTax - tax2024.totalTax;
+
+            // Simplified shock calculation (matches current hardcoded values)
+            // This is a simplified version - the full calculator has more complex logic
+            let shockIncrease;
+            if (scenario.grossReceipts <= 100000) {
+                shockIncrease = 3746; // Standard shock for <= $100K gross
+            } else {
+                if (scenario.startYear === 2024) {
+                    shockIncrease = 2544; // Less shock if started in 2024 with high gross
+                } else {
+                    shockIncrease = 3746;
+                }
+            }
+
+            return { annualIncrease, shockIncrease };
+        }
+
+        // Generate comparison table
+        function generateComparisonTable() {
+            const tbody = document.getElementById('comparison-tbody');
+            tbody.innerHTML = SCENARIOS.map((s, i) => {
+                const summary = calculateScenarioSummary(s);
+                return `
+                    <tr onclick="goTo(${i})">
+                        <td>${s.id}</td>
+                        <td>${s.startYear}</td>
+                        <td>$${s.grossReceipts / 1000}k</td>
+                        <td>$${s.netIncome / 1000}k</td>
+                        <td>+${formatCurrency(summary.annualIncrease)}</td>
+                        <td class="negative">+${formatCurrency(summary.shockIncrease)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Generate scenario cards
+        function generateScenarioCards() {
+            const track = document.getElementById('track');
+            track.innerHTML = SCENARIOS.map(s => {
+                const summary = calculateScenarioSummary(s);
+                const flowchartHTML = generateFlowchartHTML(s.grossReceipts, s.netIncome, 2024, 2025);
+
+                return `
+                    <div class="scenario">
+                        <div class="scenario-card">
+                            <div class="scenario-header">
+                                <h2>Scenario ${s.id}</h2>
+                                <div class="params">
+                                    <span class="param">Start: ${s.startYear}</span>
+                                    <span class="param">Gross: ${formatCurrency(s.grossReceipts)}</span>
+                                    <span class="param">Net: ${formatCurrency(s.netIncome)}</span>
+                                </div>
+                            </div>
+                            <div class="scenario-content">
+                                <div class="summary">
+                                    <div class="summary-row">
+                                        <span class="summary-label">Annual Tax Increase</span>
+                                        <span class="summary-value">+${formatCurrency(summary.annualIncrease)}</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span class="summary-label">Shock Year (April 2027)</span>
+                                        <span class="summary-value negative">+${formatCurrency(summary.shockIncrease)}</span>
+                                    </div>
+                                </div>
+                                <a href="scenario_${s.id}_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+                                <button class="flowchart-toggle" onclick="toggleFlowchart(${s.id})">Show Calculation Breakdown</button>
+                                <div class="flowchart" id="flowchart-${s.id}">
+                                    ${flowchartHTML}
+                                </div>
+                                <img src="scenario_${s.id}.png" alt="Scenario ${s.id}" class="screenshot" onclick="showModal(this.src)">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize page
+        generateComparisonTable();
+        generateScenarioCards();
+
+        // Navigation
+        const total = SCENARIOS.length;
         let current = 0;
         const track = document.getElementById('track');
         const indicator = document.getElementById('indicator');
@@ -864,13 +508,6 @@
 
         function toggleFlowchart(num) {
             document.getElementById('flowchart-' + num).classList.toggle('visible');
-        }
-
-        function toggleTable() {
-            const table = document.getElementById('comparison-table');
-            const btn = document.getElementById('table-toggle');
-            table.classList.toggle('hidden');
-            btn.textContent = table.classList.contains('hidden') ? 'Show Table' : 'Hide Table';
         }
 
         // Swipe support
