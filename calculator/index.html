@@ -368,6 +368,12 @@
             padding: 4px 10px;
             border-radius: 4px;
             margin-bottom: 12px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .last-updated:hover {
+            background: #e2e8f0;
+            color: var(--navy);
         }
 
         .calculator-card > .year-section {
@@ -1166,7 +1172,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2026 at 7:17 PM</div>
+                <a href="/calculator/test-results/" class="last-updated">Last updated: Jan 16, 2026 at 7:17 PM</a>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
