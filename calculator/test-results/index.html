@@ -331,6 +331,7 @@
                     <th>Gross</th>
                     <th>Net</th>
                     <th>Annual +</th>
+                    <th>Shock Yr</th>
                     <th>Shock +</th>
                 </tr>
             </thead>
@@ -376,7 +377,7 @@
             { id: 6, startYear: 2024, grossReceipts: 50000, netIncome: 50000 }
         ];
 
-        const { formatCurrency, calculateTaxLiability, generateFlowchartHTML } = window.TaxCalculator;
+        const { formatCurrency, calculateTaxLiability, calculateShockIncrease, generateFlowchartHTML } = window.TaxCalculator;
 
         // Calculate summary values for a scenario
         function calculateScenarioSummary(scenario) {
@@ -385,20 +386,14 @@
 
             const annualIncrease = tax2025.totalTax - tax2024.totalTax;
 
-            // Simplified shock calculation (matches current hardcoded values)
-            // This is a simplified version - the full calculator has more complex logic
-            let shockIncrease;
-            if (scenario.grossReceipts <= 100000) {
-                shockIncrease = 3746; // Standard shock for <= $100K gross
-            } else {
-                if (scenario.startYear === 2024) {
-                    shockIncrease = 2544; // Less shock if started in 2024 with high gross
-                } else {
-                    shockIncrease = 3746;
-                }
-            }
+            // Calculate shock increase using the same logic as the main calculator
+            const shockResult = calculateShockIncrease(scenario.netIncome, scenario.grossReceipts, scenario.startYear);
 
-            return { annualIncrease, shockIncrease };
+            return {
+                annualIncrease,
+                shockIncrease: shockResult.shockIncrease,
+                shockYear: shockResult.shockYear
+            };
         }
 
         // Generate comparison table
@@ -413,6 +408,7 @@
                         <td>$${s.grossReceipts / 1000}k</td>
                         <td>$${s.netIncome / 1000}k</td>
                         <td>+${formatCurrency(summary.annualIncrease)}</td>
+                        <td>${summary.shockYear}</td>
                         <td class="negative">+${formatCurrency(summary.shockIncrease)}</td>
                     </tr>
                 `;
@@ -444,7 +440,7 @@
                                         <span class="summary-value">+${formatCurrency(summary.annualIncrease)}</span>
                                     </div>
                                     <div class="summary-row">
-                                        <span class="summary-label">Shock Year (April 2027)</span>
+                                        <span class="summary-label">Shock Year (April ${summary.shockYear})</span>
                                         <span class="summary-value negative">+${formatCurrency(summary.shockIncrease)}</span>
                                     </div>
                                 </div>

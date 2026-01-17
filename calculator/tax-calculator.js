@@ -4,6 +4,7 @@
 (function() {
     // Tax rates by year (from Jigar's model)
     const TAX_RATES = {
+        2020: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
         2021: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
         2022: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
         2023: { birtNI: 0.0581, birtGR: 0.00141, npt: 0.0375 },
@@ -15,6 +16,7 @@
 
     // Exemption by year (removed starting 2025)
     const EXEMPTION_BY_YEAR = {
+        2020: 100000,
         2021: 100000,
         2022: 100000,
         2023: 100000,
@@ -114,6 +116,113 @@
         };
     }
 
+    // Calculate cash flow for a year (what you actually pay in April of year)
+    function calculateCashFlow(taxLiabilities, year, startYear) {
+        const startYearInt = parseInt(startYear);
+        const priorYear = taxLiabilities[year - 1];
+
+        if (!priorYear || !priorYear.businessExisted) {
+            return {
+                year,
+                taxDue: 0,
+                estBIRT: 0,
+                estNPT: 0,
+                adjustment: 0,
+                totalCashBurden: 0,
+                isGraceYear: false,
+                paidInYear: year
+            };
+        }
+
+        // Tax due = prior year's total tax liability
+        const taxDue = priorYear.totalTax;
+
+        // First year filing check
+        const isFirstYearFiling = (year - 1 === startYearInt);
+
+        // Check if prior year was first without exemption (2025)
+        const priorYearWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
+
+        // Did they pay BIRT in their first year?
+        const firstYearLiability = taxLiabilities[startYearInt];
+        const hadBIRTInFirstYear = firstYearLiability && firstYearLiability.birtTotal > 0;
+        const firstYearGraceApplies = isFirstYearFiling && hadBIRTInFirstYear;
+
+        // Check if they paid BIRT during exemption period
+        const paidBIRTDuringExemption = hadBIRTInFirstYear && EXEMPTION_BY_YEAR[startYearInt] > 0;
+
+        // Grace year for exemption removal (2026) applies if prior year was first without exemption
+        // and they never paid BIRT before
+        const isExemptionRemovalGrace = priorYearWasFirstNoExemption && !paidBIRTDuringExemption;
+
+        // Final grace year determination
+        const isGraceYear = firstYearGraceApplies ? false : isExemptionRemovalGrace;
+
+        // Estimated BIRT payment = PRIOR year BIRT * 100%
+        const estBIRT = firstYearGraceApplies ? 0 : (isGraceYear ? 0 : priorYear.birtTotal);
+
+        // Estimated NPT payment = PRIOR year NPT after credit * 50%
+        const estNPT = priorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
+
+        // Adjustment = credit back for estimated payments made in prior filing
+        const priorPriorYear = taxLiabilities[year - 2];
+        let adjustment = 0;
+        if (priorPriorYear && priorPriorYear.businessExisted) {
+            const wasFirstYearFiling = (year - 2 === startYearInt);
+            const priorFirstYearGrace = wasFirstYearFiling && hadBIRTInFirstYear;
+            const priorFilingWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
+            const priorFilingExemptionGrace = priorFilingWasFirstNoExemption && !paidBIRTDuringExemption && !priorFirstYearGrace;
+            const priorEstBIRT = priorFirstYearGrace ? 0 : (priorFilingExemptionGrace ? 0 : priorPriorYear.birtTotal);
+            const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
+            adjustment = -(priorEstBIRT + priorEstNPT);
+        }
+
+        const totalCashBurden = taxDue + estBIRT + estNPT + adjustment;
+
+        return {
+            year,
+            taxDue,
+            estBIRT,
+            estNPT,
+            adjustment,
+            totalCashBurden,
+            isGraceYear,
+            paidInYear: year
+        };
+    }
+
+    // Calculate shock year cash increase for a scenario
+    function calculateShockIncrease(netIncome, grossReceipts, startYear) {
+        const startYearInt = parseInt(startYear);
+
+        // Calculate tax liabilities for all years
+        const taxLiabilities = {};
+        for (let year = 2020; year <= 2027; year++) {
+            const businessExisted = year >= startYearInt;
+            taxLiabilities[year] = calculateTaxLiability(netIncome, grossReceipts, year, businessExisted);
+        }
+
+        // Calculate cash flows
+        const cashFlows = {};
+        for (let year = 2021; year <= 2027; year++) {
+            cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear);
+        }
+
+        // Shock year: 2027 if gross <= $100K, else 2026
+        const shockYear = grossReceipts <= 100000 ? 2027 : 2026;
+
+        // Shock increase = shock year cash burden - prior year cash burden
+        const shockCash = cashFlows[shockYear];
+        const priorCash = cashFlows[shockYear - 1];
+
+        return {
+            shockYear,
+            shockIncrease: shockCash.totalCashBurden - priorCash.totalCashBurden,
+            shockCashBurden: shockCash.totalCashBurden,
+            priorCashBurden: priorCash.totalCashBurden
+        };
+    }
+
     // Generate flowchart HTML for a scenario comparing two years
     function generateFlowchartHTML(grossReceipts, netIncome, yearWith, yearWithout) {
         const withExemption = calculateTaxLiability(netIncome, grossReceipts, yearWith, true);
@@ -191,6 +300,8 @@
         parseCurrency,
         calculateTaxableAmounts,
         calculateTaxLiability,
+        calculateCashFlow,
+        calculateShockIncrease,
         generateFlowchartHTML
     };
 })();
