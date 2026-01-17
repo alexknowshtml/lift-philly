@@ -223,8 +223,8 @@
         };
     }
 
-    // Generate flowchart HTML for a scenario comparing two years
-    function generateFlowchartHTML(grossReceipts, netIncome, yearWith, yearWithout) {
+    // Generate flowchart HTML for a scenario - shows both Annual Tax Increase and Shock Year calculations
+    function generateFlowchartHTML(grossReceipts, netIncome, yearWith, yearWithout, startYear) {
         const withExemption = calculateTaxLiability(netIncome, grossReceipts, yearWith, true);
         const withoutExemption = calculateTaxLiability(netIncome, grossReceipts, yearWithout, true);
 
@@ -236,7 +236,10 @@
         const fmtK = (val) => val >= 1000 ? `$${Math.round(val/1000)}K` : `$${formatNumber(val)}`;
         const fmtPct = (rate) => (rate * 100).toFixed(rate < 0.01 ? 3 : 2) + '%';
 
-        let html = `<h4>${yearWith} (With $${exemption/1000}K Exemption)</h4>`;
+        // ========== PART 1: ANNUAL TAX INCREASE ==========
+        let html = `<h4 style="color: #0f172a; border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin-bottom: 12px;">📊 Annual Tax Increase Calculation</h4>`;
+
+        html += `<h4>${yearWith} Tax Liability (With $${exemption/1000}K Exemption)</h4>`;
 
         // With exemption section
         html += `<div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, ${fmtK(grossReceipts)} - ${fmtK(exemption)})</span><span class="value">${formatCurrency(withExemption.taxableGR)}</span></div>`;
@@ -263,7 +266,7 @@
         html += `<div class="flowchart-step flowchart-result"><span class="label">Total Tax ${yearWith}:</span><span class="formula">${formatCurrency(withExemption.birtTotal)} + ${formatCurrency(withExemption.nptAfterCredit)}</span><span class="value">${formatCurrency(withExemption.totalTax)}</span></div>`;
 
         // Without exemption section
-        html += `<h4 style="margin-top: 16px;">${yearWithout} (Without Exemption)</h4>`;
+        html += `<h4 style="margin-top: 16px;">${yearWithout} Tax Liability (Without Exemption)</h4>`;
 
         html += `<div class="flowchart-step"><span class="label">Taxable GR:</span><span class="formula">max(0, ${fmtK(grossReceipts)} - $0)</span><span class="value">${formatCurrency(withoutExemption.taxableGR)}</span></div>`;
         html += `<div class="flowchart-step"><span class="label">Stat. Deduction:</span><span class="formula">No exemption</span><span class="value">$0</span></div>`;
@@ -282,9 +285,59 @@
         html += `<div class="flowchart-divider"></div>`;
         html += `<div class="flowchart-step flowchart-result"><span class="label">Total Tax ${yearWithout}:</span><span class="formula">${formatCurrency(withoutExemption.birtTotal)} + ${formatCurrency(withoutExemption.nptAfterCredit)}</span><span class="value">${formatCurrency(withoutExemption.totalTax)}</span></div>`;
 
-        // Tax increase note
+        // Annual tax increase summary
         const taxIncrease = withoutExemption.totalTax - withExemption.totalTax;
-        html += `<p class="flowchart-note">Tax increase: ${formatCurrency(withoutExemption.totalTax)} - ${formatCurrency(withExemption.totalTax)} = ${formatCurrency(taxIncrease)}/year</p>`;
+        html += `<div class="flowchart-step" style="background: #fef3c7; padding: 12px; margin: 12px -8px; border-radius: 6px;"><span class="label" style="font-weight: 700; color: #92400e;">↑ Annual Tax Increase:</span><span class="formula">${formatCurrency(withoutExemption.totalTax)} - ${formatCurrency(withExemption.totalTax)}</span><span class="value" style="color: #dc2626; font-size: 1.1rem;">${formatCurrency(taxIncrease)}</span></div>`;
+
+        // ========== PART 2: SHOCK YEAR CALCULATION ==========
+        if (startYear !== undefined) {
+            const startYearInt = parseInt(startYear);
+
+            // Build tax liabilities for all years
+            const taxLiabilities = {};
+            for (let year = 2020; year <= 2027; year++) {
+                const businessExisted = year >= startYearInt;
+                taxLiabilities[year] = calculateTaxLiability(netIncome, grossReceipts, year, businessExisted);
+            }
+
+            // Build cash flows
+            const cashFlows = {};
+            for (let year = 2021; year <= 2027; year++) {
+                cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear);
+            }
+
+            // Determine shock year
+            const shockYear = grossReceipts <= 100000 ? 2027 : 2026;
+            const priorYear = shockYear - 1;
+
+            const shockCash = cashFlows[shockYear];
+            const priorCash = cashFlows[priorYear];
+
+            html += `<h4 style="color: #0f172a; border-bottom: 2px solid #dc2626; padding-bottom: 8px; margin: 24px 0 12px 0;">💥 Shock Year Cash Flow Calculation</h4>`;
+            html += `<p class="flowchart-note" style="margin-bottom: 12px;">Cash burden = what you actually pay in April. Includes tax due + estimated payments - adjustments.</p>`;
+
+            // Prior year cash flow
+            html += `<h4>April ${priorYear} Cash Burden</h4>`;
+            html += `<div class="flowchart-step"><span class="label">Tax Due (from ${priorYear - 1}):</span><span class="formula">Tax liability ${priorYear - 1}</span><span class="value">${formatCurrency(priorCash.taxDue)}</span></div>`;
+            html += `<div class="flowchart-step"><span class="label">+ Est. BIRT:</span><span class="formula">100% of ${priorYear - 1} BIRT${priorCash.isGraceYear ? ' (grace year = $0)' : ''}</span><span class="value">${formatCurrency(priorCash.estBIRT)}</span></div>`;
+            html += `<div class="flowchart-step"><span class="label">+ Est. NPT:</span><span class="formula">50% of ${priorYear - 1} NPT</span><span class="value">${formatCurrency(priorCash.estNPT)}</span></div>`;
+            html += `<div class="flowchart-step"><span class="label">- Adjustment:</span><span class="formula">Prior estimates paid</span><span class="value">${formatCurrency(priorCash.adjustment)}</span></div>`;
+            html += `<div class="flowchart-divider"></div>`;
+            html += `<div class="flowchart-step"><span class="label" style="font-weight: 600;">Total Cash ${priorYear}:</span><span class="formula">${formatCurrency(priorCash.taxDue)} + ${formatCurrency(priorCash.estBIRT)} + ${formatCurrency(priorCash.estNPT)} + ${formatCurrency(priorCash.adjustment)}</span><span class="value" style="font-weight: 700;">${formatCurrency(priorCash.totalCashBurden)}</span></div>`;
+
+            // Shock year cash flow
+            html += `<h4 style="margin-top: 16px;">April ${shockYear} Cash Burden (Shock Year)</h4>`;
+            html += `<div class="flowchart-step"><span class="label">Tax Due (from ${shockYear - 1}):</span><span class="formula">Tax liability ${shockYear - 1}</span><span class="value">${formatCurrency(shockCash.taxDue)}</span></div>`;
+            html += `<div class="flowchart-step"><span class="label">+ Est. BIRT:</span><span class="formula">100% of ${shockYear - 1} BIRT${shockCash.isGraceYear ? ' (grace year = $0)' : ''}</span><span class="value">${formatCurrency(shockCash.estBIRT)}</span></div>`;
+            html += `<div class="flowchart-step"><span class="label">+ Est. NPT:</span><span class="formula">50% of ${shockYear - 1} NPT</span><span class="value">${formatCurrency(shockCash.estNPT)}</span></div>`;
+            html += `<div class="flowchart-step"><span class="label">- Adjustment:</span><span class="formula">Prior estimates paid</span><span class="value">${formatCurrency(shockCash.adjustment)}</span></div>`;
+            html += `<div class="flowchart-divider"></div>`;
+            html += `<div class="flowchart-step"><span class="label" style="font-weight: 600;">Total Cash ${shockYear}:</span><span class="formula">${formatCurrency(shockCash.taxDue)} + ${formatCurrency(shockCash.estBIRT)} + ${formatCurrency(shockCash.estNPT)} + ${formatCurrency(shockCash.adjustment)}</span><span class="value" style="font-weight: 700;">${formatCurrency(shockCash.totalCashBurden)}</span></div>`;
+
+            // Shock year increase summary
+            const shockIncrease = shockCash.totalCashBurden - priorCash.totalCashBurden;
+            html += `<div class="flowchart-step flowchart-result" style="background: #fef2f2; margin-top: 12px;"><span class="label" style="font-weight: 700;">↑ Shock Year Increase:</span><span class="formula">${formatCurrency(shockCash.totalCashBurden)} - ${formatCurrency(priorCash.totalCashBurden)}</span><span class="value" style="font-size: 1.1rem;">${formatCurrency(shockIncrease)}</span></div>`;
+        }
 
         return html;
     }

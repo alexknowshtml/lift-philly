@@ -420,7 +420,7 @@
             const track = document.getElementById('track');
             track.innerHTML = SCENARIOS.map(s => {
                 const summary = calculateScenarioSummary(s);
-                const flowchartHTML = generateFlowchartHTML(s.grossReceipts, s.netIncome, 2024, 2025);
+                const flowchartHTML = generateFlowchartHTML(s.grossReceipts, s.netIncome, 2024, 2025, s.startYear);
 
                 return `
                     <div class="scenario">
