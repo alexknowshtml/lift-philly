@@ -1166,7 +1166,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2026 at 3:55 PM</div>
+                <div class="last-updated">Last updated: Jan 16, 2026 at 7:05 PM</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
@@ -1292,7 +1292,9 @@
 
     <script>
         // Tax rates by year (from Jigar's model)
+        // 2021 uses same rates as 2022 for backward compatibility
         const TAX_RATES = {
+            2021: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
             2022: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
             2023: { birtNI: 0.0581, birtGR: 0.00141, npt: 0.0375 },
             2024: { birtNI: 0.0581, birtGR: 0.001415, npt: 0.0375 },
@@ -1303,6 +1305,7 @@
 
         // Exemption by year (removed starting 2025)
         const EXEMPTION_BY_YEAR = {
+            2021: 100000,
             2022: 100000,
             2023: 100000,
             2024: 100000,
@@ -1510,40 +1513,39 @@
         function calculate(netIncome, grossReceipts, startYear) {
             const startYearInt = parseInt(startYear);
 
-            // Calculate tax liabilities for all years
+            // Calculate tax liabilities for all years (including 2021 for 2022 cash flow)
             const taxLiabilities = {};
-            for (let year = 2022; year <= 2027; year++) {
+            for (let year = 2021; year <= 2027; year++) {
                 const businessExisted = year >= startYearInt;
                 taxLiabilities[year] = calculateTaxLiability(netIncome, grossReceipts, year, businessExisted);
             }
 
-            // Calculate cash flows for all years
+            // Calculate cash flows for all years (starting 2022 now that we have 2021 data)
             const cashFlows = {};
-            for (let year = 2023; year <= 2027; year++) {
+            for (let year = 2022; year <= 2027; year++) {
                 cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear, netIncome);
             }
 
-            // Shock year = 2026 for everyone (first year with big BIRT estimated payments)
-            // Estimates are based on PRIOR year, so:
-            // - 2025 filing: estimates based on 2024 (still has exemption, BIRT ~$0)
-            // - 2026 filing: estimates based on 2025 (no exemption, BIRT jumps) ← SHOCK
-            const shockYear = 2026;
+            // Shock year determination:
+            // If Gross Receipts ≤ $100K: Shock Year = 2027
+            // Else: Shock Year = 2026
+            const shockYear = grossReceipts <= 100000 ? 2027 : 2026;
 
             // Baseline is always 2024 (last year with exemption)
             const baseline2024Tax = taxLiabilities[2024];
-            const baseline2024Cash = cashFlows[2024] || { totalCashBurden: 0 };
 
             // 2025 tax for run rate comparison
             const tax2025 = taxLiabilities[2025];
 
-            // Shock year cash flow
+            // Shock year cash flow and prior year for comparison
             const shockCash = cashFlows[shockYear] || { totalCashBurden: 0 };
+            const priorToShockCash = cashFlows[shockYear - 1] || { totalCashBurden: 0 };
 
             // Annual tax increase = 2025 tax due - 2024 tax due
             const annualTaxIncrease = tax2025.totalTax - baseline2024Tax.totalTax;
 
-            // Shock year cash increase = shock year cash burden - 2024 cash burden
-            const shockCashIncrease = shockCash.totalCashBurden - baseline2024Cash.totalCashBurden;
+            // Shock year cash increase = shock year cash burden - prior year cash burden
+            const shockCashIncrease = shockCash.totalCashBurden - priorToShockCash.totalCashBurden;
 
             return {
                 startYear: startYearInt,
@@ -1551,7 +1553,6 @@
                 taxLiabilities,
                 cashFlows,
                 baseline2024Tax,
-                baseline2024Cash,
                 annualTaxIncrease,
                 shockCashIncrease,
                 grossReceipts,
