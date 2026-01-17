@@ -101,12 +101,14 @@
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
             padding: 20px;
+            text-align: center;
         }
         .scenario-header h2 { font-size: 1.1rem; margin-bottom: 8px; }
         .params {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
+            justify-content: center;
         }
         .param {
             background: rgba(255,255,255,0.15);
@@ -447,7 +449,7 @@
                             <div class="scenario-header">
                                 <h2>Scenario ${s.id}</h2>
                                 <div class="params">
-                                    <span class="param">Start: ${s.startYear}</span>
+                                    <span class="param">Start Year: ${s.startYear}</span>
                                     <span class="param">Gross: ${formatCurrency(s.grossReceipts)}</span>
                                     <span class="param">Net: ${formatCurrency(s.netIncome)}</span>
                                 </div>
