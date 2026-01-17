@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Philly One Sheet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --text: #334155;
+            --text-light: #64748b;
+            --red: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: var(--text);
+            background: white;
+        }
+
+        .page {
+            width: 7.5in;
+            min-height: 10in;
+            max-height: 10in;
+            padding: 0;
+            page-break-after: always;
+            overflow: hidden;
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+        }
+
+        /* Header */
+        .header {
+            background: var(--navy);
+            color: white;
+            padding: 16px 20px;
+            margin: -0.5in -0.5in 16px -0.5in;
+            width: calc(100% + 1in);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28pt;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .acronym {
+            font-size: 8pt;
+            color: rgba(255,255,255,0.7);
+            text-align: right;
+            line-height: 1.3;
+        }
+
+        /* Section headers */
+        h2 {
+            font-size: 12pt;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 16px 0 8px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        h3 {
+            font-size: 10pt;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 10px 0 6px 0;
+        }
+
+        /* Principles box */
+        .principles {
+            background: #f8fafc;
+            border-left: 4px solid var(--gold);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+
+        .principles p {
+            margin-bottom: 4px;
+            font-size: 9pt;
+        }
+
+        .principles strong {
+            color: var(--navy);
+        }
+
+        /* Problem section */
+        .stat-box {
+            background: var(--navy);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24pt;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 9pt;
+            opacity: 0.9;
+        }
+
+        .impact-box {
+            background: #fef2f2;
+            border: 2px solid var(--red);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .impact-box h3 {
+            color: var(--red);
+            margin-top: 0;
+        }
+
+        .impact-amount {
+            font-size: 16pt;
+            font-weight: 800;
+            color: var(--red);
+        }
+
+        .impact-examples {
+            font-size: 9pt;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Solution section */
+        .solution-box {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .solution-box h3 {
+            color: #16a34a;
+            margin-top: 0;
+        }
+
+        .checkmark {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .result {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #16a34a;
+            margin-top: 8px;
+        }
+
+        /* Lists */
+        ul {
+            margin-left: 16px;
+            margin-bottom: 8px;
+        }
+
+        li {
+            margin-bottom: 3px;
+        }
+
+        /* Two column layout */
+        .two-col {
+            display: flex;
+            gap: 16px;
+        }
+
+        .two-col > div {
+            flex: 1;
+        }
+
+        /* QR section */
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .qr-code {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .qr-text {
+            flex: 1;
+        }
+
+        .qr-text strong {
+            display: block;
+            font-size: 10pt;
+            color: var(--navy);
+        }
+
+        .qr-text span {
+            font-size: 8pt;
+            color: var(--text-light);
+        }
+
+        /* Page 2 specific */
+        .action-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .action-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 9pt;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .conversation-prompt {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-style: italic;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        .voices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            font-size: 8.5pt;
+        }
+
+        .voices-grid li {
+            margin-bottom: 2px;
+        }
+
+        /* Bill status */
+        .bill-status {
+            background: var(--navy);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .bill-status h3 {
+            color: var(--gold);
+            margin: 0 0 8px 0;
+            font-size: 10pt;
+        }
+
+        .bill-status ul {
+            margin-left: 16px;
+            font-size: 9pt;
+        }
+
+        .bill-status li {
+            margin-bottom: 4px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9pt;
+        }
+
+        .footer-cta {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .page {
+                margin: 0;
+                padding: 0;
+            }
+
+            .header {
+                margin: 0 0 16px 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1: The Problem & Solution -->
+    <div class="page">
+        <div class="header">
+            <div class="logo">LIFT <span>Philly</span></div>
+            <div class="acronym">
+                <strong>L</strong>abor · <strong>I</strong>ndependent Enterprise<br>
+                <strong>F</strong>amily Enterprise · <strong>T</strong>ax Reform
+            </div>
+        </div>
+
+        <div class="principles">
+            <p><strong>Solution-focused, not political.</strong> We're all Philadelphians solving a problem together.</p>
+            <p><strong>The problem is in the system, not individuals.</strong> No blame, no shame. The system was designed for a different economy.</p>
+            <p><strong>Shepherd mindset.</strong> We focus on solutions with care. Be the shepherd when advocating for LIFT.</p>
+        </div>
+
+        <h2>The Problem</h2>
+        <p>Philadelphia's two-class tax system (Corporations vs. Unincorporated) was designed for a W-2 economy. That's not how Philadelphia—or the world—works anymore.</p>
+
+        <div class="stat-box">
+            <div class="stat-number">122,000</div>
+            <div class="stat-label">Philadelphians—85% of all city businesses—are nonemployer firms: contractors, freelancers, gig workers, home daycares, barbers, food truck vendors, solo practitioners. They now face massive tax increases they cannot afford.</div>
+        </div>
+
+        <div class="impact-box">
+            <h3>What does it mean for a family earning $50,000/year?</h3>
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <div style="flex: 1;">
+                    <p>Families earning just $50K face a <strong>NEW tax bill increase</strong> of:</p>
+                    <p class="impact-amount">$1,208 – $3,236 in April 2026</p>
+                    <p class="impact-examples">Translation: 1-3 months rent. Monthly groceries for a family of 4. A winter heating bill.</p>
+                </div>
+                <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(220,38,38,0.3);">
+                    <div class="qr-code" style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                    </div>
+                    <strong style="color: var(--red); font-size: 8pt; display: block; margin-top: 6px;">Know Before You File</strong>
+                    <span style="font-size: 7pt; color: var(--text);">liftphilly.org/calculator</span>
+                </div>
+            </div>
+        </div>
+
+        <p>This is the most diverse class of business—by race, by category, by size. For many, self-employment is about <strong>survival and dignity</strong>. This is our city's equity issue.</p>
+
+        <h2>The Solution</h2>
+        <p>Create a <strong>third tax class</strong> for "Individuals and Single-Member LLCs whose sole member is an Individual"—ending double taxation on Philadelphia's small business economy.</p>
+
+        <div class="solution-box">
+            <h3>What Changes</h3>
+            <ul style="list-style: none; margin-left: 0;">
+                <li><span class="checkmark">✓</span> Exempt from BIRT Net Income Tax (5.71%) — <em>this is the double taxation</em></li>
+                <li><span class="checkmark">✓</span> Exempt from BIRT Gross Receipts Tax (0.141%)</li>
+                <li><span class="checkmark">✓</span> Still pay Net Profits Tax (3.74%) — only for Philadelphia residents</li>
+            </ul>
+            <p class="result">Result: $1,208 becomes $0. $3,236 becomes $0. (100% reduction)</p>
+        </div>
+
+        <p><strong>Already confirmed:</strong> Solution has been reviewed and confirmed constitutional by Philadelphia Law Department. Critical that any solution passes the uniformity clause.</p>
+    </div>
+
+    <!-- PAGE 2: Take Action -->
+    <div class="page">
+        <div class="header">
+            <div class="logo">LIFT <span>Philly</span></div>
+            <div class="acronym">What You Can Do</div>
+        </div>
+
+        <div class="action-item">
+            <h3><span class="action-number">1</span> Start Conversations</h3>
+            <p>Ask 3-5 solopreneurs you know:</p>
+            <div class="conversation-prompt">
+                "If you had to pay 1-3 months extra rent in taxes in 2026 and beyond, how would that affect your ability to care for yourself, your family, and your community?"
+            </div>
+            <p>Then listen. Report back what you hear.</p>
+        </div>
+
+        <div class="action-item">
+            <h3><span class="action-number">2</span> Connect Us</h3>
+            <p>Who in your community is a trusted voice? Formal leaders AND informal networks matter.</p>
+        </div>
+
+        <div class="action-item">
+            <h3><span class="action-number">3</span> Identify Testimony Voices</h3>
+            <p>Who would be powerful at a City Council hearing? We need voices from:</p>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <ul class="voices-grid" style="display: block;">
+                    <li>Construction/trades (plumbers, electricians)</li>
+                    <li>Food/hospitality (food trucks, catering)</li>
+                    <li>Healthcare (therapists, home health aides)</li>
+                    <li>Childcare providers</li>
+                    <li>Transportation/rideshare drivers</li>
+                    <li>Legal solo practitioners</li>
+                    <li>Barbers and hair stylists</li>
+                </ul>
+            </div>
+            <div>
+                <ul class="voices-grid" style="display: block;">
+                    <li>Media & journalism</li>
+                    <li>Creative (music, film, photo)</li>
+                    <li>Real estate & development</li>
+                    <li>Fitness & wellness</li>
+                    <li>Tech & innovation</li>
+                    <li>Arts & culture</li>
+                    <li>Reentry/second-chance entrepreneurs</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bill-status">
+            <h3>Current Bill Status</h3>
+            <ul>
+                <li>Bill introduced November 20, 2025 by Councilman Mike Driscoll</li>
+                <li>Council President drafted bill and provided technical support for Fiscal Analysis</li>
+                <li>Multiple council members engaged</li>
+                <li>Finance Committee hearings expected: Late January / Early February 2026</li>
+            </ul>
+        </div>
+
+        <h2>Current Timeline</h2>
+        <div class="two-col">
+            <div>
+                <p><strong>Today:</strong> Commit to 1-2 actions from above</p>
+                <p><strong>Weekly:</strong> Check-ins — "Who did you talk to? What did you hear?"</p>
+            </div>
+            <div>
+                <p><strong>Late Jan/Feb:</strong> Fill City Council chambers for hearings</p>
+            </div>
+        </div>
+
+        <div class="qr-section" style="margin-top: 16px;">
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/" alt="QR Code">
+            </div>
+            <div class="qr-text">
+                <strong>Join the Coalition</strong>
+                <span>liftphilly.org — Sign up, get updates, and add your voice</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-cta">Take this sheet. Try the conversation. We'll follow up.</div>
+            <div>hello@liftphilly.org</div>
+        </div>
+    </div>
+</body>
+</html>
