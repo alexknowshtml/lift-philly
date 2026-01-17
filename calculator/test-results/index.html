@@ -199,9 +199,54 @@
             font-size: 0.85rem;
         }
 
+        /* Comparison table */
+        .comparison-section {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .comparison-toggle {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+        .comparison-toggle:hover { background: #1e293b; }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .comparison-table.visible { display: table; }
+        .comparison-table th {
+            background: #f1f5f9;
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .comparison-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .comparison-table tr:hover { background: #fef3c7; cursor: pointer; }
+        .comparison-table .highlight { color: #fbbf24; font-weight: 700; }
+        .comparison-table .negative { color: #dc2626; font-weight: 700; }
+        .comparison-table .muted { color: #94a3b8; }
+
         @media (min-width: 768px) {
             .swipe-hint { display: none; }
             .scenario { padding: 40px; }
+            .comparison-table { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -218,6 +263,72 @@
             <div class="scenario-dots" id="dots"></div>
         </div>
         <button class="nav-btn" id="next-btn" onclick="navigate(1)">&#8594;</button>
+    </div>
+
+    <div class="comparison-section">
+        <button class="comparison-toggle" onclick="toggleTable()">Compare All Scenarios</button>
+        <table class="comparison-table" id="comparison-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Start</th>
+                    <th>Gross</th>
+                    <th>Net</th>
+                    <th>Annual +</th>
+                    <th>Shock +</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr onclick="goTo(0)">
+                    <td>1</td>
+                    <td>2022</td>
+                    <td>$50k</td>
+                    <td class="muted">$50k</td>
+                    <td>+$1,208</td>
+                    <td class="negative">+$3,746</td>
+                </tr>
+                <tr onclick="goTo(1)">
+                    <td>2</td>
+                    <td>2022</td>
+                    <td class="highlight">$110k</td>
+                    <td class="muted">$50k</td>
+                    <td>+$1,208</td>
+                    <td class="negative">+$3,746</td>
+                </tr>
+                <tr onclick="goTo(2)">
+                    <td>3</td>
+                    <td class="highlight">2023</td>
+                    <td>$50k</td>
+                    <td class="muted">$50k</td>
+                    <td>+$1,208</td>
+                    <td class="negative">+$3,746</td>
+                </tr>
+                <tr onclick="goTo(3)">
+                    <td>4</td>
+                    <td class="highlight">2023</td>
+                    <td class="highlight">$110k</td>
+                    <td class="muted">$50k</td>
+                    <td>+$1,208</td>
+                    <td class="negative">+$3,746</td>
+                </tr>
+                <tr onclick="goTo(4)">
+                    <td>5</td>
+                    <td class="highlight">2024</td>
+                    <td class="highlight">$110k</td>
+                    <td class="muted">$50k</td>
+                    <td>+$1,172</td>
+                    <td class="negative">+$2,544</td>
+                </tr>
+                <tr onclick="goTo(5)">
+                    <td>6</td>
+                    <td class="highlight">2024</td>
+                    <td>$50k</td>
+                    <td class="muted">$50k</td>
+                    <td>+$1,208</td>
+                    <td class="negative">+$3,746</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="swipe-hint">Swipe left/right or use arrows</div>
@@ -438,6 +549,10 @@
         function goTo(index) {
             current = index;
             updateUI();
+        }
+
+        function toggleTable() {
+            document.getElementById('comparison-table').classList.toggle('visible');
         }
 
         // Swipe support
