@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Calculator Test Results - Review</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        h1 { text-align: center; margin-bottom: 30px; color: #0f172a; }
+        .scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); gap: 20px; }
+        .scenario { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+        .scenario-header { background: #0f172a; color: white; padding: 15px 20px; }
+        .scenario-header h2 { font-size: 1.1rem; margin-bottom: 5px; }
+        .scenario-header .params { font-size: 0.9rem; opacity: 0.8; }
+        .scenario-content { padding: 15px; }
+        .screenshot { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; }
+        .screenshot:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .csv-link { display: inline-block; margin-top: 10px; padding: 8px 16px; background: #fbbf24; color: #0f172a; text-decoration: none; border-radius: 6px; font-weight: 500; }
+        .csv-link:hover { background: #f59e0b; }
+        .summary { margin-top: 15px; padding: 15px; background: #fef3c7; border-radius: 8px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .summary-row:last-child { margin-bottom: 0; }
+        .summary-label { font-weight: 500; color: #92400e; }
+        .summary-value { font-weight: 700; color: #0f172a; }
+        .negative { color: #dc2626; }
+
+        /* Modal for full-size images */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; cursor: pointer; overflow: auto; }
+        .modal img { display: block; max-width: 95%; max-height: 95%; margin: 20px auto; }
+        .modal.active { display: block; }
+    </style>
+</head>
+<body>
+    <h1>LIFT Calculator Test Results</h1>
+    <p style="text-align: center; margin-bottom: 30px; color: #64748b;">Click any screenshot to view full size. Generated: <span id="date"></span></p>
+
+    <div class="scenarios">
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>Scenario 1</h2>
+                <div class="params">Start Year: 2022 | Gross: $50,000 | Net: $50,000</div>
+            </div>
+            <div class="scenario-content">
+                <img src="scenario_1.png" alt="Scenario 1" class="screenshot" onclick="showModal(this.src)">
+                <div class="summary">
+                    <div class="summary-row"><span class="summary-label">Annual Tax Increase:</span><span class="summary-value">+$1,208</span></div>
+                    <div class="summary-row"><span class="summary-label">Shock Year (April 2027):</span><span class="summary-value negative">+$3,746</span></div>
+                </div>
+                <a href="scenario_1_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>Scenario 2</h2>
+                <div class="params">Start Year: 2022 | Gross: $110,000 | Net: $50,000</div>
+            </div>
+            <div class="scenario-content">
+                <img src="scenario_2.png" alt="Scenario 2" class="screenshot" onclick="showModal(this.src)">
+                <div class="summary">
+                    <div class="summary-row"><span class="summary-label">Annual Tax Increase:</span><span class="summary-value">+$1,208</span></div>
+                    <div class="summary-row"><span class="summary-label">Shock Year (April 2027):</span><span class="summary-value negative">+$3,746</span></div>
+                </div>
+                <a href="scenario_2_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>Scenario 3</h2>
+                <div class="params">Start Year: 2023 | Gross: $50,000 | Net: $50,000</div>
+            </div>
+            <div class="scenario-content">
+                <img src="scenario_3.png" alt="Scenario 3" class="screenshot" onclick="showModal(this.src)">
+                <div class="summary">
+                    <div class="summary-row"><span class="summary-label">Annual Tax Increase:</span><span class="summary-value">+$1,208</span></div>
+                    <div class="summary-row"><span class="summary-label">Shock Year (April 2027):</span><span class="summary-value negative">+$3,746</span></div>
+                </div>
+                <a href="scenario_3_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>Scenario 4</h2>
+                <div class="params">Start Year: 2023 | Gross: $110,000 | Net: $50,000</div>
+            </div>
+            <div class="scenario-content">
+                <img src="scenario_4.png" alt="Scenario 4" class="screenshot" onclick="showModal(this.src)">
+                <div class="summary">
+                    <div class="summary-row"><span class="summary-label">Annual Tax Increase:</span><span class="summary-value">+$1,208</span></div>
+                    <div class="summary-row"><span class="summary-label">Shock Year (April 2027):</span><span class="summary-value negative">+$3,746</span></div>
+                </div>
+                <a href="scenario_4_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>Scenario 5</h2>
+                <div class="params">Start Year: 2024 | Gross: $110,000 | Net: $50,000</div>
+            </div>
+            <div class="scenario-content">
+                <img src="scenario_5.png" alt="Scenario 5" class="screenshot" onclick="showModal(this.src)">
+                <div class="summary">
+                    <div class="summary-row"><span class="summary-label">Annual Tax Increase:</span><span class="summary-value">+$1,172</span></div>
+                    <div class="summary-row"><span class="summary-label">Shock Year (April 2027):</span><span class="summary-value negative">+$2,544</span></div>
+                </div>
+                <a href="scenario_5_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>Scenario 6</h2>
+                <div class="params">Start Year: 2024 | Gross: $50,000 | Net: $50,000</div>
+            </div>
+            <div class="scenario-content">
+                <img src="scenario_6.png" alt="Scenario 6" class="screenshot" onclick="showModal(this.src)">
+                <div class="summary">
+                    <div class="summary-row"><span class="summary-label">Annual Tax Increase:</span><span class="summary-value">+$1,208</span></div>
+                    <div class="summary-row"><span class="summary-label">Shock Year (April 2027):</span><span class="summary-value negative">+$3,746</span></div>
+                </div>
+                <a href="scenario_6_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal" onclick="hideModal()">
+        <img id="modal-img" src="" alt="Full size screenshot">
+    </div>
+
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleString();
+
+        function showModal(src) {
+            document.getElementById('modal-img').src = src;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function hideModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideModal();
+        });
+    </script>
+</body>
+</html>
