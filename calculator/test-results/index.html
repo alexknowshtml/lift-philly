@@ -330,9 +330,9 @@
                     <th>Start</th>
                     <th>Gross</th>
                     <th>Net</th>
-                    <th>Annual +</th>
+                    <th>Annual ↑</th>
+                    <th>Shock ↑</th>
                     <th>Shock Yr</th>
-                    <th>Shock +</th>
                 </tr>
             </thead>
             <tbody id="comparison-tbody">
@@ -407,9 +407,9 @@
                         <td>${s.startYear}</td>
                         <td>$${s.grossReceipts / 1000}k</td>
                         <td>$${s.netIncome / 1000}k</td>
-                        <td>+${formatCurrency(summary.annualIncrease)}</td>
+                        <td>↑${formatCurrency(summary.annualIncrease)}</td>
+                        <td class="negative">↑${formatCurrency(summary.shockIncrease)}</td>
                         <td>${summary.shockYear}</td>
-                        <td class="negative">+${formatCurrency(summary.shockIncrease)}</td>
                     </tr>
                 `;
             }).join('');
