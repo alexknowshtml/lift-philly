@@ -243,6 +243,19 @@
         .comparison-table .negative { color: #dc2626; font-weight: 700; }
         .comparison-table .muted { color: #94a3b8; }
 
+        .table-legend {
+            padding: 12px 16px;
+            font-size: 0.8rem;
+            color: #64748b;
+            line-height: 1.5;
+            border-top: 1px solid #e5e7eb;
+            background: #f8fafc;
+        }
+        .table-legend p { margin: 4px 0; }
+        .legend-highlight { color: #fbbf24; font-weight: 700; }
+        .legend-muted { color: #94a3b8; }
+        .math-note { font-style: italic; }
+
         @media (min-width: 768px) {
             .swipe-hint { display: none; }
             .scenario { padding: 40px; }
@@ -329,6 +342,10 @@
                 </tr>
             </tbody>
         </table>
+        <div class="table-legend">
+            <p><strong>Legend:</strong> <span class="legend-highlight">Gold</span> = varies from baseline &nbsp;|&nbsp; <span class="legend-muted">Gray</span> = constant across scenarios</p>
+            <p class="math-note"><strong>Why the numbers:</strong> Annual savings come from BIRT/NPT tax reductions. "Shock +" is cumulative savings through 2024 (when LIFT ends). Scenario 5 shows less total savings because starting in 2024 means only one year in the program.</p>
+        </div>
     </div>
 
     <div class="swipe-hint">Swipe left/right or use arrows</div>
