@@ -1290,224 +1290,22 @@
         </div>
     </footer>
 
+    <!-- Load shared tax calculator module (single source of truth) -->
+    <script src="/calculator/tax-calculator.js"></script>
+
     <script>
-        // Tax rates by year (from Jigar's model)
-        // 2021 uses same rates as 2022 for backward compatibility
-        const TAX_RATES = {
-            2021: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
-            2022: { birtNI: 0.0599, birtGR: 0.001415, npt: 0.0379 },
-            2023: { birtNI: 0.0581, birtGR: 0.00141, npt: 0.0375 },
-            2024: { birtNI: 0.0581, birtGR: 0.001415, npt: 0.0375 },
-            2025: { birtNI: 0.0571, birtGR: 0.00141, npt: 0.0374 },
-            2026: { birtNI: 0.0565, birtGR: 0.001395, npt: 0.03735 },
-            2027: { birtNI: 0.056, birtGR: 0.00139, npt: 0.0373 }
-        };
-
-        // Exemption by year (removed starting 2025)
-        const EXEMPTION_BY_YEAR = {
-            2021: 100000,
-            2022: 100000,
-            2023: 100000,
-            2024: 100000,
-            2025: 0,
-            2026: 0,
-            2027: 0
-        };
-
-        const BIRT_CREDIT_RATE = 0.6;
-        const NPT_ESTIMATED_RATE = 0.5;
-
-        // Format currency
-        function formatCurrency(amount) {
-            return '$' + Math.round(amount).toLocaleString();
-        }
-
-        // Parse currency input
-        function parseCurrency(str) {
-            return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
-        }
-
-        // Calculate taxable amounts for a year
-        function calculateTaxableAmounts(netIncome, grossReceipts, year, businessExisted) {
-            if (!businessExisted) {
-                return { taxableGR: 0, taxableNI_NPT: 0, taxableNI_BIRT: 0 };
-            }
-
-            const exemption = EXEMPTION_BY_YEAR[year];
-
-            // Taxable Gross Receipts = max(0, grossReceipts - exemption)
-            const taxableGR = Math.max(0, grossReceipts - exemption);
-
-            // Taxable Net Income (NPT basis) = full net income (no exemption for NPT)
-            const taxableNI_NPT = netIncome;
-
-            // Taxable Net Income (BIRT basis) - uses statutory deduction formula
-            // If gross < exemption: deduction = (netIncome/grossReceipts) * grossReceipts = netIncome
-            // If gross >= exemption: deduction = (netIncome/grossReceipts) * exemption
-            let statutoryDeduction = 0;
-            if (exemption > 0 && grossReceipts > 0) {
-                const ratio = Math.min(netIncome / grossReceipts, 1.0);
-                if (grossReceipts < exemption) {
-                    statutoryDeduction = ratio * grossReceipts;
-                } else {
-                    statutoryDeduction = ratio * exemption;
-                }
-            }
-            const taxableNI_BIRT = Math.max(0, netIncome - statutoryDeduction);
-
-            return { taxableGR, taxableNI_NPT, taxableNI_BIRT, statutoryDeduction };
-        }
-
-        // Calculate tax liability for a year
-        function calculateTaxLiability(netIncome, grossReceipts, year, businessExisted) {
-            const rates = TAX_RATES[year];
-            const { taxableGR, taxableNI_NPT, taxableNI_BIRT } = calculateTaxableAmounts(netIncome, grossReceipts, year, businessExisted);
-
-            // BIRT taxes
-            const birtGR = taxableGR * rates.birtGR;
-            const birtNI = taxableNI_BIRT * rates.birtNI;
-            const birtTotal = birtGR + birtNI;
-
-            // NPT tax
-            const nptGross = taxableNI_NPT * rates.npt;
-
-            // BIRT credit against NPT (60% of BIRT Net Income portion)
-            const birtCredit = birtNI * BIRT_CREDIT_RATE;
-
-            // NPT after credit (cannot go below 0)
-            const nptAfterCredit = Math.max(0, nptGross - birtCredit);
-
-            // Total tax liability
-            const totalTax = birtTotal + nptAfterCredit;
-
-            return {
-                year,
-                businessExisted,
-                taxableGR,
-                taxableNI_BIRT,
-                taxableNI_NPT,
-                birtGR,
-                birtNI,
-                birtTotal,
-                nptGross,
-                birtCredit,
-                nptAfterCredit,
-                totalTax,
-                rates
-            };
-        }
-
-        // Calculate cash flow for a year (what you actually pay in April of year+1)
-        function calculateCashFlow(taxLiabilities, year, startYear, netIncome) {
-            const currentYear = taxLiabilities[year];
-            const priorYear = taxLiabilities[year - 1];
-
-            if (!priorYear || !priorYear.businessExisted) {
-                // No cash flow if business didn't exist in prior year
-                return {
-                    year,
-                    taxDue: 0,
-                    estBIRT: 0,
-                    estNPT: 0,
-                    adjustment: 0,
-                    totalCashBurden: 0,
-                    isGraceYear: false,
-                    paidInYear: year + 1
-                };
-            }
-
-            // Tax due = prior year's total tax liability
-            const taxDue = priorYear.totalTax;
-
-            // Estimated payments are based on PRIOR year values
-            // Est BIRT = prior year BIRT × 100%
-            // Est NPT = prior year NPT × 50%
-            //
-            // GRACE YEAR for BIRT estimates:
-            // - First year of business: No BIRT estimates (you have no prior BIRT history)
-            // - First year paying BIRT after exemption removed: No BIRT estimates IF they
-            //   never paid BIRT during the exemption period
-            //
-            // Key insight: Even during exemption period, if net income > $100K, you paid BIRT
-            // (exemption only covers first $100K). So if you made > $100K and started during
-            // exemption period, you already got your first-year grace when you first paid BIRT.
-            const startYearInt = parseInt(startYear);
-            const isFirstYearFiling = (year - 1 === startYearInt);
-
-            // Prior year was the first year without exemption (2025)
-            const priorYearWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 1] === 0 && EXEMPTION_BY_YEAR[year - 2] > 0;
-
-            // Did they actually pay BIRT in their first year?
-            // Check the actual calculated BIRT liability (accounts for statutory deduction formula)
-            const firstYearLiability = taxLiabilities[startYearInt];
-            const hadBIRTInFirstYear = firstYearLiability && firstYearLiability.birtTotal > 0;
-            const firstYearGraceApplies = isFirstYearFiling && hadBIRTInFirstYear;
-
-            // DEBUG
-            if (year === 2023) {
-                console.log('=== DEBUG Year 2023 ===');
-                console.log('startYear:', startYear, 'startYearInt:', startYearInt);
-                console.log('netIncome:', netIncome);
-                console.log('isFirstYearFiling:', isFirstYearFiling, '(year-1:', year-1, '=== startYearInt:', startYearInt, ')');
-                console.log('firstYearLiability.birtTotal:', firstYearLiability ? firstYearLiability.birtTotal : 'N/A');
-                console.log('hadBIRTInFirstYear:', hadBIRTInFirstYear);
-                console.log('firstYearGraceApplies:', firstYearGraceApplies);
-                console.log('priorYear.birtTotal:', priorYear.birtTotal);
-            }
-
-            // Check if they paid BIRT during exemption period
-            // Look at actual BIRT liability for years with exemption (2022-2024)
-            const paidBIRTDuringExemption = hadBIRTInFirstYear && EXEMPTION_BY_YEAR[startYearInt] > 0;
-
-            // Grace year for exemption removal (2026) applies if:
-            // 1. Prior year was first year without exemption (2025)
-            // 2. They never paid BIRT before (stayed under $100K during exemption period)
-            // This includes businesses that started during exemption with income <= $100K
-            const isExemptionRemovalGrace = priorYearWasFirstNoExemption && !paidBIRTDuringExemption;
-
-            // Final grace year determination:
-            // - First-year grace: only if they actually paid BIRT in first year
-            // - Exemption-removal grace: if 2025 was their first time paying BIRT
-            // But NOT both - if first-year grace applies, no exemption-removal grace
-            const isGraceYear = firstYearGraceApplies ? false : isExemptionRemovalGrace;
-
-            // Estimated BIRT payment = PRIOR year BIRT * 100%
-            // $0 if: first-year grace (with actual BIRT) OR exemption-removal grace
-            const estBIRT = firstYearGraceApplies ? 0 : (isGraceYear ? 0 : priorYear.birtTotal);
-
-            // Estimated NPT payment = PRIOR year NPT after credit * 50%
-            const estNPT = priorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
-
-            // Adjustment = credit back for estimated payments made in prior filing
-            // Prior filing paid Est BIRT (unless first-year grace or exemption-removal grace) + Est NPT
-            const priorPriorYear = taxLiabilities[year - 2];
-            let adjustment = 0;
-            if (priorPriorYear && priorPriorYear.businessExisted) {
-                const wasFirstYearFiling = (year - 2 === startYearInt);
-                // Check if prior filing had first-year grace (only if they actually paid BIRT)
-                const priorFirstYearGrace = wasFirstYearFiling && hadBIRTInFirstYear;
-                // Check if prior filing was an exemption-removal grace year
-                const priorFilingWasFirstNoExemption = EXEMPTION_BY_YEAR[year - 2] === 0 && EXEMPTION_BY_YEAR[year - 3] > 0;
-                const priorFilingExemptionGrace = priorFilingWasFirstNoExemption && !paidBIRTDuringExemption && !priorFirstYearGrace;
-                // Prior filing's estimates: BIRT (unless first-year grace or exemption grace) + NPT
-                const priorEstBIRT = priorFirstYearGrace ? 0 : (priorFilingExemptionGrace ? 0 : priorPriorYear.birtTotal);
-                const priorEstNPT = priorPriorYear.nptAfterCredit * NPT_ESTIMATED_RATE;
-                adjustment = -(priorEstBIRT + priorEstNPT);
-            }
-
-            const totalCashBurden = taxDue + estBIRT + estNPT + adjustment;
-
-            return {
-                year,
-                taxDue,
-                estBIRT,
-                estNPT,
-                adjustment,
-                totalCashBurden,
-                isGraceYear,
-                paidInYear: year + 1
-            };
-        }
+        // Import from shared module
+        const {
+            TAX_RATES,
+            EXEMPTION_BY_YEAR,
+            BIRT_CREDIT_RATE,
+            NPT_ESTIMATED_RATE,
+            formatCurrency,
+            parseCurrency,
+            calculateTaxableAmounts,
+            calculateTaxLiability,
+            calculateCashFlow: sharedCalculateCashFlow
+        } = window.TaxCalculator;
 
         // Main calculation function
         function calculate(netIncome, grossReceipts, startYear) {
@@ -1523,7 +1321,7 @@
             // Calculate cash flows for all years (starting 2022 now that we have 2021 data)
             const cashFlows = {};
             for (let year = 2022; year <= 2027; year++) {
-                cashFlows[year] = calculateCashFlow(taxLiabilities, year, startYear, netIncome);
+                cashFlows[year] = sharedCalculateCashFlow(taxLiabilities, year, startYear);
             }
 
             // Shock year determination:
