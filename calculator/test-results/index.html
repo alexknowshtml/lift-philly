@@ -191,33 +191,47 @@
             padding-bottom: 6px;
         }
         .flowchart-step {
-            display: flex;
-            margin: 6px 0;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 4px 8px;
+            margin: 8px 0;
+            padding: 6px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
+        .flowchart-step:last-of-type { border-bottom: none; }
         .flowchart-step .label {
-            min-width: 140px;
             color: #64748b;
+            font-size: 0.75rem;
+            grid-column: 1 / -1;
         }
         .flowchart-step .formula {
             color: #475569;
             font-family: monospace;
-            flex: 1;
+            font-size: 0.8rem;
         }
         .flowchart-step .value {
             font-weight: 700;
             color: #0f172a;
-            min-width: 80px;
             text-align: right;
+            font-size: 0.9rem;
         }
         .flowchart-divider {
             border-top: 1px dashed #cbd5e1;
             margin: 10px 0;
         }
         .flowchart-result {
-            font-weight: 700;
+            background: #fef2f2;
+            padding: 8px;
+            margin: 8px -8px;
+            border-radius: 6px;
+        }
+        .flowchart-result .label {
+            font-weight: 600;
             color: #dc2626;
-            font-size: 0.95rem;
+        }
+        .flowchart-result .value {
+            color: #dc2626;
+            font-size: 1rem;
         }
         .flowchart-note {
             font-style: italic;
