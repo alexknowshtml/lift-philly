@@ -1166,7 +1166,7 @@
     <section class="calculator-section">
         <div class="container">
             <div class="calculator-card" style="position: relative;">
-                <div class="last-updated">Last updated: Jan 16, 2026 at 7:05 PM</div>
+                <div class="last-updated">Last updated: Jan 16, 2026 at 7:13 PM</div>
                 <!-- Year Selection (collapsible) -->
                 <div id="year-section" class="year-section">
                     <!-- Year picker with fan collapse -->
@@ -1737,14 +1737,13 @@
             // Update run rate summary (annual tax increase vs 2024 baseline)
             document.getElementById('run-rate-amount').textContent = '↑' + formatCurrency(result.annualTaxIncrease);
 
-            // Update impact summary (shock year cash increase vs 2024 baseline)
+            // Update impact summary (shock year cash increase vs prior year)
             document.getElementById('impact-amount').textContent = '↑' + formatCurrency(result.shockCashIncrease);
             document.getElementById('impact-detail').textContent =
-                `Comparing ${result.shockYear} to your 2024 baseline (includes estimated payments)`;
+                `Comparing ${result.shockYear} to ${result.shockYear - 1} (includes estimated payments)`;
 
-            // Show cash shock year (payment is due the year after)
-            const cashShockYear = result.shockYear + 1;
-            document.getElementById('cash-shock-year').textContent = `Cash Shock Year: April ${cashShockYear}`;
+            // Show cash shock year (payment is due in April of the shock year)
+            document.getElementById('cash-shock-year').textContent = `Cash Shock Year: April ${result.shockYear}`;
 
             // Show contextual warning - explains the shock year concept
             const warningBox = document.getElementById('warning-box');
