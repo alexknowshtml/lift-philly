@@ -173,7 +173,7 @@
         }
         .flowchart-toggle:hover { background: #e2e8f0; }
         .flowchart {
-            display: none;
+            display: block;
             margin-top: 12px;
             padding: 16px;
             background: #f8fafc;
@@ -182,7 +182,26 @@
             font-size: 0.8rem;
             line-height: 1.6;
         }
-        .flowchart.visible { display: block; }
+        .flowchart.hidden { display: none; }
+        .flowchart-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .export-btn:hover { background: #1e293b; }
         .flowchart h4 {
             margin: 0 0 8px 0;
             color: #0f172a;
@@ -444,8 +463,10 @@
                                         <span class="summary-value negative">+${formatCurrency(summary.shockIncrease)}</span>
                                     </div>
                                 </div>
-                                <a href="scenario_${s.id}_formulas.csv" class="csv-link" download>Download CSV with Formulas</a>
-                                <button class="flowchart-toggle" onclick="toggleFlowchart(${s.id})">Show Calculation Breakdown</button>
+                                <div class="flowchart-actions">
+                                    <button class="flowchart-toggle" onclick="toggleFlowchart(${s.id})">Hide Calculation Breakdown</button>
+                                    <button class="export-btn" onclick="exportCSV(${s.id})">📄 Export CSV</button>
+                                </div>
                                 <div class="flowchart" id="flowchart-${s.id}">
                                     ${flowchartHTML}
                                 </div>
@@ -503,7 +524,75 @@
         }
 
         function toggleFlowchart(num) {
-            document.getElementById('flowchart-' + num).classList.toggle('visible');
+            const flowchart = document.getElementById('flowchart-' + num);
+            const btn = event.target;
+            flowchart.classList.toggle('hidden');
+            btn.textContent = flowchart.classList.contains('hidden') ? 'Show Calculation Breakdown' : 'Hide Calculation Breakdown';
+        }
+
+        // Generate and download CSV for a scenario
+        function exportCSV(scenarioId) {
+            const s = SCENARIOS.find(x => x.id === scenarioId);
+            if (!s) return;
+
+            const { calculateTaxLiability, calculateShockIncrease, TAX_RATES, EXEMPTION_BY_YEAR } = window.TaxCalculator;
+
+            const tax2024 = calculateTaxLiability(s.netIncome, s.grossReceipts, 2024, true);
+            const tax2025 = calculateTaxLiability(s.netIncome, s.grossReceipts, 2025, true);
+            const shockResult = calculateShockIncrease(s.netIncome, s.grossReceipts, s.startYear);
+
+            const rows = [
+                ['LIFT Tax Calculator - Scenario ' + s.id],
+                [''],
+                ['Parameters'],
+                ['Start Year', s.startYear],
+                ['Gross Receipts', s.grossReceipts],
+                ['Net Income', s.netIncome],
+                [''],
+                ['2024 Tax Calculation (With $100K Exemption)'],
+                ['Taxable Gross Receipts', `=MAX(0, ${s.grossReceipts} - 100000)`, tax2024.taxableGR],
+                ['Taxable Net Income (BIRT)', '', tax2024.taxableNI_BIRT],
+                ['Taxable Net Income (NPT)', s.netIncome, tax2024.taxableNI_NPT],
+                ['BIRT (GR)', `=${tax2024.taxableGR} * ${TAX_RATES[2024].birtGR}`, tax2024.birtGR],
+                ['BIRT (NI)', `=${tax2024.taxableNI_BIRT} * ${TAX_RATES[2024].birtNI}`, tax2024.birtNI],
+                ['Total BIRT', `=${tax2024.birtGR} + ${tax2024.birtNI}`, tax2024.birtTotal],
+                ['NPT (before credit)', `=${s.netIncome} * ${TAX_RATES[2024].npt}`, tax2024.nptGross],
+                ['BIRT Credit (60%)', `=${tax2024.birtNI} * 0.6`, tax2024.birtCredit],
+                ['NPT (after credit)', `=MAX(0, ${tax2024.nptGross} - ${tax2024.birtCredit})`, tax2024.nptAfterCredit],
+                ['Total Tax 2024', `=${tax2024.birtTotal} + ${tax2024.nptAfterCredit}`, tax2024.totalTax],
+                [''],
+                ['2025 Tax Calculation (No Exemption)'],
+                ['Taxable Gross Receipts', s.grossReceipts, tax2025.taxableGR],
+                ['Taxable Net Income (BIRT)', s.netIncome, tax2025.taxableNI_BIRT],
+                ['Taxable Net Income (NPT)', s.netIncome, tax2025.taxableNI_NPT],
+                ['BIRT (GR)', `=${tax2025.taxableGR} * ${TAX_RATES[2025].birtGR}`, tax2025.birtGR],
+                ['BIRT (NI)', `=${tax2025.taxableNI_BIRT} * ${TAX_RATES[2025].birtNI}`, tax2025.birtNI],
+                ['Total BIRT', `=${tax2025.birtGR} + ${tax2025.birtNI}`, tax2025.birtTotal],
+                ['NPT (before credit)', `=${s.netIncome} * ${TAX_RATES[2025].npt}`, tax2025.nptGross],
+                ['BIRT Credit (60%)', `=${tax2025.birtNI} * 0.6`, tax2025.birtCredit],
+                ['NPT (after credit)', `=MAX(0, ${tax2025.nptGross} - ${tax2025.birtCredit})`, tax2025.nptAfterCredit],
+                ['Total Tax 2025', `=${tax2025.birtTotal} + ${tax2025.nptAfterCredit}`, tax2025.totalTax],
+                [''],
+                ['Summary'],
+                ['Annual Tax Increase', `=${tax2025.totalTax} - ${tax2024.totalTax}`, tax2025.totalTax - tax2024.totalTax],
+                ['Shock Year', shockResult.shockYear],
+                ['Shock Year Increase', '', shockResult.shockIncrease]
+            ];
+
+            const csv = rows.map(row => row.map(cell => {
+                const str = String(cell);
+                return str.includes(',') || str.includes('"') ? `"${str.replace(/"/g, '""')}"` : str;
+            }).join(',')).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `scenario_${s.id}_calculations.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         // Swipe support
