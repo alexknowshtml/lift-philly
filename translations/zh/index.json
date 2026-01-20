@@ -80,7 +80,7 @@
   "solution": {
     "label": "解决方案",
     "title": "LIFT法案",
-    "subtitle": "修复系统。为劳动者/独立承包商、个体企业和家庭企业（独资LLC）创建一个税务类别。",
+    "subtitle": "修复系统。为劳动者（独立承包商）、个体企业和家庭企业（独资LLC）创建一个税务类别。",
     "cards": {
       "exempt": {
         "title": "免除BIRT",

@@ -80,7 +80,7 @@
   "solution": {
     "label": "Giải pháp",
     "title": "Đạo luật LIFT",
-    "subtitle": "Sửa chữa hệ thống. Tạo một lớp thuế cho Người lao động/Nhà thầu Độc lập, Doanh nghiệp Cá nhân và Doanh nghiệp Gia đình (LLC một chủ).",
+    "subtitle": "Sửa chữa hệ thống. Tạo một lớp thuế cho Người lao động (Nhà thầu Độc lập), Doanh nghiệp Cá nhân và Doanh nghiệp Gia đình (LLC một chủ).",
     "cards": {
       "exempt": {
         "title": "Miễn BIRT",

@@ -80,7 +80,7 @@
   "solution": {
     "label": "La Solución",
     "title": "La Ley LIFT",
-    "subtitle": "Arreglar el sistema. Crear una clase tributaria para Trabajadores/Contratistas Independientes, Empresas Individuales y Empresas Familiares (LLCs de propiedad individual).",
+    "subtitle": "Arreglar el sistema. Crear una clase tributaria para Trabajadores (Contratistas Independientes), Empresas Individuales y Empresas Familiares (LLCs de propiedad individual).",
     "cards": {
       "exempt": {
         "title": "Exento del BIRT",
