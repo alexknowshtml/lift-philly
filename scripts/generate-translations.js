@@ -825,6 +825,12 @@ function generateIndexHtml(lang, t) {
                     </blockquote>
                     <cite style="display: block; margin-top: 12px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">${t.hero.quote.attribution}</cite>
                 </div>
+
+                <div style="margin-top: 24px; text-align: center;">
+                    <a href="/${lang}/one-sheet.pdf" class="btn btn-outline" style="background: rgba(255,255,255,0.95); font-size: 0.95rem; padding: 12px 24px;" download>
+                        📄 ${t.hero.quote.download_button}
+                    </a>
+                </div>
             </div>
         </div>
     </section>
