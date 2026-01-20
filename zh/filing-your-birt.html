@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申报BIRT：市政府官方指南 - LIFT Philly</title>
+    <meta name="description" content="费城税务局关于如何申报2026年商业收入和收据税(BIRT)的官方指南。">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liftphilly.org/zh/filing-your-birt.html">
+    <meta property="og:title" content="申报BIRT：市政府官方指南 - LIFT Philly">
+    <meta property="og:description" content="费城税务局关于如何申报2026年商业收入和收据税(BIRT)的官方指南。">
+    <meta property="og:image" content="https://liftphilly.org/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow: visible;
+        }
+
+        .nav .container {
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-brand span { color: var(--gold); }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a.active { color: var(--gold); }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav .container { flex-wrap: wrap; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 16px;
+                background: var(--navy-light);
+                flex-direction: column;
+                gap: 0;
+                padding: 12px 0;
+                margin-top: 8px;
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                min-width: 200px;
+                z-index: 1000;
+            }
+
+            .nav-links.open { display: flex; }
+            .nav-links li { padding: 0; }
+            .nav-links a { display: block; padding: 10px 16px; font-size: 0.9rem; }
+            .nav-toggle { display: block; }
+
+            .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; }
+            .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        }
+
+        /* Page header */
+        .page-header {
+            background: var(--gradient);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .page-header .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+
+        .source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            cursor: default;
+        }
+
+        .source-badge svg { width: 16px; height: 16px; }
+
+        .source-badge .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .source-badge .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-bottom-color: var(--navy);
+        }
+
+        .source-badge:hover .tooltip { opacity: 1; visibility: visible; }
+
+        /* Content */
+        .content {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .letter {
+            background: var(--white);
+            border-radius: 4px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+            padding: 48px 56px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 70%, var(--gold) 70%, var(--gold) 100%);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .letter-header {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .letter-meta {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px 16px;
+            font-size: 0.95rem;
+            align-items: center;
+        }
+
+        .letter-meta dt {
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .letter-meta dd {
+            color: var(--navy);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .letter-date {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .letter-date .email-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .letter-date .email-link:hover { color: var(--gold-dark); }
+        .letter-date .email-link svg { width: 16px; height: 16px; }
+
+        .letter-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 40px 0 16px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .letter-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+        .letter-body h3 { font-size: 1.15rem; font-weight: 600; color: var(--navy); margin: 24px 0 12px; }
+        .letter-body p { margin-bottom: 16px; line-height: 1.7; }
+        .letter-body ul { margin: 16px 0; padding-left: 24px; }
+        .letter-body li { margin-bottom: 12px; line-height: 1.7; }
+
+        .letter-body a {
+            color: var(--navy);
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: var(--gold);
+            text-underline-offset: 3px;
+        }
+
+        .letter-body a:hover { color: var(--gold-dark); }
+
+        .highlight-box {
+            background: var(--cream);
+            border-left: 4px solid var(--gold);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box p:last-child { margin-bottom: 0; }
+
+        .important-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .important-box strong { color: #dc2626; }
+
+        .contact-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .contact-box p { margin-bottom: 8px; }
+        .contact-box .phone { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+
+        /* CTA section */
+        .cta-section {
+            background: var(--navy);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 { color: var(--white); font-size: 1.75rem; margin-bottom: 12px; }
+        .cta-section p { color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(251,191,36,0.35); }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 48px 0;
+            text-align: center;
+        }
+
+        .footer-brand { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .footer-brand span { color: var(--gold); }
+        footer p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .page-header { padding: 40px 0; }
+            .content { padding: 40px 0; }
+            .letter { padding: 24px 20px; }
+            .letter-meta { grid-template-columns: 1fr; gap: 4px; }
+            .letter-meta dt { margin-top: 12px; }
+            .letter-meta dt:first-child { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="/zh/" class="nav-brand">LIFT <span>Philly</span></a>
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/zh/">首页</a></li>
+                <li><a href="/zh/filing-your-birt.html" class="active">申报BIRT</a></li>
+                <li><a href="/calculator">增税计算器</a></li>
+                <li><a href="/zh/#join">加入联盟</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>申报BIRT：<br>市政府官方指南</h1>
+            <p class="subtitle">费城每位企业主必读的重要信息</p>
+            <div class="source-badge">
+                <span class="tooltip">来自2026年1月15日星期四的最新官方通讯</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                来自费城税务局
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+        <div class="container">
+            <article class="letter">
+                <header class="letter-header">
+                    <dl class="letter-meta">
+                        <dt>From</dt>
+                        <dd>费城税务局</dd>
+                        <dt>To</dt>
+                        <dd>费城小企业主</dd>
+                    </dl>
+                    <div class="letter-date">
+                        2026年1月15日
+                        <a href="https://myemail.constantcontact.com/What-you-need-to-know-before-filing-your-first-BIRT.html?soid=1120526976020&aid=Ttl7j9SNh5Q" target="_blank" class="email-link" title="查看原始邮件">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </header>
+
+                <div class="letter-body">
+                    <p>2026年报税季即将开始！今年，在市政府税务政策发生重大变化后，许多费城企业将首次申报商业收入和收据税(BIRT)。</p>
+                    <p>我们知道这个过渡不会容易。好在我们一直在为这一刻做准备，并准备好帮助您。以下是您在这个报税季需要记住的内容：</p>
+
+                    <h2>强制申报要求</h2>
+
+                    <div class="important-box">
+                        <p><strong>如果您的企业位于费城并且在2025年有业务活动，您必须在4月15日之前提交BIRT申报表。</strong></p>
+                    </div>
+
+                    <p>10万美元的法定免税额已到期。现在无论销售额多少都必须提交BIRT申报表。即使您在2025年没有业务活动，但仍有活跃的费城税务账户，您也需要提交BIRT申报表。如果您所有的销售都在费城进行，请提交BIRT-EZ表格。我们不再有免税申报表。</p>
+                    <p>一项法律诉讼终止了市政府的BIRT免税政策，自2025年起生效。在此之前，销售额低于10万美元的费城企业不需要申报BIRT。</p>
+
+                    <h2>预估付款</h2>
+
+                    <div class="highlight-box">
+                        <p>如果您在2022、2023和2024财年没有BIRT申报要求，当您今年首次提交BIRT时，我们将视您为「新企业」。这意味着您只需在今年4月15日之前申报并支付2025年的活动税款。在2027年4月之前，您不必担心预估税款的支付。</p>
+                    </div>
+
+                    <p>虽然像费城这样的税务机构通常要求企业在申报时支付预估税款，但我们允许您将这些付款推迟到2027年。这项减免措施有助于缓解向BIRT申报的过渡。 <a href="https://www.phila.gov/2025-08-12-what-anyone-doing-business-in-philly-needs-to-know-about-estimated-tax-payments/">了解市政府如何简化向BIRT申报的过渡</a>.</p>
+
+                    <h2>不变的内容</h2>
+
+                    <h3>NPT抵免</h3>
+                    <p>如果您同时缴纳BIRT和净利润税(NPT)，您将继续获得BIRT净收入部分60%的NPT抵免。该抵免会减少您的NPT账单。如果您在线申报，它会自动出现在您的NPT申报表上。需要更多信息？请咨询熟悉费城税务规则的税务专业人士。</p>
+
+                    <h3>亏损结转(LCF)</h3>
+                    <p>您可以使用某一财年发生的净经营亏损(NOLs)来抵消未来的应税净收入。这可以减少您的税单。最好的部分是什么？您可以在长达20年的时间内扣除2022年发生的业务亏损。在线提交完整的BIRT申报表以记录亏损，您可以用它来抵消未来的税务责任。费城税务中心会存储亏损并允许您自动结转。请向您的报税员咨询如何修改以前的申报表以记录和使用净经营亏损。</p>
+
+                    <h2>报税季的其他提醒</h2>
+
+                    <ul>
+                        <li><strong>在线申报和付款。</strong> 费城税务中心拥有您安全申报和缴税所需的一切。在这个网站上付款不需要用户名和密码，但提交申报表需要创建用户名和密码。登录后，转到您的个人资料，向下滚动到摘要子选项卡，找到您的税务账户。您还可以授权您企业中的其他人或您的税务专业人员访问您的账户。选择「提交、查看或修改申报表」并按照指示操作。在线申报和付款更安全，并节省您的时间和金钱。</li>
+                        <li><strong>在4月15日之前申报和付款。</strong> 您可以获得申报延期，但必须在4月15日之前支付所有应付款项。逾期付款将产生额外费用。</li>
+                        <li><strong>不要排队等候。</strong> 在phila.gov/tax-center-guide和phila.gov/revenue上查找常见税务问题的答案。要查询退款、申报或付款状态，您必须访问tax-services.phila.gov。无需等待或预约——这些在线工具和资源全天候24/7可用。</li>
+                        <li><strong>如果您必须打电话：</strong> 从2月1日起，我们将呼叫中心的营业时间延长至晚上7:30。往年6点后的等待时间明显更短。</li>
+                    </ul>
+
+                    <div class="contact-box">
+                        <p><strong>税务局呼叫中心</strong></p>
+                        <p class="phone">(215) 686-6600</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">从2月1日起延长营业时间至晚上7:30</p>
+                    </div>
+
+                    <h2>获取免费的企业报税服务</h2>
+
+                    <div class="highlight-box">
+                        <p><strong>您是销售额低于25万美元的费城企业吗？您可以免费报税！</strong></p>
+                    </div>
+
+                    <p>费城正在采取多项措施简化向BIRT申报的过渡，包括商务部的费城免费企业报税准备计划。服务提供商除英语外还提供多种语言服务。符合条件的企业还可获得个性化的企业帮助。</p>
+
+                    <h2>告知您的员工关于EITC和WPTC</h2>
+
+                    <p>在发放W-2和1099表格时，告知您的员工他们可能有资格获得联邦劳动所得税抵免(EITC)和新的宾夕法尼亚州工人税收抵免(WPTC)。</p>
+                    <p>每个费城雇主都必须与员工分享联邦EITC的信息，但如果您也能告知他们州级抵免，我们将不胜感激。有资格获得联邦税收抵免的员工也可以获得WPTC，相当于联邦EITC的10%。这是他们口袋里的额外收入！</p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>支持LIFT法案</h2>
+            <p>加入为费城最小企业争取公平税收待遇的联盟。</p>
+            <a href="/zh/#join" class="btn btn-gold">加入联盟 →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>劳动者（独立承包商）· 个体企业 · 家庭企业 · 税务改革</p>
+            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">本资源不构成法律建议，您应咨询您的法律和税务顾问。LIFT类别不包括S型公司和C型公司实体。</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            document.querySelector('.nav-toggle').classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

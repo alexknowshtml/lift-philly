@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Philly - Cải cách Thuế Doanh nghiệp Nhỏ Philadelphia</title>
+    <meta name="description" content="Tham gia liên minh hỗ trợ cải cách thuế cho 122.000 chủ doanh nghiệp nhỏ ở Philadelphia.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liftphilly.org/vi/">
+    <meta property="og:site_name" content="LIFT Philly">
+    <meta property="og:locale" content="vi">
+    <meta property="og:title" content="LIFT Philly - Cải cách Thuế Doanh nghiệp Nhỏ Philadelphia">
+    <meta property="og:description" content="「Đây có thể là sự khác biệt giữa việc những doanh nghiệp đó mở cửa hay đóng cửa.」— Nghị viên Mike Driscoll. Tham gia liên minh vì cải cách thuế hiệu quả, hiệu suất và công bằng.">
+    <meta property="og:image" content="https://liftphilly.org/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LIFT Philly - Cải cách Thuế Doanh nghiệp Nhỏ Philadelphia">
+    <meta name="twitter:description" content="「Đây có thể là sự khác biệt giữa việc những doanh nghiệp đó mở cửa hay đóng cửa.」— Nghị viên Mike Driscoll. Tham gia liên minh vì cải cách thuế hiệu quả, hiệu suất và công bằng.">
+    <meta name="twitter:image" content="https://liftphilly.org/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            overflow: visible;
+        }
+
+        .nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-brand span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav .container {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 16px;
+                left: auto;
+                background: var(--navy-light);
+                flex-direction: column;
+                gap: 0;
+                padding: 12px 0;
+                margin-top: 8px;
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                min-width: 200px;
+                z-index: 1000;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                padding: 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-toggle.open span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--gradient);
+            min-height: 90vh;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 80% 20%, rgba(251,191,36,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(251,191,36,0.15);
+            color: var(--gold);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            border: 1px solid rgba(251,191,36,0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+            max-width: 540px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: left;
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 4px;
+        }
+
+        /* Section styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--navy);
+            background: var(--gold);
+            padding: 10px 20px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text);
+            max-width: 600px;
+        }
+
+        .mobile-break {
+            display: inline;
+        }
+
+        /* Problem section */
+        .problem {
+            background: linear-gradient(180deg, #f8fafc 0%, var(--white) 100%);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .impact-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .impact-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .impact-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #dc2626;
+            line-height: 1;
+        }
+
+        .impact-label {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-top: 8px;
+        }
+
+        .impact-comparison {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .impact-comparison strong {
+            color: #dc2626;
+        }
+
+        .problem-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .problem-text p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            font-style: italic;
+            margin-top: 32px;
+            padding-left: 24px;
+            border-left: 4px solid var(--gold);
+        }
+
+        /* Solution section */
+        .solution {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .solution .section-label {
+            color: var(--navy);
+            background: var(--gold);
+        }
+
+        .solution .section-title {
+            color: var(--white);
+        }
+
+        .solution .section-subtitle {
+            color: rgba(255,255,255,0.7);
+            max-width: 750px;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 60px;
+        }
+
+        .solution-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .solution-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .solution-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .solution-card p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        .timeline {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-item {
+            text-align: center;
+        }
+
+        .timeline-text {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.3;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .timeline-item.pending .timeline-date {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .timeline-arrow {
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+
+        @media (max-width: 600px) {
+            .timeline {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .timeline-arrow {
+                transform: rotate(90deg);
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 24px 0 80px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-number {
+                font-size: 2.5rem;
+            }
+
+            .impact-card {
+                padding: 24px;
+            }
+
+            .mobile-break {
+                display: block;
+            }
+        }
+
+        /* Affected section */
+        .affected {
+            background: var(--cream);
+        }
+
+        .affected-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .affected-tag {
+            background: var(--white);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--navy);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .affected-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        /* Signup section */
+        .signup {
+            background: linear-gradient(180deg, var(--cream) 0%, var(--white) 100%);
+            text-align: center;
+        }
+
+        .signup .section-label {
+            background: var(--navy);
+            color: var(--gold);
+        }
+
+        .signup .section-title {
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .signup .section-subtitle {
+            max-width: 550px;
+            font-size: 1.15rem;
+        }
+
+        .form-container {
+            max-width: 480px;
+            margin: 40px auto 0;
+            background: var(--white);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Coalition section */
+        .coalition {
+            background: #f8fafc;
+        }
+
+        .coalition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .coalition-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .coalition-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .coalition-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .coalition-card p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .coalition-cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .coalition-cta a {
+            color: var(--navy);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 2px;
+            transition: border-color 0.2s;
+        }
+
+        .coalition-cta a:hover {
+            border-color: var(--navy);
+        }
+
+        /* Resources */
+        .resources {
+            background: var(--white);
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15,23,42,0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+        }
+
+        .btn-outline:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 48px 0;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .footer-brand span {
+            color: var(--gold);
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="/vi/" class="nav-brand">LIFT <span>Philly</span></a>
+            <ul class="nav-links">
+                <li><a href="/vi/" class="active">Trang chủ</a></li>
+                <li><a href="/vi/filing-your-birt.html">Nộp BIRT</a></li>
+                <li><a href="/calculator">Máy tính Tăng thuế</a></li>
+                <li><a href="#join">Tham gia Liên minh</a></li>
+            </ul>
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Liên minh vì Cải cách Thuế Hiệu quả, Hiệu suất và Công bằng</div>
+                <h1>Bảo vệ<br><span>phúc lợi kinh tế của Philadelphia</span></h1>
+                <p class="subtitle">122.000 gia đình lao động, thợ thủ công, người chăm sóc, người làm công việc tự do và doanh nhân sáng tạo đang đối mặt với mức tăng thuế lớn vào năm 2026 và sau đó.</p>
+                <p class="subtitle" style="font-weight: 700;">Chúng tôi là những cá nhân và tổ chức đang cùng nhau làm việc để thay đổi điều đó.</p>
+
+                <div class="hero-signup" style="margin-top: 32px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px;">
+                    <div class="lift-acronym" style="display: flex; justify-content: center; align-items: center; gap: 32px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15);">
+                        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.5;">
+                            <span><strong style="color: var(--gold);">L</strong>ười lao động (Nhà thầu Độc lập)</span>
+                            <span><strong style="color: var(--gold);">I</strong>oanh nghiệp Cá nhân</span>
+                            <span><strong style="color: var(--gold);">F</strong>oanh nghiệp Gia đình</span>
+                            <span><strong style="color: var(--gold);">T</strong>ải cách Thuế</span>
+                        </div>
+                        <span style="font-size: 7rem; font-weight: 800; color: var(--gold); letter-spacing: 0.05em; line-height: 0.85;">LIFT</span>
+                    </div>
+                    <script async data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
+                </div>
+                <div class="hero-stats" style="margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 580px; margin-left: auto; margin-right: auto;">
+                    <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">122K</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Doanh nghiệp có và không có nhân viên bị ảnh hưởng</div>
+                    </div>
+                    <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">85%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Doanh nghiệp Philadelphia là một chủ sở hữu</div>
+                    </div>
+                    <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;"><1%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Có trách nhiệm tài chính, ảnh hưởng dưới 1% ngân sách thành phố</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; max-width: 480px; margin-left: auto; margin-right: auto; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 24px 28px; border-left: 4px solid var(--gold);">
+                    <blockquote style="font-size: 1.1rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
+                        <p style="margin: 0;">"Vấn đề BIRT này đã trở thành điểm áp lực cho các doanh nghiệp gia đình nhỏ.</p>
+                        <p style="margin: 8px 0 0 0;">Đây có thể là sự khác biệt giữa việc những doanh nghiệp đó mở cửa hay đóng cửa."</p>
+                    </blockquote>
+                    <cite style="display: block; margin-top: 12px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">— Nghị viên Mike Driscoll</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="problem">
+        <div class="container">
+            <div style="max-width: 660px; margin: 0 auto;">
+                <div class="section-label">Vấn đề</div>
+                <h2 class="section-title">Mã thuế của Philadelphia không được thiết kế cho lực lượng lao động hiện đại</h2>
+                <p class="section-subtitle">Bắt đầu từ năm 2026, mọi doanh nghiệp ở Philadelphia sẽ nhận được một hóa đơn thuế mới—và có thể bất ngờ.</p>
+                <p class="section-subtitle" style="margin-top: 16px;">Trong 10 năm qua, các doanh nghiệp nhỏ nhất của Philadelphia có một lá chắn khỏi Thuế Thu nhập và Biên lai Doanh nghiệp lũy thoái, được gọi thân mật là BIRT.</p>
+                <p class="section-subtitle" style="margin-top: 16px;">Lá chắn đó cho phép họ khởi nghiệp và phát triển doanh nghiệp có thể nuôi sống bản thân, gia đình, cộng đồng và thuê những người Philadelphia khác.</p>
+                <p class="section-subtitle" style="margin-top: 16px;"><strong>Năm 2026, lá chắn đó sẽ biến mất.</strong></p>
+
+                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">Quy mô của Vấn đề</h3>
+                <p class="section-subtitle">Mặc dù thông tin này là công khai, hầu hết mọi người không nhận ra mức độ ảnh hưởng của nó đối với những người Philadelphia kiếm sống bằng doanh nghiệp nhỏ.</p>
+            </div>
+            <div class="problem-grid">
+                <div class="impact-card">
+                    <div style="margin-bottom: 24px; text-align: center; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb;">
+                        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4; font-weight: 600;">Nếu năm 2025 bạn kiếm được $50.000 và bạn là:</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Người lao động (Nhà thầu Độc lập)</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Doanh nghiệp Cá nhân</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Doanh nghiệp Gia đình</span>
+                        </div>
+                    </div>
+                    <div style="margin: 24px 0;">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 20px;">Bắt đầu từ tháng 4 năm 2026, hóa đơn thuế Philadelphia của bạn sẽ tăng:</h3>
+                        <div class="impact-range" style="display: flex; align-items: center; gap: 16px;">
+                            <div class="impact-number">+$1.208</div>
+                            <div class="impact-bar-container" style="flex: 1; display: flex; align-items: center;">
+                                <div class="impact-bar" style="width: 100%; height: 8px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 4px; position: relative;">
+                                    <div style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #dc2626; border-radius: 50%; border: 3px solid white;"></div>
+                                    <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #991b1b; border-radius: 50%; border: 3px solid white;"></div>
+                                </div>
+                            </div>
+                            <div class="impact-number">+$3.746</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                        <p style="font-size: 1.25rem; color: var(--navy);">Đó là từ 1 đến 3 tháng tiền thuê nhà cho nhiều người Philadelphia—họ đơn giản không thể chi trả được.</p>
+                    </div>
+                </div>
+
+                <div class="thomas-quote" style="background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%); border-radius: 24px; padding: 48px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(15,23,42,0.15); max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <div style="position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--gold); border-radius: 3px 0 0 3px;"></div>
+                    <blockquote style="font-size: 1.4rem; color: var(--white); line-height: 1.7; font-style: italic; margin: 0; padding-left: 24px; position: relative; z-index: 1;">
+                        <p style="margin-bottom: 20px;">"Tôi không nghĩ chúng ta nhận ra điều này sẽ thảm khốc như thế nào, [và] không chỉ đối với các doanh nghiệp nhỏ.</p>
+                        <p>Loại bỏ miễn trừ $100.000 trong khi đồng thời không giảm phần thu nhập ròng của BIRT sẽ khiến mọi người [...] rời khỏi Philadelphia."</p>
+                    </blockquote>
+                    <div class="quote-footer" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; padding-left: 24px; position: relative; z-index: 1;">
+                        <a href="https://youtu.be/tRA5j_ha244?t=3751" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: var(--white); padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            Xem trích dẫn đầy đủ (1:02:31)
+                        </a>
+                        <div style="text-align: right;">
+                            <cite style="display: block; font-size: 1.1rem; color: var(--white); font-style: normal; font-weight: 700;">Nghị viên Isaiah Thomas</cite>
+                            <span style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Hội đồng Thành phố Philadelphia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 660px; margin: 0 auto;">
+                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">Vấn đề hệ thống, không phải thuế suất</h3>
+                <p class="section-subtitle">Hệ thống thuế hai lớp của Philadelphia đối xử bình đẳng với tất cả các công ty và phi công ty: dù bạn là một freelancer đơn độc, công ty hợp danh 50 người, hay một tập đoàn lớn như Comcast.</p>
+                <p class="section-subtitle" style="margin-top: 16px;">Điều này có nghĩa là chủ doanh nghiệp cá nhân phải đối mặt với thuế kép trên thu nhập đã bị Thuế Lợi nhuận Ròng thu, trong khi các công ty thì không.</p>
+            </div>
+            <div style="padding-top: 48px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <p style="font-size: 1.75rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin: 0; display: inline-block; border-bottom: 4px solid var(--gold); padding-bottom: 8px;">"Chúng ta đang đẩy các gia đình lao động ra khỏi nhà của họ bằng thuế."</p>
+            </div>
+
+            <div style="max-width: 700px; margin: 48px auto 0; background: var(--white); border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-left: 4px solid var(--gold);">
+                <blockquote style="font-size: 1.2rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
+                    <p style="margin: 0;">"Chúng ta sẽ thấy nhiều doanh nghiệp chưa bao giờ nộp thuế trước đây cố gắng tìm hiểu cách hoặc nơi nộp những khoản thuế này...Tôi thậm chí không biết có bao nhiêu người trong số họ sẽ biết điều này đang xảy ra."</p>
+                </blockquote>
+                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">— Nghị viên Kendra Brooks, cựu chủ doanh nghiệp nhỏ</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section class="solution">
+        <div class="container">
+            <div class="section-label">Giải pháp</div>
+            <h2 class="section-title">Đạo luật LIFT</h2>
+            <p class="section-subtitle"><strong>Sửa chữa hệ thống. Tạo một lớp thuế cho Người lao động/Nhà thầu Độc lập, Doanh nghiệp Cá nhân và Doanh nghiệp Gia đình (LLC một chủ).</strong></p>
+
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">📋</div>
+                    <h4>Miễn BIRT</h4>
+                    <p>Loại bỏ hoàn toàn BIRT cho lớp LIFT.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">✓</div>
+                    <h4>Giữ Thuế NPT</h4>
+                    <p>Đây không phải là chuyến đi miễn phí.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">⚖️</div>
+                    <h4>Pháp lý Vững chắc</h4>
+                    <p>Đáp ứng yêu cầu của Điều khoản Đồng nhất trong Hiến pháp PA.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon" title="C.R.E.A.M. Dolla Dolla Bill Y'all">💰</div>
+                    <h4>Giữ Tiền ở Địa phương</h4>
+                    <p>Mỗi đô la được người Philadelphia giữ lại trở thành ba đô la chi tiêu địa phương.</p>
+                </div>
+            </div>
+
+            <div style="max-width: 700px; margin: 60px auto 0; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; text-align: center;">
+                <blockquote style="font-size: 1.2rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
+                    <p style="margin: 0;">"Tôi không nói về thay đổi từng bước.</p>
+                    <p style="margin: 8px 0 0 0;">Tôi đang nói về những bước đột phá, biến đổi..."</p>
+                </blockquote>
+                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600;">— Thị trưởng Cherelle Parker, Bài phát biểu Nhậm chức, 2 tháng 1 năm 2024</cite>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px; margin-bottom: 24px;">
+                <span style="display: inline-block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); background: var(--gold); padding: 10px 20px; border-radius: 100px;">Lịch trình Hiện tại</span>
+            </div>
+            <div class="timeline" style="margin-top: 0;">
+                <div class="timeline-item completed">
+                    <div class="timeline-text">Dự luật được Nghị viên Driscoll giới thiệu</div>
+                    <div class="timeline-date">25 Tháng 11</div>
+                </div>
+                <div class="timeline-arrow">→</div>
+                <div class="timeline-item pending">
+                    <div class="timeline-text">Phiên điều trần Ủy ban Tài chính</div>
+                    <div class="timeline-date">TBD</div>
+                </div>
+                <div class="timeline-arrow">→</div>
+                <div class="timeline-item pending">
+                    <div class="timeline-text">Ngày Có hiệu lực</div>
+                    <div class="timeline-date">Ngay lập tức</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who This Affects -->
+    <section class="affected">
+        <div class="container" style="text-align: center;">
+            <div class="section-label">Ai Bị Ảnh hưởng</div>
+            <h2 class="section-title">Xương sống của Nền kinh tế Philadelphia</h2>
+            <p class="section-subtitle" style="margin: 0 auto;">Đây là những người hàng xóm của bạn, những người thúc đẩy cộng đồng của bạn.</p>
+
+            <div class="affected-grid">
+                <span class="affected-tag">Freelancer</span>
+                <span class="affected-tag">Nghệ sĩ & Người sáng tạo</span>
+                <span class="affected-tag">Tài xế Rideshare</span>
+                <span class="affected-tag">Người cung cấp Dịch vụ Trông trẻ Tại nhà</span>
+                <span class="affected-tag">Thợ cắt tóc & Tạo mẫu tóc</span>
+                <span class="affected-tag">Chủ Xe đồ ăn</span>
+                <span class="affected-tag">Thợ sửa ống nước & Thợ điện</span>
+                <span class="affected-tag">Tư vấn viên</span>
+                <span class="affected-tag">Nhà trị liệu</span>
+                <span class="affected-tag">Người sáng tạo Mạng xã hội</span>
+                <span class="affected-tag">Chủ Cửa hàng Khu phố</span>
+                <span class="affected-tag">Người chăm sóc</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign Up -->
+    <section class="signup" id="join">
+        <div class="container">
+            <div class="section-label">Hành động</div>
+            <h2 class="section-title">Tham gia Liên minh của Chúng tôi</h2>
+            <p class="section-subtitle" style="margin: 0 auto; font-weight: 600;">Nhận cập nhật về những nỗ lực của chúng tôi, hành động bạn có thể thực hiện, cách lan truyền thông tin, và các cách khác để đảm bảo chúng ta bảo vệ phúc lợi kinh tế của Philadelphia.</p>
+
+            <div class="form-container">
+                <script async data-uid="a1dc029c21" src="https://lift-philly.kit.com/a1dc029c21/index.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coalition Members -->
+    <section class="coalition">
+        <div class="container">
+            <div style="text-align: center;">
+                <div class="section-label">Liên minh</div>
+                <h2 class="section-title">Các Tổ chức Đoàn kết</h2>
+            </div>
+
+            <div style="display: flex; justify-content: center; margin: 40px 0;">
+                <div class="coalition-card" style="text-align: center;">
+                    <h4>Sắp ra mắt</h4>
+                    <p style="color: var(--text); opacity: 0.7; margin-top: 8px;">Các cá nhân và tổ chức cam kết sẽ sớm được công bố</p>
+                </div>
+            </div>
+
+            <div class="coalition-cta">
+                <a href="https://tally.so/r/kd9g8e" target="_blank">Thêm tổ chức của bạn →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="resources">
+        <div class="container">
+            <div class="section-label">Tài nguyên</div>
+            <h2 class="section-title">Tìm hiểu Thêm & Tham gia</h2>
+            <div class="btn-group">
+                <a href="/calculator/" class="btn btn-primary">
+                    Tính Tác động Thuế của Bạn
+                </a>
+                <a href="/vi/one-sheet.pdf" class="btn btn-outline" target="_blank">
+                    Đọc Tóm tắt Một trang
+                </a>
+                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">
+                    Đăng ký Làm chứng
+                </a>
+            </div>
+
+            <div style="max-width: 100%; margin: 60px auto 0; text-align: center;">
+                <blockquote style="font-size: 1.15rem; color: var(--text); line-height: 1.7; font-style: italic; margin: 0;">
+                    "Bi kịch của cuộc sống thường không nằm ở thất bại của chúng ta, mà ở sự tự mãn của chúng ta..."
+                </blockquote>
+                <cite style="display: block; margin-top: 16px; font-size: 0.9rem; color: var(--text-light); font-style: normal;">
+                    — Tiến sĩ Benjamin E. Mays<br>
+                    <span style="font-size: 0.85rem;">Nhà giáo dục, mục sư và lãnh đạo dân quyền nổi tiếng. Hiệu trưởng Đại học Morehouse và người cố vấn suốt đời của Tiến sĩ Martin Luther King Jr.</span>
+                </cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Người lao động (Nhà thầu Độc lập) · Doanh nghiệp Cá nhân · Doanh nghiệp Gia đình · Cải cách Thuế</p>
+            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế. Loại LIFT không bao gồm các thực thể S-Corp và C-Corp.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            document.querySelector('.nav-toggle').classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

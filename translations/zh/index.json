@@ -1,131 +1,189 @@
 {
   "meta": {
     "title": "LIFT Philly - 费城小型企业税务改革",
-    "description": "LIFT法案是一项开创性的费城立法，通过修复系统而非临时补救来解决小型企业税收问题。加入我们为费城12.2万名个体经营者争取公平税收的运动。"
+    "description": "加入支持费城12.2万小企业主税务改革的联盟。",
+    "og_title": "LIFT Philly - 费城小型企业税务改革",
+    "og_description": "「这可能是这些企业开门还是关门的区别。」— 市议员Mike Driscoll。加入我们为有效、高效、公平的税务改革而努力的联盟。"
   },
   "nav": {
-    "problem": "问题",
-    "solution": "解决方案",
-    "take_action": "采取行动",
-    "calculator": "税务计算器",
-    "join": "加入联盟"
+    "brand": "LIFT Philly",
+    "home": "首页",
+    "filing_birt": "申报BIRT",
+    "calculator": "增税计算器",
+    "join_coalition": "加入联盟",
+    "translate": "翻译",
+    "help_translate": "帮助我们翻译"
   },
   "hero": {
-    "tagline": "费城小型企业税务改革",
-    "title_line1": "一项你不知道的税款即将到期。",
-    "title_line2": "我们可以一起解决它。",
-    "subtitle": "LIFT法案是费城市议会为费城12.2万名个体经营者修复税收系统的解决方案。",
-    "cta_join": "加入联盟",
-    "cta_calculator": "计算你的税务影响"
-  },
-  "problem": {
-    "label": "问题",
-    "title": "十年的保护即将消失",
-    "intro": "十年来，费城最小的企业拥有一个免受BIRT（商业收入和收据税）影响的保护——让他们能够创业、成长并养家糊口。",
-    "highlight": "2026年，这个保护将消失。",
-    "stat_number": "85%",
-    "stat_context": "的全市企业",
-    "stat_description": "这包括12.2万名拥有和经营单一所有者实体的费城人：承包商、自由职业者、零工工人、护士、理发师、餐车摊贩、艺术家、零售商等等。"
-  },
-  "impact": {
-    "title": "你的税务影响",
-    "condition": "如果你在2025年收入50,000美元，而你是：",
-    "laborer": "劳动者（独立承包商）",
-    "individual": "个体企业",
-    "family": "家庭企业",
-    "result_title": "从2026年4月开始，你的费城税单将增加：",
-    "impact_low": "+$1,208",
-    "impact_high": "+$3,746",
-    "conclusion": "对于许多根本无力承担的费城人来说，这相当于1到3个月的房租。",
-    "cta": "计算你的税务影响"
-  },
-  "solution": {
-    "label": "解决方案",
-    "title": "LIFT法案",
-    "intro": "LIFT法案是由市议员Mike Driscoll于2025年11月提出的开创性立法，它通过承认一个已经存在但未被当前BIRT法律认可的税务类别来修复系统，而不是打补丁。",
-    "class_title": "什么是LIFT类别？",
-    "class_description": "该类别包括劳动者/独立承包商，以及任何有个人所有者的个体或家庭企业（包括有雇员的企业）。",
-    "enables_title": "LIFT法案实现什么",
-    "enables": [
-      "市议会和市长可以合法地完全取消LIFT类别的BIRT税",
-      "NPT税保留，确保公平税收而非当前的双重征税结构",
-      "将资金留在当地社区——每保留一美元就能转化为3美元以上的当地消费"
-    ],
-    "uniformity": "符合宾夕法尼亚州宪法的统一条款要求。"
-  },
-  "action": {
-    "label": "采取行动",
-    "title": "加入联盟",
-    "intro": "我们正在建立一个反映整个费城的联盟——每个邮政编码、每个背景、每个身份。以下是你可以帮助的方式：",
-    "action1_title": "申报前计算你的增税金额",
-    "action1_description": "使用计算器查看你的税务增加，然后分享给你的职业网络，让他们也能计算自己的。",
-    "action1_cta": "立即计算",
-    "action2_title": "开始对话",
-    "action2_description": "询问你认识的3-5位个体经营者：",
-    "action2_prompt": ""如果你在2026年及以后必须额外支付1-3个月房租的税款，这将如何影响你照顾自己、家人和社区的能力？"",
-    "action2_followup": "然后倾听。向我们反馈你听到的。",
-    "action3_title": "帮助我们覆盖全市",
-    "action3_description": "与你的朋友和信任的社区领袖分享这些信息，帮助我们扩展我们的网络。"
-  },
-  "testimony": {
-    "title": "识别证词声音",
-    "intro": "帮助我们从以下领域找到有力的声音：",
-    "categories": [
-      "艺术与文化",
-      "理发师和美发师",
-      "商业协会和商业区",
-      "托儿服务提供者",
-      "社区健康/组织",
-      "建筑/行业",
-      "创意（音乐、电影、摄影）",
-      "教育与辅导",
-      "活动与旅游",
-      "金融与财务",
-      "健身与保健",
-      "餐饮/酒店业",
-      "医疗保健",
-      "家庭服务",
-      "独立执业律师",
-      "媒体与新闻",
-      "宠物服务",
-      "专业服务",
-      "房地产与开发",
-      "重返社会企业家",
-      "时尚与服饰",
-      "科技与创新",
-      "交通/网约车"
-    ],
-    "categories_suffix": "以及你的行业或类别！"
-  },
-  "timeline": {
-    "title": "法案状态和预期时间表",
-    "items": [
-      "法案于2025年11月20日由市议员Mike Driscoll提出",
-      "市议会主席起草法案并为财政分析提供技术支持",
-      "多位市议员参与",
-      "财务委员会听证会预计：2026年1月底/2月初"
-    ]
-  },
-  "cta_final": {
-    "title": "准备好采取行动了吗？",
-    "subtitle": "加入为费城小型企业争取公平税收待遇的联盟。",
-    "join_btn": "加入联盟",
-    "testify_btn": "报名作证"
-  },
-  "footer": {
-    "brand": "LIFT Philly",
-    "acronym": {
+    "badge": "有效、高效、公平的税务改革联盟",
+    "headline": "保护费城的",
+    "headline_highlight": "经济福祉",
+    "subtitle": "12.2万工薪家庭、蓝领工人、护理人员、零工工人和创意企业家在2026年及以后将面临大规模增税。",
+    "subtitle_emphasis": "我们是共同努力改变这一状况的个人和组织。",
+    "lift_acronym": {
       "l": "劳动者（独立承包商）",
       "i": "个体企业",
       "f": "家庭企业",
       "t": "税务改革"
     },
-    "disclaimer": "本资源不构成法律建议，您应咨询您的法律和税务顾问。LIFT类别不包括S型公司和C型公司实体。",
-    "copyright": "© 2025 LIFT Philly联盟"
+    "stats": {
+      "stat1_number": "12.2万",
+      "stat1_label": "受影响的有雇员和无雇员企业",
+      "stat2_number": "85%",
+      "stat2_label": "费城企业是独资经营",
+      "stat3_number": "<1%",
+      "stat3_label": "财政负责，影响不到城市预算的1%"
+    },
+    "quote": {
+      "text1": "这个BIRT问题已经成为家庭式小企业的一个压力点。",
+      "text2": "这可能是这些企业开门还是关门的区别。",
+      "attribution": "— 市议员Mike Driscoll"
+    }
   },
-  "banner": {
-    "update": "更新",
-    "message": "市议会听证会即将举行",
-    "cta": "报名作证"
+  "problem": {
+    "label": "问题",
+    "title": "费城的税法不是为现代劳动力设计的",
+    "intro1": "从2026年开始，费城所有企业都将收到一张新的——可能让人意外的——税单。",
+    "intro2": "在过去10年里，费城最小的企业有一个免受累退性商业收入和收据税（俗称BIRT）影响的保护。",
+    "intro3": "这个保护让他们能够创业、发展，养活自己、家人、社区，并雇用其他费城人。",
+    "intro4": "2026年，这个保护将消失。",
+    "scale_title": "问题的规模",
+    "scale_text": "虽然这些信息是公开的，但大多数人没有意识到这对以小企业为生的费城人将产生多大影响。",
+    "impact_card": {
+      "condition": "如果你在2025年收入50,000美元，而你是：",
+      "labels": {
+        "laborer": "劳动者（独立承包商）",
+        "individual": "个体企业",
+        "family": "家庭企业"
+      },
+      "result_title": "从2026年4月开始，你的费城税单将增加：",
+      "impact_low": "+$1,208",
+      "impact_high": "+$3,746",
+      "conclusion": "对于许多费城人来说，这相当于1到3个月的房租——他们根本付不起。"
+    },
+    "thomas_quote": {
+      "text1": "我不认为我们意识到这将有多灾难性，[而且]不仅仅是对小企业。",
+      "text2": "取消10万美元的免税额，同时不降低BIRT的净收入部分，将使所有人[...]离开费城。",
+      "watch_button": "观看完整引用 (1:02:31)",
+      "attribution": "市议员Isaiah Thomas",
+      "role": "费城市议会"
+    },
+    "system_title": "系统问题，不是税率问题",
+    "system_text1": "费城的双类税务系统对所有公司和非公司一视同仁：无论你是独立的自由职业者、50人的合伙企业，还是像Comcast这样的大公司。",
+    "system_text2": "这意味着个体企业主面临已被净利润税捕获的收入的双重征税，而公司却不会。",
+    "callout": "我们正在用税收把工薪家庭赶出家园。",
+    "brooks_quote": {
+      "text": "我们将看到很多从未报过税的企业试图弄清楚如何或在哪里申报这些税......我甚至不知道有多少人会知道这件事正在发生。",
+      "attribution": "— 市议员Kendra Brooks，前小企业主"
+    }
+  },
+  "solution": {
+    "label": "解决方案",
+    "title": "LIFT法案",
+    "subtitle": "修复系统。为劳动者/独立承包商、个体企业和家庭企业（独资LLC）创建一个税务类别。",
+    "cards": {
+      "exempt": {
+        "title": "免除BIRT",
+        "description": "完全取消LIFT类别的BIRT。"
+      },
+      "npt": {
+        "title": "保留NPT税",
+        "description": "这不是免费的午餐。"
+      },
+      "legal": {
+        "title": "法律上站得住脚",
+        "description": "符合宾夕法尼亚州宪法的统一条款要求。"
+      },
+      "local": {
+        "title": "将资金留在本地",
+        "description": "费城人保留的每一美元都会变成三美元的本地消费。"
+      }
+    },
+    "parker_quote": {
+      "text1": "我说的不是渐进式改变。",
+      "text2": "我说的是大胆的、变革性的步骤...",
+      "attribution": "— 市长Cherelle Parker，2024年1月2日就职演说"
+    },
+    "timeline": {
+      "label": "当前时间表",
+      "step1_text": "Driscoll议员提出法案",
+      "step1_date": "11月25日",
+      "step2_text": "财政委员会听证会",
+      "step2_date": "待定",
+      "step3_text": "生效日期",
+      "step3_date": "立即"
+    }
+  },
+  "affected": {
+    "label": "受影响人群",
+    "title": "费城经济的支柱",
+    "subtitle": "这些是你的邻居，推动你社区发展的人。",
+    "tags": [
+      "自由职业者",
+      "艺术家和创意人士",
+      "网约车司机",
+      "家庭托儿服务者",
+      "理发师和美发师",
+      "餐车老板",
+      "水管工和电工",
+      "顾问",
+      "治疗师",
+      "社交媒体创作者",
+      "社区小店老板",
+      "护理人员"
+    ]
+  },
+  "signup": {
+    "label": "采取行动",
+    "title": "加入我们的联盟",
+    "subtitle": "获取我们努力的最新动态、你可以采取的行动、如何传播信息，以及其他确保我们保护费城经济福祉的方式。"
+  },
+  "coalition": {
+    "label": "联盟",
+    "title": "联合组织",
+    "coming_soon": "即将推出",
+    "coming_soon_subtitle": "承诺加入的个人和组织即将公布",
+    "add_org": "添加你的组织 →"
+  },
+  "resources": {
+    "label": "资源",
+    "title": "了解更多并参与其中",
+    "buttons": {
+      "calculator": "计算你的税务影响",
+      "one_pager": "阅读单页摘要",
+      "testify": "报名作证",
+      "share": "与你的社区分享"
+    },
+    "share_modal": {
+      "title": "与你的社区分享",
+      "linkedin": "领英",
+      "facebook": "脸书",
+      "twitter": "分享到Twitter",
+      "copy_link": "复制链接",
+      "copied": "已复制！"
+    },
+    "mays_quote": {
+      "text": "生活的悲剧往往不在于我们的失败，而在于我们的自满...",
+      "attribution": "— Benjamin E. Mays博士",
+      "role": "著名教育家、牧师和民权领袖。莫尔豪斯学院校长，马丁·路德·金博士的终身导师。"
+    }
+  },
+  "footer": {
+    "brand": "LIFT Philly",
+    "tagline": "劳动者（独立承包商）· 个体企业 · 家庭企业 · 税务改革",
+    "disclaimer": "本资源不构成法律建议，您应咨询您的法律和税务顾问。LIFT类别不包括S型公司和C型公司实体。"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "zh": "中文 (简体)",
+    "vi": "Tiếng Việt",
+    "ko": "한국어",
+    "ru": "Русский",
+    "ar": "العربية",
+    "fr": "Français",
+    "pt": "Português",
+    "hi": "हिन्दी",
+    "tl": "Filipino"
   }
 }

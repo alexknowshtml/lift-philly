@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declarando tu BIRT: Guía Oficial de la Ciudad - LIFT Philly</title>
+    <meta name="description" content="Guía oficial del Departamento de Ingresos de Filadelfia sobre cómo declarar tu Impuesto sobre Ingresos y Recibos de Negocios (BIRT) para 2026.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liftphilly.org/es/filing-your-birt.html">
+    <meta property="og:title" content="Declarando tu BIRT: Guía Oficial de la Ciudad - LIFT Philly">
+    <meta property="og:description" content="Guía oficial del Departamento de Ingresos de Filadelfia sobre cómo declarar tu Impuesto sobre Ingresos y Recibos de Negocios (BIRT) para 2026.">
+    <meta property="og:image" content="https://liftphilly.org/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow: visible;
+        }
+
+        .nav .container {
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-brand span { color: var(--gold); }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a.active { color: var(--gold); }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav .container { flex-wrap: wrap; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 16px;
+                background: var(--navy-light);
+                flex-direction: column;
+                gap: 0;
+                padding: 12px 0;
+                margin-top: 8px;
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                min-width: 200px;
+                z-index: 1000;
+            }
+
+            .nav-links.open { display: flex; }
+            .nav-links li { padding: 0; }
+            .nav-links a { display: block; padding: 10px 16px; font-size: 0.9rem; }
+            .nav-toggle { display: block; }
+
+            .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; }
+            .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        }
+
+        /* Page header */
+        .page-header {
+            background: var(--gradient);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .page-header .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+
+        .source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            cursor: default;
+        }
+
+        .source-badge svg { width: 16px; height: 16px; }
+
+        .source-badge .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .source-badge .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-bottom-color: var(--navy);
+        }
+
+        .source-badge:hover .tooltip { opacity: 1; visibility: visible; }
+
+        /* Content */
+        .content {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .letter {
+            background: var(--white);
+            border-radius: 4px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+            padding: 48px 56px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 70%, var(--gold) 70%, var(--gold) 100%);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .letter-header {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .letter-meta {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px 16px;
+            font-size: 0.95rem;
+            align-items: center;
+        }
+
+        .letter-meta dt {
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .letter-meta dd {
+            color: var(--navy);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .letter-date {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .letter-date .email-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .letter-date .email-link:hover { color: var(--gold-dark); }
+        .letter-date .email-link svg { width: 16px; height: 16px; }
+
+        .letter-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 40px 0 16px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .letter-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+        .letter-body h3 { font-size: 1.15rem; font-weight: 600; color: var(--navy); margin: 24px 0 12px; }
+        .letter-body p { margin-bottom: 16px; line-height: 1.7; }
+        .letter-body ul { margin: 16px 0; padding-left: 24px; }
+        .letter-body li { margin-bottom: 12px; line-height: 1.7; }
+
+        .letter-body a {
+            color: var(--navy);
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: var(--gold);
+            text-underline-offset: 3px;
+        }
+
+        .letter-body a:hover { color: var(--gold-dark); }
+
+        .highlight-box {
+            background: var(--cream);
+            border-left: 4px solid var(--gold);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box p:last-child { margin-bottom: 0; }
+
+        .important-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .important-box strong { color: #dc2626; }
+
+        .contact-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .contact-box p { margin-bottom: 8px; }
+        .contact-box .phone { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+
+        /* CTA section */
+        .cta-section {
+            background: var(--navy);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 { color: var(--white); font-size: 1.75rem; margin-bottom: 12px; }
+        .cta-section p { color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(251,191,36,0.35); }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 48px 0;
+            text-align: center;
+        }
+
+        .footer-brand { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .footer-brand span { color: var(--gold); }
+        footer p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .page-header { padding: 40px 0; }
+            .content { padding: 40px 0; }
+            .letter { padding: 24px 20px; }
+            .letter-meta { grid-template-columns: 1fr; gap: 4px; }
+            .letter-meta dt { margin-top: 12px; }
+            .letter-meta dt:first-child { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="/es/" class="nav-brand">LIFT <span>Philly</span></a>
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/es/">Inicio</a></li>
+                <li><a href="/es/filing-your-birt.html" class="active">Declarar tu BIRT</a></li>
+                <li><a href="/calculator">Calculadora de Aumento</a></li>
+                <li><a href="/es/#join">Únete a la Coalición</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Declarando tu BIRT:<br>Guía Oficial de la Ciudad</h1>
+            <p class="subtitle">Información esencial para todo propietario de negocio en Filadelfia</p>
+            <div class="source-badge">
+                <span class="tooltip">De la comunicación oficial más reciente del jueves 15 de enero de 2026</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Directamente del Departamento de Ingresos de Filadelfia
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+        <div class="container">
+            <article class="letter">
+                <header class="letter-header">
+                    <dl class="letter-meta">
+                        <dt>From</dt>
+                        <dd>Departamento de Ingresos de Filadelfia</dd>
+                        <dt>To</dt>
+                        <dd>Propietarios de Pequeñas Empresas de Filadelfia</dd>
+                    </dl>
+                    <div class="letter-date">
+                        15 de enero de 2026
+                        <a href="https://myemail.constantcontact.com/What-you-need-to-know-before-filing-your-first-BIRT.html?soid=1120526976020&aid=Ttl7j9SNh5Q" target="_blank" class="email-link" title="Ver correo original">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </header>
+
+                <div class="letter-body">
+                    <p>¡La temporada de impuestos 2026 comienza pronto! Este año, muchos negocios de Filadelfia declararán el Impuesto sobre Ingresos y Recibos de Negocios (BIRT) por primera vez, después de un gran cambio en la política tributaria de la Ciudad.</p>
+                    <p>Sabemos que la transición no será fácil. Es bueno que nos hayamos estado preparando para este momento y estamos listos para ayudarte. Esto es lo que necesitas recordar esta temporada de impuestos:</p>
+
+                    <h2>Requisito de Declaración Obligatoria</h2>
+
+                    <div class="important-box">
+                        <p><strong>Si tu negocio está ubicado en Filadelfia e hiciste negocios en 2025, debes presentar una declaración de BIRT antes del 15 de abril.</strong></p>
+                    </div>
+
+                    <p>La exención estatutaria de $100,000 ha expirado. Ahora es obligatorio presentar declaraciones de BIRT independientemente de las ventas. Incluso si no hiciste negocios en 2025, pero todavía tienes una cuenta de impuestos activa en Filadelfia, necesitas presentar una declaración de BIRT. Presenta un BIRT-EZ si todas tus ventas fueron en Filadelfia. Ya no tenemos un formulario de no obligación tributaria.</p>
+                    <p>Una acción legal terminó con la política de exención del BIRT de la Ciudad, efectiva en 2025. Antes de eso, los negocios de Filadelfia con ventas menores a $100,000 no necesitaban presentar el BIRT.</p>
+
+                    <h2>Pagos Estimados</h2>
+
+                    <div class="highlight-box">
+                        <p>Si no tenías un requisito de declaración de BIRT para los años fiscales 2022, 2023 y 2024, te consideraremos un "negocio nuevo" cuando presentes tu primer BIRT este año. Esto significa que solo tienes que declarar y pagar por tu actividad de 2025 antes del 15 de abril de este año. No tienes que preocuparte por pagar impuestos estimados hasta abril de 2027.</p>
+                    </div>
+
+                    <p>Aunque las agencias tributarias como Filadelfia normalmente requieren que los negocios paguen impuestos estimados al momento de la declaración, te estamos permitiendo diferir esos pagos hasta 2027. Esta medida de alivio ayuda a facilitar la transición a la declaración del BIRT. <a href="https://www.phila.gov/2025-08-12-what-anyone-doing-business-in-philly-needs-to-know-about-estimated-tax-payments/">Aprende cómo la Ciudad está facilitando la transición a la declaración del BIRT</a>.</p>
+
+                    <h2>Lo que NO Cambia</h2>
+
+                    <h3>Crédito NPT</h3>
+                    <p>Continuarás recibiendo un crédito NPT del 60% sobre la porción de ingresos netos del BIRT si pagas tanto BIRT como el Impuesto de Ganancias Netas (NPT). El crédito reduce tu factura de NPT. Si declaras en línea, aparece automáticamente en tu declaración de NPT. ¿Necesitas más información? Habla con un profesional de impuestos familiarizado con las reglas tributarias de Filadelfia.</p>
+
+                    <h3>Arrastre de Pérdidas (LCF)</h3>
+                    <p>Puedes usar las pérdidas operativas netas (NOLs) incurridas en un año fiscal para compensar futuros ingresos netos imponibles. Reduce tu factura de impuestos. ¿La mejor parte? Puedes deducir pérdidas comerciales incurridas en 2022 por hasta 20 años. Presenta una declaración completa de BIRT en línea para registrar una pérdida que puedes usar para compensar futuras obligaciones. El Centro de Impuestos de Filadelfia almacena las pérdidas y te permite arrastrarlas automáticamente. Pregunta a tu preparador de impuestos sobre enmendar declaraciones anteriores para registrar y usar pérdidas operativas netas.</p>
+
+                    <h2>Recordatorios Adicionales de la Temporada de Impuestos</h2>
+
+                    <ul>
+                        <li><strong>Declara y paga en línea.</strong> El Centro de Impuestos de Filadelfia tiene todo lo que necesitas para declarar y pagar impuestos de forma segura. No necesitas un nombre de usuario y contraseña para pagar impuestos en este sitio, pero necesitarás crear un nombre de usuario y contraseña para presentar declaraciones. Una vez que inicies sesión, ve a tu perfil, desplázate hacia abajo a la subpestaña de resumen y encuentra tus cuentas de impuestos. También puedes dar acceso a tu cuenta a otras personas en tu negocio o a tu profesional de impuestos. Elige "Presentar, ver o enmendar declaraciones" y sigue las instrucciones. Declarar y pagar en línea es más seguro y te ahorra tiempo y dinero.</li>
+                        <li><strong>Declara y paga antes del 15 de abril.</strong> Puedes obtener una extensión para declarar, pero debes pagar todas las obligaciones antes del 15 de abril. Se aplicarán cargos adicionales a los pagos realizados después de la fecha límite.</li>
+                        <li><strong>No esperes en línea.</strong> Encuentra respuestas a preguntas frecuentes sobre impuestos en phila.gov/tax-center-guide y phila.gov/revenue. Para el estado de reembolso, declaración o pago de impuestos, debes visitar tax-services.phila.gov. Sin tiempo de espera ni cita necesaria - estas herramientas y recursos en línea están disponibles 24/7.</li>
+                        <li><strong>Pero si debes llamar:</strong> A partir del 1 de febrero, estamos extendiendo nuestro horario del Centro de Llamadas hasta las 7:30PM. En años anteriores, los tiempos de espera después de las 6PM fueron significativamente más cortos.</li>
+                    </ul>
+
+                    <div class="contact-box">
+                        <p><strong>Centro de Llamadas del Departamento de Ingresos</strong></p>
+                        <p class="phone">(215) 686-6600</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Horario extendido hasta las 7:30PM a partir del 1 de febrero</p>
+                    </div>
+
+                    <h2>Obtén Preparación de Impuestos Gratis para tu Negocio</h2>
+
+                    <div class="highlight-box">
+                        <p><strong>¿Eres un negocio de Filadelfia con menos de $250,000 en ventas? ¡Puedes declarar tus impuestos GRATIS!</strong></p>
+                    </div>
+
+                    <p>Filadelfia está tomando muchos pasos para facilitar la transición a la declaración del BIRT, incluyendo el programa de Preparación Gratuita de Impuestos para Negocios de Filadelfia del Departamento de Comercio. Los proveedores están disponibles en varios idiomas además del inglés. También hay ayuda personalizada para negocios disponible para negocios que califiquen.</p>
+
+                    <h2>Informa a tus Empleados sobre EITC y WPTC</h2>
+
+                    <p>Informa a tus empleados que pueden calificar para el Crédito Tributario por Ingreso del Trabajo (EITC) federal y el nuevo Crédito Tributario para Trabajadores de Pensilvania (WPTC) estatal cuando emitas sus W-2s y 1099s.</p>
+                    <p>Todo empleador de Filadelfia debe compartir con sus trabajadores información sobre el EITC federal, pero agradeceríamos que también les informaras sobre el crédito a nivel estatal. Los empleados que califican para el crédito tributario federal también pueden obtener el WPTC, que es igual al 10% del EITC federal. ¡Eso es dinero extra en sus bolsillos!</p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Apoya la Ley LIFT</h2>
+            <p>Únete a la coalición que trabaja para crear un tratamiento tributario justo para los negocios más pequeños de Filadelfia.</p>
+            <a href="/es/#join" class="btn btn-gold">Únete a la Coalición →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Trabajo (Contratistas Independientes) · Empresas Individuales · Empresas Familiares · Reforma Tributaria</p>
+            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            document.querySelector('.nav-toggle').classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

@@ -1,132 +1,78 @@
 {
   "meta": {
-    "title": "Khai BIRT - LIFT Philly",
-    "description": "Tìm hiểu cách khai Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) của Philadelphia và việc loại bỏ miễn trừ năm 2026 ảnh hưởng đến bạn như thế nào."
+    "title": "Nộp BIRT của Bạn: Hướng dẫn Chính thức của Thành phố - LIFT Philly",
+    "description": "Hướng dẫn chính thức từ Sở Thuế Philadelphia về cách nộp Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) cho năm 2026."
   },
-  "hero": {
-    "title": "Khai BIRT",
-    "subtitle": "Tìm hiểu về Thuế Thu nhập và Biên lai Doanh nghiệp của Philadelphia và những thay đổi năm 2026"
+  "header": {
+    "title": "Nộp BIRT của Bạn:",
+    "title_line2": "Hướng dẫn Chính thức của Thành phố",
+    "subtitle": "Thông tin cần thiết cho mọi chủ doanh nghiệp Philadelphia",
+    "source_badge": "Trực tiếp từ Sở Thuế Philadelphia",
+    "source_tooltip": "Từ thông báo chính thức mới nhất ngày Thứ Năm, 15 tháng 1 năm 2026"
   },
-  "nav": {
-    "what_is_birt": "BIRT là gì",
-    "who_must_file": "Ai Phải Khai",
-    "how_to_file": "Cách Khai",
-    "exemption_changes": "Thay đổi Miễn trừ",
-    "resources": "Tài nguyên"
+  "letter": {
+    "from": "Sở Thuế Philadelphia",
+    "to": "Chủ Doanh nghiệp Nhỏ Philadelphia",
+    "date": "15 tháng 1 năm 2026",
+    "view_original": "Xem email gốc"
   },
-  "what_is_birt": {
-    "title": "BIRT là gì?",
-    "intro": "Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) là thuế Philadelphia đánh vào các doanh nghiệp hoạt động trong thành phố.",
-    "components_title": "BIRT có hai thành phần:",
-    "component1_title": "Thuế Tổng Thu nhập",
-    "component1_rate": "0,1415%",
-    "component1_description": "Đánh vào tổng thu nhập của bạn (doanh thu trước khi trừ chi phí)",
-    "component2_title": "Thuế Thu nhập Ròng",
-    "component2_rate": "5,99%",
-    "component2_description": "Đánh vào thu nhập ròng của bạn (lợi nhuận sau chi phí)",
-    "note": "Bạn trả cả hai khoản thuế—không phải chọn một trong hai."
-  },
-  "who_must_file": {
-    "title": "Ai Phải Khai BIRT?",
-    "intro": "Tất cả doanh nghiệp hoạt động tại Philadelphia phải khai BIRT, bao gồm:",
-    "list": [
-      "Chủ sở hữu duy nhất và nhà thầu độc lập",
-      "Freelancer và người làm việc tự do",
-      "LLC một thành viên",
-      "Công ty hợp danh",
-      "Công ty (S-Corp và C-Corp)"
-    ],
-    "threshold_note": "Ngay cả khi bạn không nợ thuế, bạn vẫn phải khai nếu tổng thu nhập trên $100.000.",
-    "new_business": "Doanh nghiệp mới phải đăng ký với Sở Thuế Philadelphia trong vòng 60 ngày kể từ khi bắt đầu hoạt động."
-  },
-  "how_to_file": {
-    "title": "Cách Khai BIRT",
-    "deadline": "Hạn chót: 15 tháng 4",
-    "deadline_note": "Cùng ngày với tờ khai thuế liên bang của bạn",
-    "steps_title": "Các bước khai:",
-    "step1_title": "Thu thập tài liệu",
-    "step1_items": [
-      "Tờ khai thuế liên bang của bạn",
-      "Báo cáo lãi lỗ",
-      "Hồ sơ thu nhập và chi phí"
-    ],
-    "step2_title": "Xác định tình trạng khai của bạn",
-    "step2_items": [
-      "Doanh nghiệp mới: Có thể đủ điều kiện miễn trừ năm đầu tiên",
-      "Doanh nghiệp hiện tại: Kiểm tra quy tắc miễn trừ hiện hành"
-    ],
-    "step3_title": "Khai trực tuyến hoặc qua thư",
-    "step3_online": "Trực tuyến: Qua Trung tâm Thuế Philadelphia",
-    "step3_mail": "Qua thư: Gửi mẫu đơn đến Sở Thuế",
-    "step4_title": "Thanh toán số tiền đến hạn",
-    "step4_note": "Bao gồm thuế năm hiện tại và thanh toán ước tính cho năm tiếp theo"
-  },
-  "exemption_changes": {
-    "title": "Thay đổi Miễn trừ năm 2026",
-    "current_title": "Quy tắc Hiện tại (đến năm 2025)",
-    "current_description": "Doanh nghiệp có tổng thu nhập $100.000 hoặc ít hơn được miễn BIRT.",
-    "change_title": "Thay đổi năm 2026",
-    "change_description": "Miễn trừ $100.000 sẽ bị loại bỏ. Tất cả doanh nghiệp, bất kể quy mô, sẽ nợ BIRT.",
-    "impact_title": "Điều này có nghĩa gì với bạn",
-    "impact_items": [
-      "Nếu bạn kiếm được $50.000, bạn có thể đối mặt với mức tăng thuế từ $1.208 đến $3.746",
-      "Điều này ảnh hưởng đến 122.000 chủ doanh nghiệp nhỏ Philadelphia",
-      "Đạo luật LIFT nhằm giải quyết vấn đề này cho các doanh nghiệp bị ảnh hưởng"
-    ],
-    "calculator_cta": "Tính Tác động Thuế của Bạn"
-  },
-  "estimated_payments": {
-    "title": "Về Thanh toán Ước tính",
-    "intro": "Philadelphia yêu cầu thanh toán ước tính đối với thuế năm tiếp theo.",
-    "how_it_works_title": "Cách hoạt động:",
-    "how_it_works": [
-      "Thanh toán ước tính dựa trên nghĩa vụ thuế năm hiện tại của bạn",
-      "Về cơ bản bạn đang trả trước thuế cho thu nhập chưa kiếm được",
-      "Nếu thu nhập của bạn giảm, bạn đã thanh toán dựa trên năm thu nhập cao hơn"
-    ],
-    "shock_year_title": "Tại sao năm 2026 là 'Năm Sốc'",
-    "shock_year_explanation": "Năm 2026, bạn trả hóa đơn thuế năm 2025 (năm đầu tiên không có miễn trừ) cộng với thanh toán ước tính dựa trên BIRT năm 2025 cao hơn. Đó là cú sốc tiền mặt."
-  },
-  "resources": {
-    "title": "Tài nguyên",
-    "official_title": "Tài nguyên Chính thức",
-    "official_items": [
+  "content": {
+    "intro1": "Mùa thuế 2026 sắp bắt đầu! Năm nay, nhiều doanh nghiệp Philadelphia sẽ nộp Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) lần đầu tiên, sau sự thay đổi lớn trong chính sách thuế của Thành phố.",
+    "intro2": "Chúng tôi biết quá trình chuyển đổi này sẽ không dễ dàng. Điều tốt là chúng tôi đã chuẩn bị cho thời điểm này và sẵn sàng giúp đỡ bạn. Đây là những gì bạn cần nhớ trong mùa thuế này:",
+
+    "mandatory_title": "Yêu cầu Nộp Bắt buộc",
+    "mandatory_alert": "Nếu doanh nghiệp của bạn ở Philadelphia và bạn đã kinh doanh trong năm 2025, bạn phải nộp tờ khai BIRT trước ngày 15 tháng 4.",
+    "mandatory_p1": "Mức miễn trừ theo luật định $100,000 đã hết hạn. Bây giờ việc nộp tờ khai BIRT là bắt buộc bất kể doanh số. Ngay cả khi bạn không kinh doanh trong năm 2025, nhưng vẫn có tài khoản thuế hoạt động ở Philadelphia, bạn cần nộp tờ khai BIRT. Nộp BIRT-EZ nếu tất cả doanh số của bạn đều ở Philadelphia. Chúng tôi không còn mẫu đơn không có nghĩa vụ thuế nữa.",
+    "mandatory_p2": "Một vụ kiện pháp lý đã chấm dứt chính sách miễn trừ BIRT của Thành phố, có hiệu lực từ năm 2025. Trước đó, các doanh nghiệp Philadelphia có doanh số dưới $100,000 không cần nộp BIRT.",
+
+    "estimated_title": "Thanh toán Ước tính",
+    "estimated_highlight": "Nếu bạn không có yêu cầu nộp BIRT cho các năm tài chính 2022, 2023 và 2024, chúng tôi sẽ coi bạn là 「doanh nghiệp mới」 khi bạn nộp BIRT đầu tiên năm nay. Điều này có nghĩa là bạn chỉ cần nộp và thanh toán cho hoạt động năm 2025 trước ngày 15 tháng 4 năm nay. Bạn không cần lo lắng về việc thanh toán thuế ước tính cho đến tháng 4 năm 2027.",
+    "estimated_p1": "Mặc dù các cơ quan thuế như Philadelphia thường yêu cầu doanh nghiệp thanh toán thuế ước tính tại thời điểm nộp, chúng tôi cho phép bạn hoãn các khoản thanh toán đó đến năm 2027. Biện pháp cứu trợ này giúp giảm bớt quá trình chuyển đổi sang việc nộp BIRT.",
+    "estimated_link_text": "Tìm hiểu cách Thành phố đang giảm bớt quá trình chuyển đổi sang việc nộp BIRT",
+
+    "not_changing_title": "Những gì KHÔNG Thay đổi",
+
+    "npt_credit_title": "Tín dụng NPT",
+    "npt_credit_p1": "Bạn sẽ tiếp tục nhận được tín dụng NPT 60% trên phần thu nhập ròng của BIRT nếu bạn đóng cả BIRT và Thuế Lợi nhuận Ròng (NPT). Tín dụng này giảm hóa đơn NPT của bạn. Nếu bạn nộp trực tuyến, nó sẽ tự động xuất hiện trên tờ khai NPT của bạn. Cần thêm thông tin? Nói chuyện với chuyên gia thuế quen thuộc với các quy tắc thuế của Philadelphia.",
+
+    "lcf_title": "Chuyển lỗ (LCF)",
+    "lcf_p1": "Bạn có thể sử dụng các khoản lỗ hoạt động ròng (NOLs) phát sinh trong một năm tài chính để bù đắp thu nhập ròng chịu thuế trong tương lai. Điều này giảm hóa đơn thuế của bạn. Phần tốt nhất là gì? Bạn có thể khấu trừ các khoản lỗ kinh doanh phát sinh từ năm 2022 trong tối đa 20 năm. Nộp tờ khai BIRT đầy đủ trực tuyến để ghi nhận khoản lỗ mà bạn có thể sử dụng để bù đắp các nghĩa vụ thuế trong tương lai. Trung tâm Thuế Philadelphia lưu trữ các khoản lỗ và cho phép bạn chuyển chúng tự động. Hỏi người làm thuế của bạn về việc sửa đổi các tờ khai trước đó để ghi nhận và sử dụng các khoản lỗ hoạt động ròng.",
+
+    "reminders_title": "Các Nhắc nhở Bổ sung về Mùa Thuế",
+    "reminders": [
       {
-        "name": "Trung tâm Thuế Philadelphia",
-        "description": "Cổng khai chính thức"
+        "title": "Nộp và thanh toán trực tuyến.",
+        "text": "Trung tâm Thuế Philadelphia có mọi thứ bạn cần để nộp và thanh toán thuế một cách an toàn. Bạn không cần tên người dùng và mật khẩu để thanh toán thuế trên trang này, nhưng bạn sẽ cần tạo tên người dùng và mật khẩu để nộp tờ khai. Sau khi đăng nhập, đi đến hồ sơ của bạn, cuộn xuống tab phụ tóm tắt và tìm các tài khoản thuế của bạn. Bạn cũng có thể cấp quyền truy cập vào tài khoản cho những người khác trong doanh nghiệp hoặc chuyên gia thuế của bạn. Chọn 「Nộp, xem hoặc sửa đổi tờ khai」 và làm theo hướng dẫn. Nộp và thanh toán trực tuyến an toàn hơn và tiết kiệm thời gian và tiền bạc."
       },
       {
-        "name": "Mẫu và Hướng dẫn BIRT",
-        "description": "Mẫu thuế chính thức"
+        "title": "Nộp và thanh toán trước ngày 15 tháng 4.",
+        "text": "Bạn có thể được gia hạn nộp, nhưng bạn phải thanh toán tất cả các nghĩa vụ trước ngày 15 tháng 4. Phí bổ sung sẽ áp dụng cho các khoản thanh toán sau thời hạn."
       },
       {
-        "name": "Liên hệ Sở Thuế",
-        "description": "Liên hệ nếu có câu hỏi"
+        "title": "Đừng xếp hàng chờ đợi.",
+        "text": "Tìm câu trả lời cho các câu hỏi thuế thường gặp tại phila.gov/tax-center-guide và phila.gov/revenue. Để biết tình trạng hoàn thuế, tờ khai hoặc thanh toán, bạn phải truy cập tax-services.phila.gov. Không cần thời gian chờ hoặc hẹn - các công cụ và tài nguyên trực tuyến này có sẵn 24/7."
+      },
+      {
+        "title": "Nhưng nếu bạn phải gọi điện:",
+        "text": "Bắt đầu từ ngày 1 tháng 2, chúng tôi kéo dài giờ làm việc của Trung tâm Cuộc gọi đến 7:30 tối. Trong những năm trước, thời gian chờ sau 6 giờ tối ngắn hơn đáng kể."
       }
     ],
-    "lift_title": "Tài nguyên LIFT Philly",
-    "lift_items": [
-      {
-        "name": "Máy tính Thuế",
-        "description": "Tính tác động thuế của bạn"
-      },
-      {
-        "name": "Tham gia Liên minh",
-        "description": "Tham gia phong trào"
-      },
-      {
-        "name": "Đăng ký Làm chứng",
-        "description": "Lên tiếng tại Hội đồng Thành phố"
-      }
-    ]
+
+    "contact_title": "Trung tâm Cuộc gọi Sở Thuế",
+    "contact_phone": "(215) 686-6600",
+    "contact_hours": "Giờ kéo dài đến 7:30 tối bắt đầu từ ngày 1 tháng 2",
+
+    "free_prep_title": "Nhận Dịch vụ Làm Thuế Miễn phí cho Doanh nghiệp",
+    "free_prep_highlight": "Bạn là doanh nghiệp Philadelphia có doanh số dưới $250,000? Bạn có thể nộp thuế MIỄN PHÍ!",
+    "free_prep_p1": "Philadelphia đang thực hiện nhiều bước để giảm bớt quá trình chuyển đổi sang việc nộp BIRT, bao gồm chương trình Chuẩn bị Thuế Miễn phí cho Doanh nghiệp Philadelphia của Sở Thương mại. Các nhà cung cấp có sẵn bằng nhiều ngôn ngữ ngoài tiếng Anh. Hỗ trợ doanh nghiệp cá nhân hóa cũng có sẵn cho các doanh nghiệp đủ điều kiện.",
+
+    "eitc_title": "Thông báo cho Nhân viên về EITC và WPTC",
+    "eitc_p1": "Cho nhân viên của bạn biết họ có thể đủ điều kiện nhận Tín dụng Thuế Thu nhập Kiếm được (EITC) liên bang và Tín dụng Thuế Người lao động Pennsylvania (WPTC) mới của tiểu bang khi bạn phát hành W-2 và 1099.",
+    "eitc_p2": "Mọi chủ lao động Philadelphia phải chia sẻ với người lao động thông tin về EITC liên bang, nhưng chúng tôi sẽ đánh giá cao nếu bạn cũng cho họ biết về tín dụng cấp tiểu bang. Nhân viên đủ điều kiện nhận tín dụng thuế liên bang cũng có thể nhận WPTC, bằng 10% EITC liên bang. Đó là tiền thêm trong túi của họ!"
   },
   "cta": {
-    "title": "Sẵn sàng Hành động?",
-    "subtitle": "Tham gia liên minh đấu tranh vì đối xử thuế công bằng cho các doanh nghiệp nhỏ ở Philadelphia.",
-    "join_btn": "Tham gia Liên minh",
-    "calculator_btn": "Tính Tác động Thuế của Bạn"
-  },
-  "footer": {
-    "disclaimer": "Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế."
+    "title": "Hỗ trợ Đạo luật LIFT",
+    "subtitle": "Tham gia liên minh đang làm việc để tạo ra đối xử thuế công bằng cho các doanh nghiệp nhỏ nhất của Philadelphia.",
+    "button": "Tham gia Liên minh →"
   }
 }

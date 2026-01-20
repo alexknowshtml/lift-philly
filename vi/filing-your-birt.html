@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nộp BIRT của Bạn: Hướng dẫn Chính thức của Thành phố - LIFT Philly</title>
+    <meta name="description" content="Hướng dẫn chính thức từ Sở Thuế Philadelphia về cách nộp Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) cho năm 2026.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liftphilly.org/vi/filing-your-birt.html">
+    <meta property="og:title" content="Nộp BIRT của Bạn: Hướng dẫn Chính thức của Thành phố - LIFT Philly">
+    <meta property="og:description" content="Hướng dẫn chính thức từ Sở Thuế Philadelphia về cách nộp Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) cho năm 2026.">
+    <meta property="og:image" content="https://liftphilly.org/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow: visible;
+        }
+
+        .nav .container {
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-brand span { color: var(--gold); }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a.active { color: var(--gold); }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav .container { flex-wrap: wrap; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 16px;
+                background: var(--navy-light);
+                flex-direction: column;
+                gap: 0;
+                padding: 12px 0;
+                margin-top: 8px;
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                min-width: 200px;
+                z-index: 1000;
+            }
+
+            .nav-links.open { display: flex; }
+            .nav-links li { padding: 0; }
+            .nav-links a { display: block; padding: 10px 16px; font-size: 0.9rem; }
+            .nav-toggle { display: block; }
+
+            .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; }
+            .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        }
+
+        /* Page header */
+        .page-header {
+            background: var(--gradient);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .page-header .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+
+        .source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            cursor: default;
+        }
+
+        .source-badge svg { width: 16px; height: 16px; }
+
+        .source-badge .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .source-badge .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-bottom-color: var(--navy);
+        }
+
+        .source-badge:hover .tooltip { opacity: 1; visibility: visible; }
+
+        /* Content */
+        .content {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .letter {
+            background: var(--white);
+            border-radius: 4px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+            padding: 48px 56px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 70%, var(--gold) 70%, var(--gold) 100%);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .letter-header {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        .letter-meta {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px 16px;
+            font-size: 0.95rem;
+            align-items: center;
+        }
+
+        .letter-meta dt {
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .letter-meta dd {
+            color: var(--navy);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .letter-date {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .letter-date .email-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .letter-date .email-link:hover { color: var(--gold-dark); }
+        .letter-date .email-link svg { width: 16px; height: 16px; }
+
+        .letter-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin: 40px 0 16px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .letter-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+        .letter-body h3 { font-size: 1.15rem; font-weight: 600; color: var(--navy); margin: 24px 0 12px; }
+        .letter-body p { margin-bottom: 16px; line-height: 1.7; }
+        .letter-body ul { margin: 16px 0; padding-left: 24px; }
+        .letter-body li { margin-bottom: 12px; line-height: 1.7; }
+
+        .letter-body a {
+            color: var(--navy);
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: var(--gold);
+            text-underline-offset: 3px;
+        }
+
+        .letter-body a:hover { color: var(--gold-dark); }
+
+        .highlight-box {
+            background: var(--cream);
+            border-left: 4px solid var(--gold);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box p:last-child { margin-bottom: 0; }
+
+        .important-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .important-box strong { color: #dc2626; }
+
+        .contact-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .contact-box p { margin-bottom: 8px; }
+        .contact-box .phone { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+
+        /* CTA section */
+        .cta-section {
+            background: var(--navy);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 { color: var(--white); font-size: 1.75rem; margin-bottom: 12px; }
+        .cta-section p { color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(251,191,36,0.35); }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 48px 0;
+            text-align: center;
+        }
+
+        .footer-brand { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .footer-brand span { color: var(--gold); }
+        footer p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .page-header { padding: 40px 0; }
+            .content { padding: 40px 0; }
+            .letter { padding: 24px 20px; }
+            .letter-meta { grid-template-columns: 1fr; gap: 4px; }
+            .letter-meta dt { margin-top: 12px; }
+            .letter-meta dt:first-child { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="/vi/" class="nav-brand">LIFT <span>Philly</span></a>
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/vi/">Trang chủ</a></li>
+                <li><a href="/vi/filing-your-birt.html" class="active">Nộp BIRT</a></li>
+                <li><a href="/calculator">Máy tính Tăng thuế</a></li>
+                <li><a href="/vi/#join">Tham gia Liên minh</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Nộp BIRT của Bạn:<br>Hướng dẫn Chính thức của Thành phố</h1>
+            <p class="subtitle">Thông tin cần thiết cho mọi chủ doanh nghiệp Philadelphia</p>
+            <div class="source-badge">
+                <span class="tooltip">Từ thông báo chính thức mới nhất ngày Thứ Năm, 15 tháng 1 năm 2026</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Trực tiếp từ Sở Thuế Philadelphia
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+        <div class="container">
+            <article class="letter">
+                <header class="letter-header">
+                    <dl class="letter-meta">
+                        <dt>From</dt>
+                        <dd>Sở Thuế Philadelphia</dd>
+                        <dt>To</dt>
+                        <dd>Chủ Doanh nghiệp Nhỏ Philadelphia</dd>
+                    </dl>
+                    <div class="letter-date">
+                        15 tháng 1 năm 2026
+                        <a href="https://myemail.constantcontact.com/What-you-need-to-know-before-filing-your-first-BIRT.html?soid=1120526976020&aid=Ttl7j9SNh5Q" target="_blank" class="email-link" title="Xem email gốc">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </header>
+
+                <div class="letter-body">
+                    <p>Mùa thuế 2026 sắp bắt đầu! Năm nay, nhiều doanh nghiệp Philadelphia sẽ nộp Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) lần đầu tiên, sau sự thay đổi lớn trong chính sách thuế của Thành phố.</p>
+                    <p>Chúng tôi biết quá trình chuyển đổi này sẽ không dễ dàng. Điều tốt là chúng tôi đã chuẩn bị cho thời điểm này và sẵn sàng giúp đỡ bạn. Đây là những gì bạn cần nhớ trong mùa thuế này:</p>
+
+                    <h2>Yêu cầu Nộp Bắt buộc</h2>
+
+                    <div class="important-box">
+                        <p><strong>Nếu doanh nghiệp của bạn ở Philadelphia và bạn đã kinh doanh trong năm 2025, bạn phải nộp tờ khai BIRT trước ngày 15 tháng 4.</strong></p>
+                    </div>
+
+                    <p>Mức miễn trừ theo luật định $100,000 đã hết hạn. Bây giờ việc nộp tờ khai BIRT là bắt buộc bất kể doanh số. Ngay cả khi bạn không kinh doanh trong năm 2025, nhưng vẫn có tài khoản thuế hoạt động ở Philadelphia, bạn cần nộp tờ khai BIRT. Nộp BIRT-EZ nếu tất cả doanh số của bạn đều ở Philadelphia. Chúng tôi không còn mẫu đơn không có nghĩa vụ thuế nữa.</p>
+                    <p>Một vụ kiện pháp lý đã chấm dứt chính sách miễn trừ BIRT của Thành phố, có hiệu lực từ năm 2025. Trước đó, các doanh nghiệp Philadelphia có doanh số dưới $100,000 không cần nộp BIRT.</p>
+
+                    <h2>Thanh toán Ước tính</h2>
+
+                    <div class="highlight-box">
+                        <p>Nếu bạn không có yêu cầu nộp BIRT cho các năm tài chính 2022, 2023 và 2024, chúng tôi sẽ coi bạn là 「doanh nghiệp mới」 khi bạn nộp BIRT đầu tiên năm nay. Điều này có nghĩa là bạn chỉ cần nộp và thanh toán cho hoạt động năm 2025 trước ngày 15 tháng 4 năm nay. Bạn không cần lo lắng về việc thanh toán thuế ước tính cho đến tháng 4 năm 2027.</p>
+                    </div>
+
+                    <p>Mặc dù các cơ quan thuế như Philadelphia thường yêu cầu doanh nghiệp thanh toán thuế ước tính tại thời điểm nộp, chúng tôi cho phép bạn hoãn các khoản thanh toán đó đến năm 2027. Biện pháp cứu trợ này giúp giảm bớt quá trình chuyển đổi sang việc nộp BIRT. <a href="https://www.phila.gov/2025-08-12-what-anyone-doing-business-in-philly-needs-to-know-about-estimated-tax-payments/">Tìm hiểu cách Thành phố đang giảm bớt quá trình chuyển đổi sang việc nộp BIRT</a>.</p>
+
+                    <h2>Những gì KHÔNG Thay đổi</h2>
+
+                    <h3>Tín dụng NPT</h3>
+                    <p>Bạn sẽ tiếp tục nhận được tín dụng NPT 60% trên phần thu nhập ròng của BIRT nếu bạn đóng cả BIRT và Thuế Lợi nhuận Ròng (NPT). Tín dụng này giảm hóa đơn NPT của bạn. Nếu bạn nộp trực tuyến, nó sẽ tự động xuất hiện trên tờ khai NPT của bạn. Cần thêm thông tin? Nói chuyện với chuyên gia thuế quen thuộc với các quy tắc thuế của Philadelphia.</p>
+
+                    <h3>Chuyển lỗ (LCF)</h3>
+                    <p>Bạn có thể sử dụng các khoản lỗ hoạt động ròng (NOLs) phát sinh trong một năm tài chính để bù đắp thu nhập ròng chịu thuế trong tương lai. Điều này giảm hóa đơn thuế của bạn. Phần tốt nhất là gì? Bạn có thể khấu trừ các khoản lỗ kinh doanh phát sinh từ năm 2022 trong tối đa 20 năm. Nộp tờ khai BIRT đầy đủ trực tuyến để ghi nhận khoản lỗ mà bạn có thể sử dụng để bù đắp các nghĩa vụ thuế trong tương lai. Trung tâm Thuế Philadelphia lưu trữ các khoản lỗ và cho phép bạn chuyển chúng tự động. Hỏi người làm thuế của bạn về việc sửa đổi các tờ khai trước đó để ghi nhận và sử dụng các khoản lỗ hoạt động ròng.</p>
+
+                    <h2>Các Nhắc nhở Bổ sung về Mùa Thuế</h2>
+
+                    <ul>
+                        <li><strong>Nộp và thanh toán trực tuyến.</strong> Trung tâm Thuế Philadelphia có mọi thứ bạn cần để nộp và thanh toán thuế một cách an toàn. Bạn không cần tên người dùng và mật khẩu để thanh toán thuế trên trang này, nhưng bạn sẽ cần tạo tên người dùng và mật khẩu để nộp tờ khai. Sau khi đăng nhập, đi đến hồ sơ của bạn, cuộn xuống tab phụ tóm tắt và tìm các tài khoản thuế của bạn. Bạn cũng có thể cấp quyền truy cập vào tài khoản cho những người khác trong doanh nghiệp hoặc chuyên gia thuế của bạn. Chọn 「Nộp, xem hoặc sửa đổi tờ khai」 và làm theo hướng dẫn. Nộp và thanh toán trực tuyến an toàn hơn và tiết kiệm thời gian và tiền bạc.</li>
+                        <li><strong>Nộp và thanh toán trước ngày 15 tháng 4.</strong> Bạn có thể được gia hạn nộp, nhưng bạn phải thanh toán tất cả các nghĩa vụ trước ngày 15 tháng 4. Phí bổ sung sẽ áp dụng cho các khoản thanh toán sau thời hạn.</li>
+                        <li><strong>Đừng xếp hàng chờ đợi.</strong> Tìm câu trả lời cho các câu hỏi thuế thường gặp tại phila.gov/tax-center-guide và phila.gov/revenue. Để biết tình trạng hoàn thuế, tờ khai hoặc thanh toán, bạn phải truy cập tax-services.phila.gov. Không cần thời gian chờ hoặc hẹn - các công cụ và tài nguyên trực tuyến này có sẵn 24/7.</li>
+                        <li><strong>Nhưng nếu bạn phải gọi điện:</strong> Bắt đầu từ ngày 1 tháng 2, chúng tôi kéo dài giờ làm việc của Trung tâm Cuộc gọi đến 7:30 tối. Trong những năm trước, thời gian chờ sau 6 giờ tối ngắn hơn đáng kể.</li>
+                    </ul>
+
+                    <div class="contact-box">
+                        <p><strong>Trung tâm Cuộc gọi Sở Thuế</strong></p>
+                        <p class="phone">(215) 686-6600</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Giờ kéo dài đến 7:30 tối bắt đầu từ ngày 1 tháng 2</p>
+                    </div>
+
+                    <h2>Nhận Dịch vụ Làm Thuế Miễn phí cho Doanh nghiệp</h2>
+
+                    <div class="highlight-box">
+                        <p><strong>Bạn là doanh nghiệp Philadelphia có doanh số dưới $250,000? Bạn có thể nộp thuế MIỄN PHÍ!</strong></p>
+                    </div>
+
+                    <p>Philadelphia đang thực hiện nhiều bước để giảm bớt quá trình chuyển đổi sang việc nộp BIRT, bao gồm chương trình Chuẩn bị Thuế Miễn phí cho Doanh nghiệp Philadelphia của Sở Thương mại. Các nhà cung cấp có sẵn bằng nhiều ngôn ngữ ngoài tiếng Anh. Hỗ trợ doanh nghiệp cá nhân hóa cũng có sẵn cho các doanh nghiệp đủ điều kiện.</p>
+
+                    <h2>Thông báo cho Nhân viên về EITC và WPTC</h2>
+
+                    <p>Cho nhân viên của bạn biết họ có thể đủ điều kiện nhận Tín dụng Thuế Thu nhập Kiếm được (EITC) liên bang và Tín dụng Thuế Người lao động Pennsylvania (WPTC) mới của tiểu bang khi bạn phát hành W-2 và 1099.</p>
+                    <p>Mọi chủ lao động Philadelphia phải chia sẻ với người lao động thông tin về EITC liên bang, nhưng chúng tôi sẽ đánh giá cao nếu bạn cũng cho họ biết về tín dụng cấp tiểu bang. Nhân viên đủ điều kiện nhận tín dụng thuế liên bang cũng có thể nhận WPTC, bằng 10% EITC liên bang. Đó là tiền thêm trong túi của họ!</p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Hỗ trợ Đạo luật LIFT</h2>
+            <p>Tham gia liên minh đang làm việc để tạo ra đối xử thuế công bằng cho các doanh nghiệp nhỏ nhất của Philadelphia.</p>
+            <a href="/vi/#join" class="btn btn-gold">Tham gia Liên minh →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Người lao động (Nhà thầu Độc lập) · Doanh nghiệp Cá nhân · Doanh nghiệp Gia đình · Cải cách Thuế</p>
+            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế. Loại LIFT không bao gồm các thực thể S-Corp và C-Corp.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            document.querySelector('.nav-toggle').classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
