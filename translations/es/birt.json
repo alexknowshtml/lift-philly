@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Declarando tu BIRT: Guía Oficial de la Ciudad - LIFT Philly",
+    "description": "Guía oficial del Departamento de Ingresos de Filadelfia sobre cómo declarar tu Impuesto sobre Ingresos y Recibos de Negocios (BIRT) para 2026."
+  },
+  "header": {
+    "title": "Declarando tu BIRT:",
+    "title_line2": "Guía Oficial de la Ciudad",
+    "subtitle": "Información esencial para todo propietario de negocio en Filadelfia",
+    "source_badge": "Directamente del Departamento de Ingresos de Filadelfia",
+    "source_tooltip": "De la comunicación oficial más reciente del jueves 15 de enero de 2026"
+  },
+  "letter": {
+    "from": "Departamento de Ingresos de Filadelfia",
+    "to": "Propietarios de Pequeñas Empresas de Filadelfia",
+    "date": "15 de enero de 2026",
+    "view_original": "Ver correo original"
+  },
+  "content": {
+    "intro1": "¡La temporada de impuestos 2026 comienza pronto! Este año, muchos negocios de Filadelfia declararán el Impuesto sobre Ingresos y Recibos de Negocios (BIRT) por primera vez, después de un gran cambio en la política tributaria de la Ciudad.",
+    "intro2": "Sabemos que la transición no será fácil. Es bueno que nos hayamos estado preparando para este momento y estamos listos para ayudarte. Esto es lo que necesitas recordar esta temporada de impuestos:",
+
+    "mandatory_title": "Requisito de Declaración Obligatoria",
+    "mandatory_alert": "Si tu negocio está ubicado en Filadelfia e hiciste negocios en 2025, debes presentar una declaración de BIRT antes del 15 de abril.",
+    "mandatory_p1": "La exención estatutaria de $100,000 ha expirado. Ahora es obligatorio presentar declaraciones de BIRT independientemente de las ventas. Incluso si no hiciste negocios en 2025, pero todavía tienes una cuenta de impuestos activa en Filadelfia, necesitas presentar una declaración de BIRT. Presenta un BIRT-EZ si todas tus ventas fueron en Filadelfia. Ya no tenemos un formulario de no obligación tributaria.",
+    "mandatory_p2": "Una acción legal terminó con la política de exención del BIRT de la Ciudad, efectiva en 2025. Antes de eso, los negocios de Filadelfia con ventas menores a $100,000 no necesitaban presentar el BIRT.",
+
+    "estimated_title": "Pagos Estimados",
+    "estimated_highlight": "Si no tenías un requisito de declaración de BIRT para los años fiscales 2022, 2023 y 2024, te consideraremos un \"negocio nuevo\" cuando presentes tu primer BIRT este año. Esto significa que solo tienes que declarar y pagar por tu actividad de 2025 antes del 15 de abril de este año. No tienes que preocuparte por pagar impuestos estimados hasta abril de 2027.",
+    "estimated_p1": "Aunque las agencias tributarias como Filadelfia normalmente requieren que los negocios paguen impuestos estimados al momento de la declaración, te estamos permitiendo diferir esos pagos hasta 2027. Esta medida de alivio ayuda a facilitar la transición a la declaración del BIRT.",
+    "estimated_link_text": "Aprende cómo la Ciudad está facilitando la transición a la declaración del BIRT",
+
+    "not_changing_title": "Lo que NO Cambia",
+
+    "npt_credit_title": "Crédito NPT",
+    "npt_credit_p1": "Continuarás recibiendo un crédito NPT del 60% sobre la porción de ingresos netos del BIRT si pagas tanto BIRT como el Impuesto de Ganancias Netas (NPT). El crédito reduce tu factura de NPT. Si declaras en línea, aparece automáticamente en tu declaración de NPT. ¿Necesitas más información? Habla con un profesional de impuestos familiarizado con las reglas tributarias de Filadelfia.",
+
+    "lcf_title": "Arrastre de Pérdidas (LCF)",
+    "lcf_p1": "Puedes usar las pérdidas operativas netas (NOLs) incurridas en un año fiscal para compensar futuros ingresos netos imponibles. Reduce tu factura de impuestos. ¿La mejor parte? Puedes deducir pérdidas comerciales incurridas en 2022 por hasta 20 años. Presenta una declaración completa de BIRT en línea para registrar una pérdida que puedes usar para compensar futuras obligaciones. El Centro de Impuestos de Filadelfia almacena las pérdidas y te permite arrastrarlas automáticamente. Pregunta a tu preparador de impuestos sobre enmendar declaraciones anteriores para registrar y usar pérdidas operativas netas.",
+
+    "reminders_title": "Recordatorios Adicionales de la Temporada de Impuestos",
+    "reminders": [
+      {
+        "title": "Declara y paga en línea.",
+        "text": "El Centro de Impuestos de Filadelfia tiene todo lo que necesitas para declarar y pagar impuestos de forma segura. No necesitas un nombre de usuario y contraseña para pagar impuestos en este sitio, pero necesitarás crear un nombre de usuario y contraseña para presentar declaraciones. Una vez que inicies sesión, ve a tu perfil, desplázate hacia abajo a la subpestaña de resumen y encuentra tus cuentas de impuestos. También puedes dar acceso a tu cuenta a otras personas en tu negocio o a tu profesional de impuestos. Elige \"Presentar, ver o enmendar declaraciones\" y sigue las instrucciones. Declarar y pagar en línea es más seguro y te ahorra tiempo y dinero."
+      },
+      {
+        "title": "Declara y paga antes del 15 de abril.",
+        "text": "Puedes obtener una extensión para declarar, pero debes pagar todas las obligaciones antes del 15 de abril. Se aplicarán cargos adicionales a los pagos realizados después de la fecha límite."
+      },
+      {
+        "title": "No esperes en línea.",
+        "text": "Encuentra respuestas a preguntas frecuentes sobre impuestos en phila.gov/tax-center-guide y phila.gov/revenue. Para el estado de reembolso, declaración o pago de impuestos, debes visitar tax-services.phila.gov. Sin tiempo de espera ni cita necesaria - estas herramientas y recursos en línea están disponibles 24/7."
+      },
+      {
+        "title": "Pero si debes llamar:",
+        "text": "A partir del 1 de febrero, estamos extendiendo nuestro horario del Centro de Llamadas hasta las 7:30PM. En años anteriores, los tiempos de espera después de las 6PM fueron significativamente más cortos."
+      }
+    ],
+
+    "contact_title": "Centro de Llamadas del Departamento de Ingresos",
+    "contact_phone": "(215) 686-6600",
+    "contact_hours": "Horario extendido hasta las 7:30PM a partir del 1 de febrero",
+
+    "free_prep_title": "Obtén Preparación de Impuestos Gratis para tu Negocio",
+    "free_prep_highlight": "¿Eres un negocio de Filadelfia con menos de $250,000 en ventas? ¡Puedes declarar tus impuestos GRATIS!",
+    "free_prep_p1": "Filadelfia está tomando muchos pasos para facilitar la transición a la declaración del BIRT, incluyendo el programa de Preparación Gratuita de Impuestos para Negocios de Filadelfia del Departamento de Comercio. Los proveedores están disponibles en varios idiomas además del inglés. También hay ayuda personalizada para negocios disponible para negocios que califiquen.",
+
+    "eitc_title": "Informa a tus Empleados sobre EITC y WPTC",
+    "eitc_p1": "Informa a tus empleados que pueden calificar para el Crédito Tributario por Ingreso del Trabajo (EITC) federal y el nuevo Crédito Tributario para Trabajadores de Pensilvania (WPTC) estatal cuando emitas sus W-2s y 1099s.",
+    "eitc_p2": "Todo empleador de Filadelfia debe compartir con sus trabajadores información sobre el EITC federal, pero agradeceríamos que también les informaras sobre el crédito a nivel estatal. Los empleados que califican para el crédito tributario federal también pueden obtener el WPTC, que es igual al 10% del EITC federal. ¡Eso es dinero extra en sus bolsillos!"
+  },
+  "cta": {
+    "title": "Apoya la Ley LIFT",
+    "subtitle": "Únete a la coalición que trabaja para crear un tratamiento tributario justo para los negocios más pequeños de Filadelfia.",
+    "button": "Únete a la Coalición →"
+  }
+}

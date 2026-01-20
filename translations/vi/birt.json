@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "title": "Khai BIRT - LIFT Philly",
+    "description": "Tìm hiểu cách khai Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) của Philadelphia và việc loại bỏ miễn trừ năm 2026 ảnh hưởng đến bạn như thế nào."
+  },
+  "hero": {
+    "title": "Khai BIRT",
+    "subtitle": "Tìm hiểu về Thuế Thu nhập và Biên lai Doanh nghiệp của Philadelphia và những thay đổi năm 2026"
+  },
+  "nav": {
+    "what_is_birt": "BIRT là gì",
+    "who_must_file": "Ai Phải Khai",
+    "how_to_file": "Cách Khai",
+    "exemption_changes": "Thay đổi Miễn trừ",
+    "resources": "Tài nguyên"
+  },
+  "what_is_birt": {
+    "title": "BIRT là gì?",
+    "intro": "Thuế Thu nhập và Biên lai Doanh nghiệp (BIRT) là thuế Philadelphia đánh vào các doanh nghiệp hoạt động trong thành phố.",
+    "components_title": "BIRT có hai thành phần:",
+    "component1_title": "Thuế Tổng Thu nhập",
+    "component1_rate": "0,1415%",
+    "component1_description": "Đánh vào tổng thu nhập của bạn (doanh thu trước khi trừ chi phí)",
+    "component2_title": "Thuế Thu nhập Ròng",
+    "component2_rate": "5,99%",
+    "component2_description": "Đánh vào thu nhập ròng của bạn (lợi nhuận sau chi phí)",
+    "note": "Bạn trả cả hai khoản thuế—không phải chọn một trong hai."
+  },
+  "who_must_file": {
+    "title": "Ai Phải Khai BIRT?",
+    "intro": "Tất cả doanh nghiệp hoạt động tại Philadelphia phải khai BIRT, bao gồm:",
+    "list": [
+      "Chủ sở hữu duy nhất và nhà thầu độc lập",
+      "Freelancer và người làm việc tự do",
+      "LLC một thành viên",
+      "Công ty hợp danh",
+      "Công ty (S-Corp và C-Corp)"
+    ],
+    "threshold_note": "Ngay cả khi bạn không nợ thuế, bạn vẫn phải khai nếu tổng thu nhập trên $100.000.",
+    "new_business": "Doanh nghiệp mới phải đăng ký với Sở Thuế Philadelphia trong vòng 60 ngày kể từ khi bắt đầu hoạt động."
+  },
+  "how_to_file": {
+    "title": "Cách Khai BIRT",
+    "deadline": "Hạn chót: 15 tháng 4",
+    "deadline_note": "Cùng ngày với tờ khai thuế liên bang của bạn",
+    "steps_title": "Các bước khai:",
+    "step1_title": "Thu thập tài liệu",
+    "step1_items": [
+      "Tờ khai thuế liên bang của bạn",
+      "Báo cáo lãi lỗ",
+      "Hồ sơ thu nhập và chi phí"
+    ],
+    "step2_title": "Xác định tình trạng khai của bạn",
+    "step2_items": [
+      "Doanh nghiệp mới: Có thể đủ điều kiện miễn trừ năm đầu tiên",
+      "Doanh nghiệp hiện tại: Kiểm tra quy tắc miễn trừ hiện hành"
+    ],
+    "step3_title": "Khai trực tuyến hoặc qua thư",
+    "step3_online": "Trực tuyến: Qua Trung tâm Thuế Philadelphia",
+    "step3_mail": "Qua thư: Gửi mẫu đơn đến Sở Thuế",
+    "step4_title": "Thanh toán số tiền đến hạn",
+    "step4_note": "Bao gồm thuế năm hiện tại và thanh toán ước tính cho năm tiếp theo"
+  },
+  "exemption_changes": {
+    "title": "Thay đổi Miễn trừ năm 2026",
+    "current_title": "Quy tắc Hiện tại (đến năm 2025)",
+    "current_description": "Doanh nghiệp có tổng thu nhập $100.000 hoặc ít hơn được miễn BIRT.",
+    "change_title": "Thay đổi năm 2026",
+    "change_description": "Miễn trừ $100.000 sẽ bị loại bỏ. Tất cả doanh nghiệp, bất kể quy mô, sẽ nợ BIRT.",
+    "impact_title": "Điều này có nghĩa gì với bạn",
+    "impact_items": [
+      "Nếu bạn kiếm được $50.000, bạn có thể đối mặt với mức tăng thuế từ $1.208 đến $3.746",
+      "Điều này ảnh hưởng đến 122.000 chủ doanh nghiệp nhỏ Philadelphia",
+      "Đạo luật LIFT nhằm giải quyết vấn đề này cho các doanh nghiệp bị ảnh hưởng"
+    ],
+    "calculator_cta": "Tính Tác động Thuế của Bạn"
+  },
+  "estimated_payments": {
+    "title": "Về Thanh toán Ước tính",
+    "intro": "Philadelphia yêu cầu thanh toán ước tính đối với thuế năm tiếp theo.",
+    "how_it_works_title": "Cách hoạt động:",
+    "how_it_works": [
+      "Thanh toán ước tính dựa trên nghĩa vụ thuế năm hiện tại của bạn",
+      "Về cơ bản bạn đang trả trước thuế cho thu nhập chưa kiếm được",
+      "Nếu thu nhập của bạn giảm, bạn đã thanh toán dựa trên năm thu nhập cao hơn"
+    ],
+    "shock_year_title": "Tại sao năm 2026 là 'Năm Sốc'",
+    "shock_year_explanation": "Năm 2026, bạn trả hóa đơn thuế năm 2025 (năm đầu tiên không có miễn trừ) cộng với thanh toán ước tính dựa trên BIRT năm 2025 cao hơn. Đó là cú sốc tiền mặt."
+  },
+  "resources": {
+    "title": "Tài nguyên",
+    "official_title": "Tài nguyên Chính thức",
+    "official_items": [
+      {
+        "name": "Trung tâm Thuế Philadelphia",
+        "description": "Cổng khai chính thức"
+      },
+      {
+        "name": "Mẫu và Hướng dẫn BIRT",
+        "description": "Mẫu thuế chính thức"
+      },
+      {
+        "name": "Liên hệ Sở Thuế",
+        "description": "Liên hệ nếu có câu hỏi"
+      }
+    ],
+    "lift_title": "Tài nguyên LIFT Philly",
+    "lift_items": [
+      {
+        "name": "Máy tính Thuế",
+        "description": "Tính tác động thuế của bạn"
+      },
+      {
+        "name": "Tham gia Liên minh",
+        "description": "Tham gia phong trào"
+      },
+      {
+        "name": "Đăng ký Làm chứng",
+        "description": "Lên tiếng tại Hội đồng Thành phố"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Sẵn sàng Hành động?",
+    "subtitle": "Tham gia liên minh đấu tranh vì đối xử thuế công bằng cho các doanh nghiệp nhỏ ở Philadelphia.",
+    "join_btn": "Tham gia Liên minh",
+    "calculator_btn": "Tính Tác động Thuế của Bạn"
+  },
+  "footer": {
+    "disclaimer": "Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế."
+  }
+}

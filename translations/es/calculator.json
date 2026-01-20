@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "Calculadora de Impuestos BIRT - LIFT Philly",
+    "description": "Calcula cómo la eliminación de la exención del BIRT afectará los impuestos de tu pequeño negocio en Filadelfia en 2026 y más allá."
+  },
+  "hero": {
+    "title": "Conoce Antes de",
+    "title_highlight": "Declarar",
+    "subtitle": "Mira cómo la eliminación de la exención de $100K del BIRT afectará tu pequeño negocio de Filadelfia a partir de 2026."
+  },
+  "calculator": {
+    "last_updated": "Última actualización: 17 de enero de 2026 a las 10:44 AM",
+    "year_question": "¿Cuál fue tu primer año haciendo negocios en Filadelfia?",
+    "year_hint": "Esto debe ser preciso para que la calculadora funcione correctamente",
+    "year_options": {
+      "2022": "2022 o antes",
+      "2023": "2023",
+      "2024": "2024"
+    },
+    "year_started_prefix": "Comenzó en",
+    "continue_btn": "Continuar",
+    "gross_receipts_label": "Ingresos Brutos Anuales Promedio",
+    "gross_receipts_hint": "Tu ingreso total antes de gastos",
+    "gross_receipts_placeholder": "$75,000",
+    "net_income_label": "Ingreso Neto Anual Promedio",
+    "net_income_hint": "La ganancia de tu negocio después de gastos (lo que reportarías en tus impuestos)",
+    "net_income_placeholder": "$50,000",
+    "adjustment_note": "Nota: Cálculo de Impacto de Ventas e Ingresos de Filadelfia. Tu ingreso ha sido ajustado para igualar tus ingresos brutos. Ajusta tu ingreso si tienes gastos separados atribuidos solo a Filadelfia.",
+    "calculate_btn": "Calcular Mi Impacto Tributario"
+  },
+  "results": {
+    "header": "Tu Aumento de Carga Tributaria",
+    "scenario_over_100k": "Ingresos Brutos > $100K",
+    "scenario_under_100k": "Ingresos Brutos ≤ $100K",
+    "run_rate_title": "Tu Aumento Anual de Impuestos",
+    "run_rate_detail": "Cada año, continuo (solo impuesto adeudado, sin pagos estimados)",
+    "shock_year_title": "Tu Aumento de Impuestos del Año de Impacto",
+    "shock_year_detail_template": "Comparando {shockYear} con {priorYear} (incluye pagos estimados)",
+    "cash_shock_year_label": "Año de Impacto de Efectivo:",
+    "see_breakdown": "Ver desglose completo",
+    "timeline_title": "Desglose Año por Año"
+  },
+  "year_card": {
+    "tax_year": "Año Fiscal",
+    "baseline_year": "Año Base",
+    "shock_year": "Año de Impacto",
+    "filed_year": "Año Declarado",
+    "not_in_business": "No en Negocio",
+    "business_not_started": "Negocio aún no iniciado",
+    "total_cash_outlay": "desembolso total de efectivo",
+    "with_exemption": "(con exención)",
+    "first_year": "(1er año)",
+    "grace_year": "(año de gracia)",
+    "tax_liability": "Obligación Tributaria",
+    "tax_due_payment": "Impuesto Adeudado para Pago",
+    "birt_net_income": "BIRT (Ingreso Neto)",
+    "birt_gross_receipts": "BIRT (Ingresos Brutos)",
+    "total_birt": "Total BIRT",
+    "npt_before_credit": "NPT (antes del crédito)",
+    "birt_credit_60": "Crédito BIRT (60%)",
+    "npt_after_credit": "NPT Después del Crédito",
+    "total_tax_liability": "Obligación Tributaria Total",
+    "tax_liability_from": "Obligación Tributaria de",
+    "est_birt_based_on": "+ Est. BIRT (basado en",
+    "est_npt_based_on": "+ Est. NPT (basado en",
+    "prior_year_adjustment": "- Ajuste del Año Anterior",
+    "total_cash_outlay_label": "Desembolso Total de Efectivo"
+  },
+  "warning": {
+    "title_template": "Por qué {year} es el Año de Impacto",
+    "explanation_2026": "Los pagos estimados se basan en los impuestos del año anterior. En 2025, tu BIRT aumentó porque la exención fue eliminada - pero tus pagos estimados todavía se basan en 2024 (cuando el BIRT era ~$0). En 2026, pagas tu factura de impuestos de 2025 MÁS pagos estimados basados en tu BIRT mucho más alto de 2025. Ese es el impacto de efectivo.",
+    "explanation_2027": "Para negocios con menos de $100K en ingresos brutos, el impacto llega un año después. En 2026, tus pagos estimados se basan en el BIRT de 2025 (primer año sin exención) - pero obtienes un año de gracia. En 2027, pagas tu factura de impuestos de 2026 MÁS pagos estimados basados en el BIRT de 2026. Ahí es cuando llega la carga completa de efectivo."
+  },
+  "estimated_payments": {
+    "title": "Espera, ¿qué son los pagos estimados?",
+    "p1": "Así es la cosa: la Ciudad quiere su dinero por adelantado.",
+    "p2": "Cada abril, no solo pagas impuestos sobre los ingresos del año pasado — también pre-pagas una parte de los impuestos del próximo año basado en lo que ganaste este año.",
+    "p3": "Eso significa que estás adelantando a la ciudad dinero que aún no has ganado.",
+    "p4": "Si tus ingresos bajan el próximo año, ya pagaste basado en este año. Lo recuperarás eventualmente, pero tu flujo de efectivo recibe el golpe ahora.",
+    "join_btn": "Únete a la Coalición"
+  },
+  "cta": {
+    "title": "¿Listo para Tomar Acción?",
+    "subtitle": "Únete a la coalición que lucha por un tratamiento tributario justo para los pequeños negocios de Filadelfia.",
+    "join_btn": "Únete a la Coalición",
+    "testify_btn": "Regístrate para Testificar",
+    "share_title": "Comparte esta calculadora con tu red",
+    "linkedin": "LinkedIn",
+    "facebook": "Facebook",
+    "twitter": "Twitter",
+    "copy_link": "Copiar Enlace"
+  },
+  "disclaimer": {
+    "title": "Aviso Importante",
+    "p1": "Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales.",
+    "note": "Nota: La clase LIFT no incluye entidades S-Corp y C-Corp.",
+    "privacy": "No se almacenan datos—personales o de otro tipo—para este cálculo.",
+    "accept_btn": "Entiendo – Muéstrame Mis Números"
+  },
+  "validation": {
+    "invalid_amounts": "Por favor ingresa cantidades válidas para ambos campos."
+  }
+}

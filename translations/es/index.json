@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "title": "LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia",
+    "description": "Únete a la coalición que apoya la reforma tributaria para los 122,000 pequeños empresarios de Filadelfia.",
+    "og_title": "LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia",
+    "og_description": "\"Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados.\" — Concejal Mike Driscoll. Únete a la coalición por una reforma tributaria efectiva, eficiente y equitativa."
+  },
+  "nav": {
+    "brand": "LIFT Philly",
+    "home": "Inicio",
+    "filing_birt": "Declarar tu BIRT",
+    "calculator": "Calculadora de Aumento",
+    "join_coalition": "Únete a la Coalición",
+    "translate": "Traducir",
+    "help_translate": "Ayúdanos a traducir"
+  },
+  "hero": {
+    "badge": "Coalición por una Reforma Tributaria Efectiva, Eficiente y Equitativa",
+    "headline": "Protegiendo el",
+    "headline_highlight": "bienestar económico de Filadelfia",
+    "subtitle": "122,000 familias trabajadoras, trabajadores del oficio, cuidadores, trabajadores de la economía gig y emprendedores creativos enfrentan un aumento masivo de impuestos en 2026 y más allá.",
+    "subtitle_emphasis": "Somos los individuos y organizaciones trabajando juntos para cambiar eso.",
+    "lift_acronym": {
+      "l": "Trabajo (Contratistas Independientes)",
+      "i": "Empresa Individual",
+      "f": "Empresa Familiar",
+      "t": "Reforma Tributaria"
+    },
+    "stats": {
+      "stat1_number": "122K",
+      "stat1_label": "Negocios con y sin empleados afectados",
+      "stat2_number": "85%",
+      "stat2_label": "De los negocios de Filadelfia son de un solo dueño",
+      "stat3_number": "<1%",
+      "stat3_label": "Fiscalmente responsable, impacta menos del 1% del presupuesto de la ciudad"
+    },
+    "quote": {
+      "text1": "Este problema del BIRT se ha convertido en un punto de presión para los pequeños negocios familiares.",
+      "text2": "Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados.",
+      "attribution": "— Concejal Mike Driscoll"
+    }
+  },
+  "problem": {
+    "label": "El Problema",
+    "title": "El código tributario de Filadelfia no fue diseñado para la fuerza laboral moderna",
+    "intro1": "A partir de 2026, todos los negocios en Filadelfia van a recibir una nueva—y probablemente sorpresiva—factura de impuestos.",
+    "intro2": "Durante los últimos 10 años, los negocios más pequeños de Filadelfia tuvieron un escudo contra el regresivo Impuesto sobre Ingresos y Recibos de Negocios, conocido cariñosamente como BIRT.",
+    "intro3": "Ese escudo les permitió comenzar y crecer en un negocio que pudiera mantenerlos a ellos, a sus familias, a su comunidad y emplear a otros filadelfianos.",
+    "intro4": "En 2026, ese escudo desaparece.",
+    "scale_title": "La Magnitud del Problema",
+    "scale_text": "Aunque esta información es pública, la mayoría de la gente no se da cuenta de la magnitud del impacto que tendrá en los filadelfianos que manejan un pequeño negocio como forma de sobrevivir.",
+    "impact_card": {
+      "condition": "Si en 2025 ganaste $50,000 y eres un:",
+      "labels": {
+        "laborer": "Trabajador (Contratista Independiente)",
+        "individual": "Empresa Individual",
+        "family": "Empresa Familiar"
+      },
+      "result_title": "En abril de 2026, tu factura de impuestos de Filadelfia aumentará en:",
+      "impact_low": "+$1,208",
+      "impact_high": "+$3,746",
+      "conclusion": "Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos—y simplemente no pueden pagarlo."
+    },
+    "thomas_quote": {
+      "text1": "No creo que nos demos cuenta de lo catastrófico que esto va a ser, [y] no solo para los pequeños negocios.",
+      "text2": "Eliminar la exención de $100,000 mientras simultáneamente no reducimos la porción de ingresos netos del BIRT hará que todos [...] abandonen Filadelfia.",
+      "watch_button": "Ver cita completa (1:02:31)",
+      "attribution": "Concejal Isaiah Thomas",
+      "role": "Concejo Municipal de Filadelfia"
+    },
+    "system_title": "Un problema del sistema, no de las tasas",
+    "system_text1": "El sistema tributario de dos clases de Filadelfia trata igual a todas las corporaciones y no-corporaciones: ya seas un freelancer solo, una sociedad de 50 personas, o una gran corporación como Comcast.",
+    "system_text2": "Esto significa que los dueños de negocios individuales enfrentan doble tributación sobre ingresos ya capturados por el Impuesto de Ganancias Netas, mientras que las corporaciones no.",
+    "callout": "Estamos sacando a las familias trabajadoras de sus hogares con impuestos.",
+    "brooks_quote": {
+      "text": "Vamos a ver muchos negocios que nunca han declarado impuestos antes tratando de averiguar cómo o dónde declarar estos impuestos...Ni siquiera sé cuántos de ellos sabrán que esto está pasando.",
+      "attribution": "— Concejal Kendra Brooks, ex propietaria de pequeño negocio"
+    }
+  },
+  "solution": {
+    "label": "La Solución",
+    "title": "La Ley LIFT",
+    "subtitle": "Arreglar el sistema. Crear una clase tributaria para Trabajadores/Contratistas Independientes, Empresas Individuales y Empresas Familiares (LLCs de propiedad individual).",
+    "cards": {
+      "exempt": {
+        "title": "Exento del BIRT",
+        "description": "Elimina el BIRT para la clase LIFT completamente."
+      },
+      "npt": {
+        "title": "Mantiene el Impuesto NPT",
+        "description": "Esto no es un viaje gratis."
+      },
+      "legal": {
+        "title": "Legalmente Sólido",
+        "description": "Cumple con los requisitos de la Cláusula de Uniformidad de la Constitución de Pensilvania."
+      },
+      "local": {
+        "title": "Mantiene el Dinero Local",
+        "description": "Cada dólar retenido por un filadelfiano se convierte en tres dólares en gasto local."
+      }
+    },
+    "parker_quote": {
+      "text1": "No estoy hablando de cambio incremental.",
+      "text2": "Estoy hablando de pasos audaces y transformadores...",
+      "attribution": "— Alcaldesa Cherelle Parker, Discurso Inaugural, 2 de enero de 2024"
+    },
+    "timeline": {
+      "label": "Cronograma Actual",
+      "step1_text": "Proyecto de ley presentado por el Concejal Driscoll",
+      "step1_date": "Nov 25",
+      "step2_text": "Audiencia del Comité de Finanzas",
+      "step2_date": "Por determinar",
+      "step3_text": "Fecha de Vigencia",
+      "step3_date": "Inmediatamente"
+    }
+  },
+  "affected": {
+    "label": "A Quiénes Afecta",
+    "title": "La Columna Vertebral de la Economía de Filadelfia",
+    "subtitle": "Estos son tus vecinos, las personas que impulsan tu comunidad.",
+    "tags": [
+      "Freelancers",
+      "Artistas y Creativos",
+      "Conductores de Rideshare",
+      "Proveedores de Cuidado Infantil en el Hogar",
+      "Barberos y Estilistas",
+      "Dueños de Food Trucks",
+      "Plomeros y Electricistas",
+      "Consultores",
+      "Terapeutas",
+      "Creadores de Redes Sociales",
+      "Dueños de Tiendas de Barrio",
+      "Cuidadores"
+    ]
+  },
+  "signup": {
+    "label": "Toma Acción",
+    "title": "Únete a Nuestra Coalición",
+    "subtitle": "Recibe actualizaciones sobre nuestros esfuerzos, acciones que puedes tomar, cómo difundir la palabra, y otras formas de asegurar que protejamos el bienestar económico de Filadelfia."
+  },
+  "coalition": {
+    "label": "Coalición",
+    "title": "Organizaciones Unidas",
+    "coming_soon": "Próximamente",
+    "coming_soon_subtitle": "Individuos y organizaciones comprometidas próximamente",
+    "add_org": "Agrega tu organización →"
+  },
+  "resources": {
+    "label": "Recursos",
+    "title": "Aprende Más e Involúcrate",
+    "buttons": {
+      "calculator": "Calcula Tu Impacto Tributario",
+      "one_pager": "Lee el Resumen de Una Página",
+      "testify": "Regístrate para Testificar",
+      "share": "Comparte con Tu Comunidad"
+    },
+    "share_modal": {
+      "title": "Comparte con Tu Comunidad",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook",
+      "twitter": "Compartir en Twitter",
+      "copy_link": "Copiar Enlace",
+      "copied": "¡Copiado!"
+    },
+    "mays_quote": {
+      "text": "La tragedia de la vida a menudo no está en nuestro fracaso, sino más bien en nuestra complacencia...",
+      "attribution": "— Dr. Benjamin E. Mays",
+      "role": "Reconocido educador, ministro y líder de derechos civiles. Presidente de Morehouse College y mentor de toda la vida del Dr. Martin Luther King Jr."
+    }
+  },
+  "footer": {
+    "brand": "LIFT Philly",
+    "tagline": "Trabajo (Contratistas Independientes) · Empresas Individuales · Empresas Familiares · Reforma Tributaria",
+    "disclaimer": "Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp."
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "zh": "中文 (简体)",
+    "vi": "Tiếng Việt",
+    "ko": "한국어",
+    "ru": "Русский",
+    "ar": "العربية",
+    "fr": "Français",
+    "pt": "Português",
+    "hi": "हिन्दी",
+    "tl": "Filipino"
+  }
+}

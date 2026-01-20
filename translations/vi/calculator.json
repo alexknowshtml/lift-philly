@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "Máy tính Thuế BIRT - LIFT Philly",
+    "description": "Tính toán việc loại bỏ miễn trừ BIRT sẽ ảnh hưởng đến thuế doanh nghiệp nhỏ Philadelphia của bạn năm 2026 và sau đó như thế nào."
+  },
+  "hero": {
+    "title": "Biết Trước",
+    "title_highlight": "Khi Khai",
+    "subtitle": "Xem việc loại bỏ miễn trừ BIRT $100K sẽ ảnh hưởng đến doanh nghiệp nhỏ Philadelphia của bạn bắt đầu từ năm 2026 như thế nào."
+  },
+  "calculator": {
+    "last_updated": "Cập nhật lần cuối: 17 tháng 1, 2026 lúc 10:44 SA",
+    "year_question": "Năm đầu tiên bạn kinh doanh tại Philadelphia là năm nào?",
+    "year_hint": "Thông tin này phải chính xác để máy tính hoạt động đúng",
+    "year_options": {
+      "2022": "2022 hoặc sớm hơn",
+      "2023": "2023",
+      "2024": "2024"
+    },
+    "year_started_prefix": "Bắt đầu năm",
+    "continue_btn": "Tiếp tục",
+    "gross_receipts_label": "Tổng Thu nhập Trung bình Hàng năm",
+    "gross_receipts_hint": "Tổng doanh thu trước khi trừ chi phí",
+    "gross_receipts_placeholder": "$75.000",
+    "net_income_label": "Thu nhập Ròng Trung bình Hàng năm",
+    "net_income_hint": "Lợi nhuận kinh doanh sau chi phí (số bạn khai trong tờ khai thuế)",
+    "net_income_placeholder": "$50.000",
+    "adjustment_note": "Lưu ý: Tính toán Tác động Doanh thu và Thu nhập Philadelphia. Thu nhập của bạn đã được điều chỉnh bằng tổng thu nhập. Điều chỉnh thu nhập nếu bạn có chi phí riêng chỉ thuộc về Philadelphia.",
+    "calculate_btn": "Tính Tác động Thuế của Tôi"
+  },
+  "results": {
+    "header": "Mức Tăng Gánh nặng Thuế của Bạn",
+    "scenario_over_100k": "Tổng Thu nhập > $100K",
+    "scenario_under_100k": "Tổng Thu nhập ≤ $100K",
+    "run_rate_title": "Mức Tăng Thuế Hàng năm của Bạn",
+    "run_rate_detail": "Mỗi năm, liên tục (chỉ thuế phải nộp, không bao gồm thanh toán ước tính)",
+    "shock_year_title": "Mức Tăng Thuế Năm Sốc của Bạn",
+    "shock_year_detail_template": "So sánh {shockYear} với {priorYear} (bao gồm thanh toán ước tính)",
+    "cash_shock_year_label": "Năm Sốc Tiền mặt:",
+    "see_breakdown": "Xem chi tiết đầy đủ",
+    "timeline_title": "Chi tiết Từng Năm"
+  },
+  "year_card": {
+    "tax_year": "Năm Thuế",
+    "baseline_year": "Năm Cơ sở",
+    "shock_year": "Năm Sốc",
+    "filed_year": "Năm Đã khai",
+    "not_in_business": "Chưa Kinh doanh",
+    "business_not_started": "Doanh nghiệp chưa bắt đầu",
+    "total_cash_outlay": "tổng chi tiền mặt",
+    "with_exemption": "(có miễn trừ)",
+    "first_year": "(năm đầu tiên)",
+    "grace_year": "(năm ân hạn)",
+    "tax_liability": "Nghĩa vụ Thuế",
+    "tax_due_payment": "Thuế Đến hạn Thanh toán",
+    "birt_net_income": "BIRT (Thu nhập Ròng)",
+    "birt_gross_receipts": "BIRT (Tổng Thu nhập)",
+    "total_birt": "Tổng BIRT",
+    "npt_before_credit": "NPT (trước tín dụng)",
+    "birt_credit_60": "Tín dụng BIRT (60%)",
+    "npt_after_credit": "NPT Sau Tín dụng",
+    "total_tax_liability": "Tổng Nghĩa vụ Thuế",
+    "tax_liability_from": "Nghĩa vụ Thuế từ",
+    "est_birt_based_on": "+ Ước tính BIRT (dựa trên",
+    "est_npt_based_on": "+ Ước tính NPT (dựa trên",
+    "prior_year_adjustment": "- Điều chỉnh Năm trước",
+    "total_cash_outlay_label": "Tổng Chi Tiền mặt"
+  },
+  "warning": {
+    "title_template": "Tại sao {year} là Năm Sốc",
+    "explanation_2026": "Thanh toán ước tính dựa trên thuế năm trước của bạn. Năm 2025, BIRT của bạn tăng vọt vì miễn trừ bị loại bỏ—nhưng thanh toán ước tính của bạn vẫn dựa trên năm 2024 (khi BIRT khoảng $0). Năm 2026, bạn trả hóa đơn thuế năm 2025 CỘNG thanh toán ước tính dựa trên BIRT năm 2025 cao hơn nhiều. Đó là cú sốc tiền mặt.",
+    "explanation_2027": "Đối với doanh nghiệp có tổng thu nhập dưới $100K, cú sốc đến muộn hơn một năm. Năm 2026, thanh toán ước tính của bạn dựa trên BIRT năm 2025 (năm đầu tiên không có miễn trừ)—nhưng bạn được một năm ân hạn. Năm 2027, bạn trả hóa đơn thuế năm 2026 CỘNG thanh toán ước tính dựa trên BIRT năm 2026. Đó là khi gánh nặng tiền mặt đầy đủ đến."
+  },
+  "estimated_payments": {
+    "title": "Khoan, thanh toán ước tính là gì?",
+    "p1": "Đây là vấn đề: Thành phố muốn tiền của họ trước.",
+    "p2": "Mỗi tháng Tư, bạn không chỉ trả thuế cho thu nhập năm ngoái—bạn còn trả trước một phần thuế năm sau dựa trên những gì bạn kiếm được năm nay.",
+    "p3": "Điều đó có nghĩa là bạn đang ứng trước cho thành phố tiền mà bạn chưa kiếm được.",
+    "p4": "Nếu thu nhập của bạn giảm năm sau, bạn đã thanh toán dựa trên năm nay. Cuối cùng bạn sẽ lấy lại được, nhưng dòng tiền của bạn bị ảnh hưởng ngay bây giờ.",
+    "join_btn": "Tham gia Liên minh"
+  },
+  "cta": {
+    "title": "Sẵn sàng Hành động?",
+    "subtitle": "Tham gia liên minh đấu tranh vì đối xử thuế công bằng cho các doanh nghiệp nhỏ ở Philadelphia.",
+    "join_btn": "Tham gia Liên minh",
+    "testify_btn": "Đăng ký Làm chứng",
+    "share_title": "Chia sẻ máy tính này với mạng lưới của bạn",
+    "linkedin": "LinkedIn",
+    "facebook": "Facebook",
+    "twitter": "Twitter",
+    "copy_link": "Sao chép Liên kết"
+  },
+  "disclaimer": {
+    "title": "Tuyên bố Miễn trừ Quan trọng",
+    "p1": "Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế.",
+    "note": "Lưu ý: Loại LIFT không bao gồm các thực thể S-Corp và C-Corp.",
+    "privacy": "Không có dữ liệu nào—nhận dạng cá nhân hoặc khác—được lưu trữ cho tính toán này.",
+    "accept_btn": "Tôi Hiểu – Hiển thị Số của Tôi"
+  },
+  "validation": {
+    "invalid_amounts": "Vui lòng nhập số tiền hợp lệ cho cả hai trường."
+  }
+}

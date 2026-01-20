@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Philly 资料页</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --text: #334155;
+            --text-light: #64748b;
+            --red: #dc2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @page { size: letter; margin: 0.5in; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: var(--text);
+            background: white;
+        }
+
+        .page {
+            width: 7.5in;
+            min-height: 10in;
+            max-height: 10in;
+            padding: 0;
+            page-break-after: always;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page:last-child { page-break-after: avoid; }
+
+        .header {
+            background: var(--navy);
+            color: white;
+            padding: 16px 20px;
+            margin: -0.5in -0.5in 16px -0.5in;
+            width: calc(100% + 1in);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 28pt; font-weight: 800; letter-spacing: 0.05em; }
+        .logo span { color: var(--gold); }
+
+        .acronym { font-size: 8pt; color: rgba(255,255,255,0.9); text-align: left; line-height: 1.5; }
+        .acronym-item { white-space: nowrap; }
+        .acronym-letter { color: var(--gold); font-weight: 700; }
+
+        h2 {
+            font-size: 12pt;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 16px 0 8px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        h3 { font-size: 10pt; font-weight: 700; color: var(--navy); margin: 10px 0 6px 0; }
+
+        .principles {
+            background: #f8fafc;
+            border-left: 4px solid var(--gold);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+
+        .principles p { margin-bottom: 4px; font-size: 9pt; }
+        .principles strong { color: var(--navy); }
+
+        .stat-box {
+            background: var(--navy);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .stat-number { font-size: 24pt; font-weight: 800; color: var(--gold); }
+        .stat-label { font-size: 9pt; opacity: 0.9; }
+
+        .impact-box {
+            background: #fef2f2;
+            border: 2px solid var(--red);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .impact-box h3 { color: var(--red); margin-top: 0; }
+        .impact-amount { font-size: 16pt; font-weight: 800; color: var(--red); }
+        .impact-examples { font-size: 9pt; color: var(--text-light); margin-top: 4px; }
+
+        .solution-box {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .solution-box h3 { color: #16a34a; margin-top: 0; }
+        .checkmark { color: #16a34a; font-weight: bold; }
+        .result { font-size: 11pt; font-weight: 700; color: #16a34a; margin-top: 8px; }
+
+        ul { margin-left: 16px; margin-bottom: 8px; }
+        li { margin-bottom: 3px; }
+
+        .two-col { display: flex; gap: 16px; }
+        .two-col > div { flex: 1; }
+
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .qr-code {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code img { width: 100%; height: 100%; }
+        .qr-text { flex: 1; }
+        .qr-text strong { display: block; font-size: 10pt; color: var(--navy); }
+        .qr-text span { font-size: 8pt; color: var(--text-light); }
+
+        .action-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .action-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 9pt;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .conversation-prompt {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-style: italic;
+            font-weight: 700;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        .voices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            font-size: 8.5pt;
+        }
+
+        .voices-grid li { margin-bottom: 2px; }
+
+        .bill-status {
+            background: var(--navy);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .bill-status h3 { color: var(--gold); margin: 0 0 8px 0; font-size: 10pt; }
+        .bill-status ul { margin-left: 16px; font-size: 9pt; }
+        .bill-status li { margin-bottom: 4px; color: rgba(255,255,255,0.9); }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9pt;
+        }
+
+        .footer-cta { font-weight: 700; color: var(--navy); }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page { margin: 0; padding: 0; }
+            .header { margin: 0 0 16px 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1: The Problem & Solution -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="logo">LIFT <span>Philly</span></div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 2px;">liftphilly.org</div>
+            </div>
+            <div class="acronym">
+                <span class="acronym-item"><span class="acronym-letter">L</span>劳动者（独立承包商）</span><br>
+                <span class="acronym-item"><span class="acronym-letter">I</span>个体企业</span><br>
+                <span class="acronym-item"><span class="acronym-letter">F</span>家庭企业</span><br>
+                <span class="acronym-item"><span class="acronym-letter">T</span>税务改革</span>
+            </div>
+        </div>
+
+        <div class="principles">
+            <p><strong>专注解决方案，而非政治。</strong> 我们都是费城人，共同解决问题。</p>
+            <p><strong>问题在于系统，而非个人。</strong> 无责无愧。这个系统是为不同的经济设计的。</p>
+            <p><strong>牧羊人心态。</strong> 牧羊人以爱心专注于解决方案。在为LIFT倡导时，做一个牧羊人。与我们在一起？分享你的恐惧、不确定和疑虑——我们会帮助你度过。</p>
+        </div>
+
+        <h2>问题</h2>
+        <p>十年来，费城最小的企业拥有一个免受BIRT（商业收入和收据税）影响的保护——让他们能够创业、成长并养家糊口。 <strong>2026年，这个保护将消失。</strong></p>
+
+        <div class="impact-box" style="padding: 12px; display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <p style="font-size: 10pt; margin: 0 0 6px 0; color: var(--text);">如果你在2025年收入50,000美元，而你是：</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">劳动者（独立承包商）</span>
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">个体企业</span>
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">家庭企业</span>
+                </div>
+                <p style="font-size: 11pt; margin: 0 0 8px 0; color: var(--navy); font-weight: 600;">从2026年4月开始，你的费城税单将增加：</p>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <p class="impact-amount" style="font-size: 28pt; margin: 0; line-height: 1;">+$1,208</p>
+                    <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 2px;"></div>
+                    <p class="impact-amount" style="font-size: 28pt; margin: 0; line-height: 1;">+$3,746</p>
+                </div>
+                <p class="impact-examples" style="margin: 10px 0 0 0; font-size: 9pt; font-weight: 700; color: var(--navy);">对于许多根本无力承担的费城人来说，这相当于1到3个月的房租。</p>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(220,38,38,0.3); flex-shrink: 0;">
+                <div style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--red); font-size: 8pt; display: block; margin-top: 6px;">立即计算你的</strong>
+                <span style="font-size: 7pt; color: var(--text);">liftphilly.org/calculator</span>
+            </div>
+        </div>
+
+        <div class="stat-box" style="display: flex; gap: 20px; align-items: center;">
+            <div style="text-align: center; flex-shrink: 0;">
+                <div class="stat-number" style="margin-bottom: 0; line-height: 1;">85%</div>
+                <div style="font-size: 9pt; color: rgba(255,255,255,0.8); margin-top: 0;">的全市企业</div>
+            </div>
+            <div class="stat-label" style="flex: 1; text-align: left;">这包括12.2万名拥有和经营单一所有者实体的费城人：承包商、自由职业者、零工工人、护士、理发师、餐车摊贩、艺术家、零售商等等。</div>
+        </div>
+
+        <h2>解决方案：LIFT法案</h2>
+        <p>LIFT法案是由市议员Mike Driscoll于2025年11月提出的开创性立法，它通过承认一个已经存在但未被当前BIRT法律认可的税务类别来修复系统，而不是打补丁。</p>
+        <p style="margin-top: 6px;">该类别包括劳动者/独立承包商，以及任何有个人所有者的个体或家庭企业（包括有雇员的企业）。</p>
+
+        <div style="display: flex; align-items: center; gap: 8px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 8px 12px; margin: 10px 0;">
+            <div style="background: #10b981; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12pt; flex-shrink: 0;">✓</div>
+            <div style="font-size: 8pt; font-weight: 700;">符合宾夕法尼亚州宪法的统一条款要求。</div>
+        </div>
+
+        <div style="margin-top: 8px;">
+            <h3 style="margin: 0 0 8px 0; font-size: 10pt; color: var(--navy);">LIFT法案实现什么</h3>
+            <ul style="list-style: none; margin: 0; padding: 0; font-size: 9pt;">
+                <li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> 市议会和市长可以合法地完全取消LIFT类别*的BIRT税</li><li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> NPT税保留，确保公平税收而非当前的双重征税结构</li><li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> 将资金留在当地社区——每保留一美元就能转化为3美元以上的当地消费</li>
+            </ul>
+            <div style="background: #fefce8; border: 2px solid var(--gold); border-radius: 8px; padding: 12px; margin-top: 10px;">
+                <p style="font-size: 9pt; font-weight: 700; color: var(--navy); margin: 0 0 6px 0; text-align: center;">对于收入5万美元的个人或家庭的结果：完全消除意外税务增加</p>
+                <p style="font-size: 8pt; font-weight: 700; font-style: italic; color: var(--text); margin: 0; text-align: center;">*LIFT类别包括劳动者（独立承包商），以及任何有个人所有者的个体或家庭企业（包括有雇员的企业）。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: Take Action -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="logo">LIFT <span>Philly</span></div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 2px;">liftphilly.org</div>
+            </div>
+            <div style="font-size: 14pt; font-weight: 800; color: white;">你能做什么</div>
+        </div>
+
+        <div class="action-item" style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <h3><span class="action-number">1</span> 申报前计算你的增税金额</h3>
+                <p>使用liftphilly.org/calculator上的计算器查看你的税务增加，然后分享给你的职业网络，让他们也能计算自己的。</p>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid #e5e7eb; flex-shrink: 0;">
+                <div style="width: 60px; height: 60px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--red); font-size: 7pt; display: block; margin-top: 4px;">立即计算你的</strong>
+                <span style="font-size: 7pt; color: var(--text);">liftphilly.org/calculator</span>
+            </div>
+        </div>
+
+        <div class="two-col" style="gap: 12px; margin-bottom: 8px;">
+            <div class="action-item" style="flex: 1; margin-bottom: 0;">
+                <h3><span class="action-number">2</span> 开始对话</h3>
+                <p style="margin-bottom: 4px;">询问你认识的3-5位个体经营者：</p>
+                <div style="background: #fef2f2; border: 2px solid var(--red); border-radius: 8px; padding: 8px 10px; font-size: 8pt; font-style: italic; font-weight: 700; color: var(--text);">
+                    「如果你在2026年及以后必须额外支付1-3个月房租的税款，这将如何影响你照顾自己、家人和社区的能力？」
+                </div>
+                <p style="margin-top: 4px;">然后倾听。向我们反馈你听到的。</p>
+            </div>
+            <div class="action-item" style="flex: 1; margin-bottom: 0;">
+                <h3><span class="action-number">3</span> 帮助我们覆盖全市</h3>
+                <p>与你的朋友和信任的社区领袖分享这些信息，帮助我们扩展我们的网络。</p>
+                <p style="margin-top: 6px;">认识能够帮助在你的社区传播信息、分享作为小企业主的经历，或两者兼备的人吗？我们正在寻找正式领袖和非正式联络人。</p>
+            </div>
+        </div>
+
+        <div class="action-item">
+            <h3><span class="action-number">4</span> 识别证词声音</h3>
+            <p style="margin-bottom: 8px;">我们正在建立一个反映整个费城的联盟——每个邮政编码、每个背景、每个身份。帮助我们从以下领域找到有力的声音：</p>
+            <div class="two-col" style="gap: 16px;">
+                <div>
+                    <ul class="voices-grid" style="display: block; font-size: 8pt; margin: 0; padding-left: 16px;">
+                        <li>艺术与文化</li><li>理发师和美发师</li><li>商业协会和商业区</li><li>托儿服务提供者</li><li>社区健康/组织</li><li>建筑/行业</li><li>创意（音乐、电影、摄影）</li><li>教育与辅导</li><li>活动与旅游</li><li>金融与财务</li><li>健身与保健</li><li>餐饮/酒店业</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="voices-grid" style="display: block; font-size: 8pt; margin: 0; padding-left: 16px;">
+                        <li>医疗保健</li><li>家庭服务</li><li>独立执业律师</li><li>媒体与新闻</li><li>宠物服务</li><li>专业服务</li><li>房地产与开发</li><li>重返社会企业家</li><li>时尚与服饰</li><li>科技与创新</li><li>交通/网约车</li>
+                        <li><strong><em>以及你的行业或类别！</em></strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bill-status" style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <h3>法案状态和预期时间表</h3>
+                <ul>
+                    <li>法案于2025年11月20日由市议员Mike Driscoll提出</li><li>市议会主席起草法案并为财政分析提供技术支持</li><li>多位市议员参与</li><li>财务委员会听证会预计：2026年1月底/2月初</li>
+                </ul>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(251,191,36,0.3); flex-shrink: 0;">
+                <div style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--gold); font-size: 8pt; display: block; margin-top: 6px;">加入联盟</strong>
+                <span style="font-size: 7pt; color: rgba(255,255,255,0.8);">liftphilly.org</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-cta">带走这张资料。尝试对话。计算你的影响。加入联盟。</div>
+            <div>contact@liftphilly.org</div>
+        </div>
+        <div style="font-size: 7pt; opacity: 0.7; text-align: center; position: absolute; bottom: 0; left: 0; right: 0;">本资源不构成法律建议，您应咨询您的法律和税务顾问。LIFT类别不包括S型公司和C型公司实体。</div>
+    </div>
+</body>
+</html>

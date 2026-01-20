@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "title": "申报BIRT - LIFT Philly",
+    "description": "了解如何申报费城商业收入和收据税(BIRT)以及2026年免税额取消对您的影响。"
+  },
+  "hero": {
+    "title": "申报BIRT",
+    "subtitle": "了解费城商业收入和收据税以及2026年的变化"
+  },
+  "nav": {
+    "what_is_birt": "什么是BIRT",
+    "who_must_file": "谁必须申报",
+    "how_to_file": "如何申报",
+    "exemption_changes": "免税额变化",
+    "resources": "资源"
+  },
+  "what_is_birt": {
+    "title": "什么是BIRT？",
+    "intro": "商业收入和收据税(BIRT)是费城对在该市经营的企业征收的税。",
+    "components_title": "BIRT有两个组成部分：",
+    "component1_title": "总收入税",
+    "component1_rate": "0.1415%",
+    "component1_description": "对您的总收入（扣除费用前的收入）征税",
+    "component2_title": "净收入税",
+    "component2_rate": "5.99%",
+    "component2_description": "对您的净收入（扣除费用后的利润）征税",
+    "note": "您需要同时缴纳两种税——这不是二选一的情况。"
+  },
+  "who_must_file": {
+    "title": "谁必须申报BIRT？",
+    "intro": "在费城经营的所有企业都必须申报BIRT，包括：",
+    "list": [
+      "独资经营者和独立承包商",
+      "自由职业者和零工工人",
+      "单一成员有限责任公司",
+      "合伙企业",
+      "公司（S型和C型）"
+    ],
+    "threshold_note": "即使您没有欠税，如果您的总收入超过100,000美元，您仍必须申报。",
+    "new_business": "新企业必须在开业60天内向费城税务局注册。"
+  },
+  "how_to_file": {
+    "title": "如何申报BIRT",
+    "deadline": "截止日期：4月15日",
+    "deadline_note": "与您的联邦纳税申报表相同",
+    "steps_title": "申报步骤：",
+    "step1_title": "收集您的文件",
+    "step1_items": [
+      "您的联邦纳税申报表",
+      "损益表",
+      "收入和支出记录"
+    ],
+    "step2_title": "确定您的申报状态",
+    "step2_items": [
+      "新企业：第一年可能有资格获得免税额",
+      "现有企业：检查当前免税额规则"
+    ],
+    "step3_title": "在线或邮寄申报",
+    "step3_online": "在线：通过费城税务中心",
+    "step3_mail": "邮寄：将表格寄至税务局",
+    "step4_title": "缴纳应付款项",
+    "step4_note": "包括当年税款和下一年的预估付款"
+  },
+  "exemption_changes": {
+    "title": "2026年免税额变化",
+    "current_title": "当前规则（截至2025年）",
+    "current_description": "总收入在100,000美元或以下的企业免缴BIRT。",
+    "change_title": "2026年的变化",
+    "change_description": "100,000美元的免税额将被取消。所有企业，无论规模大小，都需要缴纳BIRT。",
+    "impact_title": "这对您意味着什么",
+    "impact_items": [
+      "如果您收入50,000美元，您可能面临1,208至3,746美元的税务增加",
+      "这影响122,000名费城小企业主",
+      "LIFT法案旨在为受影响的企业解决这一问题"
+    ],
+    "calculator_cta": "计算您的税务影响"
+  },
+  "estimated_payments": {
+    "title": "关于预估付款",
+    "intro": "费城要求对下一年的税款进行预估付款。",
+    "how_it_works_title": "运作方式：",
+    "how_it_works": [
+      "预估付款基于您当年的税务责任",
+      "您基本上是在预付尚未赚取的收入的税款",
+      "如果您的收入下降，您已经根据较高收入年份付款了"
+    ],
+    "shock_year_title": "为什么2026年是"冲击年"",
+    "shock_year_explanation": "在2026年，您将支付2025年的税单（免税额取消后的第一年）加上基于更高2025年BIRT的预估付款。这是现金冲击。"
+  },
+  "resources": {
+    "title": "资源",
+    "official_title": "官方资源",
+    "official_items": [
+      {
+        "name": "费城税务中心",
+        "description": "官方申报门户"
+      },
+      {
+        "name": "BIRT表格和说明",
+        "description": "官方税务表格"
+      },
+      {
+        "name": "税务局联系方式",
+        "description": "如有问题请联系"
+      }
+    ],
+    "lift_title": "LIFT Philly资源",
+    "lift_items": [
+      {
+        "name": "税务计算器",
+        "description": "计算您的税务影响"
+      },
+      {
+        "name": "加入联盟",
+        "description": "参与运动"
+      },
+      {
+        "name": "报名作证",
+        "description": "在市议会发表您的声音"
+      }
+    ]
+  },
+  "cta": {
+    "title": "准备好采取行动了吗？",
+    "subtitle": "加入为费城小型企业争取公平税收待遇的联盟。",
+    "join_btn": "加入联盟",
+    "calculator_btn": "计算您的税务影响"
+  },
+  "footer": {
+    "disclaimer": "本资源不构成法律建议，您应咨询您的法律和税务顾问。"
+  }
+}

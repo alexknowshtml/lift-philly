@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "title": "BIRT税务计算器 - LIFT Philly",
+    "description": "计算BIRT免税额取消将如何影响您2026年及以后的费城小型企业税务。"
+  },
+  "hero": {
+    "title": "申报前",
+    "title_highlight": "了解详情",
+    "subtitle": "了解10万美元BIRT免税额取消将如何影响您从2026年开始的费城小型企业。"
+  },
+  "calculator": {
+    "last_updated": "最后更新：2026年1月17日上午10:44",
+    "year_question": "您在费城从事业务的第一年是哪一年？",
+    "year_hint": "这必须准确才能使计算器正常工作",
+    "year_options": {
+      "2022": "2022年或更早",
+      "2023": "2023年",
+      "2024": "2024年"
+    },
+    "year_started_prefix": "开始于",
+    "continue_btn": "继续",
+    "gross_receipts_label": "年均总收入",
+    "gross_receipts_hint": "扣除费用前的总收入",
+    "gross_receipts_placeholder": "$75,000",
+    "net_income_label": "年均净收入",
+    "net_income_hint": "扣除费用后的企业利润（您在纳税申报表上报告的金额）",
+    "net_income_placeholder": "$50,000",
+    "adjustment_note": "注意：费城销售和收入影响计算。您的收入已调整为等于您的总收入。如果您有仅归属于费城的单独费用，请调整您的收入。",
+    "calculate_btn": "计算我的税务影响"
+  },
+  "results": {
+    "header": "您的税负增加",
+    "scenario_over_100k": "总收入 > 10万美元",
+    "scenario_under_100k": "总收入 ≤ 10万美元",
+    "run_rate_title": "您的年度税务增加",
+    "run_rate_detail": "每年持续（仅应缴税款，不含预估付款）",
+    "shock_year_title": "您的冲击年税务增加",
+    "shock_year_detail_template": "比较{shockYear}与{priorYear}（包含预估付款）",
+    "cash_shock_year_label": "现金冲击年：",
+    "see_breakdown": "查看完整明细",
+    "timeline_title": "逐年明细"
+  },
+  "year_card": {
+    "tax_year": "税务年度",
+    "baseline_year": "基准年",
+    "shock_year": "冲击年",
+    "filed_year": "申报年度",
+    "not_in_business": "未在经营",
+    "business_not_started": "企业尚未开始",
+    "total_cash_outlay": "总现金支出",
+    "with_exemption": "（含免税额）",
+    "first_year": "（第一年）",
+    "grace_year": "（宽限年）",
+    "tax_liability": "税务责任",
+    "tax_due_payment": "应付税款",
+    "birt_net_income": "BIRT（净收入）",
+    "birt_gross_receipts": "BIRT（总收入）",
+    "total_birt": "BIRT总计",
+    "npt_before_credit": "NPT（抵扣前）",
+    "birt_credit_60": "BIRT抵扣（60%）",
+    "npt_after_credit": "抵扣后NPT",
+    "total_tax_liability": "总税务责任",
+    "tax_liability_from": "税务责任来自",
+    "est_birt_based_on": "+ 预估BIRT（基于",
+    "est_npt_based_on": "+ 预估NPT（基于",
+    "prior_year_adjustment": "- 上年调整",
+    "total_cash_outlay_label": "总现金支出"
+  },
+  "warning": {
+    "title_template": "为什么{year}是冲击年",
+    "explanation_2026": "预估付款基于您上一年的税款。在2025年，您的BIRT因免税额取消而跳升——但您的预估付款仍基于2024年（当时BIRT约为$0）。在2026年，您支付2025年的税单加上基于更高2025年BIRT的预估付款。这就是现金冲击。",
+    "explanation_2027": "对于总收入低于10万美元的企业，冲击晚一年到来。在2026年，您的预估付款基于2025年BIRT（免税额取消后的第一年）——但您有一个宽限年。在2027年，您支付2026年的税单加上基于2026年BIRT的预估付款。这是全部现金负担到来的时候。"
+  },
+  "estimated_payments": {
+    "title": "等等，什么是预估付款？",
+    "p1": "事情是这样的：市政府想要提前拿到他们的钱。",
+    "p2": "每年四月，您不仅要缴纳去年收入的税款——您还要根据今年的收入预付明年税款的一部分。",
+    "p3": "这意味着您要提前向市政府支付您尚未赚到的钱的税款。",
+    "p4": "如果您明年的收入下降，您已经根据今年的收入付款了。您最终会拿回来，但您的现金流现在受到了冲击。",
+    "join_btn": "加入联盟"
+  },
+  "cta": {
+    "title": "准备好采取行动了吗？",
+    "subtitle": "加入为费城小型企业争取公平税收待遇的联盟。",
+    "join_btn": "加入联盟",
+    "testify_btn": "报名作证",
+    "share_title": "与您的网络分享这个计算器",
+    "linkedin": "领英",
+    "facebook": "脸书",
+    "twitter": "推特",
+    "copy_link": "复制链接"
+  },
+  "disclaimer": {
+    "title": "重要免责声明",
+    "p1": "本资源不构成法律建议，您应咨询您的法律和税务顾问。",
+    "note": "注意：LIFT类别不包括S型公司和C型公司实体。",
+    "privacy": "本计算不存储任何个人识别或其他数据。",
+    "accept_btn": "我理解 - 显示我的数字"
+  },
+  "validation": {
+    "invalid_amounts": "请为两个字段输入有效金额。"
+  }
+}

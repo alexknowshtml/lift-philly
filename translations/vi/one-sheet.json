@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "LIFT Philly Tờ Thông tin"
+  },
+  "header": {
+    "brand": "LIFT Philly",
+    "website": "liftphilly.org",
+    "acronym": {
+      "l": "Người lao động (Nhà thầu Độc lập)",
+      "i": "Doanh nghiệp Cá nhân",
+      "f": "Doanh nghiệp Gia đình",
+      "t": "Cải cách Thuế"
+    }
+  },
+  "principles": {
+    "p1_title": "Tập trung vào giải pháp, không phải chính trị.",
+    "p1_text": "Tất cả chúng ta đều là người Philadelphia cùng giải quyết vấn đề.",
+    "p2_title": "Vấn đề nằm ở hệ thống, không phải cá nhân.",
+    "p2_text": "Không đổ lỗi, không xấu hổ. Hệ thống được thiết kế cho một nền kinh tế khác.",
+    "p3_title": "Tư duy người chăn cừu.",
+    "p3_text": "Người chăn cừu tập trung vào giải pháp với tình yêu thương. Hãy là người chăn cừu khi vận động cho LIFT. Ở cùng chúng tôi? Chia sẻ nỗi sợ, sự không chắc chắn và nghi ngờ của bạn—chúng tôi sẽ giúp bạn vượt qua."
+  },
+  "problem": {
+    "title": "Vấn đề",
+    "intro": "Trong 10 năm, các doanh nghiệp nhỏ nhất của Philadelphia có một lá chắn khỏi BIRT (Thuế Thu nhập và Biên lai Doanh nghiệp)—cho phép họ khởi nghiệp, phát triển và nuôi sống gia đình.",
+    "shield_gone": "Năm 2026, lá chắn đó sẽ biến mất.",
+    "impact_card": {
+      "condition": "Nếu năm 2025 bạn kiếm được $50.000 và bạn là:",
+      "labels": {
+        "laborer": "Người lao động (Nhà thầu Độc lập)",
+        "individual": "Doanh nghiệp Cá nhân",
+        "family": "Doanh nghiệp Gia đình"
+      },
+      "result_title": "Bắt đầu từ tháng 4 năm 2026, hóa đơn thuế Philadelphia của bạn sẽ tăng:",
+      "impact_low": "+$1.208",
+      "impact_high": "+$3.746",
+      "conclusion": "Đó là từ 1 đến 3 tháng tiền thuê nhà cho nhiều người dân Philadelphia đơn giản không thể chi trả được.",
+      "qr_cta": "Tính Ngay của Bạn",
+      "qr_url": "liftphilly.org/calculator"
+    },
+    "stat_number": "85%",
+    "stat_context": "của tất cả doanh nghiệp thành phố",
+    "stat_description": "Điều đó bao gồm 122.000 người dân Philadelphia sở hữu và điều hành các thực thể một chủ: nhà thầu, freelancer, người làm việc tự do, y tá, thợ cắt tóc, người bán xe đồ ăn, nghệ sĩ, người bán lẻ, và nhiều hơn nữa."
+  },
+  "solution": {
+    "title": "Giải pháp: Đạo luật LIFT",
+    "intro": "Đạo luật LIFT là luật tiên phong được giới thiệu vào tháng 11 năm 2025 bởi Nghị viên Mike Driscoll, sửa chữa hệ thống thay vì chắp vá bằng cách công nhận một loại thuế đã tồn tại nhưng không được luật BIRT hiện hành công nhận.",
+    "class_description": "Loại này bao gồm Người lao động/Nhà thầu Độc lập, và bất kỳ doanh nghiệp cá nhân hoặc gia đình nào có chủ sở hữu cá nhân (bao gồm cả những người có nhân viên).",
+    "uniformity_clause": "Đáp ứng yêu cầu của Điều khoản Đồng nhất trong Hiến pháp PA.",
+    "enables_title": "Đạo luật LIFT Cho phép Điều gì",
+    "enables": [
+      "Hội đồng Thành phố và Thị trưởng có thể hợp pháp loại bỏ hoàn toàn BIRT cho loại LIFT*",
+      "Thuế NPT vẫn còn, đảm bảo đánh thuế công bằng thay vì cấu trúc đánh thuế hai lần hiện tại",
+      "Giữ tiền trong các khu phố địa phương—mỗi đô la được giữ lại trở thành $3+ chi tiêu địa phương"
+    ],
+    "result": "Kết quả cho cá nhân hoặc gia đình kiếm được $50K: loại bỏ hoàn toàn mức tăng thuế bất ngờ",
+    "lift_class_note": "*Loại LIFT bao gồm Người lao động (Nhà thầu Độc lập), và bất kỳ doanh nghiệp cá nhân hoặc gia đình nào có chủ sở hữu cá nhân (bao gồm cả những người có nhân viên)."
+  },
+  "page2": {
+    "title": "Bạn Có thể Làm gì"
+  },
+  "action1": {
+    "title": "Tính Mức Tăng của Bạn Trước khi Khai",
+    "description": "Sử dụng máy tính tại liftphilly.org/calculator để xem mức tăng thuế của bạn, sau đó chia sẻ với mạng lưới chuyên nghiệp của bạn để họ cũng có thể tính toán.",
+    "qr_cta": "Tính Ngay của Bạn",
+    "qr_url": "liftphilly.org/calculator"
+  },
+  "action2": {
+    "title": "Bắt đầu Cuộc trò chuyện",
+    "intro": "Hỏi 3-5 doanh nhân cá thể mà bạn biết:",
+    "prompt": "\"Nếu bạn phải trả thêm 1-3 tháng tiền thuê nhà tiền thuế năm 2026 và sau đó, điều đó sẽ ảnh hưởng đến khả năng chăm sóc bản thân, gia đình và cộng đồng của bạn như thế nào?\"",
+    "followup": "Sau đó lắng nghe. Báo cáo lại những gì bạn nghe được."
+  },
+  "action3": {
+    "title": "Giúp Chúng tôi Tiếp cận Toàn Thành phố",
+    "p1": "Chia sẻ thông tin này với bạn bè và các nhà lãnh đạo cộng đồng đáng tin cậy, giúp chúng tôi phát triển mạng lưới của mạng lưới.",
+    "p2": "Biết ai có thể giúp lan truyền thông tin qua cộng đồng của bạn, chia sẻ kinh nghiệm của họ với tư cách là chủ doanh nghiệp nhỏ, hoặc cả hai? Chúng tôi đang tìm kiếm cả các nhà lãnh đạo chính thức và người kết nối không chính thức."
+  },
+  "action4": {
+    "title": "Xác định Tiếng nói Làm chứng",
+    "intro": "Chúng tôi đang xây dựng một liên minh phản ánh toàn bộ Philadelphia—mọi mã bưu điện, mọi nguồn gốc, mọi bản sắc. Giúp chúng tôi tìm tiếng nói mạnh mẽ từ:",
+    "categories": [
+      "Nghệ thuật & Văn hóa",
+      "Thợ cắt tóc & Tạo mẫu tóc",
+      "Hiệp hội & Khu Kinh doanh",
+      "Người cung cấp dịch vụ trông trẻ",
+      "Sức khỏe Cộng đồng/Tổ chức",
+      "Xây dựng/nghề thủ công",
+      "Sáng tạo (âm nhạc, phim, ảnh)",
+      "Giáo dục & Gia sư",
+      "Sự kiện & Du lịch",
+      "Tài chính & Tiền bạc",
+      "Thể hình & Sức khỏe",
+      "Thực phẩm/khách sạn",
+      "Chăm sóc Sức khỏe",
+      "Dịch vụ Gia đình",
+      "Luật sư hành nghề độc lập",
+      "Truyền thông & Báo chí",
+      "Dịch vụ Thú cưng",
+      "Dịch vụ Chuyên nghiệp",
+      "Bất động sản & Phát triển",
+      "Doanh nhân tái hòa nhập",
+      "Phong cách & Thời trang",
+      "Công nghệ & Đổi mới",
+      "Vận tải/xe công nghệ"
+    ],
+    "categories_suffix": "và ngành hoặc danh mục của bạn nữa!"
+  },
+  "bill_status": {
+    "title": "Tình trạng Dự luật và Lịch trình Dự kiến",
+    "items": [
+      "Dự luật được giới thiệu ngày 20 tháng 11 năm 2025 bởi Nghị viên Mike Driscoll",
+      "Chủ tịch Hội đồng soạn thảo dự luật và cung cấp hỗ trợ kỹ thuật cho Phân tích Tài chính",
+      "Nhiều thành viên hội đồng tham gia",
+      "Các phiên điều trần Ủy ban Tài chính dự kiến: Cuối tháng 1 / Đầu tháng 2 năm 2026"
+    ],
+    "qr_cta": "Tham gia Liên minh",
+    "qr_url": "liftphilly.org"
+  },
+  "footer": {
+    "cta": "Mang theo tờ này. Thử cuộc trò chuyện. Tính tác động của bạn. Tham gia liên minh.",
+    "email": "contact@liftphilly.org",
+    "disclaimer": "Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế. Loại LIFT không bao gồm các thực thể S-Corp và C-Corp."
+  }
+}

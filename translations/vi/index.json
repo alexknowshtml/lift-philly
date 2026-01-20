@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "title": "LIFT Philly - Cải cách Thuế Doanh nghiệp Nhỏ Philadelphia",
+    "description": "Đạo luật LIFT là luật tiên phong của Philadelphia để sửa chữa hệ thống thuế doanh nghiệp nhỏ bằng cách sửa hệ thống thay vì chắp vá. Tham gia cùng chúng tôi trong cuộc chiến vì thuế công bằng cho 122.000 chủ doanh nghiệp cá thể ở Philadelphia."
+  },
+  "nav": {
+    "problem": "Vấn đề",
+    "solution": "Giải pháp",
+    "take_action": "Hành động",
+    "calculator": "Máy tính Thuế",
+    "join": "Tham gia Liên minh"
+  },
+  "hero": {
+    "tagline": "Cải cách Thuế Doanh nghiệp Nhỏ Philadelphia",
+    "title_line1": "Một khoản thuế bạn không biết sắp đến hạn.",
+    "title_line2": "Cùng nhau chúng ta có thể sửa nó.",
+    "subtitle": "Đạo luật LIFT là giải pháp của Hội đồng Thành phố Philadelphia để sửa chữa hệ thống thuế cho 122.000 chủ doanh nghiệp cá thể ở Philadelphia.",
+    "cta_join": "Tham gia Liên minh",
+    "cta_calculator": "Tính Tác động Thuế của Bạn"
+  },
+  "problem": {
+    "label": "Vấn đề",
+    "title": "Một thập kỷ bảo vệ sắp biến mất",
+    "intro": "Trong 10 năm, các doanh nghiệp nhỏ nhất của Philadelphia có một lá chắn khỏi BIRT (Thuế Thu nhập và Biên lai Doanh nghiệp)—cho phép họ khởi nghiệp, phát triển và nuôi sống gia đình.",
+    "highlight": "Năm 2026, lá chắn đó sẽ biến mất.",
+    "stat_number": "85%",
+    "stat_context": "của tất cả doanh nghiệp thành phố",
+    "stat_description": "Điều đó bao gồm 122.000 người dân Philadelphia sở hữu và điều hành các thực thể một chủ: nhà thầu, freelancer, người làm việc tự do, y tá, thợ cắt tóc, người bán xe đồ ăn, nghệ sĩ, người bán lẻ, và nhiều hơn nữa."
+  },
+  "impact": {
+    "title": "Tác động Thuế của Bạn",
+    "condition": "Nếu năm 2025 bạn kiếm được $50.000 và bạn là:",
+    "laborer": "Người lao động (Nhà thầu Độc lập)",
+    "individual": "Doanh nghiệp Cá nhân",
+    "family": "Doanh nghiệp Gia đình",
+    "result_title": "Bắt đầu từ tháng 4 năm 2026, hóa đơn thuế Philadelphia của bạn sẽ tăng:",
+    "impact_low": "+$1.208",
+    "impact_high": "+$3.746",
+    "conclusion": "Đó là từ 1 đến 3 tháng tiền thuê nhà cho nhiều người dân Philadelphia đơn giản không thể chi trả được.",
+    "cta": "Tính Tác động Thuế của Bạn"
+  },
+  "solution": {
+    "label": "Giải pháp",
+    "title": "Đạo luật LIFT",
+    "intro": "Đạo luật LIFT là luật tiên phong được giới thiệu vào tháng 11 năm 2025 bởi Nghị viên Mike Driscoll, sửa chữa hệ thống thay vì chắp vá bằng cách công nhận một loại thuế đã tồn tại nhưng không được luật BIRT hiện hành công nhận.",
+    "class_title": "Loại LIFT là gì?",
+    "class_description": "Loại này bao gồm Người lao động/Nhà thầu Độc lập, và bất kỳ doanh nghiệp cá nhân hoặc gia đình nào có chủ sở hữu cá nhân (bao gồm cả những người có nhân viên).",
+    "enables_title": "Đạo luật LIFT Cho phép Điều gì",
+    "enables": [
+      "Hội đồng Thành phố và Thị trưởng có thể hợp pháp loại bỏ hoàn toàn BIRT cho loại LIFT",
+      "Thuế NPT vẫn còn, đảm bảo đánh thuế công bằng thay vì cấu trúc đánh thuế hai lần hiện tại",
+      "Giữ tiền trong các khu phố địa phương—mỗi đô la được giữ lại trở thành $3+ chi tiêu địa phương"
+    ],
+    "uniformity": "Đáp ứng yêu cầu của Điều khoản Đồng nhất trong Hiến pháp PA."
+  },
+  "action": {
+    "label": "Hành động",
+    "title": "Tham gia Liên minh",
+    "intro": "Chúng tôi đang xây dựng một liên minh phản ánh toàn bộ Philadelphia—mọi mã bưu điện, mọi nguồn gốc, mọi bản sắc. Đây là cách bạn có thể giúp:",
+    "action1_title": "Tính Tăng thuế của Bạn Trước khi Khai",
+    "action1_description": "Sử dụng máy tính để xem mức tăng thuế của bạn, sau đó chia sẻ với mạng lưới chuyên nghiệp của bạn để họ cũng có thể tính toán.",
+    "action1_cta": "Tính Ngay",
+    "action2_title": "Bắt đầu Cuộc trò chuyện",
+    "action2_description": "Hỏi 3-5 doanh nhân cá thể mà bạn biết:",
+    "action2_prompt": "\"Nếu bạn phải trả thêm 1-3 tháng tiền thuê nhà tiền thuế năm 2026 và sau đó, điều đó sẽ ảnh hưởng đến khả năng chăm sóc bản thân, gia đình và cộng đồng của bạn như thế nào?\"",
+    "action2_followup": "Sau đó lắng nghe. Báo cáo lại những gì bạn nghe được.",
+    "action3_title": "Giúp Chúng tôi Tiếp cận Toàn Thành phố",
+    "action3_description": "Chia sẻ thông tin này với bạn bè và các nhà lãnh đạo cộng đồng đáng tin cậy, giúp chúng tôi phát triển mạng lưới của chúng tôi."
+  },
+  "testimony": {
+    "title": "Xác định Tiếng nói Làm chứng",
+    "intro": "Giúp chúng tôi tìm tiếng nói mạnh mẽ từ:",
+    "categories": [
+      "Nghệ thuật & Văn hóa",
+      "Thợ cắt tóc & Tạo mẫu tóc",
+      "Hiệp hội & Khu Kinh doanh",
+      "Người cung cấp dịch vụ trông trẻ",
+      "Sức khỏe Cộng đồng/Tổ chức",
+      "Xây dựng/nghề thủ công",
+      "Sáng tạo (âm nhạc, phim, ảnh)",
+      "Giáo dục & Gia sư",
+      "Sự kiện & Du lịch",
+      "Tài chính & Tiền bạc",
+      "Thể hình & Sức khỏe",
+      "Thực phẩm/khách sạn",
+      "Chăm sóc Sức khỏe",
+      "Dịch vụ Gia đình",
+      "Luật sư hành nghề độc lập",
+      "Truyền thông & Báo chí",
+      "Dịch vụ Thú cưng",
+      "Dịch vụ Chuyên nghiệp",
+      "Bất động sản & Phát triển",
+      "Doanh nhân tái hòa nhập",
+      "Phong cách & Thời trang",
+      "Công nghệ & Đổi mới",
+      "Vận tải/xe công nghệ"
+    ],
+    "categories_suffix": "và ngành hoặc danh mục của bạn nữa!"
+  },
+  "timeline": {
+    "title": "Tình trạng Dự luật và Lịch trình Dự kiến",
+    "items": [
+      "Dự luật được giới thiệu ngày 20 tháng 11 năm 2025 bởi Nghị viên Mike Driscoll",
+      "Chủ tịch Hội đồng soạn thảo dự luật và cung cấp hỗ trợ kỹ thuật cho Phân tích Tài chính",
+      "Nhiều thành viên hội đồng tham gia",
+      "Các phiên điều trần Ủy ban Tài chính dự kiến: Cuối tháng 1 / Đầu tháng 2 năm 2026"
+    ]
+  },
+  "cta_final": {
+    "title": "Sẵn sàng Hành động?",
+    "subtitle": "Tham gia liên minh đấu tranh vì đối xử thuế công bằng cho các doanh nghiệp nhỏ ở Philadelphia.",
+    "join_btn": "Tham gia Liên minh",
+    "testify_btn": "Đăng ký Làm chứng"
+  },
+  "footer": {
+    "brand": "LIFT Philly",
+    "acronym": {
+      "l": "Người lao động (Nhà thầu Độc lập)",
+      "i": "Doanh nghiệp Cá nhân",
+      "f": "Doanh nghiệp Gia đình",
+      "t": "Cải cách Thuế"
+    },
+    "disclaimer": "Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế. Loại LIFT không bao gồm các thực thể S-Corp và C-Corp.",
+    "copyright": "© 2025 Liên minh LIFT Philly"
+  },
+  "banner": {
+    "update": "Cập nhật",
+    "message": "Phiên điều trần Hội đồng Thành phố sắp tới",
+    "cta": "Đăng ký Làm chứng"
+  }
+}

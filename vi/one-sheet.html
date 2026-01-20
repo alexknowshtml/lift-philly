@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Philly Tờ Thông tin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --text: #334155;
+            --text-light: #64748b;
+            --red: #dc2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @page { size: letter; margin: 0.5in; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: var(--text);
+            background: white;
+        }
+
+        .page {
+            width: 7.5in;
+            min-height: 10in;
+            max-height: 10in;
+            padding: 0;
+            page-break-after: always;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page:last-child { page-break-after: avoid; }
+
+        .header {
+            background: var(--navy);
+            color: white;
+            padding: 16px 20px;
+            margin: -0.5in -0.5in 16px -0.5in;
+            width: calc(100% + 1in);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 28pt; font-weight: 800; letter-spacing: 0.05em; }
+        .logo span { color: var(--gold); }
+
+        .acronym { font-size: 8pt; color: rgba(255,255,255,0.9); text-align: left; line-height: 1.5; }
+        .acronym-item { white-space: nowrap; }
+        .acronym-letter { color: var(--gold); font-weight: 700; }
+
+        h2 {
+            font-size: 12pt;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 16px 0 8px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        h3 { font-size: 10pt; font-weight: 700; color: var(--navy); margin: 10px 0 6px 0; }
+
+        .principles {
+            background: #f8fafc;
+            border-left: 4px solid var(--gold);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+
+        .principles p { margin-bottom: 4px; font-size: 9pt; }
+        .principles strong { color: var(--navy); }
+
+        .stat-box {
+            background: var(--navy);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .stat-number { font-size: 24pt; font-weight: 800; color: var(--gold); }
+        .stat-label { font-size: 9pt; opacity: 0.9; }
+
+        .impact-box {
+            background: #fef2f2;
+            border: 2px solid var(--red);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .impact-box h3 { color: var(--red); margin-top: 0; }
+        .impact-amount { font-size: 16pt; font-weight: 800; color: var(--red); }
+        .impact-examples { font-size: 9pt; color: var(--text-light); margin-top: 4px; }
+
+        .solution-box {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .solution-box h3 { color: #16a34a; margin-top: 0; }
+        .checkmark { color: #16a34a; font-weight: bold; }
+        .result { font-size: 11pt; font-weight: 700; color: #16a34a; margin-top: 8px; }
+
+        ul { margin-left: 16px; margin-bottom: 8px; }
+        li { margin-bottom: 3px; }
+
+        .two-col { display: flex; gap: 16px; }
+        .two-col > div { flex: 1; }
+
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .qr-code {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code img { width: 100%; height: 100%; }
+        .qr-text { flex: 1; }
+        .qr-text strong { display: block; font-size: 10pt; color: var(--navy); }
+        .qr-text span { font-size: 8pt; color: var(--text-light); }
+
+        .action-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .action-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 9pt;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .conversation-prompt {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-style: italic;
+            font-weight: 700;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        .voices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            font-size: 8.5pt;
+        }
+
+        .voices-grid li { margin-bottom: 2px; }
+
+        .bill-status {
+            background: var(--navy);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .bill-status h3 { color: var(--gold); margin: 0 0 8px 0; font-size: 10pt; }
+        .bill-status ul { margin-left: 16px; font-size: 9pt; }
+        .bill-status li { margin-bottom: 4px; color: rgba(255,255,255,0.9); }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9pt;
+        }
+
+        .footer-cta { font-weight: 700; color: var(--navy); }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page { margin: 0; padding: 0; }
+            .header { margin: 0 0 16px 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1: The Problem & Solution -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="logo">LIFT <span>Philly</span></div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 2px;">liftphilly.org</div>
+            </div>
+            <div class="acronym">
+                <span class="acronym-item"><span class="acronym-letter">L</span>Người lao động (Nhà thầu Độc lập)</span><br>
+                <span class="acronym-item"><span class="acronym-letter">I</span>Doanh nghiệp Cá nhân</span><br>
+                <span class="acronym-item"><span class="acronym-letter">F</span>Doanh nghiệp Gia đình</span><br>
+                <span class="acronym-item"><span class="acronym-letter">T</span>Cải cách Thuế</span>
+            </div>
+        </div>
+
+        <div class="principles">
+            <p><strong>Tập trung vào giải pháp, không phải chính trị.</strong> Tất cả chúng ta đều là người Philadelphia cùng giải quyết vấn đề.</p>
+            <p><strong>Vấn đề nằm ở hệ thống, không phải cá nhân.</strong> Không đổ lỗi, không xấu hổ. Hệ thống được thiết kế cho một nền kinh tế khác.</p>
+            <p><strong>Tư duy người chăn cừu.</strong> Người chăn cừu tập trung vào giải pháp với tình yêu thương. Hãy là người chăn cừu khi vận động cho LIFT. Ở cùng chúng tôi? Chia sẻ nỗi sợ, sự không chắc chắn và nghi ngờ của bạn—chúng tôi sẽ giúp bạn vượt qua.</p>
+        </div>
+
+        <h2>Vấn đề</h2>
+        <p>Trong 10 năm, các doanh nghiệp nhỏ nhất của Philadelphia có một lá chắn khỏi BIRT (Thuế Thu nhập và Biên lai Doanh nghiệp)—cho phép họ khởi nghiệp, phát triển và nuôi sống gia đình. <strong>Năm 2026, lá chắn đó sẽ biến mất.</strong></p>
+
+        <div class="impact-box" style="padding: 12px; display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <p style="font-size: 10pt; margin: 0 0 6px 0; color: var(--text);">Nếu năm 2025 bạn kiếm được $50.000 và bạn là:</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">Người lao động (Nhà thầu Độc lập)</span>
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">Doanh nghiệp Cá nhân</span>
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">Doanh nghiệp Gia đình</span>
+                </div>
+                <p style="font-size: 11pt; margin: 0 0 8px 0; color: var(--navy); font-weight: 600;">Bắt đầu từ tháng 4 năm 2026, hóa đơn thuế Philadelphia của bạn sẽ tăng:</p>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <p class="impact-amount" style="font-size: 28pt; margin: 0; line-height: 1;">+$1.208</p>
+                    <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 2px;"></div>
+                    <p class="impact-amount" style="font-size: 28pt; margin: 0; line-height: 1;">+$3.746</p>
+                </div>
+                <p class="impact-examples" style="margin: 10px 0 0 0; font-size: 9pt; font-weight: 700; color: var(--navy);">Đó là từ 1 đến 3 tháng tiền thuê nhà cho nhiều người dân Philadelphia đơn giản không thể chi trả được.</p>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(220,38,38,0.3); flex-shrink: 0;">
+                <div style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--red); font-size: 8pt; display: block; margin-top: 6px;">Tính Ngay của Bạn</strong>
+                <span style="font-size: 7pt; color: var(--text);">liftphilly.org/calculator</span>
+            </div>
+        </div>
+
+        <div class="stat-box" style="display: flex; gap: 20px; align-items: center;">
+            <div style="text-align: center; flex-shrink: 0;">
+                <div class="stat-number" style="margin-bottom: 0; line-height: 1;">85%</div>
+                <div style="font-size: 9pt; color: rgba(255,255,255,0.8); margin-top: 0;">của tất cả doanh nghiệp thành phố</div>
+            </div>
+            <div class="stat-label" style="flex: 1; text-align: left;">Điều đó bao gồm 122.000 người dân Philadelphia sở hữu và điều hành các thực thể một chủ: nhà thầu, freelancer, người làm việc tự do, y tá, thợ cắt tóc, người bán xe đồ ăn, nghệ sĩ, người bán lẻ, và nhiều hơn nữa.</div>
+        </div>
+
+        <h2>Giải pháp: Đạo luật LIFT</h2>
+        <p>Đạo luật LIFT là luật tiên phong được giới thiệu vào tháng 11 năm 2025 bởi Nghị viên Mike Driscoll, sửa chữa hệ thống thay vì chắp vá bằng cách công nhận một loại thuế đã tồn tại nhưng không được luật BIRT hiện hành công nhận.</p>
+        <p style="margin-top: 6px;">Loại này bao gồm Người lao động/Nhà thầu Độc lập, và bất kỳ doanh nghiệp cá nhân hoặc gia đình nào có chủ sở hữu cá nhân (bao gồm cả những người có nhân viên).</p>
+
+        <div style="display: flex; align-items: center; gap: 8px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 8px 12px; margin: 10px 0;">
+            <div style="background: #10b981; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12pt; flex-shrink: 0;">✓</div>
+            <div style="font-size: 8pt; font-weight: 700;">Đáp ứng yêu cầu của Điều khoản Đồng nhất trong Hiến pháp PA.</div>
+        </div>
+
+        <div style="margin-top: 8px;">
+            <h3 style="margin: 0 0 8px 0; font-size: 10pt; color: var(--navy);">Đạo luật LIFT Cho phép Điều gì</h3>
+            <ul style="list-style: none; margin: 0; padding: 0; font-size: 9pt;">
+                <li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> Hội đồng Thành phố và Thị trưởng có thể hợp pháp loại bỏ hoàn toàn BIRT cho loại LIFT*</li><li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> Thuế NPT vẫn còn, đảm bảo đánh thuế công bằng thay vì cấu trúc đánh thuế hai lần hiện tại</li><li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> Giữ tiền trong các khu phố địa phương—mỗi đô la được giữ lại trở thành $3+ chi tiêu địa phương</li>
+            </ul>
+            <div style="background: #fefce8; border: 2px solid var(--gold); border-radius: 8px; padding: 12px; margin-top: 10px;">
+                <p style="font-size: 9pt; font-weight: 700; color: var(--navy); margin: 0 0 6px 0; text-align: center;">Kết quả cho cá nhân hoặc gia đình kiếm được $50K: loại bỏ hoàn toàn mức tăng thuế bất ngờ</p>
+                <p style="font-size: 8pt; font-weight: 700; font-style: italic; color: var(--text); margin: 0; text-align: center;">*Loại LIFT bao gồm Người lao động (Nhà thầu Độc lập), và bất kỳ doanh nghiệp cá nhân hoặc gia đình nào có chủ sở hữu cá nhân (bao gồm cả những người có nhân viên).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: Take Action -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="logo">LIFT <span>Philly</span></div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 2px;">liftphilly.org</div>
+            </div>
+            <div style="font-size: 14pt; font-weight: 800; color: white;">Bạn Có thể Làm gì</div>
+        </div>
+
+        <div class="action-item" style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <h3><span class="action-number">1</span> Tính Mức Tăng của Bạn Trước khi Khai</h3>
+                <p>Sử dụng máy tính tại liftphilly.org/calculator để xem mức tăng thuế của bạn, sau đó chia sẻ với mạng lưới chuyên nghiệp của bạn để họ cũng có thể tính toán.</p>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid #e5e7eb; flex-shrink: 0;">
+                <div style="width: 60px; height: 60px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--red); font-size: 7pt; display: block; margin-top: 4px;">Tính Ngay của Bạn</strong>
+                <span style="font-size: 7pt; color: var(--text);">liftphilly.org/calculator</span>
+            </div>
+        </div>
+
+        <div class="two-col" style="gap: 12px; margin-bottom: 8px;">
+            <div class="action-item" style="flex: 1; margin-bottom: 0;">
+                <h3><span class="action-number">2</span> Bắt đầu Cuộc trò chuyện</h3>
+                <p style="margin-bottom: 4px;">Hỏi 3-5 doanh nhân cá thể mà bạn biết:</p>
+                <div style="background: #fef2f2; border: 2px solid var(--red); border-radius: 8px; padding: 8px 10px; font-size: 8pt; font-style: italic; font-weight: 700; color: var(--text);">
+                    "Nếu bạn phải trả thêm 1-3 tháng tiền thuê nhà tiền thuế năm 2026 và sau đó, điều đó sẽ ảnh hưởng đến khả năng chăm sóc bản thân, gia đình và cộng đồng của bạn như thế nào?"
+                </div>
+                <p style="margin-top: 4px;">Sau đó lắng nghe. Báo cáo lại những gì bạn nghe được.</p>
+            </div>
+            <div class="action-item" style="flex: 1; margin-bottom: 0;">
+                <h3><span class="action-number">3</span> Giúp Chúng tôi Tiếp cận Toàn Thành phố</h3>
+                <p>Chia sẻ thông tin này với bạn bè và các nhà lãnh đạo cộng đồng đáng tin cậy, giúp chúng tôi phát triển mạng lưới của mạng lưới.</p>
+                <p style="margin-top: 6px;">Biết ai có thể giúp lan truyền thông tin qua cộng đồng của bạn, chia sẻ kinh nghiệm của họ với tư cách là chủ doanh nghiệp nhỏ, hoặc cả hai? Chúng tôi đang tìm kiếm cả các nhà lãnh đạo chính thức và người kết nối không chính thức.</p>
+            </div>
+        </div>
+
+        <div class="action-item">
+            <h3><span class="action-number">4</span> Xác định Tiếng nói Làm chứng</h3>
+            <p style="margin-bottom: 8px;">Chúng tôi đang xây dựng một liên minh phản ánh toàn bộ Philadelphia—mọi mã bưu điện, mọi nguồn gốc, mọi bản sắc. Giúp chúng tôi tìm tiếng nói mạnh mẽ từ:</p>
+            <div class="two-col" style="gap: 16px;">
+                <div>
+                    <ul class="voices-grid" style="display: block; font-size: 8pt; margin: 0; padding-left: 16px;">
+                        <li>Nghệ thuật & Văn hóa</li><li>Thợ cắt tóc & Tạo mẫu tóc</li><li>Hiệp hội & Khu Kinh doanh</li><li>Người cung cấp dịch vụ trông trẻ</li><li>Sức khỏe Cộng đồng/Tổ chức</li><li>Xây dựng/nghề thủ công</li><li>Sáng tạo (âm nhạc, phim, ảnh)</li><li>Giáo dục & Gia sư</li><li>Sự kiện & Du lịch</li><li>Tài chính & Tiền bạc</li><li>Thể hình & Sức khỏe</li><li>Thực phẩm/khách sạn</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="voices-grid" style="display: block; font-size: 8pt; margin: 0; padding-left: 16px;">
+                        <li>Chăm sóc Sức khỏe</li><li>Dịch vụ Gia đình</li><li>Luật sư hành nghề độc lập</li><li>Truyền thông & Báo chí</li><li>Dịch vụ Thú cưng</li><li>Dịch vụ Chuyên nghiệp</li><li>Bất động sản & Phát triển</li><li>Doanh nhân tái hòa nhập</li><li>Phong cách & Thời trang</li><li>Công nghệ & Đổi mới</li><li>Vận tải/xe công nghệ</li>
+                        <li><strong><em>và ngành hoặc danh mục của bạn nữa!</em></strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bill-status" style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <h3>Tình trạng Dự luật và Lịch trình Dự kiến</h3>
+                <ul>
+                    <li>Dự luật được giới thiệu ngày 20 tháng 11 năm 2025 bởi Nghị viên Mike Driscoll</li><li>Chủ tịch Hội đồng soạn thảo dự luật và cung cấp hỗ trợ kỹ thuật cho Phân tích Tài chính</li><li>Nhiều thành viên hội đồng tham gia</li><li>Các phiên điều trần Ủy ban Tài chính dự kiến: Cuối tháng 1 / Đầu tháng 2 năm 2026</li>
+                </ul>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(251,191,36,0.3); flex-shrink: 0;">
+                <div style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--gold); font-size: 8pt; display: block; margin-top: 6px;">Tham gia Liên minh</strong>
+                <span style="font-size: 7pt; color: rgba(255,255,255,0.8);">liftphilly.org</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-cta">Mang theo tờ này. Thử cuộc trò chuyện. Tính tác động của bạn. Tham gia liên minh.</div>
+            <div>contact@liftphilly.org</div>
+        </div>
+        <div style="font-size: 7pt; opacity: 0.7; text-align: center; position: absolute; bottom: 0; left: 0; right: 0;">Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế. Loại LIFT không bao gồm các thực thể S-Corp và C-Corp.</div>
+    </div>
+</body>
+</html>

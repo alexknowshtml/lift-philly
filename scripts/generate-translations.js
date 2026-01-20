@@ -1,0 +1,451 @@
+#!/usr/bin/env node
+/**
+ * LIFT Philly Translation Generator
+ *
+ * Generates translated HTML pages from JSON translation files.
+ *
+ * Usage: node scripts/generate-translations.js
+ *
+ * This creates:
+ *   /es/index.html, /es/calculator/index.html, /es/filing-your-birt.html
+ *   /zh/index.html, /zh/calculator/index.html, /zh/filing-your-birt.html
+ *   /vi/index.html, /vi/calculator/index.html, /vi/filing-your-birt.html
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.join(__dirname, '..');
+const LANGUAGES = ['es', 'zh', 'vi'];
+
+// Language metadata
+const LANG_META = {
+  es: { code: 'es', name: 'Español', htmlLang: 'es' },
+  zh: { code: 'zh-CN', name: '简体中文', htmlLang: 'zh-Hans' },
+  vi: { code: 'vi', name: 'Tiếng Việt', htmlLang: 'vi' }
+};
+
+function loadTranslation(lang, page) {
+  const filePath = path.join(ROOT, 'translations', lang, `${page}.json`);
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
+
+function loadEnglishTranslation(page) {
+  const filePath = path.join(ROOT, 'translations', 'en', `${page}.json`);
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
+
+/**
+ * Generate the one-sheet PDF page (simplified for print)
+ */
+function generateOneSheetHtml(lang, t) {
+  const meta = LANG_META[lang];
+
+  return `<!DOCTYPE html>
+<html lang="${meta.htmlLang}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${t.meta.title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --text: #334155;
+            --text-light: #64748b;
+            --red: #dc2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @page { size: letter; margin: 0.5in; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: var(--text);
+            background: white;
+        }
+
+        .page {
+            width: 7.5in;
+            min-height: 10in;
+            max-height: 10in;
+            padding: 0;
+            page-break-after: always;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page:last-child { page-break-after: avoid; }
+
+        .header {
+            background: var(--navy);
+            color: white;
+            padding: 16px 20px;
+            margin: -0.5in -0.5in 16px -0.5in;
+            width: calc(100% + 1in);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 28pt; font-weight: 800; letter-spacing: 0.05em; }
+        .logo span { color: var(--gold); }
+
+        .acronym { font-size: 8pt; color: rgba(255,255,255,0.9); text-align: left; line-height: 1.5; }
+        .acronym-item { white-space: nowrap; }
+        .acronym-letter { color: var(--gold); font-weight: 700; }
+
+        h2 {
+            font-size: 12pt;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 16px 0 8px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        h3 { font-size: 10pt; font-weight: 700; color: var(--navy); margin: 10px 0 6px 0; }
+
+        .principles {
+            background: #f8fafc;
+            border-left: 4px solid var(--gold);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+
+        .principles p { margin-bottom: 4px; font-size: 9pt; }
+        .principles strong { color: var(--navy); }
+
+        .stat-box {
+            background: var(--navy);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .stat-number { font-size: 24pt; font-weight: 800; color: var(--gold); }
+        .stat-label { font-size: 9pt; opacity: 0.9; }
+
+        .impact-box {
+            background: #fef2f2;
+            border: 2px solid var(--red);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .impact-box h3 { color: var(--red); margin-top: 0; }
+        .impact-amount { font-size: 16pt; font-weight: 800; color: var(--red); }
+        .impact-examples { font-size: 9pt; color: var(--text-light); margin-top: 4px; }
+
+        .solution-box {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .solution-box h3 { color: #16a34a; margin-top: 0; }
+        .checkmark { color: #16a34a; font-weight: bold; }
+        .result { font-size: 11pt; font-weight: 700; color: #16a34a; margin-top: 8px; }
+
+        ul { margin-left: 16px; margin-bottom: 8px; }
+        li { margin-bottom: 3px; }
+
+        .two-col { display: flex; gap: 16px; }
+        .two-col > div { flex: 1; }
+
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .qr-code {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code img { width: 100%; height: 100%; }
+        .qr-text { flex: 1; }
+        .qr-text strong { display: block; font-size: 10pt; color: var(--navy); }
+        .qr-text span { font-size: 8pt; color: var(--text-light); }
+
+        .action-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .action-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: var(--navy);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 9pt;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .conversation-prompt {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-style: italic;
+            font-weight: 700;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        .voices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            font-size: 8.5pt;
+        }
+
+        .voices-grid li { margin-bottom: 2px; }
+
+        .bill-status {
+            background: var(--navy);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .bill-status h3 { color: var(--gold); margin: 0 0 8px 0; font-size: 10pt; }
+        .bill-status ul { margin-left: 16px; font-size: 9pt; }
+        .bill-status li { margin-bottom: 4px; color: rgba(255,255,255,0.9); }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9pt;
+        }
+
+        .footer-cta { font-weight: 700; color: var(--navy); }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page { margin: 0; padding: 0; }
+            .header { margin: 0 0 16px 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1: The Problem & Solution -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="logo">${t.header.brand.replace('Philly', '<span>Philly</span>')}</div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 2px;">${t.header.website}</div>
+            </div>
+            <div class="acronym">
+                <span class="acronym-item"><span class="acronym-letter">L</span>${t.header.acronym.l.replace(/^L/, '')}</span><br>
+                <span class="acronym-item"><span class="acronym-letter">I</span>${t.header.acronym.i.replace(/^I/, '')}</span><br>
+                <span class="acronym-item"><span class="acronym-letter">F</span>${t.header.acronym.f.replace(/^F/, '')}</span><br>
+                <span class="acronym-item"><span class="acronym-letter">T</span>${t.header.acronym.t.replace(/^T/, '')}</span>
+            </div>
+        </div>
+
+        <div class="principles">
+            <p><strong>${t.principles.p1_title}</strong> ${t.principles.p1_text}</p>
+            <p><strong>${t.principles.p2_title}</strong> ${t.principles.p2_text}</p>
+            <p><strong>${t.principles.p3_title}</strong> ${t.principles.p3_text}</p>
+        </div>
+
+        <h2>${t.problem.title}</h2>
+        <p>${t.problem.intro} <strong>${t.problem.shield_gone}</strong></p>
+
+        <div class="impact-box" style="padding: 12px; display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <p style="font-size: 10pt; margin: 0 0 6px 0; color: var(--text);">${t.problem.impact_card.condition}</p>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">${t.problem.impact_card.labels.laborer}</span>
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">${t.problem.impact_card.labels.individual}</span>
+                    <span style="display: inline-block; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 8pt; color: var(--text);">${t.problem.impact_card.labels.family}</span>
+                </div>
+                <p style="font-size: 11pt; margin: 0 0 8px 0; color: var(--navy); font-weight: 600;">${t.problem.impact_card.result_title}</p>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <p class="impact-amount" style="font-size: 28pt; margin: 0; line-height: 1;">${t.problem.impact_card.impact_low}</p>
+                    <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 2px;"></div>
+                    <p class="impact-amount" style="font-size: 28pt; margin: 0; line-height: 1;">${t.problem.impact_card.impact_high}</p>
+                </div>
+                <p class="impact-examples" style="margin: 10px 0 0 0; font-size: 9pt; font-weight: 700; color: var(--navy);">${t.problem.impact_card.conclusion}</p>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(220,38,38,0.3); flex-shrink: 0;">
+                <div style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--red); font-size: 8pt; display: block; margin-top: 6px;">${t.problem.impact_card.qr_cta}</strong>
+                <span style="font-size: 7pt; color: var(--text);">${t.problem.impact_card.qr_url}</span>
+            </div>
+        </div>
+
+        <div class="stat-box" style="display: flex; gap: 20px; align-items: center;">
+            <div style="text-align: center; flex-shrink: 0;">
+                <div class="stat-number" style="margin-bottom: 0; line-height: 1;">${t.problem.stat_number}</div>
+                <div style="font-size: 9pt; color: rgba(255,255,255,0.8); margin-top: 0;">${t.problem.stat_context}</div>
+            </div>
+            <div class="stat-label" style="flex: 1; text-align: left;">${t.problem.stat_description}</div>
+        </div>
+
+        <h2>${t.solution.title}</h2>
+        <p>${t.solution.intro}</p>
+        <p style="margin-top: 6px;">${t.solution.class_description}</p>
+
+        <div style="display: flex; align-items: center; gap: 8px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 8px 12px; margin: 10px 0;">
+            <div style="background: #10b981; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12pt; flex-shrink: 0;">✓</div>
+            <div style="font-size: 8pt; font-weight: 700;">${t.solution.uniformity_clause}</div>
+        </div>
+
+        <div style="margin-top: 8px;">
+            <h3 style="margin: 0 0 8px 0; font-size: 10pt; color: var(--navy);">${t.solution.enables_title}</h3>
+            <ul style="list-style: none; margin: 0; padding: 0; font-size: 9pt;">
+                ${t.solution.enables.map(item => `<li style="margin-bottom: 4px;"><span style="color: var(--navy); font-weight: 700;">✓</span> ${item}</li>`).join('')}
+            </ul>
+            <div style="background: #fefce8; border: 2px solid var(--gold); border-radius: 8px; padding: 12px; margin-top: 10px;">
+                <p style="font-size: 9pt; font-weight: 700; color: var(--navy); margin: 0 0 6px 0; text-align: center;">${t.solution.result}</p>
+                <p style="font-size: 8pt; font-weight: 700; font-style: italic; color: var(--text); margin: 0; text-align: center;">${t.solution.lift_class_note}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: Take Action -->
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="logo">${t.header.brand.replace('Philly', '<span>Philly</span>')}</div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 2px;">${t.header.website}</div>
+            </div>
+            <div style="font-size: 14pt; font-weight: 800; color: white;">${t.page2.title}</div>
+        </div>
+
+        <div class="action-item" style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <h3><span class="action-number">1</span> ${t.action1.title}</h3>
+                <p>${t.action1.description}</p>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid #e5e7eb; flex-shrink: 0;">
+                <div style="width: 60px; height: 60px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/calculator/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--red); font-size: 7pt; display: block; margin-top: 4px;">${t.action1.qr_cta}</strong>
+                <span style="font-size: 7pt; color: var(--text);">${t.action1.qr_url}</span>
+            </div>
+        </div>
+
+        <div class="two-col" style="gap: 12px; margin-bottom: 8px;">
+            <div class="action-item" style="flex: 1; margin-bottom: 0;">
+                <h3><span class="action-number">2</span> ${t.action2.title}</h3>
+                <p style="margin-bottom: 4px;">${t.action2.intro}</p>
+                <div style="background: #fef2f2; border: 2px solid var(--red); border-radius: 8px; padding: 8px 10px; font-size: 8pt; font-style: italic; font-weight: 700; color: var(--text);">
+                    ${t.action2.prompt}
+                </div>
+                <p style="margin-top: 4px;">${t.action2.followup}</p>
+            </div>
+            <div class="action-item" style="flex: 1; margin-bottom: 0;">
+                <h3><span class="action-number">3</span> ${t.action3.title}</h3>
+                <p>${t.action3.p1}</p>
+                <p style="margin-top: 6px;">${t.action3.p2}</p>
+            </div>
+        </div>
+
+        <div class="action-item">
+            <h3><span class="action-number">4</span> ${t.action4.title}</h3>
+            <p style="margin-bottom: 8px;">${t.action4.intro}</p>
+            <div class="two-col" style="gap: 16px;">
+                <div>
+                    <ul class="voices-grid" style="display: block; font-size: 8pt; margin: 0; padding-left: 16px;">
+                        ${t.action4.categories.slice(0, 12).map(cat => `<li>${cat}</li>`).join('')}
+                    </ul>
+                </div>
+                <div>
+                    <ul class="voices-grid" style="display: block; font-size: 8pt; margin: 0; padding-left: 16px;">
+                        ${t.action4.categories.slice(12).map(cat => `<li>${cat}</li>`).join('')}
+                        <li><strong><em>${t.action4.categories_suffix}</em></strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bill-status" style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1;">
+                <h3>${t.bill_status.title}</h3>
+                <ul>
+                    ${t.bill_status.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+            <div style="text-align: center; padding-left: 16px; border-left: 1px solid rgba(251,191,36,0.3); flex-shrink: 0;">
+                <div style="width: 70px; height: 70px; background: white; border-radius: 4px; margin: 0 auto;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://liftphilly.org/" alt="QR Code" style="width: 100%; height: 100%;">
+                </div>
+                <strong style="color: var(--gold); font-size: 8pt; display: block; margin-top: 6px;">${t.bill_status.qr_cta}</strong>
+                <span style="font-size: 7pt; color: rgba(255,255,255,0.8);">${t.bill_status.qr_url}</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-cta">${t.footer.cta}</div>
+            <div>${t.footer.email}</div>
+        </div>
+        <div style="font-size: 7pt; opacity: 0.7; text-align: center; position: absolute; bottom: 0; left: 0; right: 0;">${t.footer.disclaimer}</div>
+    </div>
+</body>
+</html>`;
+}
+
+// Main execution
+console.log('Generating translated pages...\n');
+
+LANGUAGES.forEach(lang => {
+  console.log(`Processing ${LANG_META[lang].name} (${lang})...`);
+
+  // Create directories
+  const langDir = path.join(ROOT, lang);
+  const calcDir = path.join(langDir, 'calculator');
+
+  if (!fs.existsSync(langDir)) fs.mkdirSync(langDir, { recursive: true });
+  if (!fs.existsSync(calcDir)) fs.mkdirSync(calcDir, { recursive: true });
+
+  // Generate one-sheet
+  const oneSheetT = loadTranslation(lang, 'one-sheet');
+  const oneSheetHtml = generateOneSheetHtml(lang, oneSheetT);
+  fs.writeFileSync(path.join(langDir, 'one-sheet.html'), oneSheetHtml);
+  console.log(`  ✓ ${lang}/one-sheet.html`);
+});
+
+console.log('\nDone! Generated one-sheet pages for all languages.');
+console.log('\nNote: Main pages (index.html, calculator, filing-your-birt.html) are complex');
+console.log('and should use the existing Google Translate integration or be manually created.');

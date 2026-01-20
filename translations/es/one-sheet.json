@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "LIFT Philly Hoja Informativa"
+  },
+  "header": {
+    "brand": "LIFT Philly",
+    "website": "liftphilly.org",
+    "acronym": {
+      "l": "Trabajo (Contratistas Independientes)",
+      "i": "Empresa Individual",
+      "f": "Empresa Familiar",
+      "t": "Reforma Tributaria"
+    }
+  },
+  "principles": {
+    "p1_title": "Enfocados en soluciones, no en política.",
+    "p1_text": "Todos somos filadelfianos resolviendo un problema juntos.",
+    "p2_title": "El problema está en el sistema, no en las personas.",
+    "p2_text": "Sin culpa, sin vergüenza. El sistema fue diseñado para una economía diferente.",
+    "p3_title": "Mentalidad de pastor.",
+    "p3_text": "Los pastores se enfocan en soluciones con amor. Sé el pastor cuando abogues por LIFT. ¿En la reunión con nosotros? Comparte tu miedo, incertidumbre y duda—te ayudaremos a superarlo."
+  },
+  "problem": {
+    "title": "El Problema",
+    "intro": "Durante 10 años, los negocios más pequeños de Filadelfia tuvieron un escudo contra el BIRT (Impuesto sobre Ingresos y Recibos de Negocios)—permitiéndoles comenzar, crecer y mantener a sus familias.",
+    "shield_gone": "En 2026, ese escudo desaparece.",
+    "impact_card": {
+      "condition": "Si en 2025 ganaste $50,000 y eres un:",
+      "labels": {
+        "laborer": "Trabajador (Contratista Independiente)",
+        "individual": "Empresa Individual",
+        "family": "Empresa Familiar"
+      },
+      "result_title": "A partir de abril de 2026, tu factura de impuestos de Filadelfia aumentará en:",
+      "impact_low": "+$1,208",
+      "impact_high": "+$3,746",
+      "conclusion": "Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos que simplemente no pueden pagarlo.",
+      "qr_cta": "Calcula el Tuyo al Instante",
+      "qr_url": "liftphilly.org/calculator"
+    },
+    "stat_number": "85%",
+    "stat_context": "de todos los negocios de la ciudad",
+    "stat_description": "Eso incluye 122,000 filadelfianos que poseen y operan entidades de un solo dueño: contratistas, freelancers, trabajadores gig, enfermeras, barberos, vendedores de food trucks, artistas, minoristas y más."
+  },
+  "solution": {
+    "title": "La Solución: La Ley LIFT",
+    "intro": "Legislación pionera presentada en noviembre de 2025 por el Concejal Mike Driscoll, la Ley LIFT arregla el sistema en lugar de parcharlo al reconocer una clase tributaria que ya existe pero no es reconocida por la ley actual del BIRT.",
+    "class_description": "Esta clase incluye Trabajadores/Contratistas Independientes, y cualquier empresa individual o familiar con un propietario individual (incluyendo aquellos con empleados).",
+    "uniformity_clause": "Cumple con los requisitos de la Cláusula de Uniformidad de la Constitución de Pensilvania.",
+    "enables_title": "Lo que Permite la Ley LIFT",
+    "enables": [
+      "El Concejo Municipal y el Alcalde pueden eliminar legalmente el BIRT para la clase LIFT* completamente",
+      "El impuesto NPT permanece, asegurando una tributación justa en lugar de la estructura actual de doble tributación",
+      "Mantiene el dinero en los vecindarios locales—cada dólar retenido se convierte en $3+ en gasto local"
+    ],
+    "result": "Resultado para un individuo o familia que gana $50K: elimina completamente el aumento sorpresa de impuestos",
+    "lift_class_note": "*La clase LIFT incluye Trabajadores (Contratistas Independientes), y cualquier empresa individual o familiar con un propietario individual (incluyendo aquellos con empleados)."
+  },
+  "page2": {
+    "title": "Lo Que Puedes Hacer"
+  },
+  "action1": {
+    "title": "Calcula Tu Aumento Antes de Declarar",
+    "description": "Usa la calculadora en liftphilly.org/calculator para ver tu aumento de impuestos, luego compártelo con tu red profesional para que ellos puedan calcular el suyo.",
+    "qr_cta": "Calcula el Tuyo al Instante",
+    "qr_url": "liftphilly.org/calculator"
+  },
+  "action2": {
+    "title": "Inicia Conversaciones",
+    "intro": "Pregunta a 3-5 emprendedores solos que conozcas:",
+    "prompt": "\"Si tuvieras que pagar 1-3 meses extra de alquiler en impuestos en 2026 y más allá, ¿cómo afectaría tu capacidad de cuidarte a ti mismo, a tu familia y a tu comunidad?\"",
+    "followup": "Luego escucha. Reporta lo que escuches."
+  },
+  "action3": {
+    "title": "Ayúdanos a Llegar a Toda la Ciudad",
+    "p1": "Comparte esta información con tus amigos y líderes comunitarios de confianza, y ayúdanos a crecer nuestra red de redes.",
+    "p2": "¿Conoces a alguien que pueda ayudar a difundir la palabra a través de tu comunidad, compartir sus experiencias como propietario de pequeño negocio, o ambos? Estamos buscando tanto líderes formales como conectores informales."
+  },
+  "action4": {
+    "title": "Identifica Voces para Testimonios",
+    "intro": "Estamos construyendo una coalición que refleja toda Filadelfia—cada código postal, cada origen, cada identidad. Ayúdanos a encontrar voces poderosas de:",
+    "categories": [
+      "Artes y Cultura",
+      "Barberos y Estilistas",
+      "Asociaciones y Distritos de Negocios",
+      "Proveedores de cuidado infantil",
+      "Salud/Organizaciones Comunitarias",
+      "Construcción/oficios",
+      "Creativos (música, cine, foto)",
+      "Educación y Tutoría",
+      "Eventos y Turismo",
+      "Finanzas y Dinero",
+      "Fitness y Bienestar",
+      "Alimentos/hospitalidad",
+      "Salud",
+      "Servicios del Hogar",
+      "Abogados independientes",
+      "Medios y Periodismo",
+      "Servicios de Mascotas",
+      "Servicios Profesionales",
+      "Bienes Raíces y Desarrollo",
+      "Emprendedores de reintegración",
+      "Estilo y Moda",
+      "Tecnología e Innovación",
+      "Transporte/rideshare"
+    ],
+    "categories_suffix": "¡y tu industria o categoría también!"
+  },
+  "bill_status": {
+    "title": "Estado del Proyecto de Ley y Cronograma Esperado",
+    "items": [
+      "Proyecto de ley presentado el 20 de noviembre de 2025 por el Concejal Mike Driscoll",
+      "El Presidente del Concejo redactó el proyecto de ley y proporcionó apoyo técnico para el Análisis Fiscal",
+      "Múltiples miembros del concejo involucrados",
+      "Audiencias del Comité de Finanzas esperadas: Finales de enero / Principios de febrero de 2026"
+    ],
+    "qr_cta": "Únete a la Coalición",
+    "qr_url": "liftphilly.org"
+  },
+  "footer": {
+    "cta": "Toma esta hoja. Intenta la conversación. Calcula tu impacto. Únete a la coalición.",
+    "email": "contact@liftphilly.org",
+    "disclaimer": "Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp."
+  }
+}
