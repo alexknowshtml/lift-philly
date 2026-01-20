@@ -179,6 +179,23 @@
             .nav-toggle.open span:nth-child(3) {
                 transform: rotate(-45deg) translate(5px, -5px);
             }
+
+            /* Mobile fix for LIFT acronym section - Chinese & Vietnamese have longer text */
+            .lift-acronym {
+                flex-direction: column !important;
+                gap: 16px !important;
+                text-align: center;
+            }
+
+            .lift-acronym > div:first-child {
+                order: 2;
+                font-size: 0.85rem !important;
+            }
+
+            .lift-acronym > span {
+                order: 1;
+                font-size: 4rem !important;
+            }
         }
 
         /* Hero */
