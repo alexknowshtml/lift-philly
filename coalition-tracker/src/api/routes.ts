@@ -53,7 +53,7 @@ import {
 import { getIndexHtml } from '../ui/index';
 import { getLoginHtml } from '../ui/login';
 import { getAdminHtml } from '../ui/admin';
-import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from '../ui/shared-header';
+import { getPetitionModHtml } from '../ui/petition-mod';
 import { requireAuth, requireEditor, requireAdmin } from '../auth/middleware';
 import { hashPassword, verifyPassword, getSessionCookie, createSessionCookie, createLogoutCookie } from '../auth/utils';
 
@@ -381,130 +381,12 @@ app.get('/api/petition/stats', async (c) => {
 // Mod queue page
 app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
   const user = c.get('user');
-  const pending = await getPendingPetitionSigners();
-  const all = await getAllPetitionSigners();
-  const stats = await getPetitionStats();
-
-  const rows = (signers: typeof all, showActions: boolean) => signers.map(s => `
-    <tr id="row-${s.id}">
-      <td>${s.name}</td>
-      <td>${s.business_name ? `<span>${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener">↗</a>` : ''}` : '<span class="muted">—</span>'}</td>
-      <td class="email">${s.email}</td>
-      <td class="email">${s.zip_code || '<span class="muted">—</span>'}</td>
-      <td>${s.comment ? `<span title="${s.comment.replace(/"/g, '&quot;')}">${s.comment.length > 40 ? s.comment.slice(0, 40) + '…' : s.comment}</span>` : '<span class="muted">—</span>'}</td>
-      <td><span class="badge badge-${s.status}">${s.status}</span></td>
-      <td class="date">${new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
-      ${showActions ? `<td class="actions">
-        ${s.status !== 'approved' ? `<button class="btn-approve" onclick="updateStatus(${s.id}, 'approved')">Approve</button>` : ''}
-        ${s.status !== 'rejected' ? `<button class="btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
-      </td>` : '<td></td>'}
-    </tr>
-  `).join('');
-
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Petition Mod Queue — LIFT Philly</title>
-  <style>
-    :root { --navy: #0f172a; --gold: #fbbf24; --green: #16a34a; --red: #dc2626; --text: #334155; --border: #e2e8f0; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; color: var(--text); background: #f8fafc; }
-    ${getSharedHeaderCss()}
-    .petition-stats { display: flex; gap: 16px; padding: 20px 32px; background: white; border-bottom: 1px solid var(--border); }
-    .pstat { background: #f1f5f9; border-radius: 8px; padding: 12px 20px; min-width: 100px; text-align: center; }
-    .pstat .num { font-size: 1.6rem; font-weight: 800; color: var(--navy); line-height: 1; }
-    .pstat .label { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
-    .pstat.pending .num { color: #d97706; }
-    .pstat.approved .num { color: var(--green); }
-    main { padding: 24px 32px; }
-    h2 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
-    .section { margin-bottom: 40px; }
-    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); font-size: 0.875rem; }
-    th { background: var(--navy); color: rgba(255,255,255,0.8); padding: 10px 14px; text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #f8fafc; }
-    .muted { color: #94a3b8; }
-    .email { color: #64748b; font-size: 0.8rem; }
-    .date { color: #94a3b8; font-size: 0.8rem; white-space: nowrap; }
-    .badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; }
-    .badge-pending { background: #fef3c7; color: #92400e; }
-    .badge-approved { background: #dcfce7; color: #15803d; }
-    .badge-rejected { background: #fee2e2; color: #991b1b; }
-    .actions { display: flex; gap: 8px; }
-    .btn-approve, .btn-reject { border: none; border-radius: 6px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
-    .btn-approve { background: #dcfce7; color: #15803d; }
-    .btn-approve:hover { background: #bbf7d0; }
-    .btn-reject { background: #fee2e2; color: #991b1b; }
-    .btn-reject:hover { background: #fecaca; }
-    .empty { color: #94a3b8; font-style: italic; padding: 20px; text-align: center; }
-    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: white; padding: 12px 20px; border-radius: 8px; font-size: 0.875rem; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-    .toast.show { opacity: 1; }
-  </style>
-</head>
-<body>
-  ${getSharedHeader(user?.display_name || '', 'petition')}
-
-  <div class="petition-stats">
-    <div class="pstat"><div class="num">${stats.total}</div><div class="label">Total</div></div>
-    <div class="pstat pending"><div class="num">${stats.pending}</div><div class="label">Pending</div></div>
-    <div class="pstat approved"><div class="num">${stats.approved}</div><div class="label">Approved</div></div>
-    <div class="pstat"><div class="num">${stats.rejected}</div><div class="label">Rejected</div></div>
-  </div>
-
-  <main>
-    <div class="section">
-      <h2>Pending Review (${pending.length})</h2>
-      ${pending.length === 0 ? '<p class="empty">No pending signatures.</p>' : `
-      <table>
-        <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-        <tbody>${rows(pending, true)}</tbody>
-      </table>`}
-    </div>
-
-    <div class="section">
-      <h2>All Signatures</h2>
-      <table>
-        <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-        <tbody>${rows(all, true)}</tbody>
-      </table>
-    </div>
-  </main>
-
-  <div class="toast" id="toast"></div>
-
-  <script>
-    async function updateStatus(id, status) {
-      const btn = event.target;
-      btn.disabled = true;
-      btn.textContent = '...';
-      try {
-        const res = await fetch('/api/petition/' + id + '/' + status, { method: 'POST' });
-        if (!res.ok) throw new Error('Failed');
-        location.reload();
-      } catch (e) {
-        btn.disabled = false;
-        btn.textContent = status === 'approved' ? 'Approve' : 'Reject';
-        showToast('Error — try again', true);
-      }
-    }
-
-    function showToast(msg, isError) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.background = isError ? '#dc2626' : '#0f172a';
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }
-
-    ${getSharedHeaderScript()}
-  </script>
-</body>
-</html>`;
-
-  return c.html(html);
+  const [pending, all, stats] = await Promise.all([
+    getPendingPetitionSigners(),
+    getAllPetitionSigners(),
+    getPetitionStats(),
+  ]);
+  return c.html(getPetitionModHtml(user, pending, all, stats));
 });
 
 // Approve signer (admin)
