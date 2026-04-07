@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@libsql/client": "^0.17.2",
+    "bcryptjs": "^3.0.3",
     "hono": "^4.6.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/bun": "latest",
     "typescript": "^5.6.0"
   }

@@ -1,13 +1,11 @@
-// Password hashing using Bun's native crypto
+import bcrypt from 'bcryptjs';
+
 export async function hashPassword(password: string): Promise<string> {
-  return await Bun.password.hash(password, {
-    algorithm: 'bcrypt',
-    cost: 10
-  });
+  return bcrypt.hash(password, 10);
 }
 
 export async function verifyPassword(password: string, hash: string): Promise<boolean> {
-  return await Bun.password.verify(password, hash);
+  return bcrypt.compare(password, hash);
 }
 
 // Cookie helpers
