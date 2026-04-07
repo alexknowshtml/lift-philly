@@ -159,9 +159,9 @@ export function getSharedHeader(username: string, currentPage: AdminPage, extraH
             </svg>
           </button>
           <div class="user-dropdown">
-            ${a('tracker', '/admin', 'Coalition Tracker')}
-            ${a('users', '/admin/users', 'Users')}
-            ${a('petition', '/admin/petition', 'Petition Mod')}
+            ${a('tracker', '/admin', 'Tracker')}
+            ${a('petition', '/admin/petition', 'Mod')}
+            ${a('users', '/admin/users', 'Manage Users')}
             <div class="divider"></div>
             <button onclick="logout()">${ICONS.logout}Logout</button>
           </div>
