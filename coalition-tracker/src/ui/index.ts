@@ -136,6 +136,27 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       margin-top: 4px;
     }
 
+    .petition-mod-link {
+      align-items: center;
+      padding-right: 16px;
+    }
+
+    .petition-mod-link a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .petition-mod-link a:hover {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
     .user-info {
       display: flex;
       align-items: center;
@@ -1554,6 +1575,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
           <div class="stat-number" id="stat-prospect">-</div>
           <div class="stat-label">Prospects</div>
         </div>
+        <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
+          <a href="/petition/mod">Petition Mod</a>
+        </div>
         <div class="user-info">
           <div class="user-menu" id="user-menu">
             <button class="user-menu-btn" onclick="toggleUserMenu(event)">
@@ -1752,6 +1776,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       if (isAdmin) {
         document.getElementById('admin-link').style.display = 'flex';
         document.getElementById('admin-divider').style.display = 'block';
+        document.getElementById('petition-mod-link').style.display = 'flex';
       }
       if (!canEdit) {
         document.getElementById('add-btn').style.display = 'none';
