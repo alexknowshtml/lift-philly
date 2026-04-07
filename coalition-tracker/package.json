@@ -10,6 +10,7 @@
     "list-users": "bun run scripts/create-user.ts list"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.2",
     "hono": "^4.6.0"
   },
   "devDependencies": {

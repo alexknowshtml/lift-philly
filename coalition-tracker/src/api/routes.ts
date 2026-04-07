@@ -31,8 +31,10 @@ import {
   getAllUsers,
   createUser,
   updateUser,
+  updateUserPassword,
   deleteUser,
   createSession,
+  getSessionByToken,
   deleteSession,
   logAuditEntry,
   computeChanges,
@@ -74,13 +76,12 @@ app.get('/favicon.svg', (c) => {
 // ============ Auth Routes ============
 
 // Login page
-app.get('/login', (c) => {
+app.get('/login', async (c) => {
   // If already logged in, redirect to home
   const cookieHeader = c.req.header('Cookie');
   const token = getSessionCookie(cookieHeader);
   if (token) {
-    const { getSessionByToken } = require('../db/client');
-    const session = getSessionByToken(token);
+    const session = await getSessionByToken(token);
     if (session) {
       return c.redirect('/');
     }
@@ -96,7 +97,7 @@ app.post('/api/login', async (c) => {
     return c.json({ error: 'Username and password required' }, 400);
   }
 
-  const user = getUserByUsername(body.username);
+  const user = await getUserByUsername(body.username);
   if (!user) {
     return c.json({ error: 'Invalid credentials' }, 401);
   }
@@ -106,7 +107,7 @@ app.post('/api/login', async (c) => {
     return c.json({ error: 'Invalid credentials' }, 401);
   }
 
-  const token = createSession(user.id);
+  const token = await createSession(user.id);
   const cookie = createSessionCookie(token);
 
   return c.json(
@@ -117,12 +118,12 @@ app.post('/api/login', async (c) => {
 });
 
 // Logout API
-app.post('/api/logout', (c) => {
+app.post('/api/logout', async (c) => {
   const cookieHeader = c.req.header('Cookie');
   const token = getSessionCookie(cookieHeader);
 
   if (token) {
-    deleteSession(token);
+    await deleteSession(token);
   }
 
   return c.json({ success: true }, 200, { 'Set-Cookie': createLogoutCookie() });
@@ -137,15 +138,15 @@ app.get('/api/me', requireAuth, (c) => {
 // ============ Protected API Routes ============
 
 // Stats
-app.get('/api/stats', requireAuth, (c) => {
-  const stats = getStats();
+app.get('/api/stats', requireAuth, async (c) => {
+  const stats = await getStats();
   return c.json(stats);
 });
 
 // Get all members
-app.get('/api/members', requireAuth, (c) => {
+app.get('/api/members', requireAuth, async (c) => {
   const status = c.req.query('status');
-  let members = getAllMembers();
+  let members = await getAllMembers();
   if (status) {
     members = members.filter(m => m.status === status);
   }
@@ -153,9 +154,9 @@ app.get('/api/members', requireAuth, (c) => {
 });
 
 // Get single member
-app.get('/api/members/:id', requireAuth, (c) => {
+app.get('/api/members/:id', requireAuth, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
-  const member = getMemberById(id);
+  const member = await getMemberById(id);
   if (!member) {
     return c.json({ error: 'Member not found' }, 404);
   }
@@ -171,10 +172,10 @@ app.post('/api/members', requireAuth, requireEditor, async (c) => {
     return c.json({ error: 'Name is required' }, 400);
   }
 
-  const member = createMember(body, userId);
+  const member = await createMember(body, userId);
 
   // Log the creation
-  logAuditEntry(userId, 'create', member.id, member.name);
+  await logAuditEntry(userId, 'create', member.id, member.name);
 
   return c.json(member, 201);
 });
@@ -185,7 +186,7 @@ app.put('/api/members/:id', requireAuth, requireEditor, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
   const body = await c.req.json<Partial<CoalitionMember>>();
 
-  const existing = getMemberById(id);
+  const existing = await getMemberById(id);
   if (!existing) {
     return c.json({ error: 'Member not found' }, 404);
   }
@@ -193,36 +194,36 @@ app.put('/api/members/:id', requireAuth, requireEditor, async (c) => {
   // Compute what changed
   const changes = computeChanges(existing, body);
 
-  const member = updateMember(id, body, userId);
+  const member = await updateMember(id, body, userId);
   if (!member) {
     return c.json({ error: 'Member not found' }, 404);
   }
 
   // Log the update with changes
   if (changes) {
-    logAuditEntry(userId, 'update', member.id, member.name, changes);
+    await logAuditEntry(userId, 'update', member.id, member.name, changes);
   }
 
   return c.json(member);
 });
 
 // Delete member (admin only)
-app.delete('/api/members/:id', requireAuth, requireAdmin, (c) => {
+app.delete('/api/members/:id', requireAuth, requireAdmin, async (c) => {
   const userId = c.get('userId');
   const id = parseInt(c.req.param('id'), 10);
 
-  const existing = getMemberById(id);
+  const existing = await getMemberById(id);
   if (!existing) {
     return c.json({ error: 'Member not found' }, 404);
   }
 
-  const deleted = deleteMember(id);
+  const deleted = await deleteMember(id);
   if (!deleted) {
     return c.json({ error: 'Member not found' }, 404);
   }
 
   // Log the deletion
-  logAuditEntry(userId, 'delete', id, existing.name);
+  await logAuditEntry(userId, 'delete', id, existing.name);
 
   return c.json({ success: true });
 });
@@ -230,17 +231,17 @@ app.delete('/api/members/:id', requireAuth, requireAdmin, (c) => {
 // ============ Audit Log Routes ============
 
 // Get audit log for a specific member
-app.get('/api/members/:id/history', requireAuth, (c) => {
+app.get('/api/members/:id/history', requireAuth, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
-  const history = getAuditLogForMember(id);
+  const history = await getAuditLogForMember(id);
   return c.json(history);
 });
 
 // Get full audit log
-app.get('/api/audit-log', requireAuth, (c) => {
+app.get('/api/audit-log', requireAuth, async (c) => {
   const limit = parseInt(c.req.query('limit') || '50', 10);
   const offset = parseInt(c.req.query('offset') || '0', 10);
-  const log = getAuditLog(limit, offset);
+  const log = await getAuditLog(limit, offset);
   return c.json(log);
 });
 
@@ -253,8 +254,8 @@ app.get('/admin', requireAuth, requireAdmin, (c) => {
 });
 
 // Get all users
-app.get('/api/users', requireAuth, requireAdmin, (c) => {
-  const users = getAllUsers();
+app.get('/api/users', requireAuth, requireAdmin, async (c) => {
+  const users = await getAllUsers();
   return c.json(users);
 });
 
@@ -267,13 +268,13 @@ app.post('/api/users', requireAuth, requireAdmin, async (c) => {
   }
 
   // Check if username exists
-  const existing = getUserByUsername(body.username);
+  const existing = await getUserByUsername(body.username);
   if (existing) {
     return c.json({ error: 'Username already exists' }, 400);
   }
 
   const passwordHash = await hashPassword(body.password);
-  const user = createUser(body.username, passwordHash, body.display_name, body.role || 'viewer');
+  const user = await createUser(body.username, passwordHash, body.display_name, body.role || 'viewer');
 
   return c.json({ id: user.id, username: user.username, display_name: user.display_name, role: user.role }, 201);
 });
@@ -283,7 +284,7 @@ app.put('/api/users/:id', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
   const body = await c.req.json<{ display_name?: string; role?: UserRole; password?: string }>();
 
-  const existing = getUserById(id);
+  const existing = await getUserById(id);
   if (!existing) {
     return c.json({ error: 'User not found' }, 404);
   }
@@ -291,12 +292,11 @@ app.put('/api/users/:id', requireAuth, requireAdmin, async (c) => {
   // Update password if provided
   if (body.password) {
     const passwordHash = await hashPassword(body.password);
-    const { updateUserPassword } = require('../db/client');
-    updateUserPassword(existing.username, passwordHash);
+    await updateUserPassword(existing.username, passwordHash);
   }
 
   // Update other fields
-  const updated = updateUser(id, { display_name: body.display_name, role: body.role });
+  const updated = await updateUser(id, { display_name: body.display_name, role: body.role });
   if (!updated) {
     return c.json({ error: 'User not found' }, 404);
   }
@@ -305,7 +305,7 @@ app.put('/api/users/:id', requireAuth, requireAdmin, async (c) => {
 });
 
 // Delete user
-app.delete('/api/users/:id', requireAuth, requireAdmin, (c) => {
+app.delete('/api/users/:id', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
   const currentUser = c.get('user');
 
@@ -314,7 +314,7 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, (c) => {
     return c.json({ error: 'Cannot delete your own account' }, 400);
   }
 
-  const deleted = deleteUser(id);
+  const deleted = await deleteUser(id);
   if (!deleted) {
     return c.json({ error: 'Cannot delete user (may be the last admin)' }, 400);
   }
@@ -342,7 +342,7 @@ app.post('/api/petition', async (c) => {
     return c.json({ error: 'Invalid email address' }, 400);
   }
 
-  const signer = createPetitionSigner(
+  const signer = await createPetitionSigner(
     body.name.trim(),
     body.email.trim().toLowerCase(),
     body.zip_code.trim(),
@@ -356,19 +356,21 @@ app.post('/api/petition', async (c) => {
 });
 
 // Get approved signers (public) — cached 60s
-app.get('/api/petition/signers', (c) => {
-  const cached = getCached<ReturnType<typeof getApprovedPetitionSigners>>('signers');
+app.get('/api/petition/signers', async (c) => {
+  type SignerList = Awaited<ReturnType<typeof getApprovedPetitionSigners>>;
+  const cached = getCached<SignerList>('signers');
   if (cached) return c.json(cached);
-  const signers = getApprovedPetitionSigners();
+  const signers = await getApprovedPetitionSigners();
   setCache('signers', signers);
   return c.json(signers);
 });
 
 // Get public petition stats — cached 60s
-app.get('/api/petition/stats', (c) => {
-  const cached = getCached<ReturnType<typeof getPublicPetitionStats>>('stats');
+app.get('/api/petition/stats', async (c) => {
+  type PetitionStats = Awaited<ReturnType<typeof getPublicPetitionStats>>;
+  const cached = getCached<PetitionStats>('stats');
   if (cached) return c.json(cached);
-  const stats = getPublicPetitionStats();
+  const stats = await getPublicPetitionStats();
   setCache('stats', stats);
   return c.json(stats);
 });
@@ -376,10 +378,10 @@ app.get('/api/petition/stats', (c) => {
 // ============ Petition Moderation Routes (admin only) ============
 
 // Mod queue page
-app.get('/petition/mod', requireAuth, requireAdmin, (c) => {
-  const pending = getPendingPetitionSigners();
-  const all = getAllPetitionSigners();
-  const stats = getPetitionStats();
+app.get('/petition/mod', requireAuth, requireAdmin, async (c) => {
+  const pending = await getPendingPetitionSigners();
+  const all = await getAllPetitionSigners();
+  const stats = await getPetitionStats();
 
   const rows = (signers: typeof all, showActions: boolean) => signers.map(s => `
     <tr id="row-${s.id}">
@@ -508,18 +510,18 @@ app.get('/petition/mod', requireAuth, requireAdmin, (c) => {
 });
 
 // Approve signer (admin)
-app.post('/api/petition/:id/approved', requireAuth, requireAdmin, (c) => {
+app.post('/api/petition/:id/approved', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
-  const ok = updatePetitionSignerStatus(id, 'approved');
+  const ok = await updatePetitionSignerStatus(id, 'approved');
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
   return c.json({ success: true });
 });
 
 // Reject signer (admin)
-app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, (c) => {
+app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
-  const ok = updatePetitionSignerStatus(id, 'rejected');
+  const ok = await updatePetitionSignerStatus(id, 'rejected');
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
   return c.json({ success: true });
@@ -528,10 +530,10 @@ app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, (c) => {
 // ============ UI Routes ============
 
 // Serve UI (protected)
-app.get('/', requireAuth, (c) => {
+app.get('/', requireAuth, async (c) => {
   const user = c.get('user');
   // Pass users list for "last contacted by" dropdown (editors/admins only)
-  const users = (user?.role === 'editor' || user?.role === 'admin') ? getAllUsers() : [];
+  const users = (user?.role === 'editor' || user?.role === 'admin') ? await getAllUsers() : [];
   return c.html(getIndexHtml(user, users));
 });
 

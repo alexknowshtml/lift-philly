@@ -24,7 +24,7 @@ export async function requireAuth(c: Context, next: Next) {
     return c.redirect('/login');
   }
 
-  const session = getSessionByToken(token);
+  const session = await getSessionByToken(token);
   if (!session) {
     if (c.req.path.startsWith('/api/')) {
       return c.json({ error: 'Session expired' }, 401);
@@ -45,7 +45,7 @@ export async function optionalAuth(c: Context, next: Next) {
   const token = getSessionCookie(cookieHeader);
 
   if (token) {
-    const session = getSessionByToken(token);
+    const session = await getSessionByToken(token);
     if (session) {
       c.set('user', session.user);
       c.set('userId', session.user.id);

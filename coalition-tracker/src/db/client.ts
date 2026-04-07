@@ -1,144 +1,24 @@
-import { Database } from 'bun:sqlite';
+import { createClient, type Client, type Row } from '@libsql/client';
 
-let db: Database | null = null;
+const client: Client = createClient({
+  url: process.env.TURSO_URL || 'file:/data/liftphilly.db',
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
-const DATABASE_PATH = process.env.DATABASE_PATH || '/data/liftphilly.db';
+export { client };
 
-export function getDatabase(): Database {
-  if (!db) {
-    console.log(`Opening database at ${DATABASE_PATH}`);
-    db = new Database(DATABASE_PATH);
-    db.exec('PRAGMA journal_mode = DELETE');
+// ============ Type Helpers ============
 
-    // Create coalition table if it doesn't exist
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS coalition (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        type TEXT CHECK(type IN ('organization', 'individual', 'business', 'elected_official')),
-        contact_name TEXT,
-        contact_email TEXT,
-        website TEXT,
-        notes TEXT,
-        public_display INTEGER DEFAULT 0,
-        status TEXT DEFAULT 'active' CHECK(status IN ('prospect', 'contacted', 'active', 'inactive')),
-        connected_via TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        created_by INTEGER,
-        updated_by INTEGER
-      )
-    `);
-
-    // Add created_by/updated_by columns if they don't exist (migration)
-    try {
-      db.exec('ALTER TABLE coalition ADD COLUMN created_by INTEGER');
-    } catch (e) { /* column already exists */ }
-    try {
-      db.exec('ALTER TABLE coalition ADD COLUMN updated_by INTEGER');
-    } catch (e) { /* column already exists */ }
-
-    // Migration: add connected_via_id for member relations
-    try {
-      db.exec('ALTER TABLE coalition ADD COLUMN connected_via_id INTEGER REFERENCES coalition(id)');
-    } catch (e) { /* column already exists */ }
-
-    // Migration: rename connected_via to connected_via_notes
-    try {
-      db.exec('ALTER TABLE coalition RENAME COLUMN connected_via TO connected_via_notes');
-    } catch (e) { /* column already renamed or doesn't exist */ }
-
-    // Migration: add last_contact and last_contacted_by fields
-    try {
-      db.exec('ALTER TABLE coalition ADD COLUMN last_contact DATE');
-    } catch (e) { /* column already exists */ }
-    try {
-      db.exec('ALTER TABLE coalition ADD COLUMN last_contacted_by INTEGER REFERENCES users(id)');
-    } catch (e) { /* column already exists */ }
-
-    // Create users table
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
-        display_name TEXT NOT NULL,
-        is_admin INTEGER DEFAULT 0,
-        role TEXT DEFAULT 'viewer' CHECK(role IN ('viewer', 'editor', 'admin')),
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    // Migration: add role column if it doesn't exist
-    try {
-      db.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'viewer' CHECK(role IN ('viewer', 'editor', 'admin'))");
-    } catch (e) { /* column already exists */ }
-
-    // Migration: set role based on is_admin for existing users
-    db.exec("UPDATE users SET role = 'admin' WHERE is_admin = 1 AND role = 'viewer'");
-
-    // Create sessions table
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS sessions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        token TEXT NOT NULL UNIQUE,
-        user_id INTEGER NOT NULL,
-        expires_at DATETIME NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id)
-      )
-    `);
-
-    // Create audit_log table
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS audit_log (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        action TEXT NOT NULL,
-        member_id INTEGER NOT NULL,
-        member_name TEXT,
-        changes TEXT,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id)
-      )
-    `);
-
-    // Create index for faster audit log queries
-    db.exec('CREATE INDEX IF NOT EXISTS idx_audit_log_member ON audit_log(member_id)');
-    db.exec('CREATE INDEX IF NOT EXISTS idx_audit_log_timestamp ON audit_log(timestamp)');
-    db.exec('CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token)');
-
-    // Create petition_signers table
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS petition_signers (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        business_name TEXT,
-        business_url TEXT,
-        status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'rejected')),
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-    db.exec('CREATE INDEX IF NOT EXISTS idx_petition_status ON petition_signers(status)');
-
-    // Migrations: add zip_code and comment to petition_signers
-    try {
-      db.exec("ALTER TABLE petition_signers ADD COLUMN zip_code TEXT DEFAULT ''");
-    } catch (e) { /* column already exists */ }
-    try {
-      db.exec('ALTER TABLE petition_signers ADD COLUMN comment TEXT');
-    } catch (e) { /* column already exists */ }
-  }
-  return db;
+function rowToObj<T>(row: Row | undefined): T | null {
+  if (!row) return null;
+  return Object.fromEntries(Object.entries(row)) as unknown as T;
 }
 
-export function closeDatabase(): void {
-  if (db) {
-    db.close();
-    db = null;
-  }
+function rowsToObj<T>(rows: readonly Row[]): T[] {
+  return rows.map(row => Object.fromEntries(Object.entries(row)) as unknown as T);
 }
+
+// ============ Interfaces ============
 
 export interface CoalitionMember {
   id: number;
@@ -195,271 +75,6 @@ export interface AuditLogEntry {
   user_display_name?: string;
 }
 
-export function getAllMembers(): CoalitionMember[] {
-  const db = getDatabase();
-  return db.query(`
-    SELECT c.*,
-           cv.contact_name as connected_via_name,
-           u.display_name as last_contacted_by_name
-    FROM coalition c
-    LEFT JOIN coalition cv ON c.connected_via_id = cv.id
-    LEFT JOIN users u ON c.last_contacted_by = u.id
-    ORDER BY c.status, c.name
-  `).all() as CoalitionMember[];
-}
-
-export function getMemberById(id: number): CoalitionMember | null {
-  const db = getDatabase();
-  return db.query('SELECT * FROM coalition WHERE id = ?').get(id) as CoalitionMember | null;
-}
-
-export function createMember(member: Partial<CoalitionMember>, userId?: number): CoalitionMember {
-  const db = getDatabase();
-  const stmt = db.prepare(`
-    INSERT INTO coalition (name, type, contact_name, contact_email, website, notes, public_display, status, connected_via_id, connected_via_notes, last_contact, last_contacted_by, created_by, updated_by)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
-  const result = stmt.run(
-    member.name || '',
-    member.type || null,
-    member.contact_name || null,
-    member.contact_email || null,
-    member.website || null,
-    member.notes || null,
-    member.public_display || 0,
-    member.status || 'prospect',
-    member.connected_via_id || null,
-    member.connected_via_notes || null,
-    member.last_contact || null,
-    member.last_contacted_by || null,
-    userId || null,
-    userId || null
-  );
-  return getMemberById(Number(result.lastInsertRowid))!;
-}
-
-export function updateMember(id: number, member: Partial<CoalitionMember>, userId?: number): CoalitionMember | null {
-  const db = getDatabase();
-  const existing = getMemberById(id);
-  if (!existing) return null;
-
-  const stmt = db.prepare(`
-    UPDATE coalition SET
-      name = ?,
-      type = ?,
-      contact_name = ?,
-      contact_email = ?,
-      website = ?,
-      notes = ?,
-      public_display = ?,
-      status = ?,
-      connected_via_id = ?,
-      connected_via_notes = ?,
-      last_contact = ?,
-      last_contacted_by = ?,
-      updated_by = ?,
-      updated_at = CURRENT_TIMESTAMP
-    WHERE id = ?
-  `);
-  stmt.run(
-    member.name ?? existing.name,
-    member.type ?? existing.type,
-    member.contact_name ?? existing.contact_name,
-    member.contact_email ?? existing.contact_email,
-    member.website ?? existing.website,
-    member.notes ?? existing.notes,
-    member.public_display ?? existing.public_display,
-    member.status ?? existing.status,
-    member.connected_via_id !== undefined ? member.connected_via_id : existing.connected_via_id,
-    member.connected_via_notes !== undefined ? member.connected_via_notes : existing.connected_via_notes,
-    member.last_contact !== undefined ? member.last_contact : existing.last_contact,
-    member.last_contacted_by !== undefined ? member.last_contacted_by : existing.last_contacted_by,
-    userId || null,
-    id
-  );
-  return getMemberById(id);
-}
-
-export function deleteMember(id: number): boolean {
-  const db = getDatabase();
-  const result = db.prepare('DELETE FROM coalition WHERE id = ?').run(id);
-  return result.changes > 0;
-}
-
-export function getStats(): { total: number; active: number; prospect: number; contacted: number; inactive: number } {
-  const db = getDatabase();
-  const total = (db.query('SELECT COUNT(*) as count FROM coalition').get() as { count: number }).count;
-  const active = (db.query("SELECT COUNT(*) as count FROM coalition WHERE status = 'active'").get() as { count: number }).count;
-  const prospect = (db.query("SELECT COUNT(*) as count FROM coalition WHERE status = 'prospect'").get() as { count: number }).count;
-  const contacted = (db.query("SELECT COUNT(*) as count FROM coalition WHERE status = 'contacted'").get() as { count: number }).count;
-  const inactive = (db.query("SELECT COUNT(*) as count FROM coalition WHERE status = 'inactive'").get() as { count: number }).count;
-  return { total, active, prospect, contacted, inactive };
-}
-
-// ============ User Functions ============
-
-export function getUserByUsername(username: string): User | null {
-  const db = getDatabase();
-  return db.query('SELECT * FROM users WHERE username = ?').get(username) as User | null;
-}
-
-export function getUserById(id: number): User | null {
-  const db = getDatabase();
-  return db.query('SELECT * FROM users WHERE id = ?').get(id) as User | null;
-}
-
-export function createUser(username: string, passwordHash: string, displayName: string, role: UserRole = 'viewer'): User {
-  const db = getDatabase();
-  const isAdmin = role === 'admin' ? 1 : 0;
-  const stmt = db.prepare(`
-    INSERT INTO users (username, password_hash, display_name, is_admin, role)
-    VALUES (?, ?, ?, ?, ?)
-  `);
-  const result = stmt.run(username, passwordHash, displayName, isAdmin, role);
-  return getUserById(Number(result.lastInsertRowid))!;
-}
-
-export function getAllUsers(): Omit<User, 'password_hash'>[] {
-  const db = getDatabase();
-  return db.query('SELECT id, username, display_name, is_admin, role, created_at FROM users ORDER BY display_name').all() as Omit<User, 'password_hash'>[];
-}
-
-export function deleteUser(id: number): boolean {
-  const db = getDatabase();
-  // Don't allow deleting the last admin
-  const adminCount = (db.query('SELECT COUNT(*) as count FROM users WHERE is_admin = 1').get() as { count: number }).count;
-  const user = getUserById(id);
-  if (user?.is_admin && adminCount <= 1) {
-    return false;
-  }
-  const result = db.prepare('DELETE FROM users WHERE id = ?').run(id);
-  return result.changes > 0;
-}
-
-export function updateUserPassword(username: string, newPasswordHash: string): boolean {
-  const db = getDatabase();
-  const result = db.prepare('UPDATE users SET password_hash = ? WHERE username = ?').run(newPasswordHash, username);
-  return result.changes > 0;
-}
-
-export function updateUser(id: number, updates: { display_name?: string; role?: UserRole }): User | null {
-  const db = getDatabase();
-  const user = getUserById(id);
-  if (!user) return null;
-
-  const newDisplayName = updates.display_name ?? user.display_name;
-  const newRole = updates.role ?? user.role;
-  const newIsAdmin = newRole === 'admin' ? 1 : 0;
-
-  db.prepare('UPDATE users SET display_name = ?, role = ?, is_admin = ? WHERE id = ?')
-    .run(newDisplayName, newRole, newIsAdmin, id);
-
-  return getUserById(id);
-}
-
-// ============ Session Functions ============
-
-const SESSION_DURATION_DAYS = 7;
-
-export function createSession(userId: number): string {
-  const db = getDatabase();
-  const token = crypto.randomUUID();
-  const expiresAt = new Date(Date.now() + SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000).toISOString();
-
-  db.prepare(`
-    INSERT INTO sessions (token, user_id, expires_at)
-    VALUES (?, ?, ?)
-  `).run(token, userId, expiresAt);
-
-  return token;
-}
-
-export function getSessionByToken(token: string): (Session & { user: Omit<User, 'password_hash'> }) | null {
-  const db = getDatabase();
-  const session = db.query(`
-    SELECT s.*, u.id as user_id, u.username, u.display_name, u.is_admin, u.role, u.created_at as user_created_at
-    FROM sessions s
-    JOIN users u ON s.user_id = u.id
-    WHERE s.token = ? AND s.expires_at > datetime('now')
-  `).get(token) as any;
-
-  if (!session) return null;
-
-  return {
-    id: session.id,
-    token: session.token,
-    user_id: session.user_id,
-    expires_at: session.expires_at,
-    created_at: session.created_at,
-    user: {
-      id: session.user_id,
-      username: session.username,
-      display_name: session.display_name,
-      is_admin: session.is_admin,
-      role: session.role || 'viewer',
-      created_at: session.user_created_at
-    }
-  };
-}
-
-export function deleteSession(token: string): boolean {
-  const db = getDatabase();
-  const result = db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
-  return result.changes > 0;
-}
-
-export function deleteExpiredSessions(): number {
-  const db = getDatabase();
-  const result = db.prepare("DELETE FROM sessions WHERE expires_at <= datetime('now')").run();
-  return result.changes;
-}
-
-// ============ Audit Log Functions ============
-
-export function logAuditEntry(
-  userId: number,
-  action: 'create' | 'update' | 'delete',
-  memberId: number,
-  memberName: string | null,
-  changes?: Record<string, { old: any; new: any }>
-): void {
-  const db = getDatabase();
-  db.prepare(`
-    INSERT INTO audit_log (user_id, action, member_id, member_name, changes)
-    VALUES (?, ?, ?, ?, ?)
-  `).run(
-    userId,
-    action,
-    memberId,
-    memberName,
-    changes ? JSON.stringify(changes) : null
-  );
-}
-
-export function getAuditLogForMember(memberId: number): AuditLogEntry[] {
-  const db = getDatabase();
-  return db.query(`
-    SELECT a.*, u.display_name as user_display_name
-    FROM audit_log a
-    JOIN users u ON a.user_id = u.id
-    WHERE a.member_id = ?
-    ORDER BY a.timestamp DESC
-  `).all(memberId) as AuditLogEntry[];
-}
-
-export function getAuditLog(limit: number = 50, offset: number = 0): AuditLogEntry[] {
-  const db = getDatabase();
-  return db.query(`
-    SELECT a.*, u.display_name as user_display_name
-    FROM audit_log a
-    JOIN users u ON a.user_id = u.id
-    ORDER BY a.timestamp DESC
-    LIMIT ? OFFSET ?
-  `).all(limit, offset) as AuditLogEntry[];
-}
-
-// ============ Petition Functions ============
-
 export interface PetitionSigner {
   id: number;
   name: string;
@@ -472,73 +87,316 @@ export interface PetitionSigner {
   created_at: string;
 }
 
-export function createPetitionSigner(
+// ============ Coalition Functions ============
+
+export async function getAllMembers(): Promise<CoalitionMember[]> {
+  const rs = await client.execute(`
+    SELECT c.*,
+           cv.contact_name as connected_via_name,
+           u.display_name as last_contacted_by_name
+    FROM coalition c
+    LEFT JOIN coalition cv ON c.connected_via_id = cv.id
+    LEFT JOIN users u ON c.last_contacted_by = u.id
+    ORDER BY c.status, c.name
+  `);
+  return rowsToObj<CoalitionMember>(rs.rows);
+}
+
+export async function getMemberById(id: number): Promise<CoalitionMember | null> {
+  const rs = await client.execute({ sql: 'SELECT * FROM coalition WHERE id = ?', args: [id] });
+  return rowToObj<CoalitionMember>(rs.rows[0]);
+}
+
+export async function createMember(member: Partial<CoalitionMember>, userId?: number): Promise<CoalitionMember> {
+  const rs = await client.execute({
+    sql: `INSERT INTO coalition (name, type, contact_name, contact_email, website, notes, public_display, status, connected_via_id, connected_via_notes, last_contact, last_contacted_by, created_by, updated_by)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    args: [
+      member.name || '',
+      member.type || null,
+      member.contact_name || null,
+      member.contact_email || null,
+      member.website || null,
+      member.notes || null,
+      member.public_display || 0,
+      member.status || 'prospect',
+      member.connected_via_id || null,
+      member.connected_via_notes || null,
+      member.last_contact || null,
+      member.last_contacted_by || null,
+      userId || null,
+      userId || null,
+    ],
+  });
+  return (await getMemberById(Number(rs.lastInsertRowid)))!;
+}
+
+export async function updateMember(id: number, member: Partial<CoalitionMember>, userId?: number): Promise<CoalitionMember | null> {
+  const existing = await getMemberById(id);
+  if (!existing) return null;
+
+  await client.execute({
+    sql: `UPDATE coalition SET
+      name = ?, type = ?, contact_name = ?, contact_email = ?, website = ?, notes = ?,
+      public_display = ?, status = ?, connected_via_id = ?, connected_via_notes = ?,
+      last_contact = ?, last_contacted_by = ?, updated_by = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?`,
+    args: [
+      member.name ?? existing.name,
+      member.type ?? existing.type,
+      member.contact_name ?? existing.contact_name,
+      member.contact_email ?? existing.contact_email,
+      member.website ?? existing.website,
+      member.notes ?? existing.notes,
+      member.public_display ?? existing.public_display,
+      member.status ?? existing.status,
+      member.connected_via_id !== undefined ? member.connected_via_id : existing.connected_via_id,
+      member.connected_via_notes !== undefined ? member.connected_via_notes : existing.connected_via_notes,
+      member.last_contact !== undefined ? member.last_contact : existing.last_contact,
+      member.last_contacted_by !== undefined ? member.last_contacted_by : existing.last_contacted_by,
+      userId || null,
+      id,
+    ],
+  });
+  return getMemberById(id);
+}
+
+export async function deleteMember(id: number): Promise<boolean> {
+  const rs = await client.execute({ sql: 'DELETE FROM coalition WHERE id = ?', args: [id] });
+  return rs.rowsAffected > 0;
+}
+
+export async function getStats(): Promise<{ total: number; active: number; prospect: number; contacted: number; inactive: number }> {
+  const rs = await client.execute(`
+    SELECT
+      COUNT(*) as total,
+      SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active,
+      SUM(CASE WHEN status = 'prospect' THEN 1 ELSE 0 END) as prospect,
+      SUM(CASE WHEN status = 'contacted' THEN 1 ELSE 0 END) as contacted,
+      SUM(CASE WHEN status = 'inactive' THEN 1 ELSE 0 END) as inactive
+    FROM coalition
+  `);
+  const row = rs.rows[0];
+  return {
+    total: Number(row.total),
+    active: Number(row.active),
+    prospect: Number(row.prospect),
+    contacted: Number(row.contacted),
+    inactive: Number(row.inactive),
+  };
+}
+
+// ============ User Functions ============
+
+export async function getUserByUsername(username: string): Promise<User | null> {
+  const rs = await client.execute({ sql: 'SELECT * FROM users WHERE username = ?', args: [username] });
+  return rowToObj<User>(rs.rows[0]);
+}
+
+export async function getUserById(id: number): Promise<User | null> {
+  const rs = await client.execute({ sql: 'SELECT * FROM users WHERE id = ?', args: [id] });
+  return rowToObj<User>(rs.rows[0]);
+}
+
+export async function createUser(username: string, passwordHash: string, displayName: string, role: UserRole = 'viewer'): Promise<User> {
+  const isAdmin = role === 'admin' ? 1 : 0;
+  const rs = await client.execute({
+    sql: 'INSERT INTO users (username, password_hash, display_name, is_admin, role) VALUES (?, ?, ?, ?, ?)',
+    args: [username, passwordHash, displayName, isAdmin, role],
+  });
+  return (await getUserById(Number(rs.lastInsertRowid)))!;
+}
+
+export async function getAllUsers(): Promise<Omit<User, 'password_hash'>[]> {
+  const rs = await client.execute('SELECT id, username, display_name, is_admin, role, created_at FROM users ORDER BY display_name');
+  return rowsToObj<Omit<User, 'password_hash'>>(rs.rows);
+}
+
+export async function deleteUser(id: number): Promise<boolean> {
+  const adminRs = await client.execute("SELECT COUNT(*) as count FROM users WHERE is_admin = 1");
+  const adminCount = Number(adminRs.rows[0].count);
+  const user = await getUserById(id);
+  if (user?.is_admin && adminCount <= 1) return false;
+  const rs = await client.execute({ sql: 'DELETE FROM users WHERE id = ?', args: [id] });
+  return rs.rowsAffected > 0;
+}
+
+export async function updateUserPassword(username: string, newPasswordHash: string): Promise<boolean> {
+  const rs = await client.execute({ sql: 'UPDATE users SET password_hash = ? WHERE username = ?', args: [newPasswordHash, username] });
+  return rs.rowsAffected > 0;
+}
+
+export async function updateUser(id: number, updates: { display_name?: string; role?: UserRole }): Promise<User | null> {
+  const user = await getUserById(id);
+  if (!user) return null;
+  const newDisplayName = updates.display_name ?? user.display_name;
+  const newRole = updates.role ?? user.role;
+  const newIsAdmin = newRole === 'admin' ? 1 : 0;
+  await client.execute({
+    sql: 'UPDATE users SET display_name = ?, role = ?, is_admin = ? WHERE id = ?',
+    args: [newDisplayName, newRole, newIsAdmin, id],
+  });
+  return getUserById(id);
+}
+
+// ============ Session Functions ============
+
+const SESSION_DURATION_DAYS = 7;
+
+export async function createSession(userId: number): Promise<string> {
+  const token = crypto.randomUUID();
+  const expiresAt = new Date(Date.now() + SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000).toISOString();
+  await client.execute({
+    sql: 'INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)',
+    args: [token, userId, expiresAt],
+  });
+  return token;
+}
+
+export async function getSessionByToken(token: string): Promise<(Session & { user: Omit<User, 'password_hash'> }) | null> {
+  const rs = await client.execute({
+    sql: `SELECT s.*, u.id as uid, u.username, u.display_name, u.is_admin, u.role, u.created_at as user_created_at
+          FROM sessions s
+          JOIN users u ON s.user_id = u.id
+          WHERE s.token = ? AND s.expires_at > datetime('now')`,
+    args: [token],
+  });
+  const session = rs.rows[0];
+  if (!session) return null;
+  return {
+    id: Number(session.id),
+    token: session.token as string,
+    user_id: Number(session.user_id),
+    expires_at: session.expires_at as string,
+    created_at: session.created_at as string,
+    user: {
+      id: Number(session.uid),
+      username: session.username as string,
+      display_name: session.display_name as string,
+      is_admin: Number(session.is_admin),
+      role: (session.role || 'viewer') as UserRole,
+      created_at: session.user_created_at as string,
+    },
+  };
+}
+
+export async function deleteSession(token: string): Promise<boolean> {
+  const rs = await client.execute({ sql: 'DELETE FROM sessions WHERE token = ?', args: [token] });
+  return rs.rowsAffected > 0;
+}
+
+export async function deleteExpiredSessions(): Promise<number> {
+  const rs = await client.execute("DELETE FROM sessions WHERE expires_at <= datetime('now')");
+  return rs.rowsAffected;
+}
+
+// ============ Audit Log Functions ============
+
+export async function logAuditEntry(
+  userId: number,
+  action: 'create' | 'update' | 'delete',
+  memberId: number,
+  memberName: string | null,
+  changes?: Record<string, { old: any; new: any }>
+): Promise<void> {
+  await client.execute({
+    sql: 'INSERT INTO audit_log (user_id, action, member_id, member_name, changes) VALUES (?, ?, ?, ?, ?)',
+    args: [userId, action, memberId, memberName, changes ? JSON.stringify(changes) : null],
+  });
+}
+
+export async function getAuditLogForMember(memberId: number): Promise<AuditLogEntry[]> {
+  const rs = await client.execute({
+    sql: `SELECT a.*, u.display_name as user_display_name
+          FROM audit_log a JOIN users u ON a.user_id = u.id
+          WHERE a.member_id = ? ORDER BY a.timestamp DESC`,
+    args: [memberId],
+  });
+  return rowsToObj<AuditLogEntry>(rs.rows);
+}
+
+export async function getAuditLog(limit: number = 50, offset: number = 0): Promise<AuditLogEntry[]> {
+  const rs = await client.execute({
+    sql: `SELECT a.*, u.display_name as user_display_name
+          FROM audit_log a JOIN users u ON a.user_id = u.id
+          ORDER BY a.timestamp DESC LIMIT ? OFFSET ?`,
+    args: [limit, offset],
+  });
+  return rowsToObj<AuditLogEntry>(rs.rows);
+}
+
+// ============ Petition Functions ============
+
+export async function createPetitionSigner(
   name: string,
   email: string,
   zip_code: string,
   business_name: string | null,
   business_url: string | null,
   comment: string | null
-): PetitionSigner {
-  const db = getDatabase();
-  const result = db.prepare(`
-    INSERT INTO petition_signers (name, email, zip_code, business_name, business_url, comment)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `).run(name, email, zip_code, business_name || null, business_url || null, comment || null);
-  return db.query('SELECT * FROM petition_signers WHERE id = ?').get(result.lastInsertRowid) as PetitionSigner;
+): Promise<PetitionSigner> {
+  const rs = await client.execute({
+    sql: 'INSERT INTO petition_signers (name, email, zip_code, business_name, business_url, comment) VALUES (?, ?, ?, ?, ?, ?)',
+    args: [name, email, zip_code, business_name || null, business_url || null, comment || null],
+  });
+  const row = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE id = ?', args: [rs.lastInsertRowid] });
+  return rowToObj<PetitionSigner>(row.rows[0])!;
 }
 
-export function getApprovedPetitionSigners(): Omit<PetitionSigner, 'email' | 'status'>[] {
-  const db = getDatabase();
-  return db.query(`
+export async function getApprovedPetitionSigners(): Promise<Omit<PetitionSigner, 'email' | 'status'>[]> {
+  const rs = await client.execute(`
     SELECT id, name, business_name, business_url, created_at
+    FROM petition_signers WHERE status = 'approved' ORDER BY created_at ASC
+  `);
+  return rowsToObj<Omit<PetitionSigner, 'email' | 'status'>>(rs.rows);
+}
+
+export async function getPendingPetitionSigners(): Promise<PetitionSigner[]> {
+  const rs = await client.execute("SELECT * FROM petition_signers WHERE status = 'pending' ORDER BY created_at ASC");
+  return rowsToObj<PetitionSigner>(rs.rows);
+}
+
+export async function getAllPetitionSigners(): Promise<PetitionSigner[]> {
+  const rs = await client.execute('SELECT * FROM petition_signers ORDER BY created_at DESC');
+  return rowsToObj<PetitionSigner>(rs.rows);
+}
+
+export async function updatePetitionSignerStatus(id: number, status: 'approved' | 'rejected'): Promise<boolean> {
+  const rs = await client.execute({ sql: 'UPDATE petition_signers SET status = ? WHERE id = ?', args: [status, id] });
+  return rs.rowsAffected > 0;
+}
+
+export async function getPetitionStats(): Promise<{ total: number; pending: number; approved: number; rejected: number }> {
+  const rs = await client.execute(`
+    SELECT
+      COUNT(*) as total,
+      SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+      SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
+      SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
     FROM petition_signers
-    WHERE status = 'approved'
-    ORDER BY created_at ASC
-  `).all() as Omit<PetitionSigner, 'email' | 'status'>[];
+  `);
+  const row = rs.rows[0];
+  return {
+    total: Number(row.total),
+    pending: Number(row.pending),
+    approved: Number(row.approved),
+    rejected: Number(row.rejected),
+  };
 }
 
-export function getPendingPetitionSigners(): PetitionSigner[] {
-  const db = getDatabase();
-  return db.query(`
-    SELECT * FROM petition_signers WHERE status = 'pending' ORDER BY created_at ASC
-  `).all() as PetitionSigner[];
+export async function getPublicPetitionStats(): Promise<{ approved: number; recent: number }> {
+  const rs = await client.execute(`
+    SELECT
+      SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
+      SUM(CASE WHEN status = 'approved' AND created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) as recent
+    FROM petition_signers
+  `);
+  const row = rs.rows[0];
+  return { approved: Number(row.approved), recent: Number(row.recent) };
 }
 
-export function getAllPetitionSigners(): PetitionSigner[] {
-  const db = getDatabase();
-  return db.query(`
-    SELECT * FROM petition_signers ORDER BY created_at DESC
-  `).all() as PetitionSigner[];
-}
+// ============ Helper ============
 
-export function updatePetitionSignerStatus(id: number, status: 'approved' | 'rejected'): boolean {
-  const db = getDatabase();
-  const result = db.prepare(`
-    UPDATE petition_signers SET status = ? WHERE id = ?
-  `).run(status, id);
-  return result.changes > 0;
-}
-
-export function getPetitionStats(): { total: number; pending: number; approved: number; rejected: number } {
-  const db = getDatabase();
-  const total = (db.query('SELECT COUNT(*) as count FROM petition_signers').get() as { count: number }).count;
-  const pending = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'pending'").get() as { count: number }).count;
-  const approved = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved'").get() as { count: number }).count;
-  const rejected = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'rejected'").get() as { count: number }).count;
-  return { total, pending, approved, rejected };
-}
-
-export function getPublicPetitionStats(): { approved: number; recent: number } {
-  const db = getDatabase();
-  const approved = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved'").get() as { count: number }).count;
-  const recent = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved' AND created_at >= datetime('now', '-7 days')").get() as { count: number }).count;
-  return { approved, recent };
-}
-
-// ============ End Petition Functions ============
-
-// Helper to compute changes between two member objects
 export function computeChanges(
   oldMember: CoalitionMember,
   newData: Partial<CoalitionMember>
@@ -547,14 +405,12 @@ export function computeChanges(
   const fields: (keyof CoalitionMember)[] = [
     'name', 'type', 'contact_name', 'contact_email', 'website',
     'notes', 'status', 'connected_via_id', 'connected_via_notes',
-    'last_contact', 'last_contacted_by'
+    'last_contact', 'last_contacted_by',
   ];
-
   for (const field of fields) {
     if (newData[field] !== undefined && newData[field] !== oldMember[field]) {
       changes[field] = { old: oldMember[field], new: newData[field] };
     }
   }
-
   return Object.keys(changes).length > 0 ? changes : null;
 }
