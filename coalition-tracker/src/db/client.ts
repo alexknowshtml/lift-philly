@@ -107,6 +107,20 @@ export function getDatabase(): Database {
     db.exec('CREATE INDEX IF NOT EXISTS idx_audit_log_member ON audit_log(member_id)');
     db.exec('CREATE INDEX IF NOT EXISTS idx_audit_log_timestamp ON audit_log(timestamp)');
     db.exec('CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token)');
+
+    // Create petition_signers table
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS petition_signers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        business_name TEXT,
+        business_url TEXT,
+        status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'rejected')),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    db.exec('CREATE INDEX IF NOT EXISTS idx_petition_status ON petition_signers(status)');
   }
   return db;
 }
@@ -435,6 +449,75 @@ export function getAuditLog(limit: number = 50, offset: number = 0): AuditLogEnt
     LIMIT ? OFFSET ?
   `).all(limit, offset) as AuditLogEntry[];
 }
+
+// ============ Petition Functions ============
+
+export interface PetitionSigner {
+  id: number;
+  name: string;
+  email: string;
+  business_name: string | null;
+  business_url: string | null;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+}
+
+export function createPetitionSigner(
+  name: string,
+  email: string,
+  business_name: string | null,
+  business_url: string | null
+): PetitionSigner {
+  const db = getDatabase();
+  const result = db.prepare(`
+    INSERT INTO petition_signers (name, email, business_name, business_url)
+    VALUES (?, ?, ?, ?)
+  `).run(name, email, business_name || null, business_url || null);
+  return db.query('SELECT * FROM petition_signers WHERE id = ?').get(result.lastInsertRowid) as PetitionSigner;
+}
+
+export function getApprovedPetitionSigners(): Omit<PetitionSigner, 'email' | 'status'>[] {
+  const db = getDatabase();
+  return db.query(`
+    SELECT id, name, business_name, business_url, created_at
+    FROM petition_signers
+    WHERE status = 'approved'
+    ORDER BY created_at ASC
+  `).all() as Omit<PetitionSigner, 'email' | 'status'>[];
+}
+
+export function getPendingPetitionSigners(): PetitionSigner[] {
+  const db = getDatabase();
+  return db.query(`
+    SELECT * FROM petition_signers WHERE status = 'pending' ORDER BY created_at ASC
+  `).all() as PetitionSigner[];
+}
+
+export function getAllPetitionSigners(): PetitionSigner[] {
+  const db = getDatabase();
+  return db.query(`
+    SELECT * FROM petition_signers ORDER BY created_at DESC
+  `).all() as PetitionSigner[];
+}
+
+export function updatePetitionSignerStatus(id: number, status: 'approved' | 'rejected'): boolean {
+  const db = getDatabase();
+  const result = db.prepare(`
+    UPDATE petition_signers SET status = ? WHERE id = ?
+  `).run(status, id);
+  return result.changes > 0;
+}
+
+export function getPetitionStats(): { total: number; pending: number; approved: number; rejected: number } {
+  const db = getDatabase();
+  const total = (db.query('SELECT COUNT(*) as count FROM petition_signers').get() as { count: number }).count;
+  const pending = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'pending'").get() as { count: number }).count;
+  const approved = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved'").get() as { count: number }).count;
+  const rejected = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'rejected'").get() as { count: number }).count;
+  return { total, pending, approved, rejected };
+}
+
+// ============ End Petition Functions ============
 
 // Helper to compute changes between two member objects
 export function computeChanges(

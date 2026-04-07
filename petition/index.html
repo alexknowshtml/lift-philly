@@ -397,10 +397,53 @@
                     <p style="margin-top: 0.6em; font-weight: 700; color: var(--white); font-size: 1.1rem;">We Are Philly, and we deserve a fair chance to stay, work, and build here.</p>
                 </div>
 
-                <div class="cta-block">
-                    <h2>Join the Coalition</h2>
-                    <p>Add your name and organization to the LIFT Philly coalition and help us pass this reform.</p>
-                    <a href="/#join" class="btn btn-gold">Join the Coalition →</a>
+                <!-- Sign the Petition -->
+                <div id="sign-section" class="sign-section">
+                    <h2 class="sign-heading">Add Your Name</h2>
+                    <p class="sign-sub">Sign this petition and stand with Philadelphia's working business owners.</p>
+
+                    <form id="petition-form" class="petition-form" onsubmit="submitPetition(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name <span class="req">*</span></label>
+                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email <span class="req">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
+                                <span class="field-note">Not shown publicly</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="business_name">Business Name <span class="opt">(optional)</span></label>
+                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop">
+                            </div>
+                            <div class="form-group">
+                                <label for="business_url">Business Website <span class="opt">(optional)</span></label>
+                                <input type="url" id="business_url" name="business_url" placeholder="https://...">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-sign" id="sign-btn">Sign the Petition</button>
+                        <p class="form-error" id="form-error"></p>
+                    </form>
+
+                    <div id="sign-success" class="sign-success" style="display:none">
+                        <div class="success-icon">✓</div>
+                        <h3>Thank you for signing!</h3>
+                        <p>Your signature has been received. It will appear below once reviewed.</p>
+                    </div>
+                </div>
+
+                <!-- Signers List -->
+                <div class="signers-section" id="signers-section">
+                    <div class="signers-header">
+                        <h2 class="sign-heading">Who's Signed</h2>
+                        <span class="signer-count" id="signer-count"></span>
+                    </div>
+                    <div id="signers-list" class="signers-list">
+                        <p class="signers-loading">Loading signatures...</p>
+                    </div>
                 </div>
 
             </div>
@@ -410,6 +453,257 @@
     <footer>
         <p><a href="/">LIFT Philly</a> · Coalition for Effective, Efficient &amp; Equitable Tax Reform · <a href="mailto:hello@liftphilly.org">hello@liftphilly.org</a></p>
     </footer>
+
+    <style>
+        .sign-section {
+            margin-top: 48px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 40px;
+        }
+        .sign-heading {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .sign-sub {
+            color: var(--text-light);
+            margin-bottom: 28px;
+        }
+        .petition-form {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 560px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+        .req { color: #dc2626; }
+        .opt { font-weight: 400; color: var(--text-light); font-size: 0.8rem; }
+        .form-group input {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s;
+            background: white;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--navy);
+        }
+        .field-note {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        .btn-sign {
+            width: 100%;
+            padding: 14px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-top: 4px;
+        }
+        .btn-sign:hover { background: #1e293b; }
+        .btn-sign:disabled { opacity: 0.6; cursor: not-allowed; }
+        .form-error {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 8px;
+            min-height: 1em;
+        }
+        .sign-success {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            border-radius: 16px;
+        }
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            background: #16a34a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+        .sign-success h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #15803d;
+            margin-bottom: 8px;
+        }
+        .sign-success p {
+            color: #166534;
+            font-size: 0.95rem;
+        }
+        .signers-section {
+            margin-top: 40px;
+        }
+        .signers-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .signer-count {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .signers-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .signer-chip {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.875rem;
+            color: var(--navy);
+            font-weight: 500;
+        }
+        .signer-chip a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .signer-chip a:hover { text-decoration: underline; }
+        .signer-chip .biz {
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        .signer-chip.me {
+            background: #fef9c3;
+            border-color: var(--gold);
+        }
+        .signers-loading, .signers-empty {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <script>
+        const API = 'https://data.liftphilly.org';
+
+        async function loadSigners(highlightId) {
+            try {
+                const res = await fetch(API + '/api/petition/signers');
+                const signers = await res.json();
+                const list = document.getElementById('signers-list');
+                const count = document.getElementById('signer-count');
+
+                if (!signers.length) {
+                    list.innerHTML = '<p class="signers-empty">Be the first to sign.</p>';
+                    count.textContent = '';
+                    return;
+                }
+
+                count.textContent = signers.length + ' ' + (signers.length === 1 ? 'signature' : 'signatures');
+                list.innerHTML = signers.map(s => {
+                    const isMe = s.id === highlightId;
+                    const nameHtml = s.business_url
+                        ? `<a href="${s.business_url}" target="_blank" rel="noopener">${s.name}</a>`
+                        : s.name;
+                    const bizHtml = s.business_name ? ` <span class="biz">· ${s.business_name}</span>` : '';
+                    return `<span class="signer-chip${isMe ? ' me' : ''}">${nameHtml}${bizHtml}</span>`;
+                }).join('');
+            } catch (e) {
+                document.getElementById('signers-list').innerHTML = '<p class="signers-empty">Could not load signatures.</p>';
+            }
+        }
+
+        async function submitPetition(e) {
+            e.preventDefault();
+            const btn = document.getElementById('sign-btn');
+            const errEl = document.getElementById('form-error');
+            errEl.textContent = '';
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            const body = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                business_name: document.getElementById('business_name').value.trim() || undefined,
+                business_url: document.getElementById('business_url').value.trim() || undefined,
+            };
+
+            try {
+                const res = await fetch(API + '/api/petition', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    errEl.textContent = data.error || 'Something went wrong. Please try again.';
+                    btn.disabled = false;
+                    btn.textContent = 'Sign the Petition';
+                    return;
+                }
+
+                // Show success state
+                document.getElementById('petition-form').style.display = 'none';
+                document.getElementById('sign-success').style.display = 'block';
+
+                // Add their name immediately to the list (optimistic)
+                const list = document.getElementById('signers-list');
+                const emptyMsg = list.querySelector('.signers-empty, .signers-loading');
+                if (emptyMsg) emptyMsg.remove();
+
+                const bizHtml = data.business_name ? ` <span class="biz">· ${data.business_name}</span>` : '';
+                const nameHtml = data.business_url
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${data.name}</a>`
+                    : data.name;
+                const chip = document.createElement('span');
+                chip.className = 'signer-chip me';
+                chip.innerHTML = nameHtml + bizHtml;
+                list.prepend(chip);
+
+                const count = document.getElementById('signer-count');
+                const current = parseInt(count.textContent) || 0;
+                count.textContent = (current + 1) + ' signatures';
+
+            } catch (e) {
+                errEl.textContent = 'Network error. Please try again.';
+                btn.disabled = false;
+                btn.textContent = 'Sign the Petition';
+            }
+        }
+
+        loadSigners(null);
+    </script>
 
 </body>
 </html>
