@@ -53,6 +53,7 @@ import {
 import { getIndexHtml } from '../ui/index';
 import { getLoginHtml } from '../ui/login';
 import { getAdminHtml } from '../ui/admin';
+import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from '../ui/shared-header';
 import { requireAuth, requireEditor, requireAdmin } from '../auth/middleware';
 import { hashPassword, verifyPassword, getSessionCookie, createSessionCookie, createLogoutCookie } from '../auth/utils';
 
@@ -379,6 +380,7 @@ app.get('/api/petition/stats', async (c) => {
 
 // Mod queue page
 app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
+  const user = c.get('user');
   const pending = await getPendingPetitionSigners();
   const all = await getAllPetitionSigners();
   const stats = await getPetitionStats();
@@ -409,16 +411,13 @@ app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
     :root { --navy: #0f172a; --gold: #fbbf24; --green: #16a34a; --red: #dc2626; --text: #334155; --border: #e2e8f0; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; color: var(--text); background: #f8fafc; }
-    header { background: var(--navy); color: white; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
-    header h1 { font-size: 1.1rem; font-weight: 700; }
-    header a { color: rgba(255,255,255,0.6); font-size: 0.85rem; text-decoration: none; }
-    header a:hover { color: white; }
-    .stats { display: flex; gap: 16px; padding: 20px 32px; background: white; border-bottom: 1px solid var(--border); }
-    .stat { background: #f1f5f9; border-radius: 8px; padding: 12px 20px; min-width: 100px; text-align: center; }
-    .stat .num { font-size: 1.6rem; font-weight: 800; color: var(--navy); line-height: 1; }
-    .stat .label { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
-    .stat.pending .num { color: #d97706; }
-    .stat.approved .num { color: var(--green); }
+    ${getSharedHeaderCss()}
+    .petition-stats { display: flex; gap: 16px; padding: 20px 32px; background: white; border-bottom: 1px solid var(--border); }
+    .pstat { background: #f1f5f9; border-radius: 8px; padding: 12px 20px; min-width: 100px; text-align: center; }
+    .pstat .num { font-size: 1.6rem; font-weight: 800; color: var(--navy); line-height: 1; }
+    .pstat .label { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
+    .pstat.pending .num { color: #d97706; }
+    .pstat.approved .num { color: var(--green); }
     main { padding: 24px 32px; }
     h2 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
     .section { margin-bottom: 40px; }
@@ -446,16 +445,13 @@ app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
   </style>
 </head>
 <body>
-  <header>
-    <h1>LIFT Philly — Petition Mod Queue</h1>
-    <a href="/admin">← Back to Coalition Tracker</a>
-  </header>
+  ${getSharedHeader(user?.display_name || '', 'petition')}
 
-  <div class="stats">
-    <div class="stat"><div class="num">${stats.total}</div><div class="label">Total</div></div>
-    <div class="stat pending"><div class="num">${stats.pending}</div><div class="label">Pending</div></div>
-    <div class="stat approved"><div class="num">${stats.approved}</div><div class="label">Approved</div></div>
-    <div class="stat"><div class="num">${stats.rejected}</div><div class="label">Rejected</div></div>
+  <div class="petition-stats">
+    <div class="pstat"><div class="num">${stats.total}</div><div class="label">Total</div></div>
+    <div class="pstat pending"><div class="num">${stats.pending}</div><div class="label">Pending</div></div>
+    <div class="pstat approved"><div class="num">${stats.approved}</div><div class="label">Approved</div></div>
+    <div class="pstat"><div class="num">${stats.rejected}</div><div class="label">Rejected</div></div>
   </div>
 
   <main>
@@ -502,6 +498,8 @@ app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2500);
     }
+
+    ${getSharedHeaderScript()}
   </script>
 </body>
 </html>`;

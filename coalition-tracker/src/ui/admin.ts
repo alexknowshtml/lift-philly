@@ -1,4 +1,5 @@
 import type { User } from '../db/client';
+import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from './shared-header';
 
 export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
   const userJson = user ? JSON.stringify(user) : 'null';
@@ -25,11 +26,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       --blue: #3b82f6;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -38,61 +35,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       line-height: 1.5;
     }
 
-    .header {
-      background: var(--dark);
-      color: var(--white);
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header h1 {
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .back-link {
-      color: var(--gold);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .back-link:hover {
-      text-decoration: underline;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .user-name {
-      color: var(--gold);
-      font-weight: 500;
-    }
-
-    .logout-btn {
-      background: transparent;
-      border: 1px solid var(--gray);
-      color: var(--gray-light);
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-    }
-
-    .logout-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+    ${getSharedHeaderCss()}
 
     .container {
       max-width: 900px;
@@ -108,11 +51,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       margin-bottom: 24px;
     }
 
-    .card h2 {
-      font-size: 18px;
-      margin-bottom: 16px;
-      color: var(--dark);
-    }
+    .card h2 { font-size: 18px; margin-bottom: 16px; color: var(--dark); }
 
     .btn {
       padding: 8px 16px;
@@ -122,44 +61,18 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       cursor: pointer;
       border: none;
       transition: all 0.15s ease;
+      font-family: inherit;
     }
 
-    .btn-primary {
-      background: var(--gold);
-      color: var(--dark);
-    }
+    .btn-primary { background: var(--gold); color: var(--dark); }
+    .btn-primary:hover { background: #f59e0b; }
+    .btn-secondary { background: var(--gray-light); color: var(--dark); }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .btn-danger { background: var(--red); color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-small { padding: 4px 10px; font-size: 12px; }
 
-    .btn-primary:hover {
-      background: #f59e0b;
-    }
-
-    .btn-secondary {
-      background: var(--gray-light);
-      color: var(--dark);
-    }
-
-    .btn-secondary:hover {
-      background: #e2e8f0;
-    }
-
-    .btn-danger {
-      background: var(--red);
-      color: white;
-    }
-
-    .btn-danger:hover {
-      background: #dc2626;
-    }
-
-    .btn-small {
-      padding: 4px 10px;
-      font-size: 12px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    table { width: 100%; border-collapse: collapse; }
 
     th, td {
       text-align: left;
@@ -183,36 +96,18 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       font-weight: 500;
     }
 
-    .role-admin {
-      background: var(--gold-light);
-      color: #92400e;
-    }
+    .role-admin { background: var(--gold-light); color: #92400e; }
+    .role-editor { background: #dbeafe; color: #1e40af; }
+    .role-viewer { background: var(--gray-light); color: var(--gray); }
 
-    .role-editor {
-      background: #dbeafe;
-      color: #1e40af;
-    }
+    .actions { display: flex; gap: 8px; }
 
-    .role-viewer {
-      background: var(--gray-light);
-      color: var(--gray);
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5);
-      z-index: 100;
+      z-index: 200;
     }
 
     .modal-overlay.open {
@@ -230,13 +125,9 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       margin: 16px;
     }
 
-    .modal h3 {
-      margin-bottom: 16px;
-    }
+    .modal h3 { margin-bottom: 16px; }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
+    .form-group { margin-bottom: 16px; }
 
     .form-group label {
       display: block;
@@ -253,13 +144,11 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       border: 1px solid #e2e8f0;
       border-radius: 6px;
       font-size: 14px;
+      font-family: inherit;
     }
 
     .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
+    .form-group select:focus { outline: none; border-color: var(--gold); }
 
     .modal-actions {
       display: flex;
@@ -268,11 +157,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       margin-top: 20px;
     }
 
-    .error-message {
-      color: var(--red);
-      font-size: 13px;
-      margin-top: 8px;
-    }
+    .error-message { color: var(--red); font-size: 13px; margin-top: 8px; }
 
     .you-badge {
       background: var(--green);
@@ -286,16 +171,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>User Management</h1>
-    <div class="header-right">
-      <a href="/admin" class="back-link">&larr; Back to Coalition Tracker</a>
-      <div class="user-info">
-        <span class="user-name" id="user-name"></span>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-      </div>
-    </div>
-  </div>
+  ${getSharedHeader(user?.display_name || '', 'users')}
 
   <div class="container">
     <div class="card">
@@ -334,24 +210,15 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
         <tbody>
           <tr>
             <td><span class="role-badge role-viewer">Viewer</span></td>
-            <td>Yes</td>
-            <td>No</td>
-            <td>No</td>
-            <td>No</td>
+            <td>Yes</td><td>No</td><td>No</td><td>No</td>
           </tr>
           <tr>
             <td><span class="role-badge role-editor">Editor</span></td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>No</td>
-            <td>No</td>
+            <td>Yes</td><td>Yes</td><td>No</td><td>No</td>
           </tr>
           <tr>
             <td><span class="role-badge role-admin">Admin</span></td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
-            <td>Yes</td>
+            <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td>
           </tr>
         </tbody>
       </table>
@@ -373,7 +240,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
           <input type="text" id="username" required>
         </div>
         <div class="form-group">
-          <label for="password">Password <span id="password-hint" style="font-weight: normal; color: var(--gray);">(leave blank to keep current)</span></label>
+          <label for="password">Password <span id="password-hint" style="font-weight: normal; color: #64748b;">(leave blank to keep current)</span></label>
           <input type="password" id="password">
         </div>
         <div class="form-group">
@@ -394,11 +261,11 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
   </div>
 
   <script>
+    ${getSharedHeaderScript()}
+
     const currentUser = ${userJson};
     let users = [];
 
-    // Initialize
-    document.getElementById('user-name').textContent = currentUser?.display_name || '';
     loadUsers();
 
     async function loadUsers() {
@@ -451,7 +318,6 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
     function editUser(id) {
       const user = users.find(u => u.id === id);
       if (!user) return;
-
       document.getElementById('modal-title').textContent = 'Edit User';
       document.getElementById('user-id').value = user.id;
       document.getElementById('display_name').value = user.display_name;
@@ -478,11 +344,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
         password: document.getElementById('password').value,
         role: document.getElementById('role').value
       };
-
-      // Don't send empty password on edit
-      if (id && !data.password) {
-        delete data.password;
-      }
+      if (id && !data.password) delete data.password;
 
       try {
         const url = id ? \`/api/users/\${id}\` : '/api/users';
@@ -492,13 +354,11 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-
         if (!res.ok) {
           const err = await res.json();
           document.getElementById('form-error').textContent = err.error || 'Failed to save user';
           return;
         }
-
         closeModal();
         loadUsers();
       } catch (err) {
@@ -509,7 +369,6 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
     async function deleteUser(id) {
       const user = users.find(u => u.id === id);
       if (!confirm(\`Delete user "\${user?.display_name}"?\`)) return;
-
       try {
         const res = await fetch(\`/api/users/\${id}\`, { method: 'DELETE' });
         if (!res.ok) {
@@ -521,11 +380,6 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
       } catch (err) {
         alert('Failed to delete user');
       }
-    }
-
-    async function logout() {
-      await fetch('/api/logout', { method: 'POST' });
-      window.location.href = '/login';
     }
   </script>
 </body>

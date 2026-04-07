@@ -1,4 +1,5 @@
 import { User } from '../db/client';
+import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from './shared-header';
 
 export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit<User, 'password_hash'>[]): string {
   const userJson = user ? JSON.stringify(user) : 'null';
@@ -57,47 +58,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
     }
 
     /* Header */
-    .header {
-      background: var(--navy);
-      color: var(--white);
-      padding: 0;
-    }
+    ${getSharedHeaderCss()}
 
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .logo h1 {
-      font-family: var(--font-body);
-      font-size: 1.75rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .logo h1 span {
-      color: var(--gold);
-    }
-
-    .logo-tag {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.5);
-      font-weight: 500;
-    }
-
-    .stats {
+    .tracker-stats {
       display: flex;
       gap: 32px;
     }
@@ -134,121 +97,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       letter-spacing: 0.08em;
       color: rgba(255,255,255,0.6);
       margin-top: 4px;
-    }
-
-    .petition-mod-link {
-      align-items: center;
-    }
-
-    .petition-mod-link a {
-      color: rgba(255,255,255,0.75);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      padding: 6px 10px;
-      border-radius: 6px;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .petition-mod-link a:hover {
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .user-menu {
-      position: relative;
-    }
-
-    .user-menu-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 6px;
-      color: var(--white);
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .user-menu-btn:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    .user-menu-btn svg {
-      width: 12px;
-      height: 12px;
-      transition: transform 0.15s;
-    }
-
-    .user-menu.open .user-menu-btn svg {
-      transform: rotate(180deg);
-    }
-
-    .user-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: var(--white);
-      border-radius: 8px;
-      box-shadow: var(--shadow-lg);
-      min-width: 160px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-8px);
-      transition: all 0.15s;
-      z-index: 100;
-      overflow: hidden;
-    }
-
-    .user-menu.open .user-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .user-dropdown a,
-    .user-dropdown button {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      padding: 12px 16px;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 0.875rem;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.1s;
-      text-align: left;
-    }
-
-    .user-dropdown a:hover,
-    .user-dropdown button:hover {
-      background: var(--bg);
-    }
-
-    .user-dropdown svg {
-      width: 16px;
-      height: 16px;
-      color: var(--text-muted);
-    }
-
-    .user-dropdown .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 4px 0;
     }
 
     /* Container */
@@ -1284,18 +1132,12 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
     /* Responsive */
     @media (max-width: 900px) {
       .header-inner {
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 12px;
-        text-align: center;
         padding: 16px;
       }
 
-      .logo {
-        flex-direction: column;
-        gap: 4px;
-      }
-
-      .stats {
+      .tracker-stats {
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
@@ -1305,17 +1147,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
       .stat::after {
         right: -10px;
         height: 24px;
-      }
-
-      .user-info {
-        width: 100%;
-        justify-content: center;
-        border-left: none;
-        border-top: 1px solid rgba(255,255,255,0.15);
-        padding-left: 0;
-        padding-top: 12px;
-        margin-left: 0;
-        margin-top: 4px;
       }
 
       .toolbar {
@@ -1553,13 +1384,8 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <h1>LIFT <span>Philly</span></h1>
-        <span class="logo-tag">Coalition Tracker</span>
-      </div>
-      <div class="stats" id="stats">
+  ${getSharedHeader(user?.display_name || '', 'tracker', `
+      <div class="tracker-stats" id="stats">
         <div class="stat">
           <div class="stat-number" id="stat-total">-</div>
           <div class="stat-label">Total</div>
@@ -1572,40 +1398,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
           <div class="stat-number" id="stat-prospect">-</div>
           <div class="stat-label">Prospects</div>
         </div>
-        <div class="user-info">
-          <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
-            <a href="/admin/petition">Petition Mod</a>
-          </div>
-          <div class="user-menu" id="user-menu">
-            <button class="user-menu-btn" onclick="toggleUserMenu(event)">
-              <span id="user-name"></span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div class="user-dropdown">
-              <a href="/admin/users" id="admin-link" style="display: none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
-                </svg>
-                Admin Panel
-              </a>
-              <div class="divider" id="admin-divider" style="display: none;"></div>
-              <button onclick="logout()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                  <polyline points="16 17 21 12 16 7"></polyline>
-                  <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+      </div>`)}
 
   <div class="container">
     <div class="toolbar">
@@ -1769,34 +1562,12 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
 
     // Initialize user display
     if (currentUser) {
-      document.getElementById('user-name').textContent = currentUser.display_name;
-      if (isAdmin) {
-        document.getElementById('admin-link').style.display = 'flex';
-        document.getElementById('admin-divider').style.display = 'block';
-        document.getElementById('petition-mod-link').style.display = 'flex';
-      }
       if (!canEdit) {
         document.getElementById('add-btn').style.display = 'none';
       }
     }
 
-    function toggleUserMenu(e) {
-      e.stopPropagation();
-      document.getElementById('user-menu').classList.toggle('open');
-    }
-
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-      const menu = document.getElementById('user-menu');
-      if (!menu.contains(e.target)) {
-        menu.classList.remove('open');
-      }
-    });
-
-    async function logout() {
-      await fetch('/api/logout', { method: 'POST' });
-      window.location.href = '/login';
-    }
+    ${getSharedHeaderScript()}
 
     async function loadStats() {
       const res = await fetch('/api/stats');
