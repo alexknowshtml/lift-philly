@@ -437,22 +437,17 @@ app.get('/petition/mod', requireAuth, requireAdmin, (c) => {
 
   <script>
     async function updateStatus(id, status) {
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = '...';
       try {
         const res = await fetch('/api/petition/' + id + '/' + status, { method: 'POST' });
         if (!res.ok) throw new Error('Failed');
-        showToast(status === 'approved' ? 'Approved!' : 'Rejected');
-        const row = document.getElementById('row-' + id);
-        if (row) {
-          const badge = row.querySelector('.badge');
-          badge.className = 'badge badge-' + status;
-          badge.textContent = status;
-          const actions = row.querySelector('.actions');
-          actions.innerHTML = status !== 'rejected'
-            ? '<button class="btn-reject" onclick="updateStatus(' + id + ', \'rejected\')">Reject</button>'
-            : '<button class="btn-approve" onclick="updateStatus(' + id + ', \'approved\')">Approve</button>';
-        }
+        location.reload();
       } catch (e) {
-        showToast('Error updating status', true);
+        btn.disabled = false;
+        btn.textContent = status === 'approved' ? 'Approve' : 'Reject';
+        showToast('Error — try again', true);
       }
     }
 
