@@ -1,9 +1,21 @@
 [build]
   publish = "."
-  command = "git submodule update --init --recursive"
+  command = "git submodule update --init --recursive && cd coalition-tracker && npm install"
+
+[functions]
+  directory = "coalition-tracker/netlify/functions"
+  node_bundler = "esbuild"
 
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+
+# Route all tracker UI and API paths to the Netlify Function
+# Static files (petition/index.html, etc.) take priority automatically
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = false
