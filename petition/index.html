@@ -17,7 +17,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --navy: #0f172a;
@@ -422,7 +422,7 @@
                             <div class="form-group">
                                 <label for="zip_code">Zip Code <span class="req">*</span></label>
                                 <input type="text" id="zip_code" name="zip_code" placeholder="19103" maxlength="5" inputmode="numeric" pattern="\d{5}" required autocomplete="postal-code">
-                                <span class="field-note">Not shown publicly</span>
+                                <span class="field-note">Helps us match you with your council representative — not shown publicly</span>
                             </div>
                         </div>
                         <div class="form-row">
@@ -626,13 +626,24 @@
             gap: 10px;
         }
         .signer-chip {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 100px;
-            padding: 6px 16px;
-            font-size: 0.875rem;
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 1.1rem;
             color: var(--navy);
+            font-family: 'Caveat', cursive;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .signer-num {
+            font-size: 0.7rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--text-light);
+            min-width: 18px;
         }
         .signer-chip a {
             color: inherit;
@@ -688,13 +699,13 @@
                     return;
                 }
 
-                list.innerHTML = signers.map(s => {
+                list.innerHTML = signers.map((s, i) => {
                     const isMe = s.id === highlightId;
                     const nameHtml = s.business_url
                         ? `<a href="${s.business_url}" target="_blank" rel="noopener">${s.name}</a>`
                         : s.name;
                     const bizHtml = s.business_name ? ` <span class="biz">· ${s.business_name}</span>` : '';
-                    return `<span class="signer-chip${isMe ? ' me' : ''}">${nameHtml}${bizHtml}</span>`;
+                    return `<span class="signer-chip${isMe ? ' me' : ''}"><span class="signer-num">${i + 1}.</span>${nameHtml}${bizHtml}</span>`;
                 }).join('');
             } catch (e) {
                 document.getElementById('signers-list').innerHTML = '<p class="signers-empty">Could not load signatures.</p>';
@@ -745,16 +756,18 @@
                 const nameHtml = data.business_url
                     ? `<a href="${data.business_url}" target="_blank" rel="noopener">${data.name}</a>`
                     : data.name;
-                const chip = document.createElement('span');
-                chip.className = 'signer-chip me';
-                chip.innerHTML = nameHtml + bizHtml;
-                list.prepend(chip);
-
-                // Update stats display optimistically
                 const statsEl = document.getElementById('petition-stats');
                 const countEl = document.getElementById('stat-approved');
                 const current = parseInt(countEl.textContent) || 0;
                 const newCount = current + 1;
+
+                // Renumber existing chips
+                list.querySelectorAll('.signer-num').forEach((el, i) => { el.textContent = (i + 2) + '.'; });
+
+                const chip = document.createElement('span');
+                chip.className = 'signer-chip me';
+                chip.innerHTML = `<span class="signer-num">1.</span>` + nameHtml + bizHtml;
+                list.prepend(chip);
                 countEl.textContent = newCount + (newCount === 1 ? ' person has signed' : ' people have signed');
                 statsEl.style.display = 'flex';
 
