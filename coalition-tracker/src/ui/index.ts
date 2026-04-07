@@ -138,7 +138,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
 
     .petition-mod-link {
       align-items: center;
-      padding-right: 16px;
     }
 
     .petition-mod-link a {
@@ -160,9 +159,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
     .user-info {
       display: flex;
       align-items: center;
-      padding-left: 24px;
-      border-left: 1px solid rgba(255,255,255,0.15);
-      margin-left: 8px;
+      gap: 8px;
     }
 
     .user-menu {
@@ -1575,9 +1572,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
           <div class="stat-number" id="stat-prospect">-</div>
           <div class="stat-label">Prospects</div>
         </div>
-        <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
-          <a href="/petition/mod">Petition Mod</a>
-        </div>
         <div class="user-info">
           <div class="user-menu" id="user-menu">
             <button class="user-menu-btn" onclick="toggleUserMenu(event)">
@@ -1604,6 +1598,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
                 Logout
               </button>
             </div>
+          </div>
+          <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
+            <a href="/petition/mod">Petition Mod</a>
           </div>
         </div>
       </div>
