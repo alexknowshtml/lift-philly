@@ -1573,6 +1573,9 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
           <div class="stat-label">Prospects</div>
         </div>
         <div class="user-info">
+          <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
+            <a href="/petition/mod">Petition Mod</a>
+          </div>
           <div class="user-menu" id="user-menu">
             <button class="user-menu-btn" onclick="toggleUserMenu(event)">
               <span id="user-name"></span>
@@ -1598,9 +1601,6 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
                 Logout
               </button>
             </div>
-          </div>
-          <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
-            <a href="/petition/mod">Petition Mod</a>
           </div>
         </div>
       </div>
