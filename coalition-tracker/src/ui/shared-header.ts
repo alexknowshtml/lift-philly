@@ -135,7 +135,7 @@ const ICONS = {
 const PAGE_LABELS: Record<AdminPage, string> = {
   tracker: 'Coalition Tracker',
   users: 'User Management',
-  petition: 'Petition Mod',
+  petition: 'Petition Queue',
 };
 
 export function getSharedHeader(username: string, currentPage: AdminPage, extraHtml = ''): string {
@@ -160,7 +160,7 @@ export function getSharedHeader(username: string, currentPage: AdminPage, extraH
           </button>
           <div class="user-dropdown">
             ${a('tracker', '/admin', 'Coalition Tracker')}
-            ${a('petition', '/admin/petition', 'Mod')}
+            ${a('petition', '/admin/petition', 'Petition Queue')}
             ${a('users', '/admin/users', 'Manage Users')}
             <div class="divider"></div>
             <button onclick="logout()">${ICONS.logout}Logout</button>
