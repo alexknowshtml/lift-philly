@@ -289,7 +289,7 @@ export function getAdminHtml(user?: Omit<User, 'password_hash'>): string {
   <div class="header">
     <h1>User Management</h1>
     <div class="header-right">
-      <a href="/" class="back-link">&larr; Back to Coalition Tracker</a>
+      <a href="/tracker" class="back-link">&larr; Back to Coalition Tracker</a>
       <div class="user-info">
         <span class="user-name" id="user-name"></span>
         <button class="logout-btn" onclick="logout()">Logout</button>

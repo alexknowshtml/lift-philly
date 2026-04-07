@@ -83,7 +83,7 @@ app.get('/login', async (c) => {
   if (token) {
     const session = await getSessionByToken(token);
     if (session) {
-      return c.redirect('/');
+      return c.redirect('/tracker');
     }
   }
   return c.html(getLoginHtml());
@@ -448,7 +448,7 @@ app.get('/petition/mod', requireAuth, requireAdmin, async (c) => {
 <body>
   <header>
     <h1>LIFT Philly — Petition Mod Queue</h1>
-    <a href="/">← Back to Coalition Tracker</a>
+    <a href="/tracker">← Back to Coalition Tracker</a>
   </header>
 
   <div class="stats">
@@ -530,7 +530,7 @@ app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, async (c) => {
 // ============ UI Routes ============
 
 // Serve UI (protected)
-app.get('/', requireAuth, async (c) => {
+app.get('/tracker', requireAuth, async (c) => {
   const user = c.get('user');
   // Pass users list for "last contacted by" dropdown (editors/admins only)
   const users = (user?.role === 'editor' || user?.role === 'admin') ? await getAllUsers() : [];
