@@ -1,4 +1,23 @@
 import { Hono } from 'hono';
+
+// Simple in-memory cache for public petition endpoints
+const petitionCache = new Map<string, { data: unknown; expires: number }>();
+const CACHE_TTL_MS = 60_000; // 60 seconds
+
+function getCached<T>(key: string): T | null {
+  const entry = petitionCache.get(key);
+  if (entry && entry.expires > Date.now()) return entry.data as T;
+  petitionCache.delete(key);
+  return null;
+}
+
+function setCache(key: string, data: unknown): void {
+  petitionCache.set(key, { data, expires: Date.now() + CACHE_TTL_MS });
+}
+
+export function invalidatePetitionCache(): void {
+  petitionCache.clear();
+}
 import { cors } from 'hono/cors';
 import {
   getAllMembers,
@@ -332,18 +351,26 @@ app.post('/api/petition', async (c) => {
     body.comment?.trim() || null
   );
 
+  invalidatePetitionCache();
   return c.json({ success: true, id: signer.id, name: signer.name, business_name: signer.business_name, business_url: signer.business_url }, 201);
 });
 
-// Get approved signers (public)
+// Get approved signers (public) — cached 60s
 app.get('/api/petition/signers', (c) => {
+  const cached = getCached<ReturnType<typeof getApprovedPetitionSigners>>('signers');
+  if (cached) return c.json(cached);
   const signers = getApprovedPetitionSigners();
+  setCache('signers', signers);
   return c.json(signers);
 });
 
-// Get public petition stats
+// Get public petition stats — cached 60s
 app.get('/api/petition/stats', (c) => {
-  return c.json(getPublicPetitionStats());
+  const cached = getCached<ReturnType<typeof getPublicPetitionStats>>('stats');
+  if (cached) return c.json(cached);
+  const stats = getPublicPetitionStats();
+  setCache('stats', stats);
+  return c.json(stats);
 });
 
 // ============ Petition Moderation Routes (admin only) ============
@@ -485,6 +512,7 @@ app.post('/api/petition/:id/approved', requireAuth, requireAdmin, (c) => {
   const id = parseInt(c.req.param('id'), 10);
   const ok = updatePetitionSignerStatus(id, 'approved');
   if (!ok) return c.json({ error: 'Not found' }, 404);
+  invalidatePetitionCache();
   return c.json({ success: true });
 });
 
@@ -493,6 +521,7 @@ app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, (c) => {
   const id = parseInt(c.req.param('id'), 10);
   const ok = updatePetitionSignerStatus(id, 'rejected');
   if (!ok) return c.json({ error: 'Not found' }, 404);
+  invalidatePetitionCache();
   return c.json({ success: true });
 });
 
