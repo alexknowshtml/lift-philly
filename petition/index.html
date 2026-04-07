@@ -430,10 +430,10 @@
                                 <label for="business_url">Business Website <span class="opt">(optional)</span></label>
                                 <input type="url" id="business_url" name="business_url" placeholder="https://...">
                             </div>
-                            <div class="form-group">
-                                <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
-                                <input type="text" id="comment" name="comment" placeholder="I've run my business here for 20 years...">
-                            </div>
+                        </div>
+                        <div class="form-group form-group-full">
+                            <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
+                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
                         </div>
                         <button type="submit" class="btn-sign" id="sign-btn">Sign the Petition</button>
                         <p class="form-error" id="form-error"></p>
@@ -521,9 +521,23 @@
             transition: border-color 0.15s;
             background: white;
         }
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--navy);
+        }
+        .form-group-full {
+            margin-bottom: 20px;
+        }
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s;
+            background: white;
+            resize: vertical;
         }
         .field-note {
             font-size: 0.75rem;
