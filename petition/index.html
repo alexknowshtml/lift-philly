@@ -622,41 +622,49 @@
         }
         .signers-list {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-direction: column;
+            gap: 4px;
         }
         .signer-chip {
-            background: white;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 6px 14px;
-            font-size: 1.1rem;
-            color: var(--navy);
-            font-family: 'Caveat', cursive;
-            font-weight: 500;
             display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .signer-num {
-            font-size: 0.7rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            color: var(--text-light);
-            min-width: 18px;
-        }
-        .signer-chip a {
-            color: inherit;
-            text-decoration: none;
-        }
-        .signer-chip a:hover { text-decoration: underline; }
-        .signer-chip .biz {
-            color: var(--text-light);
-            font-weight: 400;
+            align-items: baseline;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
         .signer-chip.me {
             background: #fef9c3;
-            border-color: var(--gold);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-bottom: none;
+            margin: 0 -10px;
+        }
+        .signer-num {
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--text-light);
+            min-width: 24px;
+            flex-shrink: 0;
+        }
+        .signer-name {
+            font-family: 'Caveat', cursive;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        .signer-chip a {
+            color: var(--navy);
+            text-decoration: none;
+            font-family: 'Caveat', cursive;
+            font-size: 1.15rem;
+        }
+        .signer-chip a:hover { text-decoration: underline; }
+        .signer-chip .biz {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 400;
         }
         .signers-loading, .signers-empty {
             color: var(--text-light);
@@ -703,8 +711,8 @@
                     const isMe = s.id === highlightId;
                     const nameHtml = s.business_url
                         ? `<a href="${s.business_url}" target="_blank" rel="noopener">${s.name}</a>`
-                        : s.name;
-                    const bizHtml = s.business_name ? ` <span class="biz">· ${s.business_name}</span>` : '';
+                        : `<span class="signer-name">${s.name}</span>`;
+                    const bizHtml = s.business_name ? `<span class="biz">${s.business_name}</span>` : '';
                     return `<span class="signer-chip${isMe ? ' me' : ''}"><span class="signer-num">${i + 1}.</span>${nameHtml}${bizHtml}</span>`;
                 }).join('');
             } catch (e) {
@@ -766,7 +774,11 @@
 
                 const chip = document.createElement('span');
                 chip.className = 'signer-chip me';
-                chip.innerHTML = `<span class="signer-num">1.</span>` + nameHtml + bizHtml;
+                const optNameHtml = data.business_url
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${data.name}</a>`
+                    : `<span class="signer-name">${data.name}</span>`;
+                const optBizHtml = data.business_name ? `<span class="biz">${data.business_name}</span>` : '';
+                chip.innerHTML = `<span class="signer-num">1.</span>` + optNameHtml + optBizHtml;
                 list.prepend(chip);
                 countEl.textContent = newCount + (newCount === 1 ? ' person has signed' : ' people have signed');
                 statsEl.style.display = 'flex';
