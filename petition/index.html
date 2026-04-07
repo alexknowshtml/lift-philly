@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Are Philly — LIFT Philly Petition</title>
+    <meta name="description" content="We are the barbers, food truck vendors, daycare owners, contractors, musicians, and gig workers who make Philly work. We are being taxed out of our homes.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="robots" content="noindex">
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-bEPTzuGWc7ZFrRQnG7Cg6.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav .container {
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand span {
+            color: var(--gold);
+        }
+
+        .nav-home {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-home:hover {
+            color: var(--white);
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 64px 0 56px;
+            text-align: center;
+        }
+
+        .hero .container {
+            max-width: 760px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        /* Petition body */
+        .petition-wrap {
+            padding: 56px 0 72px;
+        }
+
+        .petition-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .petition-text p {
+            margin-bottom: 1.4em;
+        }
+
+        .petition-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* We Are lines — bold call-and-response */
+        .we-are-block {
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 40px 48px;
+            margin: 40px 0;
+        }
+
+        .we-are-block p {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 0.6em;
+        }
+
+        .we-are-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .we-are-block .opener {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1em;
+        }
+
+        /* Pull quote */
+        .pull-quote {
+            border-left: 4px solid var(--gold);
+            padding: 20px 28px;
+            margin: 36px 0;
+            background: #fefce8;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            line-height: 1.55;
+        }
+
+        /* Impact list */
+        .impact-list {
+            list-style: none;
+            margin: 24px 0;
+            padding: 0;
+        }
+
+        .impact-list li {
+            padding: 10px 0 10px 28px;
+            position: relative;
+            font-size: 1.05rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .impact-list li:last-child {
+            border-bottom: none;
+        }
+
+        .impact-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+
+        /* Call to action */
+        .cta-block {
+            background: var(--gradient);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 48px;
+            text-align: center;
+            margin-top: 56px;
+        }
+
+        .cta-block h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-block p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 0.85rem;
+            margin-top: 72px;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 48px 0 40px;
+            }
+            .we-are-block {
+                padding: 28px 24px;
+            }
+            .cta-block {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="container">
+            <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
+            <a href="/" class="nav-home">← Back to LIFT Philly</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="badge">Petition</div>
+            <h1>We Are the People<br><span>Who Make Philly Work</span></h1>
+            <p class="hero-sub">Philadelphia's individual business owners are being taxed out of their homes. This is our statement — and our demand for fairness.</p>
+        </div>
+    </section>
+
+    <section class="petition-wrap">
+        <div class="container">
+            <div class="petition-text">
+
+                <div class="we-are-block">
+                    <p class="opener">We are the people who make Philly work.</p>
+                    <p>We are the barbers on the block.</p>
+                    <p>We are the food truck vendors on the corner.</p>
+                    <p>We are the daycare owners caring for children.</p>
+                    <p>We are the contractors fixing homes.</p>
+                    <p>We are the musicians, artists, and gig workers who bring this city to life.</p>
+                    <p style="margin-top: 1.2em; font-weight: 700; color: var(--gold); font-size: 1.15rem;">We are Philly's individual business owners, and we are being taxed out of our homes.</p>
+                </div>
+
+                <p>The City's tax changes will hit tens of thousands of businesses. Many of us are 1099 workers, Individual Sole Proprietors, or Single-Member LLCs taxed as individuals. We will face new taxes we simply cannot afford.</p>
+
+                <div class="pull-quote">
+                    For a family business earning $50,000 a year, city taxes could rise by $1,200 in 2026 and $3,200 in 2027 — about $100 to $270 more each month.
+                </div>
+
+                <p>That is one month's rent.</p>
+                <p>That is groceries for a family of four.</p>
+                <p>That is the heating bill in winter.</p>
+                <p>That is the AC bill in the summer.</p>
+
+                <p>In a city where nearly half of renters already struggle with housing costs, these tax increases don't just take money. They create real harm for families, blocks, and neighborhoods.</p>
+
+                <p>The City talks about the unintended consequences of giving us relief. But on every Philly corner and in every neighborhood, cash rules everything around us.</p>
+
+                <p>When government pulls cash out of a small business, the harm is immediate:</p>
+
+                <ul class="impact-list">
+                    <li>less money for rent</li>
+                    <li>less money for groceries</li>
+                    <li>less money for childcare</li>
+                    <li>less money spent in the neighborhood</li>
+                    <li>less stability for the families holding this city together</li>
+                </ul>
+
+                <p>That is especially true when so many working people are already making less than a living wage.</p>
+
+                <p><strong>We are not asking for a handout. We are asking for fairness.</strong></p>
+
+                <p>We already pay our share through the Net Profits Tax. But now the City is taxing that same income again under the Business Income and Receipts Tax. That means many individual business owners face a double tax — and can end up paying a higher rate than corporations.</p>
+
+                <div class="we-are-block">
+                    <p>We are not giant corporations.</p>
+                    <p style="font-weight: 700; color: var(--gold);">We are working families trying to survive.</p>
+                </div>
+
+                <p>The biggest unintended consequence is already here: neighborhood businesses losing cash, families losing stability, and local communities losing the dollars that keep them alive.</p>
+
+                <p>The real unintended consequence is not that a small number of outlier millionaires might get a tax break. That risk is already limited — and even smaller than some suggest — because Philadelphia already gives BIRT relief to manufacturers, wholesalers, and retailers through the alternative method. The number of businesses that could create the worst-case unintended consequence is much smaller than it first appears.</p>
+
+                <p>The real unintended consequence is that thousands of working Philadelphians will have money pulled out of their neighborhoods, weakening the local businesses that keep those neighborhoods going.</p>
+
+                <p>The real unintended consequence is that the City may spend tens of millions of dollars on programs and fixes that can help less than 10 percent of affected businesses — while Councilmember Driscoll's structural tax solution could help far more people, more fairly, and more efficiently.</p>
+
+                <div class="pull-quote">
+                    We need a simple, fair, and responsible solution.
+                </div>
+
+                <p>We are calling on City Council to pass Councilmember Driscoll's ordinance creating a new tax class and BIRT income exemption for Individual Sole Proprietors and Single-Member LLCs whose sole member is an Individual.</p>
+
+                <p>During the Wednesday, March 25 budget hearing, the Law Department stated publicly that creating this new tax class and BIRT income exemption would be constitutional and consistent with the Uniformity Clause.</p>
+
+                <p>This solution would:</p>
+
+                <ul class="impact-list">
+                    <li>end the complex double tax on individuals that leaves them paying a higher rate than corporations</li>
+                    <li>reduce unnecessary compliance costs for both the City and our individual business owners</li>
+                    <li>protect working families while keeping local dollars in our communities</li>
+                    <li>strengthen neighborhood economies instead of draining them</li>
+                </ul>
+
+                <p>This is about more than tax policy. It is about fairness. It is about family stability. It is about whether Philadelphia wants to be a city where working people can still afford to live, build, and stay.</p>
+
+                <div class="we-are-block">
+                    <p class="opener">We Are Philly.</p>
+                    <p>We are your neighbors.</p>
+                    <p>We are your customers.</p>
+                    <p>We are your community.</p>
+                    <p style="margin-top: 0.8em; font-weight: 700; color: var(--gold); font-size: 1.15rem;">We are the heart of this city.</p>
+                    <p style="margin-top: 0.8em;">And we pledge to stand together against the unintended consequences of taxing working people out of their neighborhoods.</p>
+                    <p style="margin-top: 1em; font-size: 1rem; color: rgba(255,255,255,0.75);">We ask the Administration, City Council, and community partners to come together and pass this reform now.</p>
+                    <p style="margin-top: 1em; font-weight: 700; color: var(--gold);">When our individual-owned businesses thrive, Philadelphia thrives.</p>
+                    <p style="margin-top: 0.6em; font-weight: 700; color: var(--white); font-size: 1.1rem;">We Are Philly, and we deserve a fair chance to stay, work, and build here.</p>
+                </div>
+
+                <div class="cta-block">
+                    <h2>Join the Coalition</h2>
+                    <p>Add your name and organization to the LIFT Philly coalition and help us pass this reform.</p>
+                    <a href="/#join" class="btn btn-gold">Join the Coalition →</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><a href="/">LIFT Philly</a> · Coalition for Effective, Efficient &amp; Equitable Tax Reform · <a href="mailto:hello@liftphilly.org">hello@liftphilly.org</a></p>
+    </footer>
+
+</body>
+</html>
