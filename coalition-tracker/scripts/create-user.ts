@@ -2,6 +2,10 @@
 /**
  * CLI script to manage users for the coalition tracker
  *
+ * Requires env vars pointing to Turso:
+ *   export TURSO_URL=libsql://...
+ *   export TURSO_AUTH_TOKEN=...
+ *
  * Usage:
  *   bun run scripts/create-user.ts <username> <password> <display_name> [--role=viewer|editor|admin]
  *
@@ -11,7 +15,7 @@
  *   bun run scripts/create-user.ts member pass123 "Team Member"  # defaults to viewer
  */
 
-import { getDatabase, createUser, getUserByUsername, getAllUsers, updateUserPassword, type UserRole } from '../src/db/client';
+import { createUser, getUserByUsername, getAllUsers, updateUserPassword, type UserRole } from '../src/db/client';
 import { hashPassword } from '../src/auth/utils';
 
 async function main() {
@@ -19,8 +23,7 @@ async function main() {
 
   // Handle list command
   if (args[0] === 'list') {
-    getDatabase(); // Initialize DB
-    const users = getAllUsers();
+    const users = await getAllUsers();
     console.log('\nExisting users:');
     console.log('─'.repeat(70));
     console.log(`  ${'USERNAME'.padEnd(18)} ${'DISPLAY NAME'.padEnd(25)} ${'ROLE'.padEnd(10)}`);
@@ -54,9 +57,7 @@ Example:
       process.exit(1);
     }
 
-    getDatabase(); // Initialize DB
-
-    const existing = getUserByUsername(username);
+    const existing = await getUserByUsername(username);
     if (!existing) {
       console.error(`Error: User '${username}' not found`);
       process.exit(1);
@@ -64,7 +65,7 @@ Example:
 
     console.log(`Changing password for '${username}'...`);
     const newPasswordHash = await hashPassword(newPassword);
-    updateUserPassword(username, newPasswordHash);
+    await updateUserPassword(username, newPasswordHash);
 
     console.log(`
 ✓ Password changed successfully for '${username}'!
@@ -132,11 +133,8 @@ Examples:
     process.exit(1);
   }
 
-  // Initialize database
-  getDatabase();
-
   // Check if user already exists
-  const existing = getUserByUsername(username);
+  const existing = await getUserByUsername(username);
   if (existing) {
     console.error(`Error: User '${username}' already exists`);
     process.exit(1);
@@ -145,7 +143,7 @@ Examples:
   // Hash password and create user
   console.log(`Creating user '${username}' with role '${role}'...`);
   const passwordHash = await hashPassword(password);
-  const user = createUser(username, passwordHash, displayName, role);
+  const user = await createUser(username, passwordHash, displayName, role);
 
   console.log(`
 ✓ User created successfully!
