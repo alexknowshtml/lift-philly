@@ -416,12 +416,23 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
+                                <label for="zip_code">Zip Code <span class="req">*</span></label>
+                                <input type="text" id="zip_code" name="zip_code" placeholder="19103" maxlength="5" inputmode="numeric" pattern="\d{5}" required autocomplete="postal-code">
+                                <span class="field-note">Not shown publicly</span>
+                            </div>
+                            <div class="form-group">
                                 <label for="business_name">Business Name <span class="opt">(optional)</span></label>
                                 <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop">
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="business_url">Business Website <span class="opt">(optional)</span></label>
                                 <input type="url" id="business_url" name="business_url" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
+                                <input type="text" id="comment" name="comment" placeholder="I've run my business here for 20 years...">
                             </div>
                         </div>
                         <button type="submit" class="btn-sign" id="sign-btn">Sign the Petition</button>
@@ -439,7 +450,10 @@
                 <div class="signers-section" id="signers-section">
                     <div class="signers-header">
                         <h2 class="sign-heading">Who's Signed</h2>
-                        <span class="signer-count" id="signer-count"></span>
+                    </div>
+                    <div class="petition-stats" id="petition-stats" style="display:none">
+                        <span class="stat-count" id="stat-approved"></span>
+                        <span class="stat-momentum" id="stat-momentum"></span>
                     </div>
                     <div id="signers-list" class="signers-list">
                         <p class="signers-loading">Loading signatures...</p>
@@ -571,14 +585,26 @@
             margin-top: 40px;
         }
         .signers-header {
+            margin-bottom: 12px;
+        }
+        .petition-stats {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             gap: 12px;
             margin-bottom: 16px;
+            flex-wrap: wrap;
         }
-        .signer-count {
+        .stat-count {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .stat-momentum {
+            font-size: 0.875rem;
             color: var(--text-light);
-            font-size: 0.9rem;
+            background: #f1f5f9;
+            border-radius: 100px;
+            padding: 3px 10px;
         }
         .signers-list {
             display: flex;
@@ -617,20 +643,37 @@
     <script>
         const API = 'https://data.liftphilly.org';
 
+        async function loadStats() {
+            try {
+                const res = await fetch(API + '/api/petition/stats');
+                const stats = await res.json();
+                if (stats.approved > 0) {
+                    const statsEl = document.getElementById('petition-stats');
+                    const countEl = document.getElementById('stat-approved');
+                    const momentumEl = document.getElementById('stat-momentum');
+                    countEl.textContent = stats.approved + (stats.approved === 1 ? ' person has signed' : ' people have signed');
+                    if (stats.recent > 0) {
+                        momentumEl.textContent = stats.recent + ' signed this week';
+                        momentumEl.style.display = '';
+                    } else {
+                        momentumEl.style.display = 'none';
+                    }
+                    statsEl.style.display = 'flex';
+                }
+            } catch (e) { /* silent */ }
+        }
+
         async function loadSigners(highlightId) {
             try {
                 const res = await fetch(API + '/api/petition/signers');
                 const signers = await res.json();
                 const list = document.getElementById('signers-list');
-                const count = document.getElementById('signer-count');
 
                 if (!signers.length) {
                     list.innerHTML = '<p class="signers-empty">Be the first to sign.</p>';
-                    count.textContent = '';
                     return;
                 }
 
-                count.textContent = signers.length + ' ' + (signers.length === 1 ? 'signature' : 'signatures');
                 list.innerHTML = signers.map(s => {
                     const isMe = s.id === highlightId;
                     const nameHtml = s.business_url
@@ -655,8 +698,10 @@
             const body = {
                 name: document.getElementById('name').value.trim(),
                 email: document.getElementById('email').value.trim(),
+                zip_code: document.getElementById('zip_code').value.trim(),
                 business_name: document.getElementById('business_name').value.trim() || undefined,
                 business_url: document.getElementById('business_url').value.trim() || undefined,
+                comment: document.getElementById('comment').value.trim() || undefined,
             };
 
             try {
@@ -691,9 +736,13 @@
                 chip.innerHTML = nameHtml + bizHtml;
                 list.prepend(chip);
 
-                const count = document.getElementById('signer-count');
-                const current = parseInt(count.textContent) || 0;
-                count.textContent = (current + 1) + ' signatures';
+                // Update stats display optimistically
+                const statsEl = document.getElementById('petition-stats');
+                const countEl = document.getElementById('stat-approved');
+                const current = parseInt(countEl.textContent) || 0;
+                const newCount = current + 1;
+                countEl.textContent = newCount + (newCount === 1 ? ' person has signed' : ' people have signed');
+                statsEl.style.display = 'flex';
 
             } catch (e) {
                 errEl.textContent = 'Network error. Please try again.';
@@ -702,6 +751,7 @@
             }
         }
 
+        loadStats();
         loadSigners(null);
     </script>
 

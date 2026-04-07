@@ -121,6 +121,14 @@ export function getDatabase(): Database {
       )
     `);
     db.exec('CREATE INDEX IF NOT EXISTS idx_petition_status ON petition_signers(status)');
+
+    // Migrations: add zip_code and comment to petition_signers
+    try {
+      db.exec("ALTER TABLE petition_signers ADD COLUMN zip_code TEXT DEFAULT ''");
+    } catch (e) { /* column already exists */ }
+    try {
+      db.exec('ALTER TABLE petition_signers ADD COLUMN comment TEXT');
+    } catch (e) { /* column already exists */ }
   }
   return db;
 }
@@ -456,8 +464,10 @@ export interface PetitionSigner {
   id: number;
   name: string;
   email: string;
+  zip_code: string;
   business_name: string | null;
   business_url: string | null;
+  comment: string | null;
   status: 'pending' | 'approved' | 'rejected';
   created_at: string;
 }
@@ -465,14 +475,16 @@ export interface PetitionSigner {
 export function createPetitionSigner(
   name: string,
   email: string,
+  zip_code: string,
   business_name: string | null,
-  business_url: string | null
+  business_url: string | null,
+  comment: string | null
 ): PetitionSigner {
   const db = getDatabase();
   const result = db.prepare(`
-    INSERT INTO petition_signers (name, email, business_name, business_url)
-    VALUES (?, ?, ?, ?)
-  `).run(name, email, business_name || null, business_url || null);
+    INSERT INTO petition_signers (name, email, zip_code, business_name, business_url, comment)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run(name, email, zip_code, business_name || null, business_url || null, comment || null);
   return db.query('SELECT * FROM petition_signers WHERE id = ?').get(result.lastInsertRowid) as PetitionSigner;
 }
 
@@ -515,6 +527,13 @@ export function getPetitionStats(): { total: number; pending: number; approved: 
   const approved = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved'").get() as { count: number }).count;
   const rejected = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'rejected'").get() as { count: number }).count;
   return { total, pending, approved, rejected };
+}
+
+export function getPublicPetitionStats(): { approved: number; recent: number } {
+  const db = getDatabase();
+  const approved = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved'").get() as { count: number }).count;
+  const recent = (db.query("SELECT COUNT(*) as count FROM petition_signers WHERE status = 'approved' AND created_at >= datetime('now', '-7 days')").get() as { count: number }).count;
+  return { approved, recent };
 }
 
 // ============ End Petition Functions ============

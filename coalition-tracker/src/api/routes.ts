@@ -25,6 +25,7 @@ import {
   getAllPetitionSigners,
   updatePetitionSignerStatus,
   getPetitionStats,
+  getPublicPetitionStats,
   type CoalitionMember,
   type UserRole
 } from '../db/client';
@@ -306,10 +307,15 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, (c) => {
 
 // Submit a signature
 app.post('/api/petition', async (c) => {
-  const body = await c.req.json<{ name: string; email: string; business_name?: string; business_url?: string }>();
+  const body = await c.req.json<{ name: string; email: string; zip_code: string; business_name?: string; business_url?: string; comment?: string }>();
 
-  if (!body.name?.trim() || !body.email?.trim()) {
-    return c.json({ error: 'Name and email are required' }, 400);
+  if (!body.name?.trim() || !body.email?.trim() || !body.zip_code?.trim()) {
+    return c.json({ error: 'Name, email, and zip code are required' }, 400);
+  }
+
+  // Validate zip code (5 digits)
+  if (!/^\d{5}$/.test(body.zip_code.trim())) {
+    return c.json({ error: 'Please enter a valid 5-digit zip code' }, 400);
   }
 
   // Basic email format check
@@ -320,8 +326,10 @@ app.post('/api/petition', async (c) => {
   const signer = createPetitionSigner(
     body.name.trim(),
     body.email.trim().toLowerCase(),
+    body.zip_code.trim(),
     body.business_name?.trim() || null,
-    body.business_url?.trim() || null
+    body.business_url?.trim() || null,
+    body.comment?.trim() || null
   );
 
   return c.json({ success: true, id: signer.id, name: signer.name, business_name: signer.business_name, business_url: signer.business_url }, 201);
@@ -331,6 +339,11 @@ app.post('/api/petition', async (c) => {
 app.get('/api/petition/signers', (c) => {
   const signers = getApprovedPetitionSigners();
   return c.json(signers);
+});
+
+// Get public petition stats
+app.get('/api/petition/stats', (c) => {
+  return c.json(getPublicPetitionStats());
 });
 
 // ============ Petition Moderation Routes (admin only) ============
@@ -346,6 +359,8 @@ app.get('/petition/mod', requireAuth, requireAdmin, (c) => {
       <td>${s.name}</td>
       <td>${s.business_name ? `<span>${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener">↗</a>` : ''}` : '<span class="muted">—</span>'}</td>
       <td class="email">${s.email}</td>
+      <td class="email">${s.zip_code || '<span class="muted">—</span>'}</td>
+      <td>${s.comment ? `<span title="${s.comment.replace(/"/g, '&quot;')}">${s.comment.length > 40 ? s.comment.slice(0, 40) + '…' : s.comment}</span>` : '<span class="muted">—</span>'}</td>
       <td><span class="badge badge-${s.status}">${s.status}</span></td>
       <td class="date">${new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
       ${showActions ? `<td class="actions">
@@ -419,7 +434,7 @@ app.get('/petition/mod', requireAuth, requireAdmin, (c) => {
       <h2>Pending Review (${pending.length})</h2>
       ${pending.length === 0 ? '<p class="empty">No pending signatures.</p>' : `
       <table>
-        <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
         <tbody>${rows(pending, true)}</tbody>
       </table>`}
     </div>
@@ -427,7 +442,7 @@ app.get('/petition/mod', requireAuth, requireAdmin, (c) => {
     <div class="section">
       <h2>All Signatures</h2>
       <table>
-        <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
         <tbody>${rows(all, true)}</tbody>
       </table>
     </div>
