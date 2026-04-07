@@ -184,7 +184,7 @@ export function getLoginHtml(): string {
         const data = await res.json();
 
         if (res.ok) {
-          window.location.href = '/tracker';
+          window.location.href = '/admin';
         } else {
           errorDiv.textContent = data.error || 'Login failed';
           errorDiv.classList.add('show');

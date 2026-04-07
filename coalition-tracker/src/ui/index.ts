@@ -1574,7 +1574,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
         </div>
         <div class="user-info">
           <div class="petition-mod-link" id="petition-mod-link" style="display: none;">
-            <a href="/petition/mod">Petition Mod</a>
+            <a href="/admin/petition">Petition Mod</a>
           </div>
           <div class="user-menu" id="user-menu">
             <button class="user-menu-btn" onclick="toggleUserMenu(event)">
@@ -1584,7 +1584,7 @@ export function getIndexHtml(user?: Omit<User, 'password_hash'>, allUsers?: Omit
               </svg>
             </button>
             <div class="user-dropdown">
-              <a href="/admin" id="admin-link" style="display: none;">
+              <a href="/admin/users" id="admin-link" style="display: none;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>

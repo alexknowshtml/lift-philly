@@ -63,7 +63,7 @@ export async function requireAdmin(c: Context, next: Next) {
     if (c.req.path.startsWith('/api/')) {
       return c.json({ error: 'Admin access required' }, 403);
     }
-    return c.redirect('/tracker');
+    return c.redirect('/admin');
   }
 
   await next();
@@ -77,7 +77,7 @@ export async function requireEditor(c: Context, next: Next) {
     if (c.req.path.startsWith('/api/')) {
       return c.json({ error: 'Editor access required' }, 403);
     }
-    return c.redirect('/tracker');
+    return c.redirect('/admin');
   }
 
   await next();
