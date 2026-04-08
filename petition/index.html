@@ -976,9 +976,9 @@
                     return;
                 }
 
-                // Show success state
-                document.getElementById('petition-form').style.display = 'none';
+                // Show success message, keep form visible
                 document.getElementById('sign-success').style.display = 'block';
+                try { localStorage.setItem('petition_pending_signer', JSON.stringify(data)); } catch(e) {}
 
                 // Add their name immediately to the list (optimistic)
                 const list = document.getElementById('signers-list');
@@ -1016,8 +1016,36 @@
             }
         }
 
+        function injectPendingSigner() {
+            try {
+                const pending = localStorage.getItem('petition_pending_signer');
+                if (!pending) return;
+                const data = JSON.parse(pending);
+                const list = document.getElementById('signers-list');
+                // If they're already in the approved list, clear the pending entry
+                const approved = list.querySelectorAll('.signer-chip');
+                for (const chip of approved) {
+                    if (chip.textContent.includes(data.anonymous ? 'Anonymous' : data.name)) {
+                        localStorage.removeItem('petition_pending_signer');
+                        return;
+                    }
+                }
+                const chip = document.createElement('span');
+                chip.className = 'signer-chip me';
+                const displayName = data.anonymous ? 'Anonymous' : data.name;
+                const optNameHtml = (!data.anonymous && data.business_url)
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${displayName}</a>`
+                    : `<span class="signer-name">${displayName}</span>`;
+                const optBizHtml = (!data.anonymous && data.business_name) ? `<span class="biz">${data.business_name}</span>` : '';
+                chip.innerHTML = `<span class="signer-num">1.</span>` + optNameHtml + optBizHtml;
+                list.prepend(chip);
+                // Renumber remaining chips
+                list.querySelectorAll('.signer-num').forEach((el, i) => { el.textContent = (i + 1) + '.'; });
+            } catch(e) {}
+        }
+
         loadStats();
-        loadSigners(null);
+        loadSigners(null).then(injectPendingSigner);
 
         // Picker wheel animation
         const phrases = [
