@@ -922,10 +922,13 @@
         (function initWheel() {
             const rotWrap = document.getElementById('rotating-wrap');
 
-            // Measure max item height using a probe
+            // Measure max item height — probe must live inside rotWrap so it
+            // inherits the correct font-size from .hero-headline (clamp value),
+            // not the 16px body default.
             const probe = document.createElement('span');
             probe.style.cssText = [
                 'position:absolute', 'visibility:hidden', 'pointer-events:none',
+                'top:0', 'left:0',
                 'display:flex', 'align-items:center', 'justify-content:center',
                 'text-align:center', 'text-wrap:balance',
                 'font-size:inherit', 'font-weight:inherit',
@@ -933,10 +936,10 @@
                 'padding-bottom:6px',
                 'width:' + rotWrap.offsetWidth + 'px',
             ].join(';');
-            document.body.appendChild(probe);
+            rotWrap.appendChild(probe);  // inherit hero font-size, not body 16px
             let maxH = 0;
             phrases.forEach(p => { probe.textContent = p; maxH = Math.max(maxH, probe.offsetHeight); });
-            document.body.removeChild(probe);
+            rotWrap.removeChild(probe);
 
             const itemH = maxH + 16; // breathing room per row
             const maskH = itemH * 2.5; // 2.5× height: active fills 30%-70%, neighbors ghost at edges
