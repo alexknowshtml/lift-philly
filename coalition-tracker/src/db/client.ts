@@ -82,6 +82,7 @@ export interface PetitionSigner {
   zip_code: string;
   business_name: string | null;
   business_url: string | null;
+  industry: string | null;
   comment: string | null;
   anonymous: number;
   status: 'pending' | 'approved' | 'rejected';
@@ -334,12 +335,13 @@ export async function createPetitionSigner(
   zip_code: string,
   business_name: string | null,
   business_url: string | null,
+  industry: string | null,
   comment: string | null,
   anonymous: boolean = false
 ): Promise<PetitionSigner> {
   const rs = await client.execute({
-    sql: 'INSERT INTO petition_signers (name, email, zip_code, business_name, business_url, comment, anonymous) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    args: [name, email, zip_code, business_name || null, business_url || null, comment || null, anonymous ? 1 : 0],
+    sql: 'INSERT INTO petition_signers (name, email, zip_code, business_name, business_url, industry, comment, anonymous) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    args: [name, email, zip_code, business_name || null, business_url || null, industry || null, comment || null, anonymous ? 1 : 0],
   });
   const row = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE id = ?', args: [rs.lastInsertRowid] });
   return rowToObj<PetitionSigner>(row.rows[0])!;
@@ -347,7 +349,7 @@ export async function createPetitionSigner(
 
 export async function getApprovedPetitionSigners(): Promise<Omit<PetitionSigner, 'email' | 'status'>[]> {
   const rs = await client.execute(`
-    SELECT id, name, business_name, business_url, anonymous, created_at
+    SELECT id, name, business_name, business_url, industry, anonymous, created_at
     FROM petition_signers WHERE status = 'approved' ORDER BY created_at ASC
   `);
   return rowsToObj<Omit<PetitionSigner, 'email' | 'status'>>(rs.rows);

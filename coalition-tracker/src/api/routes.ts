@@ -327,7 +327,7 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, async (c) => {
 
 // Submit a signature
 app.post('/api/petition', async (c) => {
-  const body = await c.req.json<{ name: string; email: string; zip_code: string; business_name?: string; business_url?: string; comment?: string; anonymous?: boolean }>();
+  const body = await c.req.json<{ name: string; email: string; zip_code: string; business_name?: string; business_url?: string; industry?: string; comment?: string; anonymous?: boolean }>();
 
   if (!body.name?.trim() || !body.email?.trim() || !body.zip_code?.trim()) {
     return c.json({ error: 'Name, email, and zip code are required' }, 400);
@@ -349,6 +349,7 @@ app.post('/api/petition', async (c) => {
     body.zip_code.trim(),
     body.business_name?.trim() || null,
     body.business_url?.trim() || null,
+    body.industry?.trim() || null,
     body.comment?.trim() || null,
     !!body.anonymous
   );
