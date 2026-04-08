@@ -178,9 +178,9 @@
         .wheel-mask {
             overflow: hidden;
             position: relative;
-            /* 1.3× window: active at 11.5%-88.5%; fade zones at 10%/90% stay outside that */
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            /* Asymmetric: tiny top fade (active hugs header), gentle bottom fade for next-phrase ghost */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 78%, transparent 100%);
         }
 
         /* Hairline selection indicator at center */
@@ -950,17 +950,22 @@
             rotWrap.removeChild(probe);
 
             const itemH = maxH + 16; // breathing room per row
-            const maskH = itemH * 1.3; // 1.3× height: 26px above/below active, neighbors barely ghost
+            const topPad = Math.round(itemH * 0.04);  // tight gap above — indicator hugs 'We are the'
+            const botPad = Math.round(itemH * 0.22);  // more space below for next-phrase ghost
+            const maskH = itemH + topPad + botPad;
+            const centerOffset = topPad;              // strip offset = topPad (not symmetric center)
 
             // Build DOM
             const mask = document.createElement('div');
             mask.className = 'wheel-mask';
             mask.style.height = maskH + 'px';
 
-            // Selection indicator — hairline at center, sized to one row
+            // Selection indicator — positioned at topPad, not CSS center
             const indicator = document.createElement('div');
             indicator.className = 'wheel-indicator';
             indicator.style.height = itemH + 'px';
+            indicator.style.top = topPad + 'px';
+            indicator.style.transform = 'none';
             mask.appendChild(indicator);
 
             const strip = document.createElement('div');
@@ -990,7 +995,7 @@
             mask.appendChild(strip);
             rotWrap.appendChild(mask);
 
-            const centerOffset = (maskH - itemH) / 2;
+            // centerOffset already defined above as topPad (asymmetric layout)
             // Jump instantly to saved position (no transition on load)
             strip.style.transition = 'none';
             strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
