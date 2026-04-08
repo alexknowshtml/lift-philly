@@ -1,0 +1,39 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="50%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#1a365d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="80%" cy="20%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(251,191,36,0.15)"/>
+      <stop offset="100%" style="stop-color:rgba(251,191,36,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Gold accent bar -->
+  <rect x="80" y="100" width="6" height="120" fill="#fbbf24" rx="3"/>
+
+  <!-- LIFT text -->
+  <text x="110" y="180" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="90" font-weight="800" fill="#fbbf24">LIFT</text>
+
+  <!-- Philly text -->
+  <text x="340" y="180" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="90" font-weight="800" fill="#ffffff">Philly</text>
+
+  <!-- Tagline -->
+  <text x="110" y="250" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="28" font-weight="500" fill="rgba(255,255,255,0.7)">Coalition for Effective, Efficient, &amp; Equitable Tax Reform</text>
+
+  <!-- CTA line -->
+  <text x="110" y="370" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="42" font-weight="700" fill="#ffffff">Sign the petition.</text>
+  <text x="110" y="430" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="42" font-weight="700" fill="#ffffff">Stand with <tspan fill="#fbbf24">Philly's independent workers</tspan>.</text>
+
+  <!-- Sub-copy -->
+  <text x="110" y="510" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="26" font-weight="400" fill="rgba(255,255,255,0.65)">Nearly 75,000 Philadelphia independent workers deserve better.</text>
+
+  <!-- URL -->
+  <text x="1120" y="590" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)" text-anchor="end">liftphilly.org/petition</text>
+</svg>
