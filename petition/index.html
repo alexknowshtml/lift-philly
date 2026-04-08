@@ -178,8 +178,22 @@
         .wheel-mask {
             overflow: hidden;
             position: relative;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 72%, transparent 100%);
+            /* Fade only the outer edges — keeps neighbor rows clearly readable */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%);
+        }
+
+        /* Hairline selection indicator at center */
+        .wheel-indicator {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            border-top: 1px solid rgba(251, 191, 36, 0.4);
+            border-bottom: 1px solid rgba(251, 191, 36, 0.4);
+            z-index: 2;
         }
 
         .wheel-strip {
@@ -187,6 +201,8 @@
             flex-direction: column;
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform;
+            position: relative;
+            z-index: 1;
         }
 
         .wheel-item {
@@ -196,18 +212,17 @@
             color: var(--gold);
             text-align: center;
             text-wrap: balance;
-            opacity: 0.2;
-            transform: scale(0.86);
+            opacity: 0.38;
+            transform: scale(0.93);
             transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            border-bottom: 3px solid transparent;
-            padding-bottom: 6px;
             flex-shrink: 0;
+            padding: 0 4px 6px;
         }
 
         .wheel-item.active {
             opacity: 1;
             transform: scale(1);
-            border-bottom-color: rgba(251, 191, 36, 0.6);
+            border-bottom: 3px solid rgba(251, 191, 36, 0.6);
         }
 
         /* See all toggle */
@@ -923,14 +938,19 @@
             phrases.forEach(p => { probe.textContent = p; maxH = Math.max(maxH, probe.offsetHeight); });
             document.body.removeChild(probe);
 
-            const itemH = maxH + 10;
-            const peekH = Math.round(itemH * 0.35);
-            const maskH = itemH + peekH * 2;
+            const itemH = maxH + 16; // breathing room per row
+            const maskH = itemH * 3;  // 3 full rows: 1 above, active, 1 below
 
             // Build DOM
             const mask = document.createElement('div');
             mask.className = 'wheel-mask';
             mask.style.height = maskH + 'px';
+
+            // Selection indicator — hairline at center, sized to one row
+            const indicator = document.createElement('div');
+            indicator.className = 'wheel-indicator';
+            indicator.style.height = itemH + 'px';
+            mask.appendChild(indicator);
 
             const strip = document.createElement('div');
             strip.className = 'wheel-strip';
