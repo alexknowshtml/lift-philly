@@ -169,13 +169,9 @@
             color: var(--white);
         }
 
-        /* Rotating text animation */
+        /* Rotating text animation — no fixed height, no overflow clip */
         .rotating-wrap {
             display: block;
-            overflow: hidden;
-            /* 2.5em here resolves relative to .hero-headline font-size,
-               giving ~2 lines of breathing room at any viewport */
-            height: 2.5em;
             position: relative;
         }
 
@@ -187,13 +183,15 @@
         }
 
         @keyframes rotateOut {
-            0%   { transform: translateY(0);     opacity: 1; }
-            100% { transform: translateY(-110%); opacity: 0; }
+            0%   { transform: translateY(0);       opacity: 1; }
+            25%  { opacity: 0; }
+            100% { transform: translateY(-2.5rem); opacity: 0; }
         }
 
         @keyframes rotateIn {
-            0%   { transform: translateY(110%);  opacity: 0; }
-            100% { transform: translateY(0);     opacity: 1; }
+            0%   { transform: translateY(2.5rem);  opacity: 0; }
+            75%  { opacity: 1; }
+            100% { transform: translateY(0);       opacity: 1; }
         }
 
         .rotating-text.out {
