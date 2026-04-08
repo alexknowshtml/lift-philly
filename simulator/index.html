@@ -678,6 +678,33 @@
   .tag-gap { background: rgba(220,38,38,0.1); color: var(--red); border: 1px solid var(--red); }
   .tag-open { background: rgba(59,130,246,0.1); color: #1d4ed8; border: 1px solid #93c5fd; }
 
+  /* Excel download */
+  .excel-download {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    background: var(--cream);
+    border: 1.5px solid rgba(251,191,36,0.3);
+    border-radius: 12px;
+  }
+  .excel-download-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  @media (max-width: 600px) {
+    .excel-download {
+      flex-direction: column;
+      text-align: center;
+    }
+    .excel-download-left {
+      flex-direction: column;
+    }
+  }
+
   /* Beckley box */
   .beckley-box {
     background: var(--gradient);
@@ -963,11 +990,15 @@
   </div>
 
   <!-- Excel Download -->
-  <div style="text-align:center; padding:1.25rem; margin-bottom:1.5rem; background:var(--cream); border:1.5px solid rgba(251,191,36,0.3); border-radius:12px;">
-    <span style="font-size:1.5rem;">📊</span>
-    <p style="font-weight:600; color:var(--navy); margin:0.4rem 0 0.25rem; font-size:0.95rem;">Prefer a spreadsheet?</p>
-    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:0.75rem;">Download the full tax model for independent review.</p>
-    <a href="/simulator/onePhilly_scorp_vs_llc_tax_model_v10.xlsx" download style="display:inline-block; background:var(--navy); color:var(--white); padding:8px 20px; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">Download Excel Model (v10)</a>
+  <div class="excel-download">
+    <div class="excel-download-left">
+      <span style="font-size:1.5rem;">📊</span>
+      <div>
+        <p style="font-weight:600; color:var(--navy); margin:0; font-size:0.95rem;">Prefer a spreadsheet?</p>
+        <p style="font-size:0.85rem; color:var(--text-light); margin:0;">Download the full tax model for independent review.</p>
+      </div>
+    </div>
+    <a href="/simulator/onePhilly_scorp_vs_llc_tax_model_v10.xlsx" download style="display:inline-block; background:var(--navy); color:var(--white); padding:8px 20px; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600; white-space:nowrap;">Download Excel Model (v10)</a>
   </div>
 
   <!-- Comparison Table -->
