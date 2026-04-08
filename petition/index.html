@@ -918,8 +918,13 @@
 
             input.addEventListener('input', () => {
                 const q = input.value.toLowerCase().trim();
-                if (!q) { list.style.display = 'none'; return; }
+                if (!q) { show(INDUSTRIES.slice(0, 8)); return; }
                 show(INDUSTRIES.filter(v => v.toLowerCase().includes(q)).slice(0, 8));
+            });
+
+            input.addEventListener('focus', () => {
+                const q = input.value.toLowerCase().trim();
+                if (!q) show(INDUSTRIES.slice(0, 8));
             });
 
             input.addEventListener('keydown', e => {
