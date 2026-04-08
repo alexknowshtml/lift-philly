@@ -169,37 +169,40 @@
             color: var(--white);
         }
 
-        /* Rotating text animation — no fixed height, no overflow clip */
+        /* Rotating text — rotateX card flip */
         .rotating-wrap {
             display: block;
             position: relative;
+            perspective: 500px;
+            /* min-height set by JS on load */
         }
 
         .rotating-text {
             display: block;
             color: var(--gold);
+            border-bottom: 3px solid rgba(251, 191, 36, 0.6);
+            padding-bottom: 6px;
+            transform-origin: 50% 100%;
             will-change: transform, opacity;
             /* inherits font-size from .hero-headline */
         }
 
         @keyframes rotateOut {
-            0%   { transform: translateY(0);       opacity: 1; }
-            25%  { opacity: 0; }
-            100% { transform: translateY(-2.5rem); opacity: 0; }
+            0%   { transform: rotateX(0deg)   translateY(0);       opacity: 1; }
+            100% { transform: rotateX(-75deg) translateY(-0.5rem); opacity: 0; }
         }
 
         @keyframes rotateIn {
-            0%   { transform: translateY(2.5rem);  opacity: 0; }
-            75%  { opacity: 1; }
-            100% { transform: translateY(0);       opacity: 1; }
+            0%   { transform: rotateX(75deg)  translateY(0.5rem);  opacity: 0; }
+            100% { transform: rotateX(0deg)   translateY(0);       opacity: 1; }
         }
 
         .rotating-text.out {
-            animation: rotateOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: rotateOut 0.4s cubic-bezier(0.4, 0, 0.6, 1) forwards;
         }
 
         .rotating-text.in {
-            animation: rotateIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: rotateIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         /* See all toggle */
@@ -882,22 +885,34 @@
 
         // Rotating text animation
         const phrases = [
-            "barbers who know every face on the block",
-            "food truck vendors who feed this city",
-            "house cleaners and nannies caring for your family",
-            "contractors and plumbers rebuilding your home",
-            "rideshare drivers keeping the city moving",
-            "writers and journalists telling this city's story",
-            "photographers capturing life as it happens",
-            "tutors and trainers doing work that keeps us going",
-            "musicians and muralists making Philly's culture visible",
-            "freelancers and 1099 workers in every corner of this city",
-            "event planners and consultants building their practice",
-            "filmmakers and performers who make Philly sing",
+            "Barbers who know every face on the block",
+            "Food truck vendors who feed this city",
+            "House cleaners and nannies caring for your family",
+            "Contractors and plumbers rebuilding your home",
+            "Rideshare drivers keeping the city moving",
+            "Writers and journalists telling this city's story",
+            "Photographers capturing life as it happens",
+            "Tutors and trainers doing work that keeps us going",
+            "Musicians and muralists making Philly's culture visible",
+            "Freelancers and 1099 workers in every corner of this city",
+            "Event planners and consultants building their practice",
+            "Filmmakers and performers who make Philly sing",
         ];
 
         let rotateIndex = 0;
         const rotEl = document.getElementById('rotating-text');
+        const rotWrap = rotEl.closest('.rotating-wrap');
+
+        // Set container min-height to tallest phrase so layout never jumps
+        (function setWrapHeight() {
+            const probe = rotEl.cloneNode(false);
+            probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;width:' + rotWrap.offsetWidth + 'px;border-bottom:none;padding-bottom:0;';
+            document.body.appendChild(probe);
+            let maxH = 0;
+            phrases.forEach(p => { probe.textContent = p; maxH = Math.max(maxH, probe.offsetHeight); });
+            document.body.removeChild(probe);
+            rotWrap.style.minHeight = (maxH + 14) + 'px';
+        })();
 
         function rotateText() {
             rotEl.classList.add('out');
@@ -906,8 +921,8 @@
                 rotEl.textContent = phrases[rotateIndex];
                 rotEl.classList.remove('out');
                 rotEl.classList.add('in');
-                setTimeout(() => rotEl.classList.remove('in'), 380);
-            }, 360);
+                setTimeout(() => rotEl.classList.remove('in'), 520);
+            }, 420);
         }
 
         setInterval(rotateText, 2800);
