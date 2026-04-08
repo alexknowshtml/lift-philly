@@ -582,9 +582,12 @@
                             <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
                         </div>
                         <div class="form-group form-group-full" style="margin-bottom:8px;">
-                            <label style="display:flex;align-items:center;gap:10px;font-weight:500;cursor:pointer;font-size:0.95rem;">
-                                <input type="checkbox" id="anonymous" name="anonymous" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold-dark);">
-                                Sign anonymously <span style="font-weight:400;color:#64748b;">(your name and business won't appear publicly)</span>
+                            <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;">
+                                <input type="checkbox" id="anonymous" name="anonymous" style="width:15px;height:15px;cursor:pointer;accent-color:var(--gold-dark);margin-top:2px;flex-shrink:0;">
+                                <span style="display:flex;flex-direction:column;gap:2px;">
+                                    <span style="font-size:0.85rem;font-weight:600;color:#374151;">Sign anonymously</span>
+                                    <span style="font-size:0.78rem;font-weight:400;color:#64748b;">Your signature will be counted, but your name and personal info won't be shown publicly.</span>
+                                </span>
                             </label>
                         </div>
                         <button type="submit" class="btn-sign" id="sign-btn">Sign the Petition</button>
