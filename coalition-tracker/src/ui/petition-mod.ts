@@ -37,6 +37,7 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
       <td>${s.comment
         ? `<span class="comment-text" title="${s.comment.replace(/"/g, '&quot;')}">${s.comment.length > 40 ? s.comment.slice(0, 40) + '…' : s.comment}</span>`
         : '<span class="muted">—</span>'}</td>
+      <td>${s.anonymous ? '<span class="badge badge-anon">Anon</span>' : '<span class="muted">—</span>'}</td>
       <td><span class="badge badge-${s.status}">${s.status}</span></td>
       <td class="date-cell">${new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
       ${showActions ? `<td class="actions-cell">
@@ -238,6 +239,7 @@ export function getPetitionModHtml(
     .badge-pending { background: var(--warning-bg); color: var(--warning); }
     .badge-approved { background: var(--success-bg); color: var(--success); }
     .badge-rejected { background: var(--danger-bg); color: var(--danger); }
+    .badge-anon { background: #e0e7ff; color: #4f46e5; }
 
     .actions-cell { display: flex; gap: 8px; }
 
@@ -296,7 +298,7 @@ export function getPetitionModHtml(
       ${pending.length === 0
         ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
         : `<div class="table-wrap"><table>
-            <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
             <tbody>${signerRows(pending, true)}</tbody>
           </table></div>`}
     </div>
@@ -308,7 +310,7 @@ export function getPetitionModHtml(
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
           <tbody>${signerRows(all, true)}</tbody>
         </table>
       </div>
