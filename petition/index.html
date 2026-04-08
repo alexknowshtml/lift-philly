@@ -1143,6 +1143,9 @@
             }
 
             setInterval(wheelAdvance, 6000);
+
+            mask.addEventListener('click', () => { wheelAdvance(); });
+            mask.style.cursor = 'pointer';
         })();
 
         // Toggle full list
