@@ -80,6 +80,15 @@
 
   .nav-brand span { color: var(--gold); }
 
+  .nav-home {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-home:hover { color: var(--white); }
+
   .nav-links {
     display: flex;
     gap: 32px;
@@ -838,55 +847,9 @@
 <nav class="nav">
   <div class="container">
     <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
-
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/filing-your-birt">Filing Your BIRT</a></li>
-      <li><a href="/calculator">Increase Calculator</a></li>
-      <li><a href="#" class="active">Tax Simulator</a></li>
-      <li><a href="/#join">Join Coalition</a></li>
-    </ul>
-
-    <div class="nav-translate">
-      <button class="nav-translate-btn" onclick="toggleTranslateDropdown()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        <span>English</span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </button>
-      <div class="nav-translate-dropdown">
-        <div class="lang-list">
-          <button onclick="translatePage('es')">Espa&#241;ol</button>
-          <button onclick="translatePage('zh-CN')">&#20013;&#25991; (&#31616;&#20307;)</button>
-          <button onclick="translatePage('vi')">Ti&#7871;ng Vi&#7879;t</button>
-          <button onclick="translatePage('ko')">&#54620;&#44397;&#50612;</button>
-          <button onclick="translatePage('ru')">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</button>
-          <button onclick="translatePage('ar')">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</button>
-          <button onclick="translatePage('fr')">Fran&#231;ais</button>
-          <button onclick="translatePage('pt')">Portugu&#234;s</button>
-          <button onclick="translatePage('hi')">&#2361;&#2367;&#2344;&#2381;&#2342;&#2368;</button>
-          <button onclick="translatePage('tl')">Filipino</button>
-        </div>
-        <div class="help-divider"></div>
-        <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="help-link">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-          </svg>
-          Help us translate
-        </a>
-      </div>
-    </div>
-
-    <button class="nav-toggle" onclick="toggleNav()">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="/" class="nav-home">&larr; Back to LIFT Philly</a>
   </div>
 </nav>
-<div id="google_translate_element"></div>
 
 <div class="hero">
   <h1>Unintended Consequences Simulator</h1>
