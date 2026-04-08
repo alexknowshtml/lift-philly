@@ -936,6 +936,19 @@
       </div>
     </div>
 
+    <!-- Summary Banner -->
+    <div class="summary-banner scorp-wins" id="summary-banner">
+      <div>
+        <div class="banner-label" id="banner-label">S-Corp Advantage</div>
+        <div style="font-size:0.8rem;color:var(--light-ink);">After-tax income difference</div>
+      </div>
+      <div class="banner-amount" id="banner-amount">$46,030</div>
+      <div class="banner-sub" id="banner-sub">
+        <div>S-Corp: <strong id="scorp-aftertax">$226,723</strong></div>
+        <div>LLC: <strong id="llc-aftertax">$180,693</strong></div>
+      </div>
+    </div>
+
     <div class="input-grid">
       <div class="input-group">
         <label>Gross Revenue</label>
@@ -974,19 +987,6 @@
   <!-- High-expense warning -->
   <div id="high-expense-warning" style="display:none; background:#FDECEA; border:1.5px solid var(--red); border-radius:8px; box-shadow:3px 3px 0 var(--red); padding:0.9rem 1.25rem; margin-bottom:1.25rem; font-size:0.85rem; color:var(--ink);">
     <strong style="color:var(--red);">⚠ High-Expense Zone</strong> — At these inputs, the S-Corp salary + payroll exceeds remaining revenue after expenses. The S-Corp K-1 goes negative, but K-1 losses are zeroed in this model (complex basis/at-risk rules not modeled). The S-Corp owner still owes income tax on the full W-2 salary, so the comparison may overstate the S-Corp's cost. Treat S-Corp results here as a conservative upper bound.
-  </div>
-
-  <!-- Summary Banner -->
-  <div class="summary-banner scorp-wins" id="summary-banner">
-    <div>
-      <div class="banner-label" id="banner-label">S-Corp Advantage</div>
-      <div style="font-size:0.8rem;color:var(--light-ink);">After-tax income difference</div>
-    </div>
-    <div class="banner-amount" id="banner-amount">$46,030</div>
-    <div class="banner-sub" id="banner-sub">
-      <div>S-Corp: <strong id="scorp-aftertax">$226,723</strong></div>
-      <div>LLC: <strong id="llc-aftertax">$180,693</strong></div>
-    </div>
   </div>
 
   <!-- Finding -->
