@@ -926,7 +926,7 @@
                 const items = list.querySelectorAll('li');
                 if (e.key === 'ArrowDown') { activeIdx = Math.min(activeIdx + 1, items.length - 1); }
                 else if (e.key === 'ArrowUp') { activeIdx = Math.max(activeIdx - 1, 0); }
-                else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); input.value = items[activeIdx].dataset.val; list.style.display = 'none'; return; }
+                else if (e.key === 'Enter') { if (items.length === 1) { e.preventDefault(); input.value = items[0].dataset.val; list.style.display = 'none'; return; } if (activeIdx >= 0) { e.preventDefault(); input.value = items[activeIdx].dataset.val; list.style.display = 'none'; return; } }
                 else if (e.key === 'Escape') { list.style.display = 'none'; return; }
                 items.forEach((li, i) => li.style.background = i === activeIdx ? '#f1f5f9' : '');
             });
