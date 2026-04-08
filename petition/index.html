@@ -155,11 +155,27 @@
             margin-bottom: 0;
         }
 
+        /* Hero headline block */
+        .hero-headline {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .hero-static {
+            display: block;
+            color: var(--white);
+        }
+
         /* Rotating text animation */
         .rotating-wrap {
             display: block;
             overflow: hidden;
-            height: 2.6em;
+            /* 2.5em here resolves relative to .hero-headline font-size,
+               giving ~2 lines of breathing room at any viewport */
+            height: 2.5em;
             position: relative;
         }
 
@@ -167,8 +183,7 @@
             display: block;
             color: var(--gold);
             will-change: transform, opacity;
-            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-            line-height: 1.25;
+            /* inherits font-size from .hero-headline */
         }
 
         @keyframes rotateOut {
@@ -187,14 +202,6 @@
 
         .rotating-text.in {
             animation: rotateIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .hero-who {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            color: rgba(255,255,255,0.75);
-            margin-top: 8px;
-            margin-bottom: 20px;
-            font-weight: 500;
         }
 
         /* See all toggle */
@@ -375,8 +382,10 @@
     <section class="hero">
         <div class="container">
             <div class="badge">Petition</div>
-            <h1>We Are the</h1>
-            <div class="rotating-wrap"><span class="rotating-text" id="rotating-text">barbers who know every face on the block</span></div>
+            <div class="hero-headline">
+                <span class="hero-static">We Are the</span>
+                <div class="rotating-wrap"><span class="rotating-text" id="rotating-text">barbers who know every face on the block</span></div>
+            </div>
             <p class="hero-sub">Philadelphia's individual business owners are being taxed out of their homes. This is our statement — and our demand for fairness.</p>
             <button class="see-all-toggle" onclick="toggleList(this)">See everyone this affects ↓</button>
         </div>
