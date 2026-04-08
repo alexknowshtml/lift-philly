@@ -155,6 +155,76 @@
             margin-bottom: 0;
         }
 
+        /* Rotating text animation */
+        .rotating-wrap {
+            display: block;
+            overflow: hidden;
+            height: 1.15em;
+            position: relative;
+        }
+
+        .rotating-text {
+            display: block;
+            color: var(--gold);
+            will-change: transform, opacity;
+        }
+
+        @keyframes rotateOut {
+            0%   { transform: translateY(0);     opacity: 1; }
+            100% { transform: translateY(-110%); opacity: 0; }
+        }
+
+        @keyframes rotateIn {
+            0%   { transform: translateY(110%);  opacity: 0; }
+            100% { transform: translateY(0);     opacity: 1; }
+        }
+
+        .rotating-text.out {
+            animation: rotateOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .rotating-text.in {
+            animation: rotateIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .hero-who {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: rgba(255,255,255,0.75);
+            margin-top: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* See all toggle */
+        .see-all-toggle {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+
+        .see-all-toggle:hover {
+            border-color: rgba(255,255,255,0.6);
+            color: var(--white);
+        }
+
+        /* Collapsible we-are list */
+        .we-are-collapse {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease;
+        }
+
+        .we-are-collapse.open {
+            max-height: 1200px;
+        }
+
         /* We Are lines — bold call-and-response */
         .we-are-block {
             background: var(--navy);
@@ -303,8 +373,10 @@
     <section class="hero">
         <div class="container">
             <div class="badge">Petition</div>
-            <h1>We Are the People<br><span>Who Make Philly Work</span></h1>
-            <p class="hero-sub">Philadelphia's individual business owners are being taxed out of their homes. This is our statement — and our demand for fairness.</p>
+            <h1>We Are the<br><span class="rotating-wrap"><span class="rotating-text" id="rotating-text">barbers and nail techs</span></span></h1>
+            <p class="hero-who">who make Philly work — and we are being taxed out of our homes.</p>
+            <p class="hero-sub">Philadelphia's individual business owners are demanding fairness.</p>
+            <button class="see-all-toggle" onclick="toggleList(this)">See everyone this affects ↓</button>
         </div>
     </section>
 
@@ -312,6 +384,7 @@
         <div class="container">
             <div class="petition-text">
 
+                <div class="we-are-collapse" id="we-are-collapse">
                 <div class="we-are-block">
                     <p class="opener">We are the people who make Philly work.</p>
                     <p>We are the barbers, nail techs, estheticians, and tattoo artists who know every face on the block.</p>
@@ -325,6 +398,7 @@
                     <p>We are the musicians, muralists, filmmakers, and performers who make Philly's culture visible.</p>
                     <p>We are the freelancers, 1099 workers, and sole proprietors — in every neighborhood, in every trade, in every corner of this city.</p>
                     <p style="margin-top: 1.2em; font-weight: 700; color: var(--gold); font-size: 1.15rem;">We are Philly's individual business owners. And we are being taxed out of our homes.</p>
+                </div>
                 </div>
 
                 <p>Because of a legal challenge, the City made tax changes impacting nearly 75,000 individual workers and sole proprietors, many working as 1099 contractors. We now face new taxes we simply cannot afford.</p>
@@ -796,6 +870,47 @@
 
         loadStats();
         loadSigners(null);
+
+        // Rotating text animation
+        const phrases = [
+            "barbers and nail techs",
+            "food truck vendors",
+            "house cleaners and nannies",
+            "contractors and plumbers",
+            "rideshare drivers",
+            "graphic designers and writers",
+            "photographers and videographers",
+            "tutors and personal trainers",
+            "musicians and muralists",
+            "journalists and content creators",
+            "freelancers and 1099 workers",
+            "event planners and consultants",
+            "filmmakers and performers",
+        ];
+
+        let rotateIndex = 0;
+        const rotEl = document.getElementById('rotating-text');
+
+        function rotateText() {
+            rotEl.classList.add('out');
+            setTimeout(() => {
+                rotateIndex = (rotateIndex + 1) % phrases.length;
+                rotEl.textContent = phrases[rotateIndex];
+                rotEl.classList.remove('out');
+                rotEl.classList.add('in');
+                setTimeout(() => rotEl.classList.remove('in'), 380);
+            }, 360);
+        }
+
+        setInterval(rotateText, 2800);
+
+        // Toggle full list
+        function toggleList(btn) {
+            const collapse = document.getElementById('we-are-collapse');
+            const isOpen = collapse.classList.contains('open');
+            collapse.classList.toggle('open');
+            btn.textContent = isOpen ? 'See everyone this affects ↓' : 'Hide full list ↑';
+        }
     </script>
 
 </body>
