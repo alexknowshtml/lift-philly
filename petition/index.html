@@ -244,6 +244,28 @@
             color: var(--white);
         }
 
+        .btn-sign-hero {
+            background: var(--gold);
+            border: none;
+            color: var(--navy);
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-sign-hero:hover {
+            background: #fcd34d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(251,191,36,0.4);
+        }
+
         /* Collapsible we-are list */
         .we-are-collapse {
             overflow: hidden;
@@ -410,6 +432,7 @@
             </div>
             <p class="hero-sub">We are Philadelphia's individual business owners being taxed out of our homes and the city we built. This is our statement and our demand for fairness.</p>
             <button class="see-all-toggle" onclick="toggleList(this)">See everyone this affects ↓</button>
+            <a href="#sign-section" class="btn-sign-hero">Sign the Petition →</a>
         </div>
     </section>
 
