@@ -918,14 +918,17 @@
 
             input.addEventListener('input', () => {
                 const q = input.value.toLowerCase().trim();
-                if (!q) { show(INDUSTRIES.slice(0, 8)); return; }
-                show(INDUSTRIES.filter(v => v.toLowerCase().includes(q)).slice(0, 8));
+                if (!q) { show(INDUSTRIES); return; }
+                show(INDUSTRIES.filter(v => v.toLowerCase().includes(q)));
             });
 
-            input.addEventListener('focus', () => {
+            function openDropdown() {
                 const q = input.value.toLowerCase().trim();
-                if (!q) show(INDUSTRIES.slice(0, 8));
-            });
+                show(q ? INDUSTRIES.filter(v => v.toLowerCase().includes(q)) : INDUSTRIES);
+            }
+
+            input.addEventListener('focus', openDropdown);
+            input.addEventListener('click', openDropdown);
 
             input.addEventListener('keydown', e => {
                 const items = list.querySelectorAll('li');
@@ -936,7 +939,7 @@
                 items.forEach((li, i) => li.style.background = i === activeIdx ? '#f1f5f9' : '');
             });
 
-            document.addEventListener('click', e => { if (!input.contains(e.target)) list.style.display = 'none'; });
+            document.addEventListener('mousedown', e => { if (!input.contains(e.target) && !list.contains(e.target)) list.style.display = 'none'; });
         })();
 
         async function submitPetition(e) {
