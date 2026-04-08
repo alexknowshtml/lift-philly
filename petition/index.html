@@ -747,6 +747,7 @@
             background: #f0fdf4;
             border: 1.5px solid #bbf7d0;
             border-radius: 16px;
+            margin-top: 16px;
         }
         .success-icon {
             width: 52px;
@@ -978,6 +979,7 @@
 
                 // Show success message, keep form visible
                 document.getElementById('sign-success').style.display = 'block';
+                btn.textContent = 'Signed ✓';
                 try { localStorage.setItem('petition_pending_signer', JSON.stringify(data)); } catch(e) {}
 
                 // Add their name immediately to the list (optimistic)
