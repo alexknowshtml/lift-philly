@@ -1175,6 +1175,18 @@
 
             setInterval(wheelAdvance, 6000);
 
+            // When tab regains focus, snap to correct position — tab-hidden transitions
+            // can complete without firing transitionend, leaving strip/active out of sync
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    Array.from(strip.children).forEach(el => el.classList.remove('active'));
+                    strip.children[currentIdx].classList.add('active');
+                    strip.style.transition = 'none';
+                    strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
+                    requestAnimationFrame(() => requestAnimationFrame(() => { strip.style.transition = ''; }));
+                }
+            });
+
             mask.addEventListener('click', () => { wheelAdvance(); });
             mask.style.cursor = 'pointer';
         })();
