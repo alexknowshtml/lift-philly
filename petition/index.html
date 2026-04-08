@@ -963,9 +963,14 @@
             strip.className = 'wheel-strip';
 
             const CLONE_COUNT = 2; // clones of first phrases appended for seamless loop
+            // Restore saved position so page reloads don't restart from phrase 0
+            const STORAGE_KEY = 'liftphilly_wheel_idx';
+            let currentIdx = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+            if (currentIdx < 0 || currentIdx >= phrases.length) currentIdx = 0;
+
             phrases.forEach((p, i) => {
                 const item = document.createElement('span');
-                item.className = 'wheel-item' + (i === 0 ? ' active' : '');
+                item.className = 'wheel-item' + (i === currentIdx ? ' active' : '');
                 item.textContent = p;
                 item.style.height = itemH + 'px';
                 strip.appendChild(item);
@@ -981,9 +986,11 @@
             mask.appendChild(strip);
             rotWrap.appendChild(mask);
 
-            let currentIdx = 0;
             const centerOffset = (maskH - itemH) / 2;
-            strip.style.transform = 'translateY(' + centerOffset + 'px)';
+            // Jump instantly to saved position (no transition on load)
+            strip.style.transition = 'none';
+            strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
+            requestAnimationFrame(() => requestAnimationFrame(() => { strip.style.transition = ''; }));
 
             function wheelAdvance() {
                 strip.children[currentIdx].classList.remove('active');
@@ -1005,6 +1012,9 @@
                         }));
                     });
                 }
+
+                // Persist position so page reloads resume mid-rotation
+                try { localStorage.setItem(STORAGE_KEY, currentIdx < phrases.length ? currentIdx : currentIdx - phrases.length); } catch(e) {}
             }
 
             setInterval(wheelAdvance, 2800);
