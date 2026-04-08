@@ -159,7 +159,7 @@
         .rotating-wrap {
             display: block;
             overflow: hidden;
-            height: 1.15em;
+            height: 2.6em;
             position: relative;
         }
 
@@ -167,6 +167,8 @@
             display: block;
             color: var(--gold);
             will-change: transform, opacity;
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            line-height: 1.25;
         }
 
         @keyframes rotateOut {
@@ -373,9 +375,9 @@
     <section class="hero">
         <div class="container">
             <div class="badge">Petition</div>
-            <h1>We Are the<br><span class="rotating-wrap"><span class="rotating-text" id="rotating-text">barbers and nail techs</span></span></h1>
-            <p class="hero-who">who make Philly work — and we are being taxed out of our homes.</p>
-            <p class="hero-sub">Philadelphia's individual business owners are demanding fairness.</p>
+            <h1>We Are the</h1>
+            <div class="rotating-wrap"><span class="rotating-text" id="rotating-text">barbers who know every face on the block</span></div>
+            <p class="hero-sub">Philadelphia's individual business owners are being taxed out of their homes. This is our statement — and our demand for fairness.</p>
             <button class="see-all-toggle" onclick="toggleList(this)">See everyone this affects ↓</button>
         </div>
     </section>
@@ -873,19 +875,18 @@
 
         // Rotating text animation
         const phrases = [
-            "barbers and nail techs",
-            "food truck vendors",
-            "house cleaners and nannies",
-            "contractors and plumbers",
-            "rideshare drivers",
-            "graphic designers and writers",
-            "photographers and videographers",
-            "tutors and personal trainers",
-            "musicians and muralists",
-            "journalists and content creators",
-            "freelancers and 1099 workers",
-            "event planners and consultants",
-            "filmmakers and performers",
+            "barbers who know every face on the block",
+            "food truck vendors who feed this city",
+            "house cleaners and nannies caring for your family",
+            "contractors and plumbers rebuilding your home",
+            "rideshare drivers keeping the city moving",
+            "writers and journalists telling this city's story",
+            "photographers capturing life as it happens",
+            "tutors and trainers doing work that keeps us going",
+            "musicians and muralists making Philly's culture visible",
+            "freelancers and 1099 workers in every corner of this city",
+            "event planners and consultants building their practice",
+            "filmmakers and performers who make Philly sing",
         ];
 
         let rotateIndex = 0;
