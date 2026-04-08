@@ -178,9 +178,9 @@
         .wheel-mask {
             overflow: hidden;
             position: relative;
-            /* Active item at 25%-75% of 2× window — fade zones end at 23% to leave full phrase visible */
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 23%, black 77%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 23%, black 77%, transparent 100%);
+            /* 1.3× window: active at 11.5%-88.5%; fade zones at 10%/90% stay outside that */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
         }
 
         /* Hairline selection indicator at center */
@@ -942,7 +942,7 @@
             rotWrap.removeChild(probe);
 
             const itemH = maxH + 16; // breathing room per row
-            const maskH = itemH * 2.0; // 2× height: active at 25%-75%, neighbors ghost at edges
+            const maskH = itemH * 1.3; // 1.3× height: 26px above/below active, neighbors barely ghost
 
             // Build DOM
             const mask = document.createElement('div');
