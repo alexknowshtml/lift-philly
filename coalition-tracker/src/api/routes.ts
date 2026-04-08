@@ -327,7 +327,7 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, async (c) => {
 
 // Submit a signature
 app.post('/api/petition', async (c) => {
-  const body = await c.req.json<{ name: string; email: string; zip_code: string; business_name?: string; business_url?: string; comment?: string }>();
+  const body = await c.req.json<{ name: string; email: string; zip_code: string; business_name?: string; business_url?: string; comment?: string; anonymous?: boolean }>();
 
   if (!body.name?.trim() || !body.email?.trim() || !body.zip_code?.trim()) {
     return c.json({ error: 'Name, email, and zip code are required' }, 400);
@@ -349,11 +349,12 @@ app.post('/api/petition', async (c) => {
     body.zip_code.trim(),
     body.business_name?.trim() || null,
     body.business_url?.trim() || null,
-    body.comment?.trim() || null
+    body.comment?.trim() || null,
+    !!body.anonymous
   );
 
   invalidatePetitionCache();
-  return c.json({ success: true, id: signer.id, name: signer.name, business_name: signer.business_name, business_url: signer.business_url }, 201);
+  return c.json({ success: true, id: signer.id, name: signer.name, business_name: signer.business_name, business_url: signer.business_url, anonymous: signer.anonymous }, 201);
 });
 
 // Get approved signers (public) — cached 60s

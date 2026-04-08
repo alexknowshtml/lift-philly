@@ -556,6 +556,12 @@
                             <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
                             <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
                         </div>
+                        <div class="form-group form-group-full" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;gap:10px;font-weight:500;cursor:pointer;font-size:0.95rem;">
+                                <input type="checkbox" id="anonymous" name="anonymous" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold-dark);">
+                                Sign anonymously <span style="font-weight:400;color:#64748b;">(your name and business won't appear publicly)</span>
+                            </label>
+                        </div>
                         <button type="submit" class="btn-sign" id="sign-btn">Sign the Petition</button>
                         <p class="form-error" id="form-error"></p>
                     </form>
@@ -831,10 +837,11 @@
 
                 list.innerHTML = signers.map((s, i) => {
                     const isMe = s.id === highlightId;
-                    const nameHtml = s.business_url
-                        ? `<a href="${s.business_url}" target="_blank" rel="noopener">${s.name}</a>`
-                        : `<span class="signer-name">${s.name}</span>`;
-                    const bizHtml = s.business_name ? `<span class="biz">${s.business_name}</span>` : '';
+                    const displayName = s.anonymous ? 'Anonymous' : s.name;
+                    const nameHtml = (!s.anonymous && s.business_url)
+                        ? `<a href="${s.business_url}" target="_blank" rel="noopener">${displayName}</a>`
+                        : `<span class="signer-name">${displayName}</span>`;
+                    const bizHtml = (!s.anonymous && s.business_name) ? `<span class="biz">${s.business_name}</span>` : '';
                     return `<span class="signer-chip${isMe ? ' me' : ''}"><span class="signer-num">${i + 1}.</span>${nameHtml}${bizHtml}</span>`;
                 }).join('');
             } catch (e) {
@@ -850,6 +857,7 @@
             btn.disabled = true;
             btn.textContent = 'Submitting...';
 
+            const isAnon = document.getElementById('anonymous').checked;
             const body = {
                 name: document.getElementById('name').value.trim(),
                 email: document.getElementById('email').value.trim(),
@@ -857,6 +865,7 @@
                 business_name: document.getElementById('business_name').value.trim() || undefined,
                 business_url: document.getElementById('business_url').value.trim() || undefined,
                 comment: document.getElementById('comment').value.trim() || undefined,
+                anonymous: isAnon || undefined,
             };
 
             try {
@@ -896,10 +905,11 @@
 
                 const chip = document.createElement('span');
                 chip.className = 'signer-chip me';
-                const optNameHtml = data.business_url
-                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${data.name}</a>`
-                    : `<span class="signer-name">${data.name}</span>`;
-                const optBizHtml = data.business_name ? `<span class="biz">${data.business_name}</span>` : '';
+                const displayName = data.anonymous ? 'Anonymous' : data.name;
+                const optNameHtml = (!data.anonymous && data.business_url)
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${displayName}</a>`
+                    : `<span class="signer-name">${displayName}</span>`;
+                const optBizHtml = (!data.anonymous && data.business_name) ? `<span class="biz">${data.business_name}</span>` : '';
                 chip.innerHTML = `<span class="signer-num">1.</span>` + optNameHtml + optBizHtml;
                 list.prepend(chip);
                 countEl.textContent = newCount + (newCount === 1 ? ' person has signed' : ' people have signed');
