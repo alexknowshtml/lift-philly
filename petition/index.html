@@ -619,6 +619,11 @@
                         <div class="success-icon">✓</div>
                         <h3>Thank you for signing!</h3>
                         <p>Your signature has been received. It will appear below once reviewed.</p>
+                        <p class="share-nudge">Help spread the word — share with your network:</p>
+                        <div class="share-buttons">
+                            <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=I%20just%20signed%20the%20petition%20to%20fix%20Philadelphia%27s%20BIRT%20tax%20for%20independent%20workers.%20If%20you%27re%20a%20freelancer%2C%20contractor%2C%20or%20solo%20biz%20owner%20in%20Philly%20%E2%80%94%20sign%20here%3A&url=https%3A%2F%2Fliftphilly.org%2Fpetition&hashtags=LIFTPhilly" target="_blank" rel="noopener">Share on X</a>
+                            <button class="share-btn share-copy" onclick="copyPetitionLink(this)">Copy Link</button>
+                        </div>
                     </div>
                 </div>
 
@@ -782,6 +787,39 @@
         .sign-success p {
             color: #166534;
             font-size: 0.95rem;
+        }
+        .share-nudge {
+            margin-top: 20px !important;
+            font-weight: 600;
+            color: #15803d !important;
+        }
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            font-family: inherit;
+            transition: opacity 0.15s;
+        }
+        .share-btn:hover { opacity: 0.85; }
+        .share-x {
+            background: #000;
+            color: #fff;
+        }
+        .share-copy {
+            background: var(--navy);
+            color: #fff;
         }
         .signers-section {
             margin-top: 40px;
@@ -1207,6 +1245,13 @@
             const isOpen = collapse.classList.contains('open');
             collapse.classList.toggle('open');
             btn.textContent = isOpen ? 'See everyone this affects ↓' : 'Hide full list ↑';
+        }
+
+        function copyPetitionLink(btn) {
+            navigator.clipboard.writeText('https://liftphilly.org/petition').then(function() {
+                btn.textContent = 'Copied!';
+                setTimeout(function() { btn.textContent = 'Copy Link'; }, 2000);
+            });
         }
     </script>
 
