@@ -1098,6 +1098,12 @@
         loadStats();
         loadSigners(null).then(injectPendingSigner);
 
+        // Preview mode: ?preview=signed shows success state without submitting
+        if (new URLSearchParams(window.location.search).get('preview') === 'signed') {
+            document.getElementById('sign-success').style.display = 'block';
+            document.getElementById('sign-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
         // Picker wheel animation
         const phrases = [
             "barbers who know every face on the block",
