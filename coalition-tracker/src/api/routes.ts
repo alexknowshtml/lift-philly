@@ -4,6 +4,23 @@ import { Hono } from 'hono';
 const petitionCache = new Map<string, { data: unknown; expires: number }>();
 const CACHE_TTL_MS = 60_000; // 60 seconds
 
+// Rate limiter: max 5 submissions per IP per 10 minutes
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || entry.resetAt < now) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) return false;
+  entry.count++;
+  return true;
+}
+
 function getCached<T>(key: string): T | null {
   const entry = petitionCache.get(key);
   if (entry && entry.expires > Date.now()) return entry.data as T;
@@ -41,6 +58,7 @@ import {
   getAuditLogForMember,
   getAuditLog,
   createPetitionSigner,
+  getPetitionSignerByEmail,
   getApprovedPetitionSigners,
   getPendingPetitionSigners,
   getAllPetitionSigners,
@@ -327,7 +345,13 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, async (c) => {
 
 // Submit a signature
 app.post('/api/petition', async (c) => {
-  const body = await c.req.json<{ name: string; email: string; zip_code: string; business_name?: string; business_url?: string; industry?: string; comment?: string; anonymous?: boolean }>();
+  // Rate limit by IP
+  const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim() || c.req.header('x-real-ip') || 'unknown';
+  if (!checkRateLimit(ip)) {
+    return c.json({ error: 'Too many submissions. Please try again later.' }, 429);
+  }
+
+  const body = await c.req.json<{ name: string; email: string; zip_code: string; signer_type?: string; business_name?: string; business_url?: string; industry?: string; comment?: string; anonymous?: boolean }>();
 
   if (!body.name?.trim() || !body.email?.trim() || !body.zip_code?.trim()) {
     return c.json({ error: 'Name, email, and zip code are required' }, 400);
@@ -343,12 +367,37 @@ app.post('/api/petition', async (c) => {
     return c.json({ error: 'Invalid email address' }, 400);
   }
 
+  // Validate business_url format if provided
+  const rawUrl = body.business_url?.trim();
+  if (rawUrl) {
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        return c.json({ error: 'Business URL must start with http:// or https://' }, 400);
+      }
+    } catch {
+      return c.json({ error: 'Please enter a valid business URL' }, 400);
+    }
+  }
+
+  // Validate signer_type if provided
+  const validSignerTypes = ['business_owner', 'employee', 'concerned_citizen'];
+  const signerType = body.signer_type && validSignerTypes.includes(body.signer_type) ? body.signer_type : null;
+
+  // Deduplicate by email
+  const email = body.email.trim().toLowerCase();
+  const existing = await getPetitionSignerByEmail(email);
+  if (existing) {
+    return c.json({ error: 'This email has already signed the petition.' }, 409);
+  }
+
   const signer = await createPetitionSigner(
     body.name.trim(),
-    body.email.trim().toLowerCase(),
+    email,
     body.zip_code.trim(),
+    signerType,
     body.business_name?.trim() || null,
-    body.business_url?.trim() || null,
+    rawUrl || null,
     body.industry?.trim() || null,
     body.comment?.trim() || null,
     !!body.anonymous

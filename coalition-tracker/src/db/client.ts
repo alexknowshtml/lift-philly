@@ -80,6 +80,7 @@ export interface PetitionSigner {
   name: string;
   email: string;
   zip_code: string;
+  signer_type: 'business_owner' | 'employee' | 'concerned_citizen' | null;
   business_name: string | null;
   business_url: string | null;
   industry: string | null;
@@ -329,10 +330,16 @@ export async function getAuditLog(limit: number = 50, offset: number = 0): Promi
 
 // ============ Petition Functions ============
 
+export async function getPetitionSignerByEmail(email: string): Promise<PetitionSigner | null> {
+  const rs = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE email = ? LIMIT 1', args: [email] });
+  return rowToObj<PetitionSigner>(rs.rows[0] ?? undefined);
+}
+
 export async function createPetitionSigner(
   name: string,
   email: string,
   zip_code: string,
+  signer_type: string | null,
   business_name: string | null,
   business_url: string | null,
   industry: string | null,
@@ -340,8 +347,8 @@ export async function createPetitionSigner(
   anonymous: boolean = false
 ): Promise<PetitionSigner> {
   const rs = await client.execute({
-    sql: 'INSERT INTO petition_signers (name, email, zip_code, business_name, business_url, industry, comment, anonymous) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    args: [name, email, zip_code, business_name || null, business_url || null, industry || null, comment || null, anonymous ? 1 : 0],
+    sql: 'INSERT INTO petition_signers (name, email, zip_code, signer_type, business_name, business_url, industry, comment, anonymous) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    args: [name, email, zip_code, signer_type || null, business_name || null, business_url || null, industry || null, comment || null, anonymous ? 1 : 0],
   });
   const row = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE id = ?', args: [rs.lastInsertRowid] });
   return rowToObj<PetitionSigner>(row.rows[0])!;
