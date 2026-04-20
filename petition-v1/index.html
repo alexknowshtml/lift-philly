@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign the Petition, Request a Hearing — LIFT Philly</title>
+    <meta name="description" content="We are the barbers, nail techs, house cleaners, contractors, musicians, journalists, and gig workers who make Philly work. Nearly 75,000 of us are being taxed out of our homes and the city we built.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="robots" content="noindex">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sign the Petition, Request a Hearing — LIFT Philly">
+    <meta property="og:description" content="Nearly 75,000 Philadelphia independent workers are being taxed out of the city they built. Sign the petition to fix the BIRT tax for good.">
+    <meta property="og:image" content="https://liftphilly.org/og-petition.png">
+    <meta property="og:url" content="https://liftphilly.org/petition">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://liftphilly.org/og-petition.png">
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-bEPTzuGWc7ZFrRQnG7Cg6.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav .container {
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand span {
+            color: var(--gold);
+        }
+
+        .nav-home {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-home:hover {
+            color: var(--white);
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 40px 0 36px;
+            text-align: center;
+        }
+
+        .hero .container {
+            max-width: 760px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 580px;
+            margin: 0 auto 20px;
+            line-height: 1.4;
+            text-wrap: balance;
+        }
+
+        .hero-sub:last-of-type {
+            margin-bottom: 0;
+        }
+
+        /* Petition body */
+        .petition-wrap {
+            padding: 56px 0 40px;
+        }
+
+        .petition-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .petition-text p {
+            margin-bottom: 1.4em;
+        }
+
+        .petition-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Hero headline block */
+        .hero-headline {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+        }
+
+        .hero-static {
+            display: block;
+            color: var(--white);
+        }
+
+        /* Rotating text — picker wheel scroll */
+        .rotating-wrap {
+            display: block;
+            position: relative;
+        }
+
+        .wheel-mask {
+            overflow: hidden;
+            position: relative;
+            /* Asymmetric: tiny top fade (active hugs header), gentle bottom fade for next-phrase ghost */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 78%, transparent 100%);
+        }
+
+        /* Hairline selection indicator at center */
+        .wheel-indicator {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            border-top: 3px solid rgba(251, 191, 36, 0.6);
+            border-bottom: 3px solid rgba(251, 191, 36, 0.6);
+            z-index: 2;
+        }
+
+        .wheel-strip {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wheel-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            text-align: center;
+            text-wrap: balance;
+            opacity: 0.12;
+            transform: scale(0.88);
+            transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+            padding: 0 4px 6px;
+        }
+
+        .wheel-item.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* See all toggle */
+        .see-all-toggle {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+
+        .see-all-toggle:hover {
+            border-color: rgba(255,255,255,0.6);
+            color: var(--white);
+        }
+
+        .btn-sign-hero {
+            background: var(--gold);
+            border: none;
+            color: var(--navy);
+            padding: 9px 28px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-sign-hero:hover {
+            background: #fcd34d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(251,191,36,0.4);
+        }
+
+        /* Collapsible we-are list */
+        .we-are-collapse {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease;
+        }
+
+        .we-are-collapse.open {
+            max-height: 2400px;
+        }
+
+        /* We Are lines — bold call-and-response */
+        .we-are-block {
+            background: #1e293b;
+            color: var(--white);
+            border-radius: 16px;
+            padding: 48px 40px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .we-are-block p {
+            font-size: 1.1rem;
+            line-height: 1.45;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 0.4em;
+            text-wrap: balance;
+        }
+
+        .we-are-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .we-are-block .opener {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1em;
+        }
+
+        /* Pull quote */
+        .pull-quote {
+            border-left: 4px solid var(--gold);
+            padding: 20px 28px;
+            margin: 36px 0;
+            background: #fefce8;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            line-height: 1.55;
+        }
+
+        /* Impact list */
+        .impact-list {
+            list-style: none;
+            margin: 24px 0;
+            padding: 0;
+        }
+
+        .impact-list li {
+            padding: 10px 0 10px 28px;
+            position: relative;
+            font-size: 1.05rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .impact-list li:last-child {
+            border-bottom: none;
+        }
+
+        .impact-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+
+        /* Call to action */
+        .cta-block {
+            background: var(--gradient);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 48px;
+            text-align: center;
+            margin-top: 56px;
+        }
+
+        .cta-block h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-block p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 0.85rem;
+            margin-top: 0;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 28px 0 24px;
+            }
+            .we-are-block {
+                padding: 28px 24px;
+            }
+            .cta-block {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="container">
+            <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
+            <a href="/" class="nav-home">← Back to LIFT Philly</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="badge">Petition for Hearing</div>
+            <div class="hero-headline">
+                <span class="hero-static">We are the</span>
+                <div class="rotating-wrap" id="rotating-wrap"></div>
+            </div>
+            <p class="hero-sub">We are Philadelphia's individual business owners being taxed out of our homes and the city we built.</p>
+            <p class="hero-sub">This is our statement, our request for fairness, and our call for a hearing.</p>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:28px;">
+                <button class="see-all-toggle" style="margin-top:0;" onclick="toggleList(this)">See everyone this affects ↓</button>
+                <a href="#sign-section" class="btn-sign-hero" style="margin-top:0;">Sign the Petition →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="petition-wrap">
+        <div class="container">
+            <div class="petition-text">
+
+                <div class="we-are-collapse" id="we-are-collapse">
+                <div class="we-are-block" style="background:#f1f5f9;border:1px solid #e2e8f0;">
+                    <p class="opener" style="color:var(--navy);text-align:left;">We are the people who make Philly work.</p>
+                    <p style="color:#334155;">We are the barbers, nail techs, estheticians, and tattoo artists who know every face on the block.</p>
+                    <p style="color:#334155;">We are the food truck vendors, caterers, and pop-up chefs who feed this city.</p>
+                    <p style="color:#334155;">We are the house cleaners, nannies, and home health aides caring for your children, your parents, and your homes.</p>
+                    <p style="color:#334155;">We are the contractors, plumbers, electricians, and painters rebuilding your homes.</p>
+                    <p style="color:#334155;">We are the rideshare drivers and delivery workers keeping the city moving.</p>
+                    <p style="color:#334155;">We are the graphic designers, writers, journalists, and content creators telling this city's story one project at a time.</p>
+                    <p style="color:#334155;">We are the photographers, videographers, and social media managers capturing life as it happens.</p>
+                    <p style="color:#334155;">We are the therapists, counselors, and social workers helping Philly heal — one session, one family, one crisis at a time.</p>
+                    <p style="color:#334155;">We are the tutors, personal trainers, event planners, and consultants doing the work that keeps this city running.</p>
+                    <p style="color:#334155;">We are the musicians, muralists, filmmakers, and performers who make Philly's culture visible.</p>
+                    <p style="color:#334155;">We are the freelancers, 1099 workers, and sole proprietors — in every neighborhood, in every trade, in every corner of this city.</p>
+                    <p style="margin-top: 1.2em; font-weight: 700; color: var(--navy); font-size: 1.15rem;">We are Philly's individual business owners. And we are being taxed out of our homes and the city we built.</p>
+                    <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e2e8f0;text-align:center;">
+                        <p style="color:#64748b;font-size:0.9rem;margin-bottom:14px;">Don't see your industry represented? Sign the petition so we can add it to the list.</p>
+                        <a href="#sign-section" style="display:inline-block;background:var(--navy);color:var(--white);padding:10px 24px;border-radius:100px;font-size:0.9rem;font-weight:600;text-decoration:none;">Add my industry →</a>
+                    </div>
+                </div>
+                </div>
+
+                <p>Because of a legal challenge, the City made tax changes impacting nearly 75,000 individual workers and sole proprietors, many working as 1099 contractors. We now face new taxes we simply cannot afford.</p>
+
+                <div class="pull-quote">
+                    <div style="font-size:1.15rem;font-weight:600;color:#64748b;margin-bottom:14px;text-align:center;">For a family business earning $50,000 a year:</div>
+                    <div style="display:flex;gap:16px;margin-bottom:16px;">
+                        <div style="flex:1;background:#fff;border-radius:10px;padding:14px 16px;text-align:center;border:1px solid #fde68a;">
+                            <div style="font-size:1.6rem;font-weight:800;color:#dc2626;line-height:1.2;">↑ $1,200</div>
+                            <div style="font-size:0.8rem;color:#64748b;margin-top:2px;">extra per year</div>
+                        </div>
+                        <div style="flex:1;background:#fff;border-radius:10px;padding:14px 16px;text-align:center;border:1px solid #fde68a;">
+                            <div style="font-size:1.6rem;font-weight:800;color:#dc2626;line-height:1.2;">↑ $3,200</div>
+                            <div style="font-size:0.8rem;color:#64748b;margin-top:2px;">extra per year</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p>That is one month's rent.</p>
+                <p>That is groceries for a family of four.</p>
+                <p>That is the heating bill in winter.</p>
+                <p>That is the AC bill in the summer.</p>
+
+                <p>In a city where nearly half of renters already struggle with housing costs, these tax increases don't just take money. They create real harm for families, blocks, and neighborhoods.</p>
+
+                <p>We do not blame City Council for eliminating the $100,000 BIRT exemption. You had no choice. But now, it is our collective responsibility to act.</p>
+
+                <p>The City talks about the hypothetical unintended consequences of giving us relief. But on every Philly corner and in every neighborhood, cash rules everything around us.</p>
+
+                <p>When government pulls cash out of our Individual Business, the harm is immediate:</p>
+
+                <ul class="impact-list">
+                    <li>less money for rent</li>
+                    <li>less money for groceries</li>
+                    <li>less money for childcare</li>
+                    <li>less money spent in the neighborhood</li>
+                    <li>less stability for the families holding this city together</li>
+                </ul>
+
+                <p>That is especially true when so many working people are already making less than a living wage.</p>
+
+                <p><strong>We are not asking for a handout. We are asking for fairness.</strong></p>
+
+                <p>We already pay our share through the Net Profits Tax. But now the City is taxing that same income again under the Business Income and Receipts Tax. That means many individual business owners face a double tax — and can end up paying a higher rate than corporations.</p>
+
+                <div class="we-are-block">
+                    <p style="text-align:center;font-size:1rem;color:rgba(255,255,255,0.6);font-weight:500;margin-bottom:0.6em;">We are not well-resourced corporations.</p>
+                    <p style="text-align:center;font-size:1.6rem;font-weight:800;color:var(--white);line-height:1.3;margin-bottom:0;">We are working families trying to survive.</p>
+                </div>
+
+                <p>The biggest unintended consequence is already here: neighborhood businesses losing cash, families losing stability, and local communities losing the dollars that keep them alive.</p>
+
+                <p><strong>The real unintended consequence is NOT that a few high-income business owners might switch from an S-Corp to an LLC to get a tax break.</strong></p>
+                <p>That risk is limited because an S-Corp giving up their status would increase their federal taxes by tens of thousands of dollars, far exceeding the nominal break in city taxes from switching to an LLC.</p>
+
+                <p><strong>The real unintended consequence</strong> is that thousands of working Philadelphians will have money pulled out of their neighborhoods, weakening the local businesses that keep those neighborhoods going.</p>
+
+                <p><strong>The real unintended consequence</strong> is that the City may spend tens of millions of dollars on programs and fixes that can help less than 10 percent of affected businesses — while Councilmember Driscoll's structural tax solution could help far more people, more fairly, and more efficiently.</p>
+
+                <div class="pull-quote">
+                    We need a simple, fair, and responsible solution.
+                </div>
+
+                <p>On November 20, 2025, Councilmember Driscoll introduced Bill No. 251026. On March 25, 2026, the Law Department confirmed this solution is constitutional.</p>
+
+                <div style="background:#fff7ed;border-left:4px solid var(--gold);border-radius:0 12px 12px 0;padding:20px 24px;margin:24px 0;">
+                    <div style="font-size:1.1rem;font-weight:800;color:#92400e;margin-bottom:8px;">Our Ask</div>
+                    <p style="font-size:1.05rem;font-weight:700;color:var(--navy);margin:0;text-wrap:balance;">Hold a public hearing and bring <strong>Bill No. 251026</strong> to a vote, creating a new constitutionally sound BIRT exception for individual sole proprietors and single-member LLCs owned by Individuals.</p>
+                </div>
+
+                <p>This solution would:</p>
+
+                <ul class="impact-list">
+                    <li>end the complex double tax on individuals that leaves them paying a higher rate than corporations</li>
+                    <li>reduce unnecessary compliance costs for both the City and our individual business owners</li>
+                    <li>protect working families while keeping local dollars in our communities</li>
+                    <li>strengthen neighborhood economies instead of draining them</li>
+                </ul>
+
+                <p>This is about more than tax policy. It is about fairness. It is about family stability. It is about whether Philadelphia wants to be a city where working people can still afford to live, build, and stay.</p>
+
+                <!-- Sign the Petition -->
+                <div id="sign-section" class="sign-section">
+                    <h2 class="sign-heading">Add Your Name</h2>
+                    <p class="sign-sub">Sign this petition and stand with Philadelphia's working business owners.</p>
+
+                    <form id="petition-form" class="petition-form" onsubmit="submitPetition(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name <span class="req">*</span></label>
+                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="business_name">Business Name <span class="opt">(optional)</span></label>
+                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email <span class="req">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
+                                <span class="field-note">Not shown publicly</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip_code">Zip Code <span class="req">*</span></label>
+                                <input type="text" id="zip_code" name="zip_code" placeholder="19103" maxlength="5" inputmode="numeric" pattern="\d{5}" required autocomplete="postal-code">
+                                <span class="field-note">Helps us match you with your council representative — not shown publicly</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="business_url">Business Website <span class="opt">(optional)</span></label>
+                                <input type="url" id="business_url" name="business_url" placeholder="https://...">
+                            </div>
+                            <div class="form-group" style="position:relative;">
+                                <label for="industry">Industry <span class="opt">(optional)</span></label>
+                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off">
+                                <ul id="industry-suggestions" style="display:none;position:absolute;z-index:100;left:0;right:0;top:100%;background:#fff;border:1px solid #e2e8f0;border-radius:8px;max-height:360px;overflow-y:auto;margin:2px 0 0;padding:4px 0;box-shadow:0 4px 16px rgba(0,0,0,0.1);list-style:none;"></ul>
+                                <span class="field-note">Type to search industries, or add your own</span>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-full">
+                            <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
+                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
+                        </div>
+                        <div class="form-group form-group-full" style="margin-bottom:8px;">
+                            <label style="display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;">
+                                <span style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+                                    <span style="font-size:0.85rem;font-weight:600;color:#374151;">I prefer to sign anonymously</span>
+                                    <span style="font-size:0.78rem;font-weight:400;color:#64748b;text-wrap:balance;">Your signature will be counted, but your name and personal info won't be shown publicly.</span>
+                                </span>
+                                <input type="checkbox" id="anonymous" name="anonymous" style="width:18px;height:18px;cursor:pointer;accent-color:var(--gold-dark);flex-shrink:0;">
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-sign" id="sign-btn">Sign the Petition</button>
+                        <p class="form-error" id="form-error"></p>
+                    </form>
+
+                    <div id="sign-success" class="sign-success" style="display:none">
+                        <div class="success-icon">✓</div>
+                        <h3>Thank you for signing!</h3>
+                        <p>Your signature has been received. It will appear below once reviewed.</p>
+                        <div class="linkedin-suggest">
+                            <p class="linkedin-suggest-text" id="linkedin-suggest-text">I signed the petition supporting the LIFT Act — a proposed fix to Philadelphia's BIRT tax that's currently hitting 75,000+ independent workers, freelancers, and solo business owners with a new double tax. If you work for yourself in Philly, this affects you. liftphilly.org/petition</p>
+                            <button class="linkedin-copy-btn" onclick="copyLinkedInText(this)">Copy suggested text</button>
+                        </div>
+                        <div class="share-buttons">
+                            <a class="share-btn share-x" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fliftphilly.org%2Fpetition" target="_blank" rel="noopener">Share on LinkedIn</a>
+                            <button class="share-btn share-copy" onclick="copyPetitionLink(this)">Copy Link</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signers List -->
+                <div class="signers-section" id="signers-section">
+                    <div class="signers-header">
+                        <h2 class="sign-heading">Who's Signed</h2>
+                    </div>
+                    <div class="petition-stats" id="petition-stats" style="display:none">
+                        <span class="stat-count" id="stat-approved"></span>
+                        <span class="stat-momentum" id="stat-momentum"></span>
+                    </div>
+                    <div id="signers-list" class="signers-list">
+                        <p class="signers-loading">Loading signatures...</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section style="background:var(--navy);padding:64px 24px;">
+        <div style="max-width:760px;margin:0 auto;">
+            <p style="font-size:2rem;font-weight:900;color:var(--gold);letter-spacing:-0.02em;margin-bottom:20px;line-height:1.1;">We Are Philly.</p>
+            <p style="font-size:1.15rem;color:rgba(255,255,255,0.85);line-height:1.65;margin-bottom:12px;">Your neighbors. Your customers. Your community.</p>
+            <p style="font-size:1.15rem;color:rgba(255,255,255,0.85);line-height:1.65;margin-bottom:20px;">The heart of this city — and we're being taxed out of it.</p>
+            <p style="font-size:1rem;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:24px;">We ask the Administration, City Council, and community partners to come together and pass this reform now. When our individual-owned businesses thrive, Philadelphia thrives.</p>
+            <p style="font-size:1.1rem;font-weight:700;color:var(--white);border-top:1px solid rgba(255,255,255,0.15);padding-top:20px;margin:0;">We deserve a fair chance to stay, work, and build here.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p><a href="/">LIFT Philly</a> · Coalition for Effective, Efficient &amp; Equitable Tax Reform · <a href="mailto:hello@liftphilly.org">hello@liftphilly.org</a></p>
+    </footer>
+
+    <style>
+        .sign-section {
+            margin-top: 48px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 40px;
+            scroll-margin-top: 72px;
+        }
+        .sign-heading {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .sign-sub {
+            color: var(--text-light);
+            margin-bottom: 28px;
+        }
+        .petition-form {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 560px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+        .req { color: #dc2626; }
+        .opt { font-weight: 400; color: var(--text-light); font-size: 0.8rem; }
+        .form-group input {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s;
+            background: white;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--navy);
+        }
+        .form-group-full {
+            margin-bottom: 20px;
+        }
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s;
+            background: white;
+            resize: vertical;
+        }
+        .field-note {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        .btn-sign {
+            width: 100%;
+            padding: 14px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-top: 4px;
+        }
+        .btn-sign:hover { background: #1e293b; }
+        .btn-sign:disabled { opacity: 0.6; cursor: not-allowed; }
+        .form-error {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 8px;
+            min-height: 1em;
+        }
+        .sign-success {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            border-radius: 16px;
+            margin-top: 16px;
+        }
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            background: #16a34a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+        .sign-success h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #15803d;
+            margin-bottom: 8px;
+        }
+        .sign-success p {
+            color: #166534;
+            font-size: 0.95rem;
+        }
+        .share-nudge {
+            margin-top: 20px !important;
+            font-weight: 600;
+            color: #15803d !important;
+        }
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            font-family: inherit;
+            transition: opacity 0.15s;
+        }
+        .share-btn:hover { opacity: 0.85; }
+        .share-x {
+            background: #0077b5;
+            color: #fff;
+        }
+        .share-copy {
+            background: var(--navy);
+            color: #fff;
+        }
+        .linkedin-suggest {
+            background: #fff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 16px 0 12px;
+            text-align: left;
+        }
+        .linkedin-suggest-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 8px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .linkedin-suggest-hint {
+            font-weight: 400;
+            text-transform: none;
+            color: #64748b;
+            letter-spacing: 0;
+        }
+        .linkedin-suggest-text {
+            font-size: 0.88rem;
+            color: #334155 !important;
+            line-height: 1.5;
+            margin-bottom: 10px !important;
+            white-space: pre-wrap;
+        }
+        .linkedin-copy-btn {
+            background: #dbeafe;
+            color: #1e40af;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s;
+        }
+        .linkedin-copy-btn:hover { background: #bfdbfe; }
+        .signers-section {
+            margin-top: 40px;
+        }
+        .signers-header {
+            margin-bottom: 12px;
+        }
+        .petition-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .stat-count {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .stat-momentum {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            background: #f1f5f9;
+            border-radius: 100px;
+            padding: 3px 10px;
+        }
+        .signers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .signer-chip {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .signer-chip.me {
+            background: #fef9c3;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-bottom: none;
+            margin: 0 -10px;
+        }
+        .signer-num {
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--text-light);
+            min-width: 24px;
+            flex-shrink: 0;
+        }
+        .signer-name {
+            font-family: 'Caveat', cursive;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        .signer-chip a {
+            color: var(--navy);
+            text-decoration: none;
+            font-family: 'Caveat', cursive;
+            font-size: 1.15rem;
+        }
+        .signer-chip a:hover { text-decoration: underline; }
+        .signer-chip .biz {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-left: auto;
+        }
+        .signers-loading, .signers-empty {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <script>
+        const API = '';
+
+        async function loadStats() {
+            try {
+                const res = await fetch(API + '/api/petition/stats');
+                const stats = await res.json();
+                if (stats.approved > 0) {
+                    const statsEl = document.getElementById('petition-stats');
+                    const countEl = document.getElementById('stat-approved');
+                    const momentumEl = document.getElementById('stat-momentum');
+                    countEl.textContent = stats.approved + (stats.approved === 1 ? ' person has signed' : ' people have signed');
+                    if (stats.recent > 0) {
+                        momentumEl.textContent = stats.recent + ' signed this week';
+                        momentumEl.style.display = '';
+                    } else {
+                        momentumEl.style.display = 'none';
+                    }
+                    statsEl.style.display = 'flex';
+                }
+            } catch (e) { /* silent */ }
+        }
+
+        async function loadSigners(highlightId) {
+            try {
+                const res = await fetch(API + '/api/petition/signers');
+                const signers = await res.json();
+                const list = document.getElementById('signers-list');
+
+                if (!signers.length) {
+                    list.innerHTML = '<p class="signers-empty">Be the first to sign.</p>';
+                    return;
+                }
+
+                list.innerHTML = signers.map((s, i) => {
+                    const isMe = s.id === highlightId;
+                    const displayName = s.anonymous ? 'Anonymous' : s.name;
+                    const nameHtml = (!s.anonymous && s.business_url)
+                        ? `<a href="${s.business_url}" target="_blank" rel="noopener">${displayName}</a>`
+                        : `<span class="signer-name">${displayName}</span>`;
+                    const bizHtml = (!s.anonymous && s.business_name) ? `<span class="biz">${s.business_name}</span>` : '';
+                    return `<span class="signer-chip${isMe ? ' me' : ''}"><span class="signer-num">${i + 1}.</span>${nameHtml}${bizHtml}</span>`;
+                }).join('');
+            } catch (e) {
+                document.getElementById('signers-list').innerHTML = '<p class="signers-empty">Could not load signatures.</p>';
+            }
+        }
+
+        // Industry autocomplete
+        (function() {
+            const INDUSTRIES = ["1099 / Freelance (Other)","Accounting & Bookkeeping","Alterations & Tailoring","Auto Repair & Detailing","Barbering & Hair Care","Business Consulting","Carpentry & Woodworking","Childcare & Nanny Services","Cleaning & Janitorial Services","Construction & General Contracting","Counseling & Therapy","Dance & Movement","Delivery & Courier","Electrical","Esthetics & Skin Care","Event Planning","Food Service & Catering","Food Truck & Street Food","Graphic Design & Visual Art","Hair & Beauty","Home Cleaning & Housekeeping","Home Health Aide & Elder Care","HVAC","Insurance","IT & Tech Support","Landscaping & Lawn Care","Legal Services","Marketing & PR","Massage Therapy","Mental Health Services","Music & Performance","Nail Technology","Painting & Finishing","Personal Chef","Personal Training & Fitness","Pet Care & Dog Walking","Photography","Plumbing","Real Estate","Restaurant & Hospitality","Rideshare & Transportation","Social Media & Content Creation","Social Work","Tattooing & Body Art","Theater & Performing Arts","Translation & Interpretation","Trucking & Logistics","Tutoring & Education","Videography & Film","Visual Arts & Muralism","Web Design & Development","Writing & Journalism","Yoga & Wellness"];
+            const input = document.getElementById('industry');
+            const list = document.getElementById('industry-suggestions');
+            let activeIdx = -1;
+
+            function show(items) {
+                if (!items.length) { list.style.display = 'none'; return; }
+                activeIdx = -1;
+                list.innerHTML = items.map((v, i) => `<li data-val="${v}" style="padding:8px 14px;cursor:pointer;font-size:0.9rem;color:#1e293b;">${v}</li>`).join('');
+                list.style.display = 'block';
+                list.querySelectorAll('li').forEach(li => {
+                    li.addEventListener('mousedown', () => { input.value = li.dataset.val; list.style.display = 'none'; });
+                    li.addEventListener('mouseover', () => { list.querySelectorAll('li').forEach(l => l.style.background = ''); li.style.background = '#f1f5f9'; });
+                });
+            }
+
+            input.addEventListener('input', () => {
+                const q = input.value.toLowerCase().trim();
+                if (!q) { show(INDUSTRIES); return; }
+                show(INDUSTRIES.filter(v => v.toLowerCase().includes(q)));
+            });
+
+            function openDropdown() {
+                const q = input.value.toLowerCase().trim();
+                show(q ? INDUSTRIES.filter(v => v.toLowerCase().includes(q)) : INDUSTRIES);
+            }
+
+            input.addEventListener('focus', openDropdown);
+            input.addEventListener('click', openDropdown);
+
+            input.addEventListener('keydown', e => {
+                const items = list.querySelectorAll('li');
+                if (e.key === 'ArrowDown') { activeIdx = Math.min(activeIdx + 1, items.length - 1); }
+                else if (e.key === 'ArrowUp') { activeIdx = Math.max(activeIdx - 1, 0); }
+                else if (e.key === 'Enter') { if (items.length === 1) { e.preventDefault(); input.value = items[0].dataset.val; list.style.display = 'none'; return; } if (activeIdx >= 0) { e.preventDefault(); input.value = items[activeIdx].dataset.val; list.style.display = 'none'; return; } }
+                else if (e.key === 'Escape') { list.style.display = 'none'; return; }
+                items.forEach((li, i) => li.style.background = i === activeIdx ? '#f1f5f9' : '');
+            });
+
+            document.addEventListener('mousedown', e => { if (!input.contains(e.target) && !list.contains(e.target)) list.style.display = 'none'; });
+        })();
+
+        async function submitPetition(e) {
+            e.preventDefault();
+            const btn = document.getElementById('sign-btn');
+            const errEl = document.getElementById('form-error');
+            errEl.textContent = '';
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            const isAnon = document.getElementById('anonymous').checked;
+            const body = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                zip_code: document.getElementById('zip_code').value.trim(),
+                business_name: document.getElementById('business_name').value.trim() || undefined,
+                business_url: document.getElementById('business_url').value.trim() || undefined,
+                industry: document.getElementById('industry').value.trim() || undefined,
+                comment: document.getElementById('comment').value.trim() || undefined,
+                anonymous: isAnon || undefined,
+            };
+
+            try {
+                const res = await fetch(API + '/api/petition', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    errEl.textContent = data.error || 'Something went wrong. Please try again.';
+                    btn.disabled = false;
+                    btn.textContent = 'Sign the Petition';
+                    return;
+                }
+
+                // Show success message, keep form visible
+                document.getElementById('sign-success').style.display = 'block';
+                btn.textContent = 'Signed ✓';
+                try { localStorage.setItem('petition_pending_signer', JSON.stringify(data)); } catch(e) {}
+
+                // Add their name immediately to the list (optimistic)
+                const list = document.getElementById('signers-list');
+                const emptyMsg = list.querySelector('.signers-empty, .signers-loading');
+                if (emptyMsg) emptyMsg.remove();
+
+                const bizHtml = data.business_name ? ` <span class="biz">· ${data.business_name}</span>` : '';
+                const nameHtml = data.business_url
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${data.name}</a>`
+                    : data.name;
+                const statsEl = document.getElementById('petition-stats');
+                const countEl = document.getElementById('stat-approved');
+                const current = parseInt(countEl.textContent) || 0;
+                const newCount = current + 1;
+
+                // Renumber existing chips
+                list.querySelectorAll('.signer-num').forEach((el, i) => { el.textContent = (i + 2) + '.'; });
+
+                const chip = document.createElement('span');
+                chip.className = 'signer-chip me';
+                const displayName = data.anonymous ? 'Anonymous' : data.name;
+                const optNameHtml = (!data.anonymous && data.business_url)
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${displayName}</a>`
+                    : `<span class="signer-name">${displayName}</span>`;
+                const optBizHtml = (!data.anonymous && data.business_name) ? `<span class="biz">${data.business_name}</span>` : '';
+                chip.innerHTML = `<span class="signer-num">1.</span>` + optNameHtml + optBizHtml;
+                list.prepend(chip);
+                countEl.textContent = newCount + (newCount === 1 ? ' person has signed' : ' people have signed');
+                statsEl.style.display = 'flex';
+
+            } catch (e) {
+                errEl.textContent = 'Network error. Please try again.';
+                btn.disabled = false;
+                btn.textContent = 'Sign the Petition';
+            }
+        }
+
+        function injectPendingSigner() {
+            try {
+                const pending = localStorage.getItem('petition_pending_signer');
+                if (!pending) return;
+                const data = JSON.parse(pending);
+                const list = document.getElementById('signers-list');
+                // If they're already in the approved list, clear the pending entry
+                const approved = list.querySelectorAll('.signer-chip');
+                for (const chip of approved) {
+                    if (chip.textContent.includes(data.anonymous ? 'Anonymous' : data.name)) {
+                        localStorage.removeItem('petition_pending_signer');
+                        return;
+                    }
+                }
+                const chip = document.createElement('span');
+                chip.className = 'signer-chip me';
+                const displayName = data.anonymous ? 'Anonymous' : data.name;
+                const optNameHtml = (!data.anonymous && data.business_url)
+                    ? `<a href="${data.business_url}" target="_blank" rel="noopener">${displayName}</a>`
+                    : `<span class="signer-name">${displayName}</span>`;
+                const optBizHtml = (!data.anonymous && data.business_name) ? `<span class="biz">${data.business_name}</span>` : '';
+                chip.innerHTML = `<span class="signer-num">1.</span>` + optNameHtml + optBizHtml;
+                list.prepend(chip);
+                // Renumber remaining chips
+                list.querySelectorAll('.signer-num').forEach((el, i) => { el.textContent = (i + 1) + '.'; });
+            } catch(e) {}
+        }
+
+        loadStats();
+        loadSigners(null).then(injectPendingSigner);
+
+        // Preview mode: ?preview=signed shows success state without submitting
+        if (new URLSearchParams(window.location.search).get('preview') === 'signed') {
+            document.getElementById('sign-success').style.display = 'block';
+            document.getElementById('sign-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Picker wheel animation
+        const phrases = [
+            "barbers who know every face on the block",
+            "nail techs & estheticians who keep Philly looking right",
+            "tattoo artists who carry this city's stories on your skin",
+            "food truck vendors who feed the corner before anyone else shows up",
+            "caterers & pop-up chefs who make every gathering unforgettable",
+            "house cleaners & nannies who hold your household together",
+            "home health aides who show up before dawn so you can go to work",
+            "contractors & plumbers who rebuild this city one house at a time",
+            "electricians & painters who know every wall in this city",
+            "rideshare & delivery workers who know every shortcut in Philly",
+            "graphic designers & content creators who make every business look legit",
+            "writers & journalists who put Philly's story into words",
+            "photographers & videographers who stop time for this city",
+            "social media managers who grow audiences one post at a time",
+            "therapists & counselors helping Philly heal one session at a time",
+            "social workers & mental health pros holding this city's hardest stories",
+            "tutors & personal trainers building someone better every session",
+            "musicians & muralists putting Philly's soul on every corner",
+            "filmmakers & performers who give this city a voice",
+            "event planners & consultants Philly calls when it has to be perfect",
+            "freelancers & 1099 workers who built this from the ground up",
+            "sole proprietors who bet on themselves every single day",
+        ];
+
+        (function initWheel() {
+            const rotWrap = document.getElementById('rotating-wrap');
+
+            // Measure max item height — probe must live inside rotWrap so it
+            // inherits the correct font-size from .hero-headline (clamp value),
+            // not the 16px body default.
+            const probe = document.createElement('span');
+            probe.style.cssText = [
+                'position:absolute', 'visibility:hidden', 'pointer-events:none',
+                'top:0', 'left:0',
+                'display:flex', 'align-items:center', 'justify-content:center',
+                'text-align:center', 'text-wrap:balance',
+                'font-size:inherit', 'font-weight:inherit',
+                'line-height:inherit', 'letter-spacing:inherit',
+                'padding-bottom:6px',
+                'width:' + rotWrap.offsetWidth + 'px',
+            ].join(';');
+            rotWrap.appendChild(probe);  // inherit hero font-size, not body 16px
+            let maxH = 0;
+            phrases.forEach(p => { probe.textContent = p; maxH = Math.max(maxH, probe.offsetHeight); });
+            rotWrap.removeChild(probe);
+
+            const itemH = maxH + 16; // breathing room per row
+            const topPad = Math.round(itemH * 0.04);  // tight gap above — indicator hugs 'We are the'
+            const botPad = Math.round(itemH * 0.22);  // more space below for next-phrase ghost
+            const maskH = itemH + topPad + botPad;
+            const centerOffset = topPad;              // strip offset = topPad (not symmetric center)
+
+            // Build DOM
+            const mask = document.createElement('div');
+            mask.className = 'wheel-mask';
+            mask.style.height = maskH + 'px';
+
+            // Selection indicator — positioned at topPad, not CSS center
+            const indicator = document.createElement('div');
+            indicator.className = 'wheel-indicator';
+            indicator.style.height = itemH + 'px';
+            indicator.style.top = topPad + 'px';
+            indicator.style.transform = 'none';
+            mask.appendChild(indicator);
+
+            const strip = document.createElement('div');
+            strip.className = 'wheel-strip';
+
+            const CLONE_COUNT = 2; // clones of first phrases appended for seamless loop
+            // Restore saved position so page reloads don't restart from phrase 0
+            const STORAGE_KEY = 'liftphilly_wheel_idx';
+            let currentIdx = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+            if (currentIdx < 0 || currentIdx >= phrases.length) currentIdx = 0;
+
+            phrases.forEach((p, i) => {
+                const item = document.createElement('span');
+                item.className = 'wheel-item' + (i === currentIdx ? ' active' : '');
+                item.textContent = p;
+                item.style.height = itemH + 'px';
+                strip.appendChild(item);
+            });
+            for (let i = 0; i < CLONE_COUNT; i++) {
+                const clone = document.createElement('span');
+                clone.className = 'wheel-item';
+                clone.textContent = phrases[i];
+                clone.style.height = itemH + 'px';
+                strip.appendChild(clone);
+            }
+
+            mask.appendChild(strip);
+            rotWrap.appendChild(mask);
+
+            // centerOffset already defined above as topPad (asymmetric layout)
+            // Jump instantly to saved position (no transition on load)
+            strip.style.transition = 'none';
+            strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
+            requestAnimationFrame(() => requestAnimationFrame(() => { strip.style.transition = ''; }));
+
+            function wheelAdvance() {
+                strip.children[currentIdx].classList.remove('active');
+                currentIdx++;
+                strip.children[currentIdx].classList.add('active');
+                strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
+
+                // If we've scrolled into clone territory, reset silently after transition
+                if (currentIdx >= phrases.length) {
+                    strip.addEventListener('transitionend', function onEnd() {
+                        strip.removeEventListener('transitionend', onEnd);
+                        strip.style.transition = 'none';
+                        strip.children[currentIdx].classList.remove('active');
+                        currentIdx = currentIdx - phrases.length;
+                        strip.children[currentIdx].classList.add('active');
+                        strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
+                        requestAnimationFrame(() => requestAnimationFrame(() => {
+                            strip.style.transition = '';
+                        }));
+                    });
+                }
+
+                // Persist position so page reloads resume mid-rotation
+                try { localStorage.setItem(STORAGE_KEY, currentIdx < phrases.length ? currentIdx : currentIdx - phrases.length); } catch(e) {}
+            }
+
+            setInterval(wheelAdvance, 6000);
+
+            // When tab regains focus, snap to correct position — tab-hidden transitions
+            // can complete without firing transitionend, leaving strip/active out of sync
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    Array.from(strip.children).forEach(el => el.classList.remove('active'));
+                    strip.children[currentIdx].classList.add('active');
+                    strip.style.transition = 'none';
+                    strip.style.transform = 'translateY(' + (centerOffset - currentIdx * itemH) + 'px)';
+                    requestAnimationFrame(() => requestAnimationFrame(() => { strip.style.transition = ''; }));
+                }
+            });
+
+            mask.addEventListener('click', () => { wheelAdvance(); });
+            mask.style.cursor = 'pointer';
+        })();
+
+        // Toggle full list
+        function toggleList(btn) {
+            const collapse = document.getElementById('we-are-collapse');
+            const isOpen = collapse.classList.contains('open');
+            collapse.classList.toggle('open');
+            btn.textContent = isOpen ? 'See everyone this affects ↓' : 'Hide full list ↑';
+        }
+
+        function copyLinkedInText(btn) {
+            const text = document.getElementById('linkedin-suggest-text').textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                btn.textContent = 'Copied!';
+                setTimeout(function() { btn.textContent = 'Copy suggested text'; }, 2000);
+            });
+        }
+
+        function copyPetitionLink(btn) {
+            navigator.clipboard.writeText('https://liftphilly.org/petition').then(function() {
+                btn.textContent = 'Copied!';
+                setTimeout(function() { btn.textContent = 'Copy Link'; }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
