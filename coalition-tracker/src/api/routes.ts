@@ -357,6 +357,14 @@ app.post('/api/petition', async (c) => {
     return c.json({ error: 'Name, email, and zip code are required' }, 400);
   }
 
+  // Field length caps (mirrors HTML maxlength attributes)
+  if (body.name.trim().length > 100) return c.json({ error: 'Name must be 100 characters or fewer' }, 400);
+  if (body.email.trim().length > 254) return c.json({ error: 'Email must be 254 characters or fewer' }, 400);
+  if (body.business_name && body.business_name.trim().length > 150) return c.json({ error: 'Business name must be 150 characters or fewer' }, 400);
+  if (body.business_url && body.business_url.trim().length > 500) return c.json({ error: 'Business URL must be 500 characters or fewer' }, 400);
+  if (body.industry && body.industry.trim().length > 100) return c.json({ error: 'Industry must be 100 characters or fewer' }, 400);
+  if (body.comment && body.comment.trim().length > 1000) return c.json({ error: 'Comment must be 1000 characters or fewer' }, 400);
+
   // Validate zip code (5 digits)
   if (!/^\d{5}$/.test(body.zip_code.trim())) {
     return c.json({ error: 'Please enter a valid 5-digit zip code' }, 400);

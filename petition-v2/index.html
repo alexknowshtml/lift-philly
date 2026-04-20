@@ -597,17 +597,17 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Your Name <span class="req">*</span></label>
-                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
+                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name" maxlength="100">
                             </div>
                             <div class="form-group">
                                 <label for="business_name">Business Name <span class="opt">(optional)</span></label>
-                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop">
+                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop" maxlength="150">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">Email <span class="req">*</span></label>
-                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email" maxlength="254">
                                 <span class="field-note">Not shown publicly</span>
                             </div>
                             <div class="form-group">
@@ -619,18 +619,18 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="business_url">Business Website <span class="opt">(optional)</span></label>
-                                <input type="url" id="business_url" name="business_url" placeholder="https://...">
+                                <input type="url" id="business_url" name="business_url" placeholder="https://..." maxlength="500">
                             </div>
                             <div class="form-group" style="position:relative;">
                                 <label for="industry">Industry <span class="opt">(optional)</span></label>
-                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off">
+                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off" maxlength="100">
                                 <ul id="industry-suggestions" style="display:none;position:absolute;z-index:100;left:0;right:0;top:100%;background:#fff;border:1px solid #e2e8f0;border-radius:8px;max-height:360px;overflow-y:auto;margin:2px 0 0;padding:4px 0;box-shadow:0 4px 16px rgba(0,0,0,0.1);list-style:none;"></ul>
                                 <span class="field-note">Type to search industries, or add your own</span>
                             </div>
                         </div>
                         <div class="form-group form-group-full">
                             <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
-                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
+                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3" maxlength="1000"></textarea>
                         </div>
                         <div class="form-group form-group-full" style="margin-bottom:8px;">
                             <label style="display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;">
