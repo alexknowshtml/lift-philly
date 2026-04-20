@@ -576,6 +576,24 @@
                     <p class="sign-sub">Sign this petition and stand with Philadelphia's working business owners.</p>
 
                     <form id="petition-form" class="petition-form" onsubmit="submitPetition(event)">
+                        <div class="form-group form-group-full" style="margin-bottom:24px;">
+                            <label style="font-size:0.875rem;font-weight:600;color:var(--navy);margin-bottom:10px;display:block;">I am signing as <span class="req">*</span></label>
+                            <div class="signer-type-selector">
+                                <button type="button" class="signer-type-btn active" data-value="business_owner" onclick="selectSignerType(this)">
+                                    <span class="signer-type-label">Independent Business Owner</span>
+                                    <span class="signer-type-sub">Directly affected by BIRT</span>
+                                </button>
+                                <button type="button" class="signer-type-btn" data-value="employee" onclick="selectSignerType(this)">
+                                    <span class="signer-type-label">Employee</span>
+                                    <span class="signer-type-sub">Supporting affected workers</span>
+                                </button>
+                                <button type="button" class="signer-type-btn" data-value="concerned_citizen" onclick="selectSignerType(this)">
+                                    <span class="signer-type-label">Concerned Citizen</span>
+                                    <span class="signer-type-sub">Standing with my community</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="signer_type" name="signer_type" value="business_owner">
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Your Name <span class="req">*</span></label>
@@ -675,6 +693,49 @@
     </footer>
 
     <style>
+        .signer-type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        @media (max-width: 560px) {
+            .signer-type-selector { grid-template-columns: 1fr; }
+        }
+        .signer-type-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            padding: 14px 16px;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .signer-type-btn:hover {
+            border-color: #94a3b8;
+        }
+        .signer-type-btn.active {
+            border-color: var(--gold-dark);
+            background: #fffbeb;
+        }
+        .signer-type-label {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.2;
+        }
+        .signer-type-sub {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        .signer-type-btn.active .signer-type-label {
+            color: #92400e;
+        }
         .sign-section {
             margin-top: 48px;
             border-top: 2px solid #e2e8f0;
@@ -1062,6 +1123,7 @@
                 name: document.getElementById('name').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 zip_code: document.getElementById('zip_code').value.trim(),
+                signer_type: document.getElementById('signer_type').value || undefined,
                 business_name: document.getElementById('business_name').value.trim() || undefined,
                 business_url: document.getElementById('business_url').value.trim() || undefined,
                 industry: document.getElementById('industry').value.trim() || undefined,
@@ -1325,6 +1387,12 @@
                 btn.textContent = 'Copied!';
                 setTimeout(function() { btn.textContent = 'Copy Link'; }, 2000);
             });
+        }
+
+        function selectSignerType(btn) {
+            document.querySelectorAll('.signer-type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('signer_type').value = btn.dataset.value;
         }
     </script>
 
