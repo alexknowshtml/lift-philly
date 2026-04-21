@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 
 // Simple in-memory cache for public petition endpoints
 const petitionCache = new Map<string, { data: unknown; expires: number }>();
-const CACHE_TTL_MS = 60_000; // 60 seconds
+const CACHE_TTL_MS = 15_000; // 15 seconds — fast enough for post-approval freshness
 
 // Rate limiter: max 5 submissions per IP per 10 minutes
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -63,6 +63,7 @@ import {
   getPendingPetitionSigners,
   getAllPetitionSigners,
   updatePetitionSignerStatus,
+  deletePetitionSigner,
   getPetitionStats,
   getPublicPetitionStats,
   type CoalitionMember,
@@ -345,14 +346,11 @@ app.delete('/api/users/:id', requireAuth, requireAdmin, async (c) => {
 
 // Submit a signature
 app.post('/api/petition', async (c) => {
-  // Rate limit by IP
   const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim() || c.req.header('x-real-ip') || 'unknown';
-  if (!checkRateLimit(ip)) {
-    return c.json({ error: 'Too many submissions. Please try again later.' }, 429);
-  }
 
   const body = await c.req.json<{ name: string; email: string; zip_code: string; signer_type?: string; business_name?: string; business_url?: string; industry?: string; comment?: string; anonymous?: boolean }>();
 
+  // Validate required fields before consuming a rate limit slot
   if (!body.name?.trim() || !body.email?.trim() || !body.zip_code?.trim()) {
     return c.json({ error: 'Name, email, and zip code are required' }, 400);
   }
@@ -388,9 +386,17 @@ app.post('/api/petition', async (c) => {
     }
   }
 
-  // Validate signer_type if provided
+  // Validate signer_type if provided — reject unknown values rather than silently nulling
   const validSignerTypes = ['business_owner', 'employee', 'concerned_citizen'];
-  const signerType = body.signer_type && validSignerTypes.includes(body.signer_type) ? body.signer_type : null;
+  if (body.signer_type && !validSignerTypes.includes(body.signer_type)) {
+    return c.json({ error: 'Invalid signer type. Must be business_owner, employee, or concerned_citizen.' }, 400);
+  }
+  const signerType = body.signer_type || null;
+
+  // Rate limit by IP — only counts after all validation passes
+  if (!checkRateLimit(ip)) {
+    return c.json({ error: 'Too many submissions. Please try again later.' }, 429);
+  }
 
   // Deduplicate by email
   const email = body.email.trim().toLowerCase();
@@ -461,6 +467,15 @@ app.post('/api/petition/:id/approved', requireAuth, requireAdmin, async (c) => {
 app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
   const ok = await updatePetitionSignerStatus(id, 'rejected');
+  if (!ok) return c.json({ error: 'Not found' }, 404);
+  invalidatePetitionCache();
+  return c.json({ success: true });
+});
+
+// Delete signer (admin) — permanent removal, use for test/spam entries
+app.delete('/api/petition/:id', requireAuth, requireAdmin, async (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const ok = await deletePetitionSigner(id);
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
   return c.json({ success: true });

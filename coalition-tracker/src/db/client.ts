@@ -377,6 +377,11 @@ export async function updatePetitionSignerStatus(id: number, status: 'approved' 
   return rs.rowsAffected > 0;
 }
 
+export async function deletePetitionSigner(id: number): Promise<boolean> {
+  const rs = await client.execute({ sql: 'DELETE FROM petition_signers WHERE id = ?', args: [id] });
+  return rs.rowsAffected > 0;
+}
+
 export async function getPetitionStats(): Promise<{ total: number; pending: number; approved: number; rejected: number }> {
   const rs = await client.execute(`
     SELECT
@@ -395,15 +400,16 @@ export async function getPetitionStats(): Promise<{ total: number; pending: numb
   };
 }
 
-export async function getPublicPetitionStats(): Promise<{ approved: number; recent: number }> {
+export async function getPublicPetitionStats(): Promise<{ approved: number; recent: number; pending: number }> {
   const rs = await client.execute(`
     SELECT
       SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
-      SUM(CASE WHEN status = 'approved' AND created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) as recent
+      SUM(CASE WHEN status = 'approved' AND created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) as recent,
+      SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending
     FROM petition_signers
   `);
   const row = rs.rows[0];
-  return { approved: Number(row.approved), recent: Number(row.recent) };
+  return { approved: Number(row.approved), recent: Number(row.recent), pending: Number(row.pending) };
 }
 
 // ============ Helper ============
