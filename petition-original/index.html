@@ -60,20 +60,43 @@
         }
 
         /* Nav */
+        /* Translate dropdown in nav */
+        .nav-translate { position: relative; }
+        .nav-translate-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 6px 12px; color: rgba(255,255,255,0.9); font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        .nav-translate-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .nav-translate-btn svg { width: 16px; height: 16px; }
+        .nav-translate-btn .chevron { width: 12px; height: 12px; transition: transform 0.2s; }
+        .nav-translate.open .nav-translate-btn .chevron { transform: rotate(180deg); }
+        .nav-translate-dropdown { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--navy-light); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 0; min-width: 220px; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 1000; }
+        .nav-translate.open .nav-translate-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-translate-dropdown .lang-list { max-height: 280px; overflow-y: auto; }
+        .nav-translate-dropdown button { display: block; width: 100%; padding: 10px 16px; background: none; border: none; color: rgba(255,255,255,0.8); font-family: 'Inter', sans-serif; font-size: 0.9rem; text-align: left; cursor: pointer; transition: all 0.15s; }
+        .nav-translate-dropdown button:hover { background: rgba(251,191,36,0.15); color: var(--gold); }
+        .nav-translate-dropdown .help-divider { border-top: 1px solid rgba(255,255,255,0.1); margin: 8px 0; }
+        .nav-translate-dropdown .help-link { display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: var(--gold); font-size: 0.85rem; text-decoration: none; transition: opacity 0.2s; }
+        .nav-translate-dropdown .help-link:hover { opacity: 0.8; }
+        .nav-translate-dropdown .help-link svg { width: 14px; height: 14px; }
+        #google_translate_element { display: none !important; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+        .skiptranslate { display: none !important; }
+        .goog-te-spinner-pos { display: none !important; }
+
         .nav {
             background: var(--navy);
             padding: 16px 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            overflow: visible;
         }
 
         .nav .container {
-            max-width: 1200px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            align-items: center;
+            overflow: visible;
         }
 
         .nav-brand {
@@ -81,86 +104,56 @@
             font-weight: 800;
             color: var(--white);
             text-decoration: none;
-            letter-spacing: -0.02em;
         }
 
-        .nav-brand span {
-            color: var(--gold);
-        }
+        .nav-brand span { color: var(--gold); }
 
         .nav-links {
             display: flex;
+            gap: 32px;
             list-style: none;
-            gap: 28px;
-            align-items: center;
         }
 
         .nav-links a {
             color: rgba(255,255,255,0.8);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
             transition: color 0.2s;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--white);
-        }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
 
         .nav-toggle {
             display: none;
-            flex-direction: column;
-            gap: 5px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
+            padding: 8px;
         }
 
-        .nav-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--white);
-            transition: all 0.3s;
-        }
+        .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--navy-light);
-                flex-direction: column;
-                padding: 16px 24px;
-                gap: 0;
-            }
-
-            .nav-links.open {
-                display: flex;
-            }
-
-            .nav-links li {
-                border-bottom: 1px solid rgba(255,255,255,0.08);
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 14px 0;
-                font-size: 1rem;
-            }
-
-            .nav-toggle {
-                display: flex;
-            }
-
-            .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .nav .container { flex-wrap: wrap; }
+            .nav-links { display: none; position: absolute; top: 100%; right: 16px; left: auto; background: var(--navy-light); flex-direction: column; gap: 0; padding: 12px 0; margin-top: 8px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); min-width: 200px; z-index: 1000; }
+            .nav-links.open { display: flex; }
+            .nav-links li { padding: 0; }
+            .nav-links a { display: block; padding: 10px 16px; color: rgba(255,255,255,0.8); font-size: 0.9rem; transition: all 0.15s; }
+            .nav-links a:hover, .nav-links a.active { background: rgba(251,191,36,0.15); color: var(--gold); }
+            .nav-toggle { display: block; order: 3; margin-left: 8px; }
+            .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
             .nav-toggle.open span:nth-child(2) { opacity: 0; }
-            .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+            .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+            .nav-translate { order: 2; margin-left: auto; }
+            .nav-translate-btn span { display: none; }
+            .nav-translate-btn { padding: 6px 8px; }
         }
+
+        footer { background: var(--navy); color: var(--white); padding: 48px 0; text-align: center; }
+        .footer-brand { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .footer-brand span { color: var(--gold); }
+        footer p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
 
         /* Hero */
         .hero {
@@ -490,10 +483,40 @@
             }
         }
     </style>
+
+    <!-- Google Translate (hidden, triggered by custom dropdown) -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'es,zh-CN,vi,ko,ru,ar,fr,pt,hi,tl',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function translatePage(langCode) {
+            var domain = window.location.hostname;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/; domain=' + domain;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/';
+            window.location.reload();
+        }
+
+        function toggleTranslateDropdown() {
+            document.querySelector('.nav-translate').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            var translateDropdown = document.querySelector('.nav-translate');
+            if (translateDropdown && !translateDropdown.contains(e.target)) {
+                translateDropdown.classList.remove('open');
+            }
+        });
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
 
-    <nav class="nav" style="position:relative;">
+    <nav class="nav">
         <div class="container">
             <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
             <ul class="nav-links">
@@ -501,13 +524,47 @@
                 <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
                 <li><a href="/calculator">Increase Calculator</a></li>
                 <li><a href="/#join">Join Coalition</a></li>
-                <li><a href="/petition" class="active" style="color:var(--gold);font-weight:700;">Sign the Petition</a></li>
+                <li><a href="/petition" class="active">Sign the Petition</a></li>
             </ul>
             <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
+            <div class="nav-translate">
+                <button class="nav-translate-btn" onclick="toggleTranslateDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                    </svg>
+                    <span>Translate</span>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="nav-translate-dropdown">
+                    <div class="lang-list">
+                        <button onclick="translatePage('en')">English</button>
+                        <button onclick="translatePage('es')">Español</button>
+                        <button onclick="translatePage('zh-CN')">中文 (简体)</button>
+                        <button onclick="translatePage('vi')">Tiếng Việt</button>
+                        <button onclick="translatePage('ko')">한국어</button>
+                        <button onclick="translatePage('ru')">Русский</button>
+                        <button onclick="translatePage('ar')">العربية</button>
+                        <button onclick="translatePage('fr')">Français</button>
+                        <button onclick="translatePage('pt')">Português</button>
+                        <button onclick="translatePage('hi')">हिन्दी</button>
+                        <button onclick="translatePage('tl')">Filipino</button>
+                    </div>
+                    <div class="help-divider"></div>
+                    <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="help-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Help us translate
+                    </a>
+                </div>
+            </div>
+            <div id="google_translate_element"></div>
         </div>
     </nav>
 
@@ -735,7 +792,11 @@
     </section>
 
     <footer>
-        <p><a href="/">LIFT Philly</a> · Coalition for Effective, Efficient &amp; Equitable Tax Reform · <a href="mailto:hello@liftphilly.org">hello@liftphilly.org</a></p>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform</p>
+            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities.</p>
+        </div>
     </footer>
 
     <style>
