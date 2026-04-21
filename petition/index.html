@@ -73,6 +73,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 24px;
         }
 
         .nav-brand {
@@ -87,16 +88,78 @@
             color: var(--gold);
         }
 
-        .nav-home {
-            color: rgba(255,255,255,0.7);
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.2s;
         }
 
-        .nav-home:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--white);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--navy-light);
+                flex-direction: column;
+                padding: 16px 24px;
+                gap: 0;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 0;
+                font-size: 1rem;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; }
+            .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
         }
 
         /* Hero */
@@ -430,10 +493,21 @@
 </head>
 <body>
 
-    <nav class="nav">
+    <nav class="nav" style="position:relative;">
         <div class="container">
             <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
-            <a href="/" class="nav-home">← Back to LIFT Philly</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
+                <li><a href="/calculator">Increase Calculator</a></li>
+                <li><a href="/#join">Join Coalition</a></li>
+                <li><a href="/petition" class="active" style="color:var(--gold);font-weight:700;">Sign the Petition</a></li>
+            </ul>
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -1332,6 +1406,20 @@
                 setTimeout(function() { btn.textContent = 'Copy Link'; }, 2000);
             });
         }
+
+        function toggleNav() {
+            document.querySelector('.nav-toggle').classList.toggle('open');
+            document.querySelector('.nav-links').classList.toggle('open');
+        }
+
+        function closeNav() {
+            document.querySelector('.nav-toggle').classList.remove('open');
+            document.querySelector('.nav-links').classList.remove('open');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeNav);
+        });
     </script>
 
 </body>
