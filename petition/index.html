@@ -444,6 +444,7 @@
                 <span class="hero-static">We are the</span>
                 <div class="rotating-wrap" id="rotating-wrap"></div>
             </div>
+            <p class="hero-sub">We are Philadelphia's individual business owners being taxed out of our homes and the city we built.</p>
             <p class="hero-sub">This is our statement, our request for fairness, and our call for a hearing.</p>
             <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:28px;">
                 <button class="see-all-toggle" style="margin-top:0;" onclick="toggleList(this)">See everyone this affects ↓</button>
@@ -524,23 +525,7 @@
                     </ul>
                 </div>
 
-                <p>That is one month's rent.</p>
-                <p>That is groceries for a family of four.</p>
-                <p>That is the heating bill in winter.</p>
-                <p>That is the AC bill in the summer.</p>
-
-                <p><strong>We are not asking for a handout. We are asking for fairness.</strong></p>
-
-                <p>We already pay our share through the Net Profits Tax. But now the City is taxing that same income again under the Business Income and Receipts Tax. That means many individual business owners face a double tax — and can end up paying a higher rate than corporations.</p>
-
                 <p>We understand the City's concern about unintended consequences, and the responsibility that comes with making these decisions. However, our analysis shows the risk is limited and manageable. And if something does go wrong, we will have the data to see it and the ability to fix it.</p>
-
-                <p><strong>The real unintended consequence is NOT that a few high-income business owners might switch from an S-Corp to an LLC to get a tax break.</strong></p>
-                <p>That risk is limited because an S-Corp giving up their status would increase their federal taxes by tens of thousands of dollars, far exceeding the nominal break in city taxes from switching to an LLC.</p>
-
-                <p><strong>The real unintended consequence</strong> is that thousands of working Philadelphians will have money pulled out of their neighborhoods, weakening the local businesses that keep those neighborhoods going.</p>
-
-                <p><strong>The real unintended consequence</strong> is that the City may spend tens of millions of dollars on programs and fixes that can help less than 10 percent of affected businesses — while Councilmember Driscoll's structural tax solution could help far more people, more fairly, and more efficiently.</p>
 
                 <p>We want to acknowledge and thank <strong>Mayor Parker</strong> and her teams at the Law and Revenue Departments, and the Office of Legislative Affairs for their work to analyze Bill No. 251026, confirm its constitutionality, and show that it could save the City almost <strong>$10.8 million over five years</strong> compared to the current fix, which provides tax filing support to only 6,000 businesses (while nearly 75,000 need immediate cash flow relief).</p>
 
@@ -557,17 +542,6 @@
                     <p style="font-size:1.05rem;font-weight:700;color:var(--navy);margin:0;text-wrap:balance;">We respectfully ask City Council to hold a hearing and bring <strong>Bill No. 251026</strong> to a vote to protect the people who make Philadelphia work.</p>
                 </div>
 
-                <p>This solution would:</p>
-
-                <ul class="impact-list">
-                    <li>end the complex double tax on individuals that leaves them paying a higher rate than corporations</li>
-                    <li>reduce unnecessary compliance costs for both the City and our individual business owners</li>
-                    <li>protect working families while keeping local dollars in our communities</li>
-                    <li>strengthen neighborhood economies instead of draining them</li>
-                </ul>
-
-                <p>This is about more than tax policy. It is about fairness. It is about family stability. It is about whether Philadelphia wants to be a city where working people can still afford to live, build, and stay.</p>
-
                 <p style="text-align:center;font-weight:700;font-size:1.1rem;color:var(--navy);">Thank you.</p>
 
                 <!-- Sign the Petition -->
@@ -576,38 +550,20 @@
                     <p class="sign-sub">Sign this petition and stand with Philadelphia's working business owners.</p>
 
                     <form id="petition-form" class="petition-form" onsubmit="submitPetition(event)">
-                        <div class="form-group form-group-full" style="margin-bottom:24px;">
-                            <label style="font-size:0.875rem;font-weight:600;color:var(--navy);margin-bottom:10px;display:block;">I am signing as <span class="req">*</span></label>
-                            <div class="signer-type-selector">
-                                <button type="button" class="signer-type-btn active" data-value="business_owner" onclick="selectSignerType(this)">
-                                    <span class="signer-type-label">Independent Business Owner</span>
-                                    <span class="signer-type-sub">Directly affected by BIRT</span>
-                                </button>
-                                <button type="button" class="signer-type-btn" data-value="employee" onclick="selectSignerType(this)">
-                                    <span class="signer-type-label">Employee</span>
-                                    <span class="signer-type-sub">Supporting affected workers</span>
-                                </button>
-                                <button type="button" class="signer-type-btn" data-value="concerned_citizen" onclick="selectSignerType(this)">
-                                    <span class="signer-type-label">Concerned Citizen</span>
-                                    <span class="signer-type-sub">Standing with my community</span>
-                                </button>
-                            </div>
-                            <input type="hidden" id="signer_type" name="signer_type" value="business_owner">
-                        </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Your Name <span class="req">*</span></label>
-                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name" maxlength="100">
+                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
                             </div>
                             <div class="form-group">
                                 <label for="business_name">Business Name <span class="opt">(optional)</span></label>
-                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop" maxlength="150">
+                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">Email <span class="req">*</span></label>
-                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email" maxlength="254">
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
                                 <span class="field-note">Not shown publicly</span>
                             </div>
                             <div class="form-group">
@@ -619,18 +575,18 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="business_url">Business Website <span class="opt">(optional)</span></label>
-                                <input type="url" id="business_url" name="business_url" placeholder="https://..." maxlength="500">
+                                <input type="url" id="business_url" name="business_url" placeholder="https://...">
                             </div>
                             <div class="form-group" style="position:relative;">
                                 <label for="industry">Industry <span class="opt">(optional)</span></label>
-                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off" maxlength="100">
+                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off">
                                 <ul id="industry-suggestions" style="display:none;position:absolute;z-index:100;left:0;right:0;top:100%;background:#fff;border:1px solid #e2e8f0;border-radius:8px;max-height:360px;overflow-y:auto;margin:2px 0 0;padding:4px 0;box-shadow:0 4px 16px rgba(0,0,0,0.1);list-style:none;"></ul>
                                 <span class="field-note">Type to search industries, or add your own</span>
                             </div>
                         </div>
                         <div class="form-group form-group-full">
                             <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
-                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3" maxlength="1000"></textarea>
+                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
                         </div>
                         <div class="form-group form-group-full" style="margin-bottom:8px;">
                             <label style="display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;">
@@ -693,49 +649,6 @@
     </footer>
 
     <style>
-        .signer-type-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        @media (max-width: 560px) {
-            .signer-type-selector { grid-template-columns: 1fr; }
-        }
-        .signer-type-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 3px;
-            padding: 14px 16px;
-            background: #fff;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            text-align: left;
-            transition: border-color 0.15s, background 0.15s;
-        }
-        .signer-type-btn:hover {
-            border-color: #94a3b8;
-        }
-        .signer-type-btn.active {
-            border-color: var(--gold-dark);
-            background: #fffbeb;
-        }
-        .signer-type-label {
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: var(--navy);
-            line-height: 1.2;
-        }
-        .signer-type-sub {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            font-weight: 400;
-        }
-        .signer-type-btn.active .signer-type-label {
-            color: #92400e;
-        }
         .sign-section {
             margin-top: 48px;
             border-top: 2px solid #e2e8f0;
@@ -1123,7 +1036,6 @@
                 name: document.getElementById('name').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 zip_code: document.getElementById('zip_code').value.trim(),
-                signer_type: document.getElementById('signer_type').value || undefined,
                 business_name: document.getElementById('business_name').value.trim() || undefined,
                 business_url: document.getElementById('business_url').value.trim() || undefined,
                 industry: document.getElementById('industry').value.trim() || undefined,
@@ -1387,12 +1299,6 @@
                 btn.textContent = 'Copied!';
                 setTimeout(function() { btn.textContent = 'Copy Link'; }, 2000);
             });
-        }
-
-        function selectSignerType(btn) {
-            document.querySelectorAll('.signer-type-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('signer_type').value = btn.dataset.value;
         }
     </script>
 
