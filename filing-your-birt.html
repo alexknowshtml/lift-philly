@@ -941,6 +941,15 @@
             document.querySelector('.nav-toggle').classList.toggle('open');
             document.querySelector('.nav-links').classList.toggle('open');
         }
+
+        function closeNav() {
+            document.querySelector('.nav-toggle').classList.remove('open');
+            document.querySelector('.nav-links').classList.remove('open');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeNav);
+        });
     </script>
 </body>
 </html>
