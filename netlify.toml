@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = "git submodule update --init --recursive && cd coalition-tracker && npm install"
+  command = "node scripts/build-nav.js && git submodule update --init --recursive && cd coalition-tracker && npm install"
 
 [functions]
   directory = "coalition-tracker/netlify/functions"
