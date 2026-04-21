@@ -550,20 +550,38 @@
                     <p class="sign-sub">Sign this petition and stand with Philadelphia's working business owners.</p>
 
                     <form id="petition-form" class="petition-form" onsubmit="submitPetition(event)">
+                        <div class="form-group form-group-full" style="margin-bottom:24px;">
+                            <label style="font-size:0.875rem;font-weight:600;color:var(--navy);margin-bottom:10px;display:block;">I am signing as <span class="req">*</span></label>
+                            <div class="signer-type-selector">
+                                <button type="button" class="signer-type-btn active" data-value="business_owner" onclick="selectSignerType(this)">
+                                    <span class="signer-type-label">Independent Business Owner</span>
+                                    <span class="signer-type-sub">Directly affected by BIRT</span>
+                                </button>
+                                <button type="button" class="signer-type-btn" data-value="employee" onclick="selectSignerType(this)">
+                                    <span class="signer-type-label">Employee</span>
+                                    <span class="signer-type-sub">Supporting affected workers</span>
+                                </button>
+                                <button type="button" class="signer-type-btn" data-value="concerned_citizen" onclick="selectSignerType(this)">
+                                    <span class="signer-type-label">Concerned Citizen</span>
+                                    <span class="signer-type-sub">Standing with my community</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="signer_type" name="signer_type" value="business_owner">
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Your Name <span class="req">*</span></label>
-                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
+                                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name" maxlength="100">
                             </div>
                             <div class="form-group">
                                 <label for="business_name">Business Name <span class="opt">(optional)</span></label>
-                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop">
+                                <input type="text" id="business_name" name="business_name" placeholder="Jane's Barbershop" maxlength="150">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">Email <span class="req">*</span></label>
-                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email">
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required autocomplete="email" maxlength="254">
                                 <span class="field-note">Not shown publicly</span>
                             </div>
                             <div class="form-group">
@@ -575,18 +593,18 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="business_url">Business Website <span class="opt">(optional)</span></label>
-                                <input type="url" id="business_url" name="business_url" placeholder="https://...">
+                                <input type="url" id="business_url" name="business_url" placeholder="https://..." maxlength="500">
                             </div>
                             <div class="form-group" style="position:relative;">
                                 <label for="industry">Industry <span class="opt">(optional)</span></label>
-                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off">
+                                <input type="text" id="industry" name="industry" placeholder="e.g. Hair & Beauty, Construction" autocomplete="off" maxlength="100">
                                 <ul id="industry-suggestions" style="display:none;position:absolute;z-index:100;left:0;right:0;top:100%;background:#fff;border:1px solid #e2e8f0;border-radius:8px;max-height:360px;overflow-y:auto;margin:2px 0 0;padding:4px 0;box-shadow:0 4px 16px rgba(0,0,0,0.1);list-style:none;"></ul>
                                 <span class="field-note">Type to search industries, or add your own</span>
                             </div>
                         </div>
                         <div class="form-group form-group-full">
                             <label for="comment">Why are you signing? <span class="opt">(optional)</span></label>
-                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3"></textarea>
+                            <textarea id="comment" name="comment" placeholder="I've run my business here for 20 years..." rows="3" maxlength="1000"></textarea>
                         </div>
                         <div class="form-group form-group-full" style="margin-bottom:8px;">
                             <label style="display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;">
@@ -929,6 +947,15 @@
             font-style: italic;
             font-size: 0.9rem;
         }
+
+        .signer-type-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        @media (max-width: 560px) { .signer-type-selector { grid-template-columns: 1fr; } }
+        .signer-type-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 14px 16px; background: #fff; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-family: inherit; text-align: left; transition: border-color 0.15s, background 0.15s; }
+        .signer-type-btn:hover { border-color: #94a3b8; }
+        .signer-type-btn.active { border-color: var(--gold-dark); background: #fffbeb; }
+        .signer-type-label { font-size: 0.875rem; font-weight: 700; color: var(--navy); line-height: 1.2; }
+        .signer-type-sub { font-size: 0.75rem; color: var(--text-light); font-weight: 400; }
+        .signer-type-btn.active .signer-type-label { color: #92400e; }
     </style>
 
     <script>
@@ -1023,6 +1050,12 @@
             document.addEventListener('mousedown', e => { if (!input.contains(e.target) && !list.contains(e.target)) list.style.display = 'none'; });
         })();
 
+        function selectSignerType(btn) {
+            document.querySelectorAll('.signer-type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('signer_type').value = btn.dataset.value;
+        }
+
         async function submitPetition(e) {
             e.preventDefault();
             const btn = document.getElementById('sign-btn');
@@ -1041,6 +1074,7 @@
                 industry: document.getElementById('industry').value.trim() || undefined,
                 comment: document.getElementById('comment').value.trim() || undefined,
                 anonymous: isAnon || undefined,
+                signer_type: document.getElementById('signer_type').value || undefined,
             };
 
             try {
