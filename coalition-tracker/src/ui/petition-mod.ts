@@ -704,7 +704,7 @@ export function getPetitionModHtml(
     const DISTRICT_MEMBERS = {
       1:'Mark Squilla',2:'Kenyatta Johnson',3:'Jamie Gauthier',4:'Curtis Jones Jr.',
       5:'Jeffery Young Jr.',6:'Jim Harrity',7:'Maria Quiñones-Sánchez',
-      8:'Cindy Bass',9:'Bobby Henon',10:'Brian O\'Neill',
+      8:'Cindy Bass',9:'Bobby Henon',10:"Brian O'Neill",
     };
 
     function renderMap(byZip) {
