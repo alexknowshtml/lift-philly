@@ -33,7 +33,7 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
       <td class="business-cell" title="${s.business_name || ''}">${s.business_name
         ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link">↗</a>` : ''}`
         : '<span class="muted">—</span>'}</td>
-      <td class="muted-cell email-cell" title="${s.email}">${s.email}</td>
+      <td class="muted-cell email-cell" data-email="${s.email}">${s.email}</td>
       <td class="muted-cell">${s.zip_code || '<span class="muted">—</span>'}</td>
       <td>${s.signer_type ? `<span class="type-tag">${s.signer_type.replace(/_/g, ' ')}</span>` : '<span class="muted">—</span>'}</td>
       <td class="muted-cell">${s.industry || '<span class="muted">—</span>'}</td>
@@ -254,7 +254,25 @@ export function getPetitionModHtml(
     .muted { color: #94a3b8; }
     .business-name { font-weight: 500; }
     .business-cell { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .email-cell { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: default; }
+    .email-cell { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: default; position: relative; }
+    .email-cell::after {
+      content: attr(data-email);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      background: #1e293b;
+      color: #f1f5f9;
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .email-cell:hover::after { opacity: 1; }
     .ext-link { color: var(--text-muted); text-decoration: none; margin-left: 4px; }
     .ext-link:hover { color: var(--navy); }
     .comment-text { color: var(--text-muted); display: block; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
