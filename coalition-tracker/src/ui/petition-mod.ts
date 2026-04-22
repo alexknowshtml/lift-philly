@@ -723,22 +723,23 @@ export function getPetitionModHtml(
       });
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
 
-      // Load council district GeoJSON overlay
-      fetch('https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/City_Council_Districts/FeatureServer/0/query?where=1%3D1&outFields=DISTRICT&f=geojson')
+      // Load council district GeoJSON overlay (OpenDataPhilly via CORS-friendly CDN)
+      const DISTRICT_GEOJSON_URL = 'https://opendata.arcgis.com/datasets/9298c2f3fa3241fbb176ff1e84d33360_0.geojson';
+      fetch(DISTRICT_GEOJSON_URL)
         .then(r => r.json())
         .then(geojson => {
           L.geoJSON(geojson, {
             style: feature => {
-              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || 0);
+              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
               const count = districtCounts[d] || 0;
               const intensity = count / maxDistCount;
               return {
                 fillColor: count > 0 ? \`rgba(15,23,42,\${0.08 + intensity * 0.45})\` : 'rgba(15,23,42,0.03)',
-                weight: 1.5, opacity: 0.5, color: '#0f172a', fillOpacity: 1,
+                weight: 2, opacity: 0.7, color: '#0f172a', fillOpacity: 1,
               };
             },
             onEachFeature: (feature, layer) => {
-              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || 0);
+              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
               const count = districtCounts[d] || 0;
               const member = DISTRICT_MEMBERS[d] || '';
               layer.bindTooltip(
@@ -761,6 +762,17 @@ export function getPetitionModHtml(
       if (heatPoints.length) {
         L.heatLayer(heatPoints, { radius: 35, blur: 25, maxZoom: 13, gradient: { 0.2: '#93c5fd', 0.5: '#3b82f6', 0.8: '#1d4ed8', 1.0: '#1e3a8a' } }).addTo(map);
       }
+
+      // Circle markers on top for precise zip-level detail
+      byZip.forEach(({ zip, count }) => {
+        const coords = ZIP_CENTROIDS[zip];
+        if (!coords) return;
+        const r = 6 + Math.round((count / maxCount) * 16);
+        L.circleMarker(coords, {
+          radius: r, fillColor: '#0f172a', color: '#fbbf24',
+          weight: 2, fillOpacity: 0.8
+        }).addTo(map).bindPopup(\`<strong>\${zip}</strong><br>\${count} signer\${count !== 1 ? 's' : ''}\`);
+      });
     }
 
     ${getSharedHeaderScript()}
