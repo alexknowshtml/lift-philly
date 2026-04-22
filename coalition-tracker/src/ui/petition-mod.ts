@@ -1,5 +1,6 @@
 import type { PetitionSigner, User } from '../db/client';
 import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from './shared-header';
+import districtGeoJson from '../data/philly-council-districts.json';
 
 type Stats = { total: number; pending: number; approved: number; rejected: number };
 
@@ -623,10 +624,8 @@ export function getPetitionModHtml(
         renderTimeline(data.by_day);
       });
 
-      // Load Leaflet then leaflet.heat then render map
-      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => {
-        loadScript('https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js', () => renderMap(data.by_zip));
-      });
+      // Load Leaflet then render map
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => renderMap(data.by_zip));
     }
 
     function loadScript(src, cb) {
@@ -723,11 +722,10 @@ export function getPetitionModHtml(
       });
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
 
-      // Load council district GeoJSON via server proxy (avoids browser CORS)
-      fetch('/api/petition/district-geojson')
-        .then(r => r.json())
-        .then(geojson => {
-          L.geoJSON(geojson, {
+      // District GeoJSON inlined at render time — no fetch, no CORS
+      const districtGeojson = ${JSON.stringify(districtGeoJson)};
+      (() => {
+          L.geoJSON(districtGeojson, {
             style: feature => {
               const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
               const count = districtCounts[d] || 0;
@@ -747,22 +745,9 @@ export function getPetitionModHtml(
               );
             }
           }).addTo(map);
-        })
-        .catch(() => {}); // skip gracefully if fetch fails
+      })();
 
-      // Heatmap layer from zip centroids
-      const maxCount = Math.max(...byZip.map(d => d.count), 1);
-      const heatPoints = [];
-      byZip.forEach(({ zip, count }) => {
-        const coords = ZIP_CENTROIDS[zip];
-        if (!coords) return;
-        heatPoints.push([coords[0], coords[1], count / maxCount]);
-      });
-      if (heatPoints.length) {
-        L.heatLayer(heatPoints, { radius: 35, blur: 25, maxZoom: 13, gradient: { 0.2: '#93c5fd', 0.5: '#3b82f6', 0.8: '#1d4ed8', 1.0: '#1e3a8a' } }).addTo(map);
-      }
-
-      // Circle markers on top for precise zip-level detail
+      // Circle markers for zip-level detail
       byZip.forEach(({ zip, count }) => {
         const coords = ZIP_CENTROIDS[zip];
         if (!coords) return;
