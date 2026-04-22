@@ -610,6 +610,16 @@ export function getPetitionModHtml(
         </div>
         <div class="chart-title" style="margin-bottom:12px">Geographic Distribution (Approved Signers)</div>
         <div id="map"></div>
+        <div style="margin-top:16px;border:1px solid #eee;border-radius:8px;overflow:hidden">
+          <table style="width:100%;border-collapse:collapse;font-size:0.875rem">
+            <thead><tr style="background:#f8fafc">
+              <th style="padding:8px 12px;text-align:left;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">DISTRICT</th>
+              <th style="padding:8px 12px;text-align:left;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">COUNCIL MEMBER</th>
+              <th style="padding:8px 12px;text-align:right;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">SIGNERS</th>
+            </tr></thead>
+            <tbody id="district-table-body"></tbody>
+          </table>
+        </div>
         <div class="charts-grid" style="margin-top:24px">
           <div class="chart-card"><div class="chart-title">Top Zip Codes</div><div class="chart-wrap"><canvas id="chart-zip"></canvas></div></div>
         </div>
@@ -721,34 +731,14 @@ export function getPetitionModHtml(
       });
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
 
-      // District GeoJSON via same-origin API endpoint (no CORS, served from bundled file)
-      fetch('/api/petition/district-geojson')
-        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-        .then(geojson => {
-          console.log('[map] district GeoJSON loaded, features:', geojson.features?.length);
-          L.geoJSON(geojson, {
-            style: feature => {
-              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
-              const count = districtCounts[d] || 0;
-              const intensity = count / maxDistCount;
-              return {
-                fillColor: count > 0 ? \`rgba(15,23,42,\${0.15 + intensity * 0.5})\` : 'rgba(15,23,42,0.05)',
-                fillOpacity: 1,
-                weight: 2.5, opacity: 1, color: '#fbbf24',
-              };
-            },
-            onEachFeature: (feature, layer) => {
-              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
-              const count = districtCounts[d] || 0;
-              const member = DISTRICT_MEMBERS[d] || '';
-              layer.bindTooltip(
-                \`<strong>District \${d}</strong>\${member ? '<br>' + member : ''}<br>\${count} signer\${count !== 1 ? 's' : ''}\`,
-                { sticky: true }
-              );
-            }
-          }).addTo(map);
-        })
-        .catch(e => console.error('[map] district fetch failed:', e));
+      // Council district breakdown table
+      const districtRows = Object.entries(DISTRICT_MEMBERS)
+        .map(([d, member]) => ({ d: parseInt(d), member, count: districtCounts[d] || 0 }))
+        .sort((a, b) => b.count - a.count);
+      const tableHtml = districtRows.map(({ d, member, count }) =>
+        \`<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:500">District \${d}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#64748b">\${member}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:600">\${count}</td></tr>\`
+      ).join('');
+      document.getElementById('district-table-body').innerHTML = tableHtml;
 
       // Circle markers for zip-level detail
       const maxCount = Math.max(...byZip.map(d => d.count), 1);
