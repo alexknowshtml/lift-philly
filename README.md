@@ -6,7 +6,7 @@ Static website for the LIFT Act coalition - tax relief for Philadelphia's solo b
 
 The LIFT Act would create a third tax class for individuals and single-member LLCs, exempting them from the BIRT Net Income Tax (5.71%) while maintaining other tax obligations.
 
-- **122,000** small businesses affected
+- **75,000** small businesses affected
 - **85%** of Philadelphia businesses are non-employer firms
 - **<1%** impact on city budget
 

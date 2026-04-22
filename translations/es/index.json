@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia",
-    "description": "Únete a la coalición que apoya la reforma tributaria para los 122,000 pequeños empresarios de Filadelfia.",
+    "description": "Únete a la coalición que apoya la reforma tributaria para los 75,000 pequeños empresarios de Filadelfia.",
     "og_title": "LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia",
     "og_description": "\"Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados.\" — Concejal Mike Driscoll. Únete a la coalición por una reforma tributaria efectiva, eficiente y equitativa."
   },
@@ -18,7 +18,7 @@
     "badge": "Coalición por una Reforma Tributaria Efectiva, Eficiente y Equitativa",
     "headline": "Protegiendo el",
     "headline_highlight": "bienestar económico de Filadelfia",
-    "subtitle": "122,000 familias trabajadoras, trabajadores del oficio, cuidadores, trabajadores de la economía gig y emprendedores creativos enfrentan un aumento masivo de impuestos en 2026 y más allá.",
+    "subtitle": "75,000 familias trabajadoras, trabajadores del oficio, cuidadores, trabajadores de la economía gig y emprendedores creativos enfrentan un aumento masivo de impuestos en 2026 y más allá.",
     "subtitle_emphasis": "Somos los individuos y organizaciones trabajando juntos para cambiar eso.",
     "lift_acronym": {
       "l": "Trabajo (Contratistas Independientes)",
@@ -27,7 +27,7 @@
       "t": "Reforma Tributaria"
     },
     "stats": {
-      "stat1_number": "122K",
+      "stat1_number": "75K",
       "stat1_label": "Negocios con y sin empleados afectados",
       "stat2_number": "85%",
       "stat2_label": "De los negocios de Filadelfia son de un solo dueño",

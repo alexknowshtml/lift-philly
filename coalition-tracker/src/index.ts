@@ -1,5 +1,5 @@
 import { serve } from 'bun';
-import { getDatabase, closeDatabase } from './db/client';
+import { client } from './db/client';
 import app from './api/routes';
 
 const PORT = parseInt(process.env.API_PORT || '3000', 10);
@@ -17,10 +17,6 @@ process.on('unhandledRejection', (reason, promise) => {
 
 console.log('Coalition Tracker starting...');
 
-// Initialize database
-console.log('Initializing database...');
-getDatabase();
-
 // Start the API server
 console.log(`Starting API server on ${HOST}:${PORT}...`);
 const server = serve({
@@ -32,9 +28,9 @@ const server = serve({
 console.log(`Coalition Tracker ready at http://${HOST}:${PORT}`);
 
 // Graceful shutdown
-const shutdown = () => {
+const shutdown = async () => {
   console.log('Shutting down...');
-  closeDatabase();
+  await client.close();
   server.stop();
   process.exit(0);
 };

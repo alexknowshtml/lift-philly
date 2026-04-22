@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "LIFT Philly - Tax Reform for Philadelphia's Small Businesses",
-    "description": "Join the coalition supporting tax reform for Philadelphia's 122,000 small business owners.",
+    "description": "Join the coalition supporting tax reform for Philadelphia's 75,000 small business owners.",
     "og_title": "LIFT Philly - Tax Reform for Philadelphia's Small Businesses",
     "og_description": "\"This could be the difference between those businesses being open or closed.\" — Councilmember Mike Driscoll. Join the coalition for effective, efficient, & equitable tax reform."
   },
@@ -18,7 +18,7 @@
     "badge": "Coalition for Effective, Efficient, & Equitable Tax Reform",
     "headline": "Protecting Philly's",
     "headline_highlight": "economic wellbeing",
-    "subtitle": "122,000 working families, tradespeople, caregivers, gig workers, and creative entrepreneurs are facing a massive tax increase in 2026 and beyond.",
+    "subtitle": "75,000 working families, tradespeople, caregivers, gig workers, and creative entrepreneurs are facing a massive tax increase in 2026 and beyond.",
     "subtitle_emphasis": "We are the individuals and organizations working together to change that.",
     "lift_acronym": {
       "l": "Labor (Independent Contractors)",
@@ -27,7 +27,7 @@
       "t": "Tax Reform"
     },
     "stats": {
-      "stat1_number": "122K",
+      "stat1_number": "75K",
       "stat1_label": "Employer & Non-Employer businesses affected",
       "stat2_number": "85%",
       "stat2_label": "Of Philly businesses are single-owner",
