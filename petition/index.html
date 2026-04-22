@@ -699,6 +699,11 @@
 
                 <!-- Sign the Petition -->
                 <div id="sign-section" class="sign-section">
+                    <div id="signer-count-badge" style="display:none;text-align:center;margin-bottom:16px;">
+                        <span style="display:inline-block;background:var(--cream);color:var(--navy);font-size:0.95rem;font-weight:700;padding:8px 20px;border-radius:100px;border:2px solid var(--gold);">
+                            <span id="signer-count-text"></span>
+                        </span>
+                    </div>
                     <h2 class="sign-heading">Add Your Name</h2>
                     <p class="sign-sub">Sign this petition and stand with Philadelphia's working business owners.</p>
 
@@ -1133,7 +1138,11 @@
                     const statsEl = document.getElementById('petition-stats');
                     const countEl = document.getElementById('stat-approved');
                     const momentumEl = document.getElementById('stat-momentum');
-                    countEl.textContent = stats.approved + (stats.approved === 1 ? ' person has signed' : ' people have signed');
+                    const signerText = stats.approved + (stats.approved === 1 ? ' person has signed' : ' people have signed');
+                    countEl.textContent = signerText;
+                    const badge = document.getElementById('signer-count-badge');
+                    const badgeText = document.getElementById('signer-count-text');
+                    if (badge && badgeText) { badgeText.textContent = signerText; badge.style.display = ''; }
                     if (stats.recent > 0) {
                         momentumEl.textContent = stats.recent + ' signed this week';
                         momentumEl.style.display = '';
