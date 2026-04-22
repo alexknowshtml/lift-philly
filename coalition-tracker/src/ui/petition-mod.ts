@@ -625,7 +625,7 @@ export function getPetitionModHtml(
 
       // Load Leaflet then leaflet.heat then render map
       loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => {
-        loadScript('https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js', () => renderMap(data.by_zip));
+        loadScript('https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js', () => renderMap(data.by_zip));
       });
     }
 
