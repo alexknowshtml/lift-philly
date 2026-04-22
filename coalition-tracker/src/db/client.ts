@@ -412,6 +412,49 @@ export async function getPublicPetitionStats(): Promise<{ approved: number; rece
   return { approved: Number(row.approved), recent: Number(row.recent), pending: Number(row.pending) };
 }
 
+export interface PetitionAdminStats {
+  by_status: { approved: number; pending: number; rejected: number };
+  by_signer_type: { type: string; count: number }[];
+  by_industry: { industry: string; count: number }[];
+  by_zip: { zip: string; count: number }[];
+  by_day: { date: string; count: number }[];
+  anonymous_count: number;
+  total: number;
+}
+
+export async function getPetitionAdminStats(): Promise<PetitionAdminStats> {
+  const [statusRs, typeRs, industryRs, zipRs, dayRs, anonRs] = await Promise.all([
+    client.execute(`SELECT
+      SUM(CASE WHEN status='approved' THEN 1 ELSE 0 END) as approved,
+      SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) as pending,
+      SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) as rejected,
+      COUNT(*) as total
+      FROM petition_signers`),
+    client.execute(`SELECT COALESCE(signer_type,'unknown') as type, COUNT(*) as count
+      FROM petition_signers GROUP BY signer_type ORDER BY count DESC`),
+    client.execute(`SELECT COALESCE(industry,'unknown') as industry, COUNT(*) as count
+      FROM petition_signers WHERE industry IS NOT NULL AND industry != ''
+      GROUP BY industry ORDER BY count DESC LIMIT 15`),
+    client.execute(`SELECT zip_code as zip, COUNT(*) as count
+      FROM petition_signers WHERE zip_code IS NOT NULL AND zip_code != '' AND status='approved'
+      GROUP BY zip_code ORDER BY count DESC LIMIT 50`),
+    client.execute(`SELECT DATE(created_at) as date, COUNT(*) as count
+      FROM petition_signers WHERE created_at >= datetime('now', '-60 days')
+      GROUP BY DATE(created_at) ORDER BY date ASC`),
+    client.execute(`SELECT SUM(anonymous) as anon FROM petition_signers WHERE status='approved'`),
+  ]);
+  const s = statusRs.rows[0];
+  return {
+    by_status: { approved: Number(s.approved), pending: Number(s.pending), rejected: Number(s.rejected) },
+    by_signer_type: typeRs.rows.map(r => ({ type: String(r.type), count: Number(r.count) })),
+    by_industry: industryRs.rows.map(r => ({ industry: String(r.industry), count: Number(r.count) })),
+    by_zip: zipRs.rows.map(r => ({ zip: String(r.zip), count: Number(r.count) })),
+    by_day: dayRs.rows.map(r => ({ date: String(r.date), count: Number(r.count) })),
+    anonymous_count: Number(anonRs.rows[0]?.anon ?? 0),
+    total: Number(s.total),
+  };
+}
+
 // ============ Helper ============
 
 export function computeChanges(

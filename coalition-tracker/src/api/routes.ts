@@ -66,6 +66,7 @@ import {
   deletePetitionSigner,
   getPetitionStats,
   getPublicPetitionStats,
+  getPetitionAdminStats,
   type CoalitionMember,
   type UserRole
 } from '../db/client';
@@ -452,6 +453,12 @@ app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
     getPetitionStats(),
   ]);
   return c.html(getPetitionModHtml(user, pending, all, stats));
+});
+
+// Admin stats (admin)
+app.get('/api/petition/admin-stats', requireAuth, requireAdmin, async (c) => {
+  const stats = await getPetitionAdminStats();
+  return c.json(stats);
 });
 
 // Approve signer (admin)

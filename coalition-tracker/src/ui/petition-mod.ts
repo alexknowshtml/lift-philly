@@ -407,40 +407,94 @@ export function getPetitionModHtml(
     }
 
     .toast.show { opacity: 1; }
+
+    /* Tab nav */
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover { color: var(--navy); }
+    .tab-btn.active { color: var(--navy); border-bottom-color: var(--navy); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Stats tab */
+    .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--white); border-radius: 10px; padding: 20px; box-shadow: var(--shadow-md); text-align: center; }
+    .stat-card-number { font-size: 2rem; font-weight: 800; color: var(--navy); line-height: 1; }
+    .stat-card-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-top: 6px; font-weight: 600; }
+    .stat-card.green .stat-card-number { color: var(--success); }
+    .stat-card.gold .stat-card-number { color: var(--warning); }
+
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    .chart-card { background: var(--white); border-radius: 10px; padding: 20px; box-shadow: var(--shadow-md); }
+    .chart-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 16px; }
+    .chart-wrap { position: relative; height: 220px; }
+
+    #map { height: 420px; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: 32px; }
+
+    .stats-loading { text-align: center; padding: 60px; color: var(--text-muted); font-size: 0.875rem; }
+
+    @media (max-width: 640px) {
+      .charts-grid { grid-template-columns: 1fr; }
+      .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
+    }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   ${getSharedHeader(user?.display_name || '', 'petition', statsHtml(stats))}
 
   <div class="container">
-    <div class="section">
-      <div class="section-header">
-        <span class="section-title">Pending Review</span>
-        <span class="count-badge">${pending.length}</span>
-      </div>
-      ${pending.length === 0
-        ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
-        : `<div class="table-wrap">
-            <table>
-              <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-              <tbody>${signerRows(pending, true)}</tbody>
-            </table>
-            ${signerCards(pending, true)}
-          </div>`}
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('pending', this)">Pending Review <span style="background:#fef3c7;color:#d97706;border-radius:100px;padding:1px 7px;font-size:0.7rem;margin-left:4px">${pending.length}</span></button>
+      <button class="tab-btn" onclick="switchTab('all', this)">All Signatures <span style="background:#f1f5f9;color:#64748b;border-radius:100px;padding:1px 7px;font-size:0.7rem;margin-left:4px">${all.length}</span></button>
+      <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
     </div>
 
-    <div class="section">
-      <div class="section-header">
-        <span class="section-title">All Signatures</span>
-        <span class="count-badge all">${all.length}</span>
+    <div id="tab-pending" class="tab-panel active">
+      <div class="section">
+        ${pending.length === 0
+          ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
+          : `<div class="table-wrap">
+              <table>
+                <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+                <tbody>${signerRows(pending, true)}</tbody>
+              </table>
+              ${signerCards(pending, true)}
+            </div>`}
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-          <tbody>${signerRows(all, true)}</tbody>
-        </table>
-        ${signerCards(all, true)}
+    </div>
+
+    <div id="tab-all" class="tab-panel">
+      <div class="section">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+            <tbody>${signerRows(all, true)}</tbody>
+          </table>
+          ${signerCards(all, true)}
+        </div>
       </div>
+    </div>
+
+    <div id="tab-stats" class="tab-panel">
+      <div id="stats-content"><div class="stats-loading">Loading stats…</div></div>
     </div>
   </div>
 
@@ -490,6 +544,137 @@ export function getPetitionModHtml(
       t.style.background = isError ? '#dc2626' : '#0f172a';
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ---- Tab navigation ----
+    let statsLoaded = false;
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+      if (name === 'stats' && !statsLoaded) loadStats();
+    }
+
+    // ---- Stats loader ----
+    async function loadStats() {
+      statsLoaded = true;
+      const data = await fetch('/api/petition/admin-stats').then(r => r.json());
+      const approvalRate = data.by_status.approved > 0
+        ? Math.round(data.by_status.approved / data.total * 100)
+        : 0;
+      const anonRate = data.by_status.approved > 0
+        ? Math.round(data.anonymous_count / data.by_status.approved * 100)
+        : 0;
+
+      document.getElementById('stats-content').innerHTML = \`
+        <div class="stat-cards">
+          <div class="stat-card green"><div class="stat-card-number">\${data.by_status.approved}</div><div class="stat-card-label">Approved</div></div>
+          <div class="stat-card gold"><div class="stat-card-number">\${data.by_status.pending}</div><div class="stat-card-label">Pending</div></div>
+          <div class="stat-card"><div class="stat-card-number">\${data.by_status.rejected}</div><div class="stat-card-label">Rejected</div></div>
+          <div class="stat-card"><div class="stat-card-number">\${approvalRate}%</div><div class="stat-card-label">Approval Rate</div></div>
+          <div class="stat-card"><div class="stat-card-number">\${anonRate}%</div><div class="stat-card-label">Anonymous</div></div>
+        </div>
+        <div class="charts-grid">
+          <div class="chart-card"><div class="chart-title">Signer Type</div><div class="chart-wrap"><canvas id="chart-type"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title">Top Industries</div><div class="chart-wrap"><canvas id="chart-industry"></canvas></div></div>
+          <div class="chart-card" style="grid-column:1/-1"><div class="chart-title">Signups — Last 60 Days</div><div class="chart-wrap" style="height:180px"><canvas id="chart-timeline"></canvas></div></div>
+        </div>
+        <div class="chart-title" style="margin-bottom:12px">Geographic Distribution (Approved Signers)</div>
+        <div id="map"></div>
+        <div class="charts-grid" style="margin-top:24px">
+          <div class="chart-card"><div class="chart-title">Top Zip Codes</div><div class="chart-wrap"><canvas id="chart-zip"></canvas></div></div>
+        </div>
+      \`;
+
+      // Load Chart.js then render
+      loadScript('https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js', () => {
+        renderBarChart('chart-type', data.by_signer_type.map(d => d.type.replace(/_/g,' ')), data.by_signer_type.map(d => d.count), '#6366f1');
+        renderBarChart('chart-industry', data.by_industry.map(d => d.industry), data.by_industry.map(d => d.count), '#0ea5e9', true);
+        renderBarChart('chart-zip', data.by_zip.slice(0,15).map(d => d.zip), data.by_zip.slice(0,15).map(d => d.count), '#10b981', true);
+        renderTimeline(data.by_day);
+      });
+
+      // Load Leaflet then render map
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => renderMap(data.by_zip));
+    }
+
+    function loadScript(src, cb) {
+      if (document.querySelector('script[src="' + src + '"]')) { cb(); return; }
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = cb;
+      document.head.appendChild(s);
+    }
+
+    function renderBarChart(id, labels, values, color, horizontal = false) {
+      const ctx = document.getElementById(id);
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: horizontal ? 'bar' : 'bar',
+        data: { labels, datasets: [{ data: values, backgroundColor: color + '99', borderColor: color, borderWidth: 1, borderRadius: 4 }] },
+        options: {
+          indexAxis: horizontal ? 'y' : 'x',
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { grid: { display: !horizontal } }, y: { grid: { display: horizontal }, ticks: { font: { size: 11 } } } }
+        }
+      });
+    }
+
+    function renderTimeline(byDay) {
+      if (!byDay.length) return;
+      const ctx = document.getElementById('chart-timeline');
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: 'line',
+        data: { labels: byDay.map(d => d.date), datasets: [{ data: byDay.map(d => d.count), borderColor: '#0f172a', backgroundColor: '#0f172a22', fill: true, tension: 0.3, pointRadius: 3 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { ticks: { maxTicksLimit: 10, font: { size: 10 } } }, y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+      });
+    }
+
+    // PA zip code centroid lookup (Philadelphia + suburbs)
+    const ZIP_CENTROIDS = {
+      '19102':[39.9521,-75.1670],'19103':[39.9523,-75.1770],'19104':[39.9545,-75.1998],
+      '19106':[39.9471,-75.1437],'19107':[39.9484,-75.1582],'19111':[40.0590,-75.0726],
+      '19114':[40.0731,-75.0134],'19115':[40.0932,-75.0434],'19116':[40.1153,-75.0174],
+      '19118':[40.0680,-75.2099],'19119':[40.0559,-75.1899],'19120':[40.0369,-75.1152],
+      '19121':[39.9767,-75.1773],'19122':[39.9741,-75.1457],'19123':[39.9617,-75.1396],
+      '19124':[40.0158,-75.0896],'19125':[39.9763,-75.1254],'19126':[40.0582,-75.1400],
+      '19127':[40.0177,-75.2248],'19128':[40.0416,-75.2154],'19129':[40.0125,-75.1897],
+      '19130':[39.9674,-75.1713],'19131':[39.9817,-75.2171],'19132':[39.9999,-75.1737],
+      '19133':[39.9971,-75.1421],'19134':[39.9982,-75.1108],'19135':[40.0248,-75.0584],
+      '19136':[40.0451,-75.0387],'19137':[39.9970,-75.0708],'19138':[40.0590,-75.1610],
+      '19139':[39.9647,-75.2219],'19140':[40.0194,-75.1569],'19141':[40.0357,-75.1580],
+      '19142':[39.9248,-75.2307],'19143':[39.9396,-75.2127],'19144':[40.0332,-75.1852],
+      '19145':[39.9222,-75.1868],'19146':[39.9360,-75.1825],'19147':[39.9306,-75.1584],
+      '19148':[39.9131,-75.1588],'19149':[40.0351,-75.0641],'19150':[40.0701,-75.1777],
+      '19151':[39.9850,-75.2363],'19152':[40.0555,-75.0428],'19153':[39.8948,-75.2372],
+      '19154':[40.1032,-75.0012],'19019':[40.0820,-75.1200],'19029':[39.8715,-75.2755],
+      '19036':[39.8965,-75.2668],'19050':[39.9286,-75.2688],'19063':[39.8951,-75.3699],
+      '19082':[39.9548,-75.2618],'19083':[39.9823,-75.3012],'19094':[39.8978,-75.2471],
+    };
+
+    function renderMap(byZip) {
+      const map = L.map('map').setView([39.9976, -75.1345], 11);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors', maxZoom: 18
+      }).addTo(map);
+
+      const maxCount = Math.max(...byZip.map(d => d.count), 1);
+      byZip.forEach(({ zip, count }) => {
+        const coords = ZIP_CENTROIDS[zip];
+        if (!coords) return;
+        const r = 8 + Math.round((count / maxCount) * 20);
+        L.circleMarker(coords, {
+          radius: r, fillColor: '#0f172a', color: '#fbbf24',
+          weight: 2, fillOpacity: 0.75
+        }).addTo(map).bindPopup(\`<strong>\${zip}</strong><br>\${count} signer\${count !== 1 ? 's' : ''}\`);
+      });
     }
 
     ${getSharedHeaderScript()}
