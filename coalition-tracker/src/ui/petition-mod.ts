@@ -655,21 +655,28 @@ export function getPetitionModHtml(
       });
       renderPageControls(prefix, page, total);
     }
+    function pgGo(btn) {
+      var pg = parseInt(btn.dataset.pg);
+      var pf = btn.dataset.pf;
+      var tot = parseInt(btn.dataset.tot);
+      showPage(pf, pg, tot);
+    }
     function renderPageControls(prefix, page, total) {
       const pages = Math.ceil(total / PAGE_SIZE);
       const el = document.getElementById(prefix + '-pagination');
       if (!el || pages <= 1) return;
       const start = page * PAGE_SIZE + 1;
       const end = Math.min((page + 1) * PAGE_SIZE, total);
+      function btn(pg, label, disabled, active) {
+        return '<button class="pg-btn' + (active?' active':'') + '" data-pf="' + prefix + '" data-pg="' + pg + '" data-tot="' + total + '" onclick="pgGo(this)"' + (disabled?' disabled':'') + '>' + label + '</button>';
+      }
       let html = '<span class="pg-info">' + start + '–' + end + ' of ' + total + '</span>';
-      html += '<button class="pg-btn" onclick="showPage(\'' + prefix + '\',' + (page-1) + ',' + total + ')" ' + (page===0?'disabled':'') + '>‹</button>';
+      html += btn(page-1, '‹', page===0, false);
       const maxBtns = 7;
       let pStart = Math.max(0, page - 3), pEnd = Math.min(pages, pStart + maxBtns);
       pStart = Math.max(0, pEnd - maxBtns);
-      for (let i = pStart; i < pEnd; i++) {
-        html += '<button class="pg-btn' + (i===page?' active':'') + '" onclick="showPage(\'' + prefix + '\',' + i + ',' + total + ')">' + (i+1) + '</button>';
-      }
-      html += '<button class="pg-btn" onclick="showPage(\'' + prefix + '\',' + (page+1) + ',' + total + ')" ' + (page>=pages-1?'disabled':'') + '>›</button>';
+      for (let i = pStart; i < pEnd; i++) { html += btn(i, i+1, false, i===page); }
+      html += btn(page+1, '›', page>=pages-1, false);
       el.innerHTML = html;
     }
     document.addEventListener('DOMContentLoaded', () => {
