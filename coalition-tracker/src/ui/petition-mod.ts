@@ -645,12 +645,12 @@ export function getPetitionModHtml(
       _page[prefix] = page;
       const start = page * PAGE_SIZE;
       const end = start + PAGE_SIZE;
-      document.querySelectorAll(`[id^="${prefix}-row-"]`).forEach(tr => {
-        const idx = parseInt(tr.dataset.rowIdx);
+      document.querySelectorAll('[id^="' + prefix + '-row-"]').forEach(function(tr) {
+        var idx = parseInt(tr.dataset.rowIdx);
         tr.style.display = (idx >= start && idx < end) ? '' : 'none';
       });
-      document.querySelectorAll(`[id^="${prefix}-detail-"]`).forEach(tr => {
-        const idx = parseInt(tr.dataset.rowIdx);
+      document.querySelectorAll('[id^="' + prefix + '-detail-"]').forEach(function(tr) {
+        var idx = parseInt(tr.dataset.rowIdx);
         if (idx < start || idx >= end) tr.style.display = 'none';
       });
       renderPageControls(prefix, page, total);
