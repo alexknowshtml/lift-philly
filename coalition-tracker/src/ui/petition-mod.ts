@@ -334,6 +334,8 @@ export function getPetitionModHtml(
       font-size: 0.875rem;
     }
 
+    .signer-cards { display: none; }
+
     /* Mobile: horizontal scroll for medium screens */
     @media (max-width: 900px) {
       .container { padding: 16px; }
