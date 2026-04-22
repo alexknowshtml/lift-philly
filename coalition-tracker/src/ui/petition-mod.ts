@@ -490,7 +490,7 @@ export function getPetitionModHtml(
 
   <div class="container">
     <div class="tab-nav">
-      <button class="tab-btn${pending.length > 0 ? ' active' : ''}" onclick="switchTab('pending', this)">Pending Review<span class="tab-badge tab-badge-pending">${pending.length}</span></button>
+      <button class="tab-btn${pending.length > 0 ? ' active' : ''}" onclick="switchTab('pending', this)">Pending<span class="tab-badge tab-badge-pending">${pending.length}</span></button>
       <button class="tab-btn${pending.length === 0 ? ' active' : ''}" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
       <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
     </div>
