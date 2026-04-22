@@ -623,8 +623,10 @@ export function getPetitionModHtml(
         renderTimeline(data.by_day);
       });
 
-      // Load Leaflet then render map
-      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => renderMap(data.by_zip));
+      // Load Leaflet then leaflet.heat then render map
+      loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => {
+        loadScript('https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js', () => renderMap(data.by_zip));
+      });
     }
 
     function loadScript(src, cb) {
@@ -748,17 +750,17 @@ export function getPetitionModHtml(
         })
         .catch(() => {}); // skip gracefully if fetch fails
 
-      // Zip circle markers on top
+      // Heatmap layer from zip centroids
       const maxCount = Math.max(...byZip.map(d => d.count), 1);
+      const heatPoints = [];
       byZip.forEach(({ zip, count }) => {
         const coords = ZIP_CENTROIDS[zip];
         if (!coords) return;
-        const r = 8 + Math.round((count / maxCount) * 20);
-        L.circleMarker(coords, {
-          radius: r, fillColor: '#0f172a', color: '#fbbf24',
-          weight: 2, fillOpacity: 0.75
-        }).addTo(map).bindPopup(\`<strong>\${zip}</strong><br>\${count} signer\${count !== 1 ? 's' : ''}\`);
+        heatPoints.push([coords[0], coords[1], count / maxCount]);
       });
+      if (heatPoints.length) {
+        L.heatLayer(heatPoints, { radius: 35, blur: 25, maxZoom: 13, gradient: { 0.2: '#93c5fd', 0.5: '#3b82f6', 0.8: '#1d4ed8', 1.0: '#1e3a8a' } }).addTo(map);
+      }
     }
 
     ${getSharedHeaderScript()}
