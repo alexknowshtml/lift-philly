@@ -484,12 +484,12 @@ export function getPetitionModHtml(
 
   <div class="container">
     <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab('pending', this)">Pending Review<span class="tab-badge tab-badge-pending">${pending.length}</span></button>
-      <button class="tab-btn" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
+      <button class="tab-btn${pending.length > 0 ? ' active' : ''}" onclick="switchTab('pending', this)">Pending Review<span class="tab-badge tab-badge-pending">${pending.length}</span></button>
+      <button class="tab-btn${pending.length === 0 ? ' active' : ''}" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
       <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
     </div>
 
-    <div id="tab-pending" class="tab-panel active">
+    <div id="tab-pending" class="tab-panel${pending.length > 0 ? ' active' : ''}">
       <div class="section">
         ${pending.length === 0
           ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
@@ -503,7 +503,7 @@ export function getPetitionModHtml(
       </div>
     </div>
 
-    <div id="tab-all" class="tab-panel">
+    <div id="tab-all" class="tab-panel${pending.length === 0 ? ' active' : ''}">
       <div class="section">
         <div class="table-wrap">
           <table>
