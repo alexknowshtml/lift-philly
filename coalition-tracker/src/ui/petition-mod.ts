@@ -28,7 +28,7 @@ function statsHtml(stats: Stats): string {
 
 function signerRows(signers: PetitionSigner[], showActions: boolean, prefix = 'r'): string {
   const colCount = showActions ? 7 : 6;
-  return signers.map(s => {
+  return signers.map((s, idx) => {
     const detailItems = [
       `<span class="detail-item"><span class="detail-label">Email</span>${s.email}</span>`,
       `<span class="detail-item"><span class="detail-label">Zip</span>${s.zip_code || '—'}</span>`,
@@ -39,7 +39,7 @@ function signerRows(signers: PetitionSigner[], showActions: boolean, prefix = 'r
     const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
     return `
-    <tr id="${prefix}-row-${s.id}" class="signer-row" onclick="toggleDetail('${prefix}',${s.id})" style="cursor:pointer">
+    <tr id="${prefix}-row-${s.id}" class="signer-row" data-row-idx="${idx}" onclick="toggleDetail('${prefix}',${s.id})" style="cursor:pointer">
       <td class="name-cell">${s.name} <span class="expand-chevron" id="${prefix}-chev-${s.id}">›</span>${s.comment ? ' <span class="comment-dot" title="Has comment">💬</span>' : ''}</td>
       <td class="business-cell">${s.business_name
         ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link" onclick="event.stopPropagation()">↗</a>` : ''}`
@@ -53,7 +53,7 @@ function signerRows(signers: PetitionSigner[], showActions: boolean, prefix = 'r
         ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
       </td>` : ''}
     </tr>
-    <tr id="${prefix}-detail-${s.id}" class="detail-row" style="display:none">
+    <tr id="${prefix}-detail-${s.id}" class="detail-row" data-row-idx="${idx}" style="display:none">
       <td colspan="${colCount}" class="detail-cell">${detailItems}</td>
     </tr>`;
   }).join('');
@@ -265,8 +265,15 @@ export function getPetitionModHtml(
     .signer-row:hover td { background: #f0f4ff; }
     .expand-chevron { color: #94a3b8; font-size: 1rem; margin-left: 4px; display: inline-block; transition: transform 0.2s; }
     .expand-chevron.open { transform: rotate(90deg); }
-    .comment-dot { color: #f59e0b; font-size: 0.5rem; vertical-align: middle; margin-left: 2px; }
+    .comment-dot { font-size: 0.85rem; vertical-align: middle; margin-left: 3px; }
     .time-str { font-size: 0.72rem; color: #b0bec5; }
+
+    .pagination { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 12px 16px 4px; flex-wrap: wrap; }
+    .pg-btn { border: 1px solid var(--border); background: var(--white); color: var(--navy); border-radius: 6px; padding: 5px 11px; font-size: 0.8rem; cursor: pointer; font-family: var(--font-body); transition: background 0.1s; }
+    .pg-btn:hover { background: #f1f5f9; }
+    .pg-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .pg-btn:disabled { opacity: 0.35; cursor: default; }
+    .pg-info { font-size: 0.78rem; color: var(--text-muted); margin-right: 6px; }
 
     .detail-row td { background: #f8fafc; border-bottom: 1px solid var(--border); }
     .detail-cell { padding: 10px 20px 14px 20px !important; }
@@ -536,6 +543,7 @@ export function getPetitionModHtml(
                 <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
                 <tbody>${signerRows(pending, true, 'p')}</tbody>
               </table>
+              <div class="pagination" id="p-pagination"></div>
               ${signerCards(pending, true)}
             </div>`}
       </div>
@@ -548,6 +556,7 @@ export function getPetitionModHtml(
             <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
             <tbody>${signerRows(all, true, 'a')}</tbody>
           </table>
+          <div class="pagination" id="a-pagination"></div>
           ${signerCards(all, true)}
         </div>
       </div>
@@ -624,6 +633,49 @@ export function getPetitionModHtml(
       if (chev) chev.classList.toggle('open', !open);
       _openDetail[prefix] = open ? null : id;
     }
+
+    // ---- Pagination ----
+    const PAGE_SIZE = 25;
+    const _page = {};
+    function initPagination(prefix, total) {
+      _page[prefix] = 0;
+      showPage(prefix, 0, total);
+    }
+    function showPage(prefix, page, total) {
+      _page[prefix] = page;
+      const start = page * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      document.querySelectorAll(`[id^="${prefix}-row-"]`).forEach(tr => {
+        const idx = parseInt(tr.dataset.rowIdx);
+        tr.style.display = (idx >= start && idx < end) ? '' : 'none';
+      });
+      document.querySelectorAll(`[id^="${prefix}-detail-"]`).forEach(tr => {
+        const idx = parseInt(tr.dataset.rowIdx);
+        if (idx < start || idx >= end) tr.style.display = 'none';
+      });
+      renderPageControls(prefix, page, total);
+    }
+    function renderPageControls(prefix, page, total) {
+      const pages = Math.ceil(total / PAGE_SIZE);
+      const el = document.getElementById(prefix + '-pagination');
+      if (!el || pages <= 1) return;
+      const start = page * PAGE_SIZE + 1;
+      const end = Math.min((page + 1) * PAGE_SIZE, total);
+      let html = '<span class="pg-info">' + start + '–' + end + ' of ' + total + '</span>';
+      html += '<button class="pg-btn" onclick="showPage(\'' + prefix + '\',' + (page-1) + ',' + total + ')" ' + (page===0?'disabled':'') + '>‹</button>';
+      const maxBtns = 7;
+      let pStart = Math.max(0, page - 3), pEnd = Math.min(pages, pStart + maxBtns);
+      pStart = Math.max(0, pEnd - maxBtns);
+      for (let i = pStart; i < pEnd; i++) {
+        html += '<button class="pg-btn' + (i===page?' active':'') + '" onclick="showPage(\'' + prefix + '\',' + i + ',' + total + ')">' + (i+1) + '</button>';
+      }
+      html += '<button class="pg-btn" onclick="showPage(\'' + prefix + '\',' + (page+1) + ',' + total + ')" ' + (page>=pages-1?'disabled':'') + '>›</button>';
+      el.innerHTML = html;
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      initPagination('p', ${pending.length});
+      initPagination('a', ${all.length});
+    });
 
     // ---- Tab navigation ----
     let statsLoaded = false;
