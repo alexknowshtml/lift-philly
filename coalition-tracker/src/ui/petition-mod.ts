@@ -55,19 +55,20 @@ function signerCards(signers: PetitionSigner[], showActions: boolean): string {
       ? `<div class="card-biz">${s.business_name}${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link">↗</a>` : ''}</div>`
       : '';
     const comment = s.comment ? `<div class="card-comment">"${s.comment}"</div>` : '';
-    const actions = showActions ? `<div class="card-actions">
-      ${s.status !== 'approved' ? `<button class="action-btn btn-approve" onclick="updateStatus(${s.id}, 'approved')">Approve</button>` : ''}
-      ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
-    </div>` : '';
+    const statusSelect = showActions ? `
+      <select class="status-select status-select-${s.status}" onchange="changeStatus(${s.id}, this)" data-id="${s.id}" data-prev="${s.status}">
+        <option value="pending"${s.status === 'pending' ? ' selected' : ''}>pending</option>
+        <option value="approved"${s.status === 'approved' ? ' selected' : ''}>approved</option>
+        <option value="rejected"${s.status === 'rejected' ? ' selected' : ''}>rejected</option>
+      </select>` : `<span class="badge badge-${s.status}">${s.status}</span>`;
     return `
     <div class="signer-card card-${s.status}" id="card-${s.id}">
       <div class="card-top">
         <div><div class="card-name">${s.name}</div>${biz}</div>
-        <span class="badge badge-${s.status}">${s.status}</span>
+        ${statusSelect}
       </div>
       <div class="card-meta">${s.email} &middot; ${s.zip_code || '—'}</div>
       ${comment}
-      ${actions}
     </div>`;
   }).join('') + `</div>`;
 }
@@ -265,6 +266,24 @@ export function getPetitionModHtml(
     .badge-rejected { background: var(--danger-bg); color: var(--danger); }
     .badge-anon { background: #e0e7ff; color: #4f46e5; }
 
+    .status-select {
+      appearance: none;
+      border: none;
+      border-radius: 100px;
+      padding: 3px 22px 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 10px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748b'/%3E%3C/svg%3E");
+    }
+    .status-select-pending { background-color: var(--warning-bg); color: var(--warning); }
+    .status-select-approved { background-color: var(--success-bg); color: var(--success); }
+    .status-select-rejected { background-color: var(--danger-bg); color: var(--danger); }
+
     .actions-cell { display: flex; gap: 8px; }
 
     .action-btn {
@@ -394,16 +413,38 @@ export function getPetitionModHtml(
 
   <script>
     async function updateStatus(id, status) {
-      const btn = event.target;
-      btn.disabled = true;
-      btn.textContent = '…';
       try {
         const res = await fetch('/api/petition/' + id + '/' + status, { method: 'POST' });
         if (!res.ok) throw new Error('Failed');
         location.reload();
       } catch (e) {
-        btn.disabled = false;
-        btn.textContent = status === 'approved' ? 'Approve' : 'Reject';
+        showToast('Error — try again', true);
+      }
+    }
+
+    async function changeStatus(id, selectEl) {
+      const newStatus = selectEl.value;
+      const prevStatus = selectEl.dataset.prev || selectEl.querySelector('option[selected]')?.value;
+      selectEl.dataset.prev = newStatus;
+
+      // Optimistic UI update
+      const card = document.getElementById('card-' + id);
+      if (card) {
+        card.className = 'signer-card card-' + newStatus;
+      }
+      selectEl.className = 'status-select status-select-' + newStatus;
+
+      try {
+        const res = await fetch('/api/petition/' + id + '/' + newStatus, { method: 'POST' });
+        if (!res.ok) throw new Error('Failed');
+        showToast('Saved', false);
+      } catch (e) {
+        // Revert on failure
+        if (prevStatus) {
+          selectEl.value = prevStatus;
+          selectEl.className = 'status-select status-select-' + prevStatus;
+          if (card) card.className = 'signer-card card-' + prevStatus;
+        }
         showToast('Error — try again', true);
       }
     }
