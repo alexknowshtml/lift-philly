@@ -723,9 +723,8 @@ export function getPetitionModHtml(
       });
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
 
-      // Load council district GeoJSON overlay (OpenDataPhilly via CORS-friendly CDN)
-      const DISTRICT_GEOJSON_URL = 'https://opendata.arcgis.com/datasets/9298c2f3fa3241fbb176ff1e84d33360_0.geojson';
-      fetch(DISTRICT_GEOJSON_URL)
+      // Load council district GeoJSON via server proxy (avoids browser CORS)
+      fetch('/api/petition/district-geojson')
         .then(r => r.json())
         .then(geojson => {
           L.geoJSON(geojson, {
