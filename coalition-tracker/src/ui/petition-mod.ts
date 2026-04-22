@@ -27,28 +27,33 @@ function statsHtml(stats: Stats): string {
 }
 
 function signerRows(signers: PetitionSigner[], showActions: boolean): string {
-  return signers.map(s => `
-    <tr id="row-${s.id}">
-      <td class="name-cell">${s.name}</td>
-      <td class="business-cell" title="${s.business_name || ''}">${s.business_name
-        ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link">↗</a>` : ''}`
+  const colCount = showActions ? 7 : 6;
+  return signers.map(s => {
+    const detailItems = [
+      `<span class="detail-item"><span class="detail-label">Email</span>${s.email}</span>`,
+      `<span class="detail-item"><span class="detail-label">Zip</span>${s.zip_code || '—'}</span>`,
+      s.anonymous ? `<span class="detail-item"><span class="badge badge-anon">Anon</span></span>` : '',
+      s.comment ? `<span class="detail-item detail-comment"><span class="detail-label">Comment</span>${s.comment}</span>` : '',
+    ].filter(Boolean).join('');
+    return `
+    <tr id="row-${s.id}" class="signer-row" onclick="toggleDetail(${s.id})" style="cursor:pointer">
+      <td class="name-cell">${s.name} <span class="expand-chevron" id="chev-${s.id}">›</span></td>
+      <td class="business-cell">${s.business_name
+        ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link" onclick="event.stopPropagation()">↗</a>` : ''}`
         : '<span class="muted">—</span>'}</td>
-      <td class="muted-cell email-cell" data-email="${s.email}">${s.email}</td>
-      <td class="muted-cell">${s.zip_code || '<span class="muted">—</span>'}</td>
       <td>${s.signer_type ? `<span class="type-tag">${s.signer_type.replace(/_/g, ' ')}</span>` : '<span class="muted">—</span>'}</td>
       <td class="muted-cell">${s.industry || '<span class="muted">—</span>'}</td>
-      <td>${s.comment
-        ? `<span class="comment-text" title="${s.comment.replace(/"/g, '&quot;')}">${s.comment.length > 40 ? s.comment.slice(0, 40) + '…' : s.comment}</span>`
-        : '<span class="muted">—</span>'}</td>
-      <td>${s.anonymous ? '<span class="badge badge-anon">Anon</span>' : '<span class="muted">—</span>'}</td>
       <td><span class="badge badge-${s.status}">${s.status}</span></td>
       <td class="date-cell">${new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
-      ${showActions ? `<td class="actions-cell">
+      ${showActions ? `<td class="actions-cell" onclick="event.stopPropagation()">
         ${s.status !== 'approved' ? `<button class="action-btn btn-approve" onclick="updateStatus(${s.id}, 'approved')">Approve</button>` : ''}
         ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
-      </td>` : '<td></td>'}
+      </td>` : ''}
     </tr>
-  `).join('');
+    <tr id="detail-${s.id}" class="detail-row" style="display:none">
+      <td colspan="${colCount}" class="detail-cell">${detailItems}</td>
+    </tr>`;
+  }).join('');
 }
 
 function signerCards(signers: PetitionSigner[], showActions: boolean): string {
@@ -254,25 +259,23 @@ export function getPetitionModHtml(
     .muted { color: #94a3b8; }
     .business-name { font-weight: 500; }
     .business-cell { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .email-cell { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: default; position: relative; }
-    .email-cell::after {
-      content: attr(data-email);
-      position: absolute;
-      bottom: calc(100% + 6px);
-      left: 0;
-      background: #1e293b;
-      color: #f1f5f9;
-      font-size: 0.75rem;
-      padding: 5px 10px;
-      border-radius: 6px;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.15s;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    .signer-row:hover td { background: #f0f4ff; }
+    .expand-chevron { color: #94a3b8; font-size: 1rem; margin-left: 4px; display: inline-block; transition: transform 0.2s; }
+    .expand-chevron.open { transform: rotate(90deg); }
+
+    .detail-row td { background: #f8fafc; border-bottom: 1px solid var(--border); }
+    .detail-cell { padding: 10px 20px 14px 20px !important; }
+    .detail-cell { display: table-cell; }
+    .detail-item {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 5px;
+      margin-right: 20px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
     }
-    .email-cell:hover::after { opacity: 1; }
+    .detail-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; }
+    .detail-comment { display: block; margin-top: 6px; color: var(--navy); font-style: italic; }
     .ext-link { color: var(--text-muted); text-decoration: none; margin-left: 4px; }
     .ext-link:hover { color: var(--navy); }
     .comment-text { color: var(--text-muted); display: block; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -525,7 +528,7 @@ export function getPetitionModHtml(
           ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
           : `<div class="table-wrap">
               <table>
-                <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+                <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
                 <tbody>${signerRows(pending, true)}</tbody>
               </table>
               ${signerCards(pending, true)}
@@ -537,7 +540,7 @@ export function getPetitionModHtml(
       <div class="section">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
             <tbody>${signerRows(all, true)}</tbody>
           </table>
           ${signerCards(all, true)}
@@ -596,6 +599,16 @@ export function getPetitionModHtml(
       t.style.background = isError ? '#dc2626' : '#0f172a';
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ---- Row expand/collapse ----
+    function toggleDetail(id) {
+      const row = document.getElementById('detail-' + id);
+      const chev = document.getElementById('chev-' + id);
+      if (!row) return;
+      const open = row.style.display === 'table-row';
+      row.style.display = open ? 'none' : 'table-row';
+      if (chev) chev.classList.toggle('open', !open);
     }
 
     // ---- Tab navigation ----
