@@ -45,6 +45,18 @@ export function getSharedHeaderCss(): string {
       align-items: center;
       gap: 16px;
     }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        flex-wrap: wrap;
+        padding: 14px 16px;
+        gap: 12px;
+      }
+      .logo h1 { font-size: 1.3rem; }
+      .logo-tag { display: none; }
+      .header-right { margin-left: auto; }
+    }
+
     .user-menu { position: relative; }
     .user-menu-btn {
       display: flex;

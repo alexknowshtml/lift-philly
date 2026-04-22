@@ -318,6 +318,17 @@ export function getPetitionModHtml(
 
     /* Mobile: card layout for phones */
     @media (max-width: 640px) {
+      /* Stats row takes full width below logo/menu row */
+      .header-stats {
+        order: 3;
+        width: 100%;
+        gap: 0;
+        justify-content: space-around;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 10px;
+      }
+      .hstat::after { display: none; }
+      .hstat-number { font-size: 1.2rem; }
       .table-wrap table { display: none; }
       .table-wrap { border-radius: 10px; overflow: visible; box-shadow: none; background: transparent; }
 
