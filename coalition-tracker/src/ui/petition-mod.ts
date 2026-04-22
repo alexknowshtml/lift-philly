@@ -26,7 +26,7 @@ function statsHtml(stats: Stats): string {
     </div>`;
 }
 
-function signerRows(signers: PetitionSigner[], showActions: boolean): string {
+function signerRows(signers: PetitionSigner[], showActions: boolean, prefix = 'r'): string {
   const colCount = showActions ? 7 : 6;
   return signers.map(s => {
     const detailItems = [
@@ -39,8 +39,8 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
     const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
     return `
-    <tr id="row-${s.id}" class="signer-row" onclick="toggleDetail(${s.id})" style="cursor:pointer">
-      <td class="name-cell">${s.name} <span class="expand-chevron" id="chev-${s.id}">›</span>${s.comment ? ' <span class="comment-dot" title="Has comment">●</span>' : ''}</td>
+    <tr id="${prefix}-row-${s.id}" class="signer-row" onclick="toggleDetail('${prefix}',${s.id})" style="cursor:pointer">
+      <td class="name-cell">${s.name} <span class="expand-chevron" id="${prefix}-chev-${s.id}">›</span>${s.comment ? ' <span class="comment-dot" title="Has comment">💬</span>' : ''}</td>
       <td class="business-cell">${s.business_name
         ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link" onclick="event.stopPropagation()">↗</a>` : ''}`
         : '<span class="muted">—</span>'}</td>
@@ -53,7 +53,7 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
         ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
       </td>` : ''}
     </tr>
-    <tr id="detail-${s.id}" class="detail-row" style="display:none">
+    <tr id="${prefix}-detail-${s.id}" class="detail-row" style="display:none">
       <td colspan="${colCount}" class="detail-cell">${detailItems}</td>
     </tr>`;
   }).join('');
@@ -534,7 +534,7 @@ export function getPetitionModHtml(
           : `<div class="table-wrap">
               <table>
                 <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-                <tbody>${signerRows(pending, true)}</tbody>
+                <tbody>${signerRows(pending, true, 'p')}</tbody>
               </table>
               ${signerCards(pending, true)}
             </div>`}
@@ -546,7 +546,7 @@ export function getPetitionModHtml(
         <div class="table-wrap">
           <table>
             <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-            <tbody>${signerRows(all, true)}</tbody>
+            <tbody>${signerRows(all, true, 'a')}</tbody>
           </table>
           ${signerCards(all, true)}
         </div>
@@ -607,21 +607,22 @@ export function getPetitionModHtml(
     }
 
     // ---- Row expand/collapse ----
-    let _openDetailId = null;
-    function toggleDetail(id) {
-      if (_openDetailId && _openDetailId !== id) {
-        const prev = document.getElementById('detail-' + _openDetailId);
-        const prevChev = document.getElementById('chev-' + _openDetailId);
+    const _openDetail = {};
+    function toggleDetail(prefix, id) {
+      const prevId = _openDetail[prefix];
+      if (prevId && prevId !== id) {
+        const prev = document.getElementById(prefix + '-detail-' + prevId);
+        const prevChev = document.getElementById(prefix + '-chev-' + prevId);
         if (prev) prev.style.display = 'none';
         if (prevChev) prevChev.classList.remove('open');
       }
-      const row = document.getElementById('detail-' + id);
-      const chev = document.getElementById('chev-' + id);
+      const row = document.getElementById(prefix + '-detail-' + id);
+      const chev = document.getElementById(prefix + '-chev-' + id);
       if (!row) return;
       const open = row.style.display === 'table-row';
       row.style.display = open ? 'none' : 'table-row';
       if (chev) chev.classList.toggle('open', !open);
-      _openDetailId = open ? null : id;
+      _openDetail[prefix] = open ? null : id;
     }
 
     // ---- Tab navigation ----
