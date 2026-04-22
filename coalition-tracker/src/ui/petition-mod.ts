@@ -734,7 +734,8 @@ export function getPetitionModHtml(
 
       // District polygon overlays from pre-simplified TypeScript data
       const districtPolygons = ${JSON.stringify(DISTRICT_POLYGONS)};
-      districtPolygons.forEach(({ d, rings }) => {
+      Object.entries(districtPolygons).forEach(([d, rings]) => {
+        d = parseInt(d);
         const count = districtCounts[d] || 0;
         const intensity = count / maxDistCount;
         const fillOpacity = count > 0 ? 0.12 + intensity * 0.35 : 0.03;
