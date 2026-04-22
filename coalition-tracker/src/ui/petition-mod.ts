@@ -687,12 +687,68 @@ export function getPetitionModHtml(
       '19082':[39.9548,-75.2618],'19083':[39.9823,-75.3012],'19094':[39.8978,-75.2471],
     };
 
+    // Approximate zip → council district mapping (Philadelphia)
+    const ZIP_TO_DISTRICT = {
+      '19145':1,'19146':1,'19147':1,'19148':1,'19106':1,'19112':1,
+      '19137':2,'19142':2,'19143':2,'19153':2,
+      '19104':3,'19127':3,'19131':3,'19139':3,'19143':3,'19151':3,
+      '19118':4,'19119':4,'19128':4,'19129':4,'19144':4,
+      '19102':5,'19103':5,'19107':5,'19114':5,'19115':5,'19116':5,'19123':5,'19130':5,'19154':5,
+      '19111':6,'19124':6,'19135':6,'19136':6,'19149':6,'19152':6,
+      '19120':7,'19121':7,'19122':7,'19132':7,'19133':7,'19140':7,
+      '19126':8,'19138':8,'19141':8,'19150':8,
+      '19125':9,'19134':9,
+      '19019':10,'19050':10,
+    };
+
+    const DISTRICT_MEMBERS = {
+      1:'Mark Squilla',2:'Kenyatta Johnson',3:'Jamie Gauthier',4:'Curtis Jones Jr.',
+      5:'Jeffery Young Jr.',6:'Jim Harrity',7:'Maria Quiñones-Sánchez',
+      8:'Cindy Bass',9:'Bobby Henon',10:'Brian O\'Neill',
+    };
+
     function renderMap(byZip) {
       const map = L.map('map').setView([39.9976, -75.1345], 11);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors', maxZoom: 18
       }).addTo(map);
 
+      // Build district → signer count
+      const districtCounts = {};
+      byZip.forEach(({ zip, count }) => {
+        const d = ZIP_TO_DISTRICT[zip];
+        if (d) districtCounts[d] = (districtCounts[d] || 0) + count;
+      });
+      const maxDistCount = Math.max(...Object.values(districtCounts), 1);
+
+      // Load council district GeoJSON overlay
+      fetch('https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/City_Council_Districts/FeatureServer/0/query?where=1%3D1&outFields=DISTRICT&f=geojson')
+        .then(r => r.json())
+        .then(geojson => {
+          L.geoJSON(geojson, {
+            style: feature => {
+              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || 0);
+              const count = districtCounts[d] || 0;
+              const intensity = count / maxDistCount;
+              return {
+                fillColor: count > 0 ? \`rgba(15,23,42,\${0.08 + intensity * 0.45})\` : 'rgba(15,23,42,0.03)',
+                weight: 1.5, opacity: 0.5, color: '#0f172a', fillOpacity: 1,
+              };
+            },
+            onEachFeature: (feature, layer) => {
+              const d = parseInt(feature.properties.DISTRICT || feature.properties.district || 0);
+              const count = districtCounts[d] || 0;
+              const member = DISTRICT_MEMBERS[d] || '';
+              layer.bindTooltip(
+                \`<strong>District \${d}</strong>\${member ? '<br>' + member : ''}<br>\${count} signer\${count !== 1 ? 's' : ''}\`,
+                { sticky: true }
+              );
+            }
+          }).addTo(map);
+        })
+        .catch(() => {}); // skip gracefully if fetch fails
+
+      // Zip circle markers on top
       const maxCount = Math.max(...byZip.map(d => d.count), 1);
       byZip.forEach(({ zip, count }) => {
         const coords = ZIP_CENTROIDS[zip];
