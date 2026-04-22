@@ -33,7 +33,7 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
       <td class="business-cell" title="${s.business_name || ''}">${s.business_name
         ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link">↗</a>` : ''}`
         : '<span class="muted">—</span>'}</td>
-      <td class="muted-cell">${s.email}</td>
+      <td class="muted-cell email-cell" title="${s.email}">${s.email}</td>
       <td class="muted-cell">${s.zip_code || '<span class="muted">—</span>'}</td>
       <td>${s.signer_type ? `<span class="type-tag">${s.signer_type.replace(/_/g, ' ')}</span>` : '<span class="muted">—</span>'}</td>
       <td class="muted-cell">${s.industry || '<span class="muted">—</span>'}</td>
@@ -254,6 +254,7 @@ export function getPetitionModHtml(
     .muted { color: #94a3b8; }
     .business-name { font-weight: 500; }
     .business-cell { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .email-cell { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: default; }
     .ext-link { color: var(--text-muted); text-decoration: none; margin-left: 4px; }
     .ext-link:hover { color: var(--navy); }
     .comment-text { color: var(--text-muted); display: block; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
