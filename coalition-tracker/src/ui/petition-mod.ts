@@ -34,6 +34,8 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
         : '<span class="muted">—</span>'}</td>
       <td class="muted-cell">${s.email}</td>
       <td class="muted-cell">${s.zip_code || '<span class="muted">—</span>'}</td>
+      <td>${s.signer_type ? `<span class="type-tag">${s.signer_type.replace(/_/g, ' ')}</span>` : '<span class="muted">—</span>'}</td>
+      <td class="muted-cell">${s.industry || '<span class="muted">—</span>'}</td>
       <td>${s.comment
         ? `<span class="comment-text" title="${s.comment.replace(/"/g, '&quot;')}">${s.comment.length > 40 ? s.comment.slice(0, 40) + '…' : s.comment}</span>`
         : '<span class="muted">—</span>'}</td>
@@ -68,6 +70,7 @@ function signerCards(signers: PetitionSigner[], showActions: boolean): string {
         ${statusSelect}
       </div>
       <div class="card-meta">${s.email} &middot; ${s.zip_code || '—'}</div>
+      ${(s.signer_type || s.industry) ? `<div class="card-tags">${s.signer_type ? `<span class="type-tag">${s.signer_type.replace(/_/g, ' ')}</span>` : ''}${s.industry ? `<span class="industry-tag">${s.industry}</span>` : ''}</div>` : ''}
       ${comment}
     </div>`;
   }).join('') + `</div>`;
@@ -266,6 +269,27 @@ export function getPetitionModHtml(
     .badge-rejected { background: var(--danger-bg); color: var(--danger); }
     .badge-anon { background: #e0e7ff; color: #4f46e5; }
 
+    .type-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: #475569;
+      text-transform: capitalize;
+    }
+    .industry-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+
     .status-select {
       appearance: none;
       border: none;
@@ -398,7 +422,7 @@ export function getPetitionModHtml(
         ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
         : `<div class="table-wrap">
             <table>
-              <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
               <tbody>${signerRows(pending, true)}</tbody>
             </table>
             ${signerCards(pending, true)}
@@ -412,7 +436,7 @@ export function getPetitionModHtml(
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Type</th><th>Industry</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
           <tbody>${signerRows(all, true)}</tbody>
         </table>
         ${signerCards(all, true)}
