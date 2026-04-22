@@ -1,6 +1,5 @@
 import type { PetitionSigner, User } from '../db/client';
 import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from './shared-header';
-import districtGeoJson from '../data/philly-council-districts.json';
 
 type Stats = { total: number; pending: number; approved: number; rejected: number };
 
@@ -611,7 +610,6 @@ export function getPetitionModHtml(
         </div>
         <div class="chart-title" style="margin-bottom:12px">Geographic Distribution (Approved Signers)</div>
         <div id="map"></div>
-        <script type="application/json" id="district-geojson-data">${JSON.stringify(districtGeoJson)}</script>
         <div class="charts-grid" style="margin-top:24px">
           <div class="chart-card"><div class="chart-title">Top Zip Codes</div><div class="chart-wrap"><canvas id="chart-zip"></canvas></div></div>
         </div>
@@ -723,10 +721,10 @@ export function getPetitionModHtml(
       });
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
 
-      // District GeoJSON inlined at render time — no fetch, no CORS
-      // Escape </script> sequences to prevent premature script tag closure
-      const districtGeojson = JSON.parse(document.getElementById('district-geojson-data').textContent);
-      L.geoJSON(districtGeojson, {
+      // District GeoJSON via same-origin API endpoint (no CORS, served from bundled file)
+      fetch('/api/petition/district-geojson')
+        .then(r => r.json())
+        .then(geojson => { L.geoJSON(geojson, {
             style: feature => {
               const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
               const count = districtCounts[d] || 0;
@@ -745,7 +743,7 @@ export function getPetitionModHtml(
                 { sticky: true }
               );
             }
-      }).addTo(map);
+          }).addTo(map); }).catch(() => {});
 
       // Circle markers for zip-level detail
       const maxCount = Math.max(...byZip.map(d => d.count), 1);
