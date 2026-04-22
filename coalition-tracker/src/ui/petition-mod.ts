@@ -410,15 +410,19 @@ export function getPetitionModHtml(
 
     /* Tab nav */
     .tab-nav {
-      display: inline-flex;
+      display: flex;
+      width: fit-content;
+      max-width: 100%;
       background: var(--muted-bg);
       border-radius: 10px;
       padding: 4px;
       gap: 2px;
       margin-bottom: 28px;
+      overflow: hidden;
     }
     .tab-btn {
-      padding: 8px 18px;
+      flex: 1;
+      padding: 8px 16px;
       font-size: 0.83rem;
       font-weight: 600;
       color: var(--text-muted);
@@ -429,6 +433,7 @@ export function getPetitionModHtml(
       font-family: var(--font-body);
       transition: background 0.15s, color 0.15s, box-shadow 0.15s;
       white-space: nowrap;
+      text-align: center;
     }
     .tab-btn:hover { color: var(--navy); background: rgba(255,255,255,0.6); }
     .tab-btn.active { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(15,23,42,0.10); }
@@ -451,8 +456,9 @@ export function getPetitionModHtml(
     .tab-panel.active { display: block; }
 
     @media (max-width: 640px) {
-      .tab-nav { display: flex; width: 100%; }
-      .tab-btn { flex: 1; text-align: center; padding: 8px 10px; font-size: 0.76rem; }
+      .tab-nav { width: 100%; }
+      .tab-btn { padding: 8px 8px; font-size: 0.74rem; }
+      .tab-badge { display: none; }
     }
 
     /* Stats tab */
