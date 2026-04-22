@@ -611,6 +611,7 @@ export function getPetitionModHtml(
         </div>
         <div class="chart-title" style="margin-bottom:12px">Geographic Distribution (Approved Signers)</div>
         <div id="map"></div>
+        <script type="application/json" id="district-geojson-data">${JSON.stringify(districtGeoJson)}</script>
         <div class="charts-grid" style="margin-top:24px">
           <div class="chart-card"><div class="chart-title">Top Zip Codes</div><div class="chart-wrap"><canvas id="chart-zip"></canvas></div></div>
         </div>
@@ -723,9 +724,9 @@ export function getPetitionModHtml(
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
 
       // District GeoJSON inlined at render time — no fetch, no CORS
-      const districtGeojson = ${JSON.stringify(districtGeoJson)};
-      (() => {
-          L.geoJSON(districtGeojson, {
+      // Escape </script> sequences to prevent premature script tag closure
+      const districtGeojson = JSON.parse(document.getElementById('district-geojson-data').textContent);
+      L.geoJSON(districtGeojson, {
             style: feature => {
               const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
               const count = districtCounts[d] || 0;
@@ -744,10 +745,10 @@ export function getPetitionModHtml(
                 { sticky: true }
               );
             }
-          }).addTo(map);
-      })();
+      }).addTo(map);
 
       // Circle markers for zip-level detail
+      const maxCount = Math.max(...byZip.map(d => d.count), 1);
       byZip.forEach(({ zip, count }) => {
         const coords = ZIP_CENTROIDS[zip];
         if (!coords) return;
