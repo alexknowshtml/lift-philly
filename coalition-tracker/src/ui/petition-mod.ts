@@ -410,28 +410,50 @@ export function getPetitionModHtml(
 
     /* Tab nav */
     .tab-nav {
-      display: flex;
-      gap: 4px;
-      border-bottom: 2px solid var(--border);
+      display: inline-flex;
+      background: var(--muted-bg);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 2px;
       margin-bottom: 28px;
     }
     .tab-btn {
-      padding: 10px 18px;
-      font-size: 0.875rem;
+      padding: 8px 18px;
+      font-size: 0.83rem;
       font-weight: 600;
       color: var(--text-muted);
       background: none;
       border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
+      border-radius: 7px;
       cursor: pointer;
       font-family: var(--font-body);
-      transition: color 0.15s, border-color 0.15s;
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
     }
-    .tab-btn:hover { color: var(--navy); }
-    .tab-btn.active { color: var(--navy); border-bottom-color: var(--navy); }
+    .tab-btn:hover { color: var(--navy); background: rgba(255,255,255,0.6); }
+    .tab-btn.active { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(15,23,42,0.10); }
+    .tab-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 18px;
+      border-radius: 100px;
+      padding: 0 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-left: 6px;
+      line-height: 1;
+    }
+    .tab-badge-pending { background: #fef3c7; color: #d97706; }
+    .tab-badge-all { background: #e2e8f0; color: #475569; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+
+    @media (max-width: 640px) {
+      .tab-nav { display: flex; width: 100%; }
+      .tab-btn { flex: 1; text-align: center; padding: 8px 10px; font-size: 0.76rem; }
+    }
 
     /* Stats tab */
     .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
@@ -462,8 +484,8 @@ export function getPetitionModHtml(
 
   <div class="container">
     <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchTab('pending', this)">Pending Review <span style="background:#fef3c7;color:#d97706;border-radius:100px;padding:1px 7px;font-size:0.7rem;margin-left:4px">${pending.length}</span></button>
-      <button class="tab-btn" onclick="switchTab('all', this)">All Signatures <span style="background:#f1f5f9;color:#64748b;border-radius:100px;padding:1px 7px;font-size:0.7rem;margin-left:4px">${all.length}</span></button>
+      <button class="tab-btn active" onclick="switchTab('pending', this)">Pending Review<span class="tab-badge tab-badge-pending">${pending.length}</span></button>
+      <button class="tab-btn" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
       <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
     </div>
 
