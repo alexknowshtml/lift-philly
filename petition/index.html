@@ -1142,7 +1142,7 @@
                     countEl.textContent = signerText;
                     const badge = document.getElementById('signer-count-badge');
                     const badgeText = document.getElementById('signer-count-text');
-                    if (badge && badgeText) { badgeText.textContent = signerText; badge.style.display = ''; }
+                    if (badge && badgeText && stats.approved >= 100) { badgeText.textContent = signerText; badge.style.display = ''; }
                     if (stats.recent > 0) {
                         momentumEl.textContent = stats.recent + ' signed this week';
                         momentumEl.style.display = '';
