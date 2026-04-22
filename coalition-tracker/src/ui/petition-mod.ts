@@ -48,10 +48,10 @@ function signerRows(signers: PetitionSigner[], showActions: boolean, prefix = 'r
       <td class="muted-cell">${s.industry || '<span class="muted">—</span>'}</td>
       <td><span class="badge badge-${s.status}">${s.status}</span></td>
       <td class="date-cell">${dateStr}<br><span class="time-str">${timeStr}</span></td>
-      ${showActions ? `<td class="actions-cell" onclick="event.stopPropagation()">
+      ${showActions ? `<td class="actions-cell" onclick="event.stopPropagation()"><div class="btn-wrap">
         ${s.status !== 'approved' ? `<button class="action-btn btn-approve" onclick="updateStatus(${s.id}, 'approved')">Approve</button>` : ''}
         ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
-      </td>` : ''}
+      </div></td>` : ''}
     </tr>
     <tr id="${prefix}-detail-${s.id}" class="detail-row" data-row-idx="${idx}" style="display:none">
       <td colspan="${colCount}" class="detail-cell">${detailItems}</td>
@@ -345,7 +345,8 @@ export function getPetitionModHtml(
     .status-select-approved { background-color: var(--success-bg); color: var(--success); }
     .status-select-rejected { background-color: var(--danger-bg); color: var(--danger); }
 
-    .actions-cell { display: flex; gap: 8px; }
+    .actions-cell { white-space: nowrap; }
+    .actions-cell .btn-wrap { display: inline-flex; gap: 8px; }
 
     .action-btn {
       border: none;
