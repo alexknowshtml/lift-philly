@@ -723,15 +723,18 @@ export function getPetitionModHtml(
 
       // District GeoJSON via same-origin API endpoint (no CORS, served from bundled file)
       fetch('/api/petition/district-geojson')
-        .then(r => r.json())
-        .then(geojson => { L.geoJSON(geojson, {
+        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(geojson => {
+          console.log('[map] district GeoJSON loaded, features:', geojson.features?.length);
+          L.geoJSON(geojson, {
             style: feature => {
               const d = parseInt(feature.properties.DISTRICT || feature.properties.district || feature.properties.District || 0);
               const count = districtCounts[d] || 0;
               const intensity = count / maxDistCount;
               return {
-                fillColor: count > 0 ? \`rgba(15,23,42,\${0.08 + intensity * 0.45})\` : 'rgba(15,23,42,0.03)',
-                weight: 2, opacity: 0.7, color: '#0f172a', fillOpacity: 1,
+                fillColor: count > 0 ? \`rgba(15,23,42,\${0.15 + intensity * 0.5})\` : 'rgba(15,23,42,0.05)',
+                fillOpacity: 1,
+                weight: 2.5, opacity: 1, color: '#fbbf24',
               };
             },
             onEachFeature: (feature, layer) => {
@@ -743,7 +746,9 @@ export function getPetitionModHtml(
                 { sticky: true }
               );
             }
-          }).addTo(map); }).catch(() => {});
+          }).addTo(map);
+        })
+        .catch(e => console.error('[map] district fetch failed:', e));
 
       // Circle markers for zip-level detail
       const maxCount = Math.max(...byZip.map(d => d.count), 1);
