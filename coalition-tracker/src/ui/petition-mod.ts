@@ -35,16 +35,19 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
       s.anonymous ? `<span class="detail-item"><span class="badge badge-anon">Anon</span></span>` : '',
       s.comment ? `<span class="detail-item detail-comment"><span class="detail-label">Comment</span>${s.comment}</span>` : '',
     ].filter(Boolean).join('');
+    const d = new Date(s.created_at);
+    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
     return `
     <tr id="row-${s.id}" class="signer-row" onclick="toggleDetail(${s.id})" style="cursor:pointer">
-      <td class="name-cell">${s.name} <span class="expand-chevron" id="chev-${s.id}">›</span></td>
+      <td class="name-cell">${s.name} <span class="expand-chevron" id="chev-${s.id}">›</span>${s.comment ? ' <span class="comment-dot" title="Has comment">●</span>' : ''}</td>
       <td class="business-cell">${s.business_name
         ? `<span class="business-name">${s.business_name}</span>${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link" onclick="event.stopPropagation()">↗</a>` : ''}`
         : '<span class="muted">—</span>'}</td>
       <td>${s.signer_type ? `<span class="type-tag">${s.signer_type.replace(/_/g, ' ')}</span>` : '<span class="muted">—</span>'}</td>
       <td class="muted-cell">${s.industry || '<span class="muted">—</span>'}</td>
       <td><span class="badge badge-${s.status}">${s.status}</span></td>
-      <td class="date-cell">${new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+      <td class="date-cell">${dateStr}<br><span class="time-str">${timeStr}</span></td>
       ${showActions ? `<td class="actions-cell" onclick="event.stopPropagation()">
         ${s.status !== 'approved' ? `<button class="action-btn btn-approve" onclick="updateStatus(${s.id}, 'approved')">Approve</button>` : ''}
         ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
@@ -262,6 +265,8 @@ export function getPetitionModHtml(
     .signer-row:hover td { background: #f0f4ff; }
     .expand-chevron { color: #94a3b8; font-size: 1rem; margin-left: 4px; display: inline-block; transition: transform 0.2s; }
     .expand-chevron.open { transform: rotate(90deg); }
+    .comment-dot { color: #f59e0b; font-size: 0.5rem; vertical-align: middle; margin-left: 2px; }
+    .time-str { font-size: 0.72rem; color: #b0bec5; }
 
     .detail-row td { background: #f8fafc; border-bottom: 1px solid var(--border); }
     .detail-cell { padding: 10px 20px 14px 20px !important; }
@@ -602,13 +607,21 @@ export function getPetitionModHtml(
     }
 
     // ---- Row expand/collapse ----
+    let _openDetailId = null;
     function toggleDetail(id) {
+      if (_openDetailId && _openDetailId !== id) {
+        const prev = document.getElementById('detail-' + _openDetailId);
+        const prevChev = document.getElementById('chev-' + _openDetailId);
+        if (prev) prev.style.display = 'none';
+        if (prevChev) prevChev.classList.remove('open');
+      }
       const row = document.getElementById('detail-' + id);
       const chev = document.getElementById('chev-' + id);
       if (!row) return;
       const open = row.style.display === 'table-row';
       row.style.display = open ? 'none' : 'table-row';
       if (chev) chev.classList.toggle('open', !open);
+      _openDetailId = open ? null : id;
     }
 
     // ---- Tab navigation ----
