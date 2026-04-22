@@ -48,6 +48,30 @@ function signerRows(signers: PetitionSigner[], showActions: boolean): string {
   `).join('');
 }
 
+function signerCards(signers: PetitionSigner[], showActions: boolean): string {
+  if (signers.length === 0) return '';
+  return `<div class="signer-cards">` + signers.map(s => {
+    const biz = s.business_name
+      ? `<div class="card-biz">${s.business_name}${s.business_url ? ` <a href="${s.business_url}" target="_blank" rel="noopener" class="ext-link">↗</a>` : ''}</div>`
+      : '';
+    const comment = s.comment ? `<div class="card-comment">"${s.comment}"</div>` : '';
+    const actions = showActions ? `<div class="card-actions">
+      ${s.status !== 'approved' ? `<button class="action-btn btn-approve" onclick="updateStatus(${s.id}, 'approved')">Approve</button>` : ''}
+      ${s.status !== 'rejected' ? `<button class="action-btn btn-reject" onclick="updateStatus(${s.id}, 'rejected')">Reject</button>` : ''}
+    </div>` : '';
+    return `
+    <div class="signer-card card-${s.status}" id="card-${s.id}">
+      <div class="card-top">
+        <div><div class="card-name">${s.name}</div>${biz}</div>
+        <span class="badge badge-${s.status}">${s.status}</span>
+      </div>
+      <div class="card-meta">${s.email} &middot; ${s.zip_code || '—'}</div>
+      ${comment}
+      ${actions}
+    </div>`;
+  }).join('') + `</div>`;
+}
+
 export function getPetitionModHtml(
   user: Omit<User, 'password_hash'> | undefined,
   pending: PetitionSigner[],
@@ -266,6 +290,51 @@ export function getPetitionModHtml(
       font-size: 0.875rem;
     }
 
+    /* Mobile: horizontal scroll for medium screens */
+    @media (max-width: 900px) {
+      .container { padding: 16px; }
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .hstat-number { font-size: 1.3rem; }
+    }
+
+    /* Mobile: card layout for phones */
+    @media (max-width: 640px) {
+      .table-wrap table { display: none; }
+      .table-wrap { border-radius: 10px; overflow: visible; box-shadow: none; background: transparent; }
+
+      .signer-cards { display: flex; flex-direction: column; gap: 10px; }
+
+      .signer-card {
+        background: var(--white);
+        border-radius: 10px;
+        box-shadow: var(--shadow-md);
+        padding: 14px 16px;
+        border-left: 4px solid var(--border);
+      }
+      .signer-card.card-pending { border-left-color: var(--warning); }
+      .signer-card.card-approved { border-left-color: var(--success); }
+      .signer-card.card-rejected { border-left-color: var(--danger); }
+
+      .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+      .card-name { font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+      .card-biz { color: var(--text-muted); font-size: 0.8rem; margin-top: 1px; }
+      .card-meta { color: var(--text-muted); font-size: 0.78rem; margin-bottom: 6px; }
+      .card-comment {
+        background: var(--muted-bg);
+        border-radius: 6px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+        color: var(--text);
+        margin-bottom: 10px;
+        font-style: italic;
+      }
+      .card-actions { display: flex; gap: 8px; }
+      .card-actions .action-btn { flex: 1; padding: 8px; font-size: 0.82rem; text-align: center; }
+
+      .header-stats { gap: 16px; }
+      .hstat-number { font-size: 1.2rem; }
+    }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -297,10 +366,13 @@ export function getPetitionModHtml(
       </div>
       ${pending.length === 0
         ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
-        : `<div class="table-wrap"><table>
-            <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-            <tbody>${signerRows(pending, true)}</tbody>
-          </table></div>`}
+        : `<div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+              <tbody>${signerRows(pending, true)}</tbody>
+            </table>
+            ${signerCards(pending, true)}
+          </div>`}
     </div>
 
     <div class="section">
@@ -313,6 +385,7 @@ export function getPetitionModHtml(
           <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Zip</th><th>Comment</th><th>Anon</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
           <tbody>${signerRows(all, true)}</tbody>
         </table>
+        ${signerCards(all, true)}
       </div>
     </div>
   </div>
