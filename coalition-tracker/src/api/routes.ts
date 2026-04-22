@@ -461,10 +461,17 @@ app.get('/api/petition/admin-stats', requireAuth, requireAdmin, async (c) => {
   return c.json(stats);
 });
 
-// District GeoJSON — serves bundled static file (boundaries don't change)
-import districtGeoJson from '../data/philly-council-districts.json';
-app.get('/api/petition/district-geojson', requireAuth, requireAdmin, (c) => {
-  return c.json(districtGeoJson);
+// District GeoJSON proxy — fetches from ArcGIS server-side (no browser CORS), cached 24h
+let _districtCache: { data: unknown; ts: number } | null = null;
+app.get('/api/petition/district-geojson', requireAuth, requireAdmin, async (c) => {
+  const now = Date.now();
+  if (_districtCache && now - _districtCache.ts < 86400_000) return c.json(_districtCache.data);
+  // Follow redirect from opendata.arcgis.com → hub.arcgis.com
+  const res = await fetch('https://opendata.arcgis.com/datasets/9298c2f3fa3241fbb176ff1e84d33360_0.geojson', { redirect: 'follow' });
+  if (!res.ok) return c.json({ error: 'upstream failed', status: res.status }, 502);
+  const data = await res.json();
+  _districtCache = { data, ts: now };
+  return c.json(data);
 });
 
 // Approve signer (admin)
