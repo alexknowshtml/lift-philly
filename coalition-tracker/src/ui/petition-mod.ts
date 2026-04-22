@@ -1,5 +1,6 @@
 import type { PetitionSigner, User } from '../db/client';
 import { getSharedHeader, getSharedHeaderCss, getSharedHeaderScript } from './shared-header';
+import { DISTRICT_POLYGONS } from '../data/district-polygons';
 
 type Stats = { total: number; pending: number; approved: number; rejected: number };
 
@@ -730,6 +731,23 @@ export function getPetitionModHtml(
         if (d) districtCounts[d] = (districtCounts[d] || 0) + count;
       });
       const maxDistCount = Math.max(...Object.values(districtCounts), 1);
+
+      // District polygon overlays from pre-simplified TypeScript data
+      const districtPolygons = ${JSON.stringify(DISTRICT_POLYGONS)};
+      districtPolygons.forEach(({ d, rings }) => {
+        const count = districtCounts[d] || 0;
+        const intensity = count / maxDistCount;
+        const fillOpacity = count > 0 ? 0.12 + intensity * 0.35 : 0.03;
+        const poly = L.polygon(rings, {
+          color: '#0f172a', weight: 1.5, opacity: 0.6,
+          fillColor: '#0f172a', fillOpacity,
+        });
+        poly.bindTooltip(
+          \`<strong>District \${d}</strong>\${DISTRICT_MEMBERS[d] ? '<br>' + DISTRICT_MEMBERS[d] : ''}<br>\${count} signer\${count !== 1 ? 's' : ''}\`,
+          { sticky: true }
+        );
+        poly.addTo(map);
+      });
 
       // Council district breakdown table
       const districtRows = Object.entries(DISTRICT_MEMBERS)
