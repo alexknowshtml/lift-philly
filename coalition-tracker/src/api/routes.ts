@@ -472,6 +472,15 @@ app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, async (c) => {
   return c.json({ success: true });
 });
 
+// Reset signer to pending (admin)
+app.post('/api/petition/:id/pending', requireAuth, requireAdmin, async (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const ok = await updatePetitionSignerStatus(id, 'pending');
+  if (!ok) return c.json({ error: 'Not found' }, 404);
+  invalidatePetitionCache();
+  return c.json({ success: true });
+});
+
 // Delete signer (admin) — permanent removal, use for test/spam entries
 app.delete('/api/petition/:id', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
