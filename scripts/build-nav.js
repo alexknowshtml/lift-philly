@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Injects canonical nav from _includes/nav.html into target HTML pages.
- * Replaces content between <!-- Navigation --> comment and closing </nav> tag.
+ * Injects canonical nav and footer includes into target HTML pages.
+ * Nav: replaces content between <!-- Navigation --> comment and closing </nav> tag.
+ * Footer: replaces content between <!-- Footer --> comment and closing </footer> tag.
  * Run via: node scripts/build-nav.js
  * Netlify runs this automatically via netlify.toml build command.
  */
@@ -11,6 +12,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const NAV_INCLUDE = path.join(ROOT, '_includes', 'nav.html');
+const FOOTER_INCLUDE = path.join(ROOT, '_includes', 'footer.html');
 
 const TARGET_PAGES = [
     'index.html',
@@ -20,9 +22,10 @@ const TARGET_PAGES = [
 ];
 
 const navContent = fs.readFileSync(NAV_INCLUDE, 'utf8');
+const footerContent = fs.readFileSync(FOOTER_INCLUDE, 'utf8');
 
-// Match from <!-- Navigation --> through the closing </nav>
 const NAV_PATTERN = /[ \t]*<!-- Navigation -->[\s\S]*?<\/nav>/;
+const FOOTER_PATTERN = /[ \t]*<!-- Footer -->[\s\S]*?<\/footer>/;
 
 let updated = 0;
 let skipped = 0;
@@ -36,23 +39,28 @@ for (const page of TARGET_PAGES) {
         continue;
     }
 
-    const original = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, 'utf8');
+    const original = content;
 
-    if (!NAV_PATTERN.test(original)) {
-        console.warn(`  SKIP (no nav marker): ${page}`);
-        skipped++;
-        continue;
+    if (NAV_PATTERN.test(content)) {
+        content = content.replace(NAV_PATTERN, navContent.trimEnd());
+    } else {
+        console.warn(`  SKIP nav (no marker): ${page}`);
     }
 
-    const result = original.replace(NAV_PATTERN, navContent.trimEnd());
+    if (FOOTER_PATTERN.test(content)) {
+        content = content.replace(FOOTER_PATTERN, footerContent.trimEnd());
+    } else {
+        console.warn(`  SKIP footer (no marker): ${page}`);
+    }
 
-    if (result === original) {
+    if (content === original) {
         console.log(`  unchanged: ${page}`);
     } else {
-        fs.writeFileSync(filePath, result, 'utf8');
+        fs.writeFileSync(filePath, content, 'utf8');
         console.log(`  updated: ${page}`);
         updated++;
     }
 }
 
-console.log(`\nNav inject complete: ${updated} updated, ${skipped} skipped.`);
+console.log(`\nIncludes inject complete: ${updated} updated, ${skipped} skipped.`);
