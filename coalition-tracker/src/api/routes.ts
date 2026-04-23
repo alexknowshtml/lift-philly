@@ -10,6 +10,31 @@ async function addSubscriberToKit(email: string, name: string): Promise<void> {
   });
 }
 
+async function removeSubscriberFromKit(email: string): Promise<void> {
+  const key = process.env.KIT_API_KEY;
+  if (!key) return;
+  const res = await fetch(
+    `https://api.kit.com/v4/subscribers?email_address=${encodeURIComponent(email)}`,
+    { headers: { 'X-Kit-Api-Key': key, 'Accept': 'application/json' } }
+  );
+  const data = await res.json() as { subscribers?: { id: number }[] };
+  const sub = data.subscribers?.[0];
+  if (!sub) return;
+  await fetch(`https://api.kit.com/v4/subscribers/${sub.id}`, {
+    method: 'DELETE',
+    headers: { 'X-Kit-Api-Key': key },
+  });
+}
+
+async function syncCoalitionMemberToKit(member: { contact_email: string | null; name: string; status: string }): Promise<void> {
+  if (!member.contact_email) return;
+  if (member.status === 'active') {
+    await addSubscriberToKit(member.contact_email, member.name);
+  } else {
+    await removeSubscriberFromKit(member.contact_email);
+  }
+}
+
 // Simple in-memory cache for public petition endpoints
 const petitionCache = new Map<string, { data: unknown; expires: number }>();
 const CACHE_TTL_MS = 15_000; // 15 seconds — fast enough for post-approval freshness
@@ -235,6 +260,8 @@ app.put('/api/members/:id', requireAuth, requireEditor, async (c) => {
   if (changes) {
     await logAuditEntry(userId, 'update', member.id, member.name, changes);
   }
+
+  syncCoalitionMemberToKit(member).catch(() => {});
 
   return c.json(member);
 });
@@ -500,9 +527,12 @@ app.post('/api/petition/:id/approved', requireAuth, requireAdmin, async (c) => {
 // Reject signer (admin)
 app.post('/api/petition/:id/rejected', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
+  const signer = await getPetitionSignerById(id);
+  if (!signer) return c.json({ error: 'Not found' }, 404);
   const ok = await updatePetitionSignerStatus(id, 'rejected');
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
+  removeSubscriberFromKit(signer.email).catch(() => {});
   return c.json({ success: true });
 });
 
