@@ -248,6 +248,11 @@ export function getPetitionModHtml(
       letter-spacing: 0.06em;
     }
 
+    thead th.sortable { cursor: pointer; user-select: none; }
+    thead th.sortable:hover { color: #fff; }
+    thead th.sort-asc::after { content: ' ▲'; font-size: 0.6rem; }
+    thead th.sort-desc::after { content: ' ▼'; font-size: 0.6rem; }
+
     tbody td {
       padding: 11px 14px;
       border-bottom: 1px solid var(--border);
@@ -542,7 +547,7 @@ export function getPetitionModHtml(
           ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
           : `<div class="table-wrap">
               <table>
-                <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+                <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th class="sortable" onclick="sortTable(this)">Status</th><th>Submitted</th><th>Actions</th></tr></thead>
                 <tbody>${signerRows(pending, true, 'p')}</tbody>
               </table>
               <div class="pagination" id="p-pagination"></div>
@@ -555,7 +560,7 @@ export function getPetitionModHtml(
       <div class="section">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th class="sortable" onclick="sortTable(this)">Status</th><th>Submitted</th><th>Actions</th></tr></thead>
             <tbody>${signerRows(all, true, 'a')}</tbody>
           </table>
           <div class="pagination" id="a-pagination"></div>
@@ -685,6 +690,53 @@ export function getPetitionModHtml(
       initPagination('p', ${pending.length});
       initPagination('a', ${all.length});
     });
+
+    // ---- Column sort ----
+    const _sortState = {};
+    function sortTable(th) {
+      const thead = th.closest('thead');
+      const tbody = thead.closest('table').querySelector('tbody');
+      const colIdx = Array.from(thead.querySelectorAll('th')).indexOf(th);
+      const tableId = tbody.closest('.table-wrap')?.id || tbody.id || Math.random();
+      const prev = _sortState[tableId];
+      const asc = prev && prev.col === colIdx ? !prev.asc : true;
+      _sortState[tableId] = { col: colIdx, asc };
+
+      // Update header indicators
+      thead.querySelectorAll('th').forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+      th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+
+      // Collect signer-row + its detail-row pairs
+      const rows = Array.from(tbody.querySelectorAll('tr.signer-row'));
+      const statusOrder = { pending: 0, approved: 1, rejected: 2 };
+      rows.sort((a, b) => {
+        const aCell = a.querySelectorAll('td')[colIdx];
+        const bCell = b.querySelectorAll('td')[colIdx];
+        const aVal = (aCell?.querySelector('.badge')?.textContent || aCell?.textContent || '').trim().toLowerCase();
+        const bVal = (bCell?.querySelector('.badge')?.textContent || bCell?.textContent || '').trim().toLowerCase();
+        const aOrd = statusOrder[aVal] ?? 99;
+        const bOrd = statusOrder[bVal] ?? 99;
+        const cmp = aOrd !== bOrd ? aOrd - bOrd : aVal.localeCompare(bVal);
+        return asc ? cmp : -cmp;
+      });
+
+      // Re-insert rows in sorted order, keeping detail rows paired
+      rows.forEach((row, idx) => {
+        row.dataset.rowIdx = idx;
+        const id = row.id.replace(/^[^-]+-row-/, '');
+        const prefix = row.id.split('-row-')[0];
+        const detail = tbody.querySelector('#' + prefix + '-detail-' + id);
+        if (detail) detail.dataset.rowIdx = idx;
+        tbody.appendChild(row);
+        if (detail) tbody.appendChild(detail);
+      });
+
+      // Re-run pagination with new order
+      const prefix2 = rows[0]?.id.split('-row-')[0];
+      if (prefix2 && _page[prefix2] !== undefined) {
+        showPage(prefix2, 0, rows.length);
+      }
+    }
 
     // ---- Tab navigation ----
     let statsLoaded = false;
