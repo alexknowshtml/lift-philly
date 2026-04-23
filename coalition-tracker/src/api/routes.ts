@@ -558,12 +558,14 @@ app.delete('/api/petition/:id', requireAuth, requireAdmin, async (c) => {
 
 // ============ UI Routes ============
 
-// Serve UI (protected)
-app.get('/admin', requireAuth, async (c) => {
+// Coalition tracker (protected)
+app.get('/admin/tracker', requireAuth, async (c) => {
   const user = c.get('user');
-  // Pass users list for "last contacted by" dropdown (editors/admins only)
   const users = (user?.role === 'editor' || user?.role === 'admin') ? await getAllUsers() : [];
   return c.html(getIndexHtml(user, users));
 });
+
+// /admin redirects to petition queue
+app.get('/admin', requireAuth, (c) => c.redirect('/admin/petition', 302));
 
 export default app;
