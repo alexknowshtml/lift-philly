@@ -1,5 +1,15 @@
 import { Hono } from 'hono';
 
+async function addSubscriberToKit(email: string, name: string): Promise<void> {
+  const key = process.env.KIT_API_KEY;
+  if (!key) return;
+  await fetch('https://api.kit.com/v4/subscribers', {
+    method: 'POST',
+    headers: { 'X-Kit-Api-Key': key, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email_address: email, first_name: name }),
+  });
+}
+
 // Simple in-memory cache for public petition endpoints
 const petitionCache = new Map<string, { data: unknown; expires: number }>();
 const CACHE_TTL_MS = 15_000; // 15 seconds — fast enough for post-approval freshness
@@ -59,6 +69,7 @@ import {
   getAuditLog,
   createPetitionSigner,
   getPetitionSignerByEmail,
+  getPetitionSignerById,
   getApprovedPetitionSigners,
   getPendingPetitionSigners,
   getAllPetitionSigners,
@@ -477,9 +488,12 @@ app.get('/api/petition/district-geojson', requireAuth, requireAdmin, async (c) =
 // Approve signer (admin)
 app.post('/api/petition/:id/approved', requireAuth, requireAdmin, async (c) => {
   const id = parseInt(c.req.param('id'), 10);
+  const signer = await getPetitionSignerById(id);
+  if (!signer) return c.json({ error: 'Not found' }, 404);
   const ok = await updatePetitionSignerStatus(id, 'approved');
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
+  addSubscriberToKit(signer.email, signer.name).catch(() => {});
   return c.json({ success: true });
 });
 

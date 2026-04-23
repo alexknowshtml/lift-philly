@@ -335,6 +335,11 @@ export async function getPetitionSignerByEmail(email: string): Promise<PetitionS
   return rowToObj<PetitionSigner>(rs.rows[0] ?? undefined);
 }
 
+export async function getPetitionSignerById(id: number): Promise<PetitionSigner | null> {
+  const rs = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE id = ? LIMIT 1', args: [id] });
+  return rowToObj<PetitionSigner>(rs.rows[0] ?? undefined);
+}
+
 export async function createPetitionSigner(
   name: string,
   email: string,
