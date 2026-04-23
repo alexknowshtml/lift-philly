@@ -89,6 +89,7 @@ function signerCards(signers: PetitionSigner[], showActions: boolean): string {
 export function getPetitionModHtml(
   user: Omit<User, 'password_hash'> | undefined,
   pending: PetitionSigner[],
+  rejected: PetitionSigner[],
   all: PetitionSigner[],
   stats: Stats
 ): string {
@@ -497,6 +498,7 @@ export function getPetitionModHtml(
       line-height: 1;
     }
     .tab-badge-pending { background: #fef3c7; color: #d97706; }
+    .tab-badge-rejected { background: #fee2e2; color: #dc2626; }
     .tab-badge-all { background: #e2e8f0; color: #475569; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
@@ -537,6 +539,7 @@ export function getPetitionModHtml(
   <div class="container">
     <div class="tab-nav">
       <button class="tab-btn${pending.length > 0 ? ' active' : ''}" onclick="switchTab('pending', this)">Pending<span class="tab-badge tab-badge-pending">${pending.length}</span></button>
+      ${rejected.length > 0 ? `<button class="tab-btn" onclick="switchTab('rejected', this)">Rejected<span class="tab-badge tab-badge-rejected">${rejected.length}</span></button>` : ''}
       <button class="tab-btn${pending.length === 0 ? ' active' : ''}" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
       <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
     </div>
@@ -547,7 +550,7 @@ export function getPetitionModHtml(
           ? `<div class="table-wrap"><p class="empty-state">No pending signatures — all clear.</p></div>`
           : `<div class="table-wrap">
               <table>
-                <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th class="sortable" onclick="sortTable(this)">Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+                <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
                 <tbody>${signerRows(pending, true, 'p')}</tbody>
               </table>
               <div class="pagination" id="p-pagination"></div>
@@ -556,11 +559,26 @@ export function getPetitionModHtml(
       </div>
     </div>
 
+    <div id="tab-rejected" class="tab-panel">
+      <div class="section">
+        ${rejected.length === 0
+          ? `<div class="table-wrap"><p class="empty-state">No rejected signatures.</p></div>`
+          : `<div class="table-wrap">
+              <table>
+                <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+                <tbody>${signerRows(rejected, true, 'rj')}</tbody>
+              </table>
+              <div class="pagination" id="rj-pagination"></div>
+              ${signerCards(rejected, true)}
+            </div>`}
+      </div>
+    </div>
+
     <div id="tab-all" class="tab-panel${pending.length === 0 ? ' active' : ''}">
       <div class="section">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th class="sortable" onclick="sortTable(this)">Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Name</th><th>Business</th><th>Type</th><th>Industry</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
             <tbody>${signerRows(all, true, 'a')}</tbody>
           </table>
           <div class="pagination" id="a-pagination"></div>
@@ -688,6 +706,7 @@ export function getPetitionModHtml(
     }
     document.addEventListener('DOMContentLoaded', () => {
       initPagination('p', ${pending.length});
+      initPagination('rj', ${rejected.length});
       initPagination('a', ${all.length});
     });
 

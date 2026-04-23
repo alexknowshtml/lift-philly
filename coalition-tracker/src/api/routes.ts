@@ -98,6 +98,7 @@ import {
   getApprovedPetitionSigners,
   getPendingPetitionSigners,
   getAllPetitionSigners,
+  getRejectedPetitionSigners,
   updatePetitionSignerStatus,
   deletePetitionSigner,
   getPetitionStats,
@@ -485,12 +486,13 @@ app.get('/api/petition/stats', async (c) => {
 // Mod queue page
 app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
   const user = c.get('user');
-  const [pending, all, stats] = await Promise.all([
+  const [pending, rejected, all, stats] = await Promise.all([
     getPendingPetitionSigners(),
+    getRejectedPetitionSigners(),
     getAllPetitionSigners(),
     getPetitionStats(),
   ]);
-  return c.html(getPetitionModHtml(user, pending, all, stats));
+  return c.html(getPetitionModHtml(user, pending, rejected, all, stats));
 });
 
 // Admin stats (admin)

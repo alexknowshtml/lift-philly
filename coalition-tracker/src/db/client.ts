@@ -377,6 +377,11 @@ export async function getAllPetitionSigners(): Promise<PetitionSigner[]> {
   return rowsToObj<PetitionSigner>(rs.rows);
 }
 
+export async function getRejectedPetitionSigners(): Promise<PetitionSigner[]> {
+  const rs = await client.execute("SELECT * FROM petition_signers WHERE status = 'rejected' ORDER BY created_at DESC");
+  return rowsToObj<PetitionSigner>(rs.rows);
+}
+
 export async function updatePetitionSignerStatus(id: number, status: 'approved' | 'rejected'): Promise<boolean> {
   const rs = await client.execute({ sql: 'UPDATE petition_signers SET status = ? WHERE id = ?', args: [status, id] });
   return rs.rowsAffected > 0;
