@@ -35,9 +35,10 @@ function signerRows(signers: PetitionSigner[], showActions: boolean, prefix = 'r
       s.anonymous ? `<span class="detail-item"><span class="badge badge-anon">Anon</span></span>` : '',
       s.comment ? `<span class="detail-item detail-comment"><span class="detail-label">Comment</span>${s.comment}</span>` : '',
     ].filter(Boolean).join('');
-    const d = new Date(s.created_at);
-    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
+    const d = new Date(s.created_at.endsWith('Z') ? s.created_at : s.created_at + 'Z');
+    const tzOpts = { timeZone: 'America/New_York' };
+    const dateStr = d.toLocaleDateString('en-US', { ...tzOpts, month: 'short', day: 'numeric', year: 'numeric' });
+    const timeStr = d.toLocaleTimeString('en-US', { ...tzOpts, hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
     return `
     <tr id="${prefix}-row-${s.id}" class="signer-row" data-row-idx="${idx}" onclick="toggleDetail('${prefix}',${s.id})" style="cursor:pointer">
       <td class="name-cell">${s.name} <span class="expand-chevron" id="${prefix}-chev-${s.id}">›</span>${s.comment ? ' <span class="comment-dot" title="Has comment">💬</span>' : ''}</td>
