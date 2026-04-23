@@ -602,7 +602,7 @@
             <p class="hero-sub">This is our statement, our request for fairness, and our call for a hearing.</p>
             <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:28px;">
                 <button class="see-all-toggle" style="margin-top:0;" onclick="toggleList(this)">See everyone this affects ↓</button>
-                <a href="#sign-section" class="btn-sign-hero" style="margin-top:0;">Sign the Petition →</a>
+                <a href="#sign-section" class="btn-sign-hero" id="hero-sign-btn" style="margin-top:0;">Sign the Petition →</a>
             </div>
         </div>
     </section>
@@ -1139,6 +1139,8 @@
                     const momentumEl = document.getElementById('stat-momentum');
                     const signerText = stats.approved + (stats.approved === 1 ? ' person has signed' : ' people have signed');
                     countEl.textContent = signerText;
+                    const heroBtn = document.getElementById('hero-sign-btn');
+                    if (heroBtn) heroBtn.textContent = 'Join ' + stats.approved.toLocaleString() + ' people. Sign the Petition →';
                     const badge = document.getElementById('signer-count-badge');
                     const badgeText = document.getElementById('signer-count-text');
                     if (badge && badgeText && stats.approved >= 100) { badgeText.textContent = signerText; badge.style.display = ''; }
