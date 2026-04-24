@@ -123,30 +123,58 @@
 
         .nav-toggle {
             display: none;
-            flex-direction: column;
-            gap: 5px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
+            padding: 8px;
         }
 
         .nav-toggle span {
             display: block;
             width: 24px;
             height: 2px;
-            background: white;
-            border-radius: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: var(--navy); padding: 16px 24px; gap: 0; }
+            .nav .container { flex-wrap: wrap; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 16px;
+                left: auto;
+                background: var(--navy-light);
+                flex-direction: column;
+                gap: 0;
+                padding: 12px 0;
+                margin-top: 8px;
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                min-width: 200px;
+                z-index: 1000;
+            }
             .nav-links.open { display: flex; }
-            .nav-links li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-            .nav-links li:last-child { border-bottom: none; }
-            .nav-toggle { display: flex; }
+            .nav-links li { padding: 0; }
+            .nav-links a { display: block; padding: 10px 16px; color: rgba(255,255,255,0.8); font-size: 0.9rem; transition: all 0.15s; }
+            .nav-links a:hover, .nav-links a.active { background: rgba(251,191,36,0.15); color: var(--gold); }
+            .nav-toggle { display: block; }
+            .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; }
+            .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+            .nav-toggle { order: 3; margin-left: 8px; }
+            .nav-translate { order: 2; margin-left: auto; }
+            .nav-translate-btn span { display: none; }
+            .nav-translate-btn { padding: 6px 8px; }
+        }
+
+        @media (max-width: 768px) {
             .nav-submenu { display: block; position: static; transform: none; background: rgba(0,0,0,0.25); border: none; border-radius: 0; box-shadow: none; padding: 4px 0; margin: 0; }
             .nav-dropdown-wrap.collapsed .nav-submenu { display: none; }
+            .nav-submenu li a { padding: 10px 24px 10px 24px !important; font-size: 0.875rem !important; }
             .nav-dropdown-trigger { width: 100%; justify-content: space-between; }
             .nav-dropdown-wrap.collapsed .nav-chevron { transform: rotate(-90deg); }
             .nav-links > li > a[href="/petition"] { background: var(--gold) !important; color: var(--navy) !important; border: none !important; border-radius: 6px !important; padding: 8px 16px !important; text-align: center !important; margin: 16px 24px 4px !important; display: block !important; }
