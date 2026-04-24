@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * Injects canonical nav and footer includes into target HTML pages.
- * Nav: replaces content between <!-- Navigation --> comment and closing </nav> tag.
- * Footer: replaces content between <!-- Footer --> comment and closing </footer> tag.
+ * Injects canonical nav/footer HTML and ensures nav.css is linked.
+ * - Nav HTML: replaces content between <!-- Navigation --> and </nav>
+ * - Footer HTML: replaces content between <!-- Footer --> and </footer>
+ * - Nav CSS: ensures <link rel="stylesheet" href="/nav.css"> is in <head>
  * Run via: node scripts/build-nav.js
  * Netlify runs this automatically via netlify.toml build command.
  */
@@ -28,6 +29,7 @@ const footerContent = fs.readFileSync(FOOTER_INCLUDE, 'utf8');
 
 const NAV_PATTERN = /[ \t]*<!-- Navigation -->[\s\S]*?<\/nav>/;
 const FOOTER_PATTERN = /[ \t]*<!-- Footer -->[\s\S]*?<\/footer>/;
+const NAV_CSS_LINK = '<link rel="stylesheet" href="/nav.css">';
 
 let updated = 0;
 let skipped = 0;
@@ -44,16 +46,24 @@ for (const page of TARGET_PAGES) {
     let content = fs.readFileSync(filePath, 'utf8');
     const original = content;
 
+    // Inject nav HTML
     if (NAV_PATTERN.test(content)) {
         content = content.replace(NAV_PATTERN, navContent.trimEnd());
     } else {
         console.warn(`  SKIP nav (no marker): ${page}`);
     }
 
+    // Inject footer HTML
     if (FOOTER_PATTERN.test(content)) {
         content = content.replace(FOOTER_PATTERN, footerContent.trimEnd());
     } else {
         console.warn(`  SKIP footer (no marker): ${page}`);
+    }
+
+    // Ensure nav.css is linked (add before </head> if missing)
+    if (!content.includes('href="/nav.css"')) {
+        content = content.replace('</head>', `    ${NAV_CSS_LINK}\n</head>`);
+        console.log(`  added nav.css link: ${page}`);
     }
 
     if (content === original) {

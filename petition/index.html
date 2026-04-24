@@ -514,6 +514,7 @@
         });
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
 
@@ -576,6 +577,17 @@
             <div id="google_translate_element"></div>
         </div>
     </nav>
+    <script>
+        (function() {
+            var path = window.location.pathname.replace(/\/$/, '') || '/';
+            document.querySelectorAll('.nav-links a').forEach(function(link) {
+                var href = link.getAttribute('href').replace(/\/$/, '') || '/';
+                if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
+                    link.classList.add('active');
+                }
+            });
+        })();
+    </script>
     <script>
         (function() {
             var path = window.location.pathname.replace(/\/$/, '') || '/';
