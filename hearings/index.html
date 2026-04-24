@@ -306,14 +306,16 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 0.8rem;
             font-weight: 500;
             color: var(--text-light);
-            text-decoration: none;
+            background: none;
             border: 1px solid #d1d5db;
             border-radius: 4px;
-            padding: 3px 9px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-family: inherit;
             transition: color 0.15s, border-color 0.15s;
         }
 
@@ -322,10 +324,37 @@
         .hearing-primary .add-to-cal {
             color: rgba(255,255,255,0.65);
             border-color: rgba(255,255,255,0.3);
-            margin-top: 16px;
+            margin-top: 18px;
         }
 
         .hearing-primary .add-to-cal:hover { color: var(--gold); border-color: var(--gold); }
+
+        .cal-menu {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 0;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            z-index: 200;
+            min-width: 190px;
+            overflow: hidden;
+        }
+
+        .cal-menu a {
+            display: block;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cal-menu a:last-child { border-bottom: none; }
+        .cal-menu a:hover { background: #f8f9fa; }
+
+        .cal-wrap { position: relative; display: inline-block; }
 
         @media (max-width: 600px) {
             .hearing-item {
@@ -475,7 +504,7 @@
                         <div class="hearing-location">
                             <strong>Upper Room Baptist Church</strong>
                             <span>7236 Ogontz Avenue, Philadelphia, PA 19138</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+City+Council&dates=20260428T220000Z/20260428T233000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Upper+Room+Baptist+Church,+7236+Ogontz+Avenue,+Philadelphia,+PA+19138" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — City Council" data-start="20260428T220000Z" data-end="20260428T233000Z" data-location="Upper Room Baptist Church, 7236 Ogontz Avenue, Philadelphia, PA 19138" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                     <li class="hearing-item">
@@ -486,7 +515,7 @@
                         <div class="hearing-location">
                             <strong>Mummers Museum</strong>
                             <span>1100 South 2nd Street, Philadelphia, PA 19147</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+City+Council&dates=20260430T220000Z/20260430T233000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Mummers+Museum,+1100+South+2nd+Street,+Philadelphia,+PA+19147" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — City Council" data-start="20260430T220000Z" data-end="20260430T233000Z" data-location="Mummers Museum, 1100 South 2nd Street, Philadelphia, PA 19147" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                     <li class="hearing-item">
@@ -497,7 +526,7 @@
                         <div class="hearing-location">
                             <strong>Salt &amp; Light Church</strong>
                             <span>5736 Chester Avenue, Philadelphia, PA 19143</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+City+Council&dates=20260505T220000Z/20260505T233000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Salt+%26+Light+Church,+5736+Chester+Avenue,+Philadelphia,+PA+19143" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — City Council" data-start="20260505T220000Z" data-end="20260505T233000Z" data-location="Salt &amp; Light Church, 5736 Chester Avenue, Philadelphia, PA 19143" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                 </ul>
@@ -513,7 +542,7 @@
                     Fourth Floor, City Hall<br>
                     Philadelphia, PA
                 </div>
-                <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Budget+Hearing+%E2%80%94+Philadelphia+City+Council&dates=20260506/20260507&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Philadelphia+City+Council+Chambers,+Room+400,+City+Hall,+Philadelphia,+PA" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Budget Hearing — Philadelphia City Council" data-start="20260506" data-end="20260507" data-location="Philadelphia City Council Chambers, Room 400, City Hall, Philadelphia, PA" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
             </div>
 
             <!-- Mayor's Town Halls -->
@@ -531,7 +560,7 @@
                         <div class="hearing-location">
                             <strong>JYK Discovery Charter School</strong>
                             <span>4700 Parkside Avenue — West Parkside, 4th District</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+Mayor+Parker&dates=20260507T220000Z/20260508T000000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=JYK+Discovery+Charter+School,+4700+Parkside+Avenue,+Philadelphia,+PA" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — Mayor Parker" data-start="20260507T220000Z" data-end="20260508T000000Z" data-location="JYK Discovery Charter School, 4700 Parkside Avenue, Philadelphia, PA" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                     <li class="hearing-item">
@@ -542,7 +571,7 @@
                         <div class="hearing-location">
                             <strong>Thomas Holme Elementary School</strong>
                             <span>9125 Academy Road — Northeast, 6th District</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+Mayor+Parker&dates=20260512T220000Z/20260513T000000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Thomas+Holme+Elementary+School,+9125+Academy+Road,+Philadelphia,+PA" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — Mayor Parker" data-start="20260512T220000Z" data-end="20260513T000000Z" data-location="Thomas Holme Elementary School, 9125 Academy Road, Philadelphia, PA" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                     <li class="hearing-item">
@@ -553,7 +582,7 @@
                         <div class="hearing-location">
                             <strong>St. Cecilia's Catholic Church</strong>
                             <span>535 Rhawn Street — Fox Chase, 10th District</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+Mayor+Parker&dates=20260514T220000Z/20260515T000000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=St.+Cecilia%27s+Catholic+Church,+535+Rhawn+Street,+Philadelphia,+PA" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — Mayor Parker" data-start="20260514T220000Z" data-end="20260515T000000Z" data-location="St. Cecilia's Catholic Church, 535 Rhawn Street, Philadelphia, PA" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                     <li class="hearing-item">
@@ -564,7 +593,7 @@
                         <div class="hearing-location">
                             <strong>Victory Christian Center</strong>
                             <span>5220 Whitby Avenue — Kingsessing, 3rd District</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+Mayor+Parker&dates=20260521T220000Z/20260522T000000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Victory+Christian+Center,+5220+Whitby+Avenue,+Philadelphia,+PA" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — Mayor Parker" data-start="20260521T220000Z" data-end="20260522T000000Z" data-location="Victory Christian Center, 5220 Whitby Avenue, Philadelphia, PA" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                     <li class="hearing-item">
@@ -575,7 +604,7 @@
                         <div class="hearing-location">
                             <strong>Cohocksink Recreation Center</strong>
                             <span>2901 Cedar Street — Port Richmond, 1st District</span>
-                            <a class="add-to-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=LIFT+Act+Town+Hall+%E2%80%94+Mayor+Parker&dates=20260528T220000Z/20260529T000000Z&details=Show+up+to+support+the+LIFT+Act.+Learn+more+at+liftphilly.org/hearings&location=Cohocksink+Recreation+Center,+2901+Cedar+Street,+Philadelphia,+PA" target="_blank" rel="noopener">📅 Add to Calendar</a>
+                            <span class="cal-wrap"><button class="add-to-cal" onclick="showCalMenu(event)" data-title="LIFT Act Town Hall — Mayor Parker" data-start="20260528T220000Z" data-end="20260529T000000Z" data-location="Cohocksink Recreation Center, 2901 Cedar Street, Philadelphia, PA" data-desc="Show up to support the LIFT Act. Learn more at liftphilly.org/hearings">📅 Add to Calendar</button></span>
                         </div>
                     </li>
                 </ul>
@@ -626,7 +655,76 @@
         if (window.innerWidth > 768 && !e.target.closest('.nav-dropdown-wrap')) {
             document.querySelectorAll('.nav-dropdown-wrap').forEach(function(el) { el.classList.remove('open'); });
         }
+        if (!e.target.closest('.cal-wrap')) {
+            document.querySelectorAll('.cal-menu').forEach(function(el) { el.remove(); });
+        }
     });
+
+    function showCalMenu(e) {
+        e.stopPropagation();
+        var btn = e.currentTarget;
+        var wrap = btn.parentNode;
+
+        // Close if already open
+        var existing = wrap.querySelector('.cal-menu');
+        if (existing) { existing.remove(); return; }
+        document.querySelectorAll('.cal-menu').forEach(function(el) { el.remove(); });
+
+        var title = btn.dataset.title;
+        var start = btn.dataset.start;
+        var end = btn.dataset.end;
+        var loc = btn.dataset.location;
+        var desc = btn.dataset.desc;
+        var isAllDay = start.indexOf('T') === -1;
+
+        // Google Calendar
+        var googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+            + '&text=' + encodeURIComponent(title)
+            + '&dates=' + start + '/' + end
+            + '&location=' + encodeURIComponent(loc)
+            + '&details=' + encodeURIComponent(desc);
+
+        // Outlook.com
+        function fmtOutlook(s) {
+            if (s.indexOf('T') === -1) return s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8);
+            return s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8)+'T'+s.slice(9,11)+':'+s.slice(11,13)+':00Z';
+        }
+        var outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?subject=' + encodeURIComponent(title)
+            + '&startdt=' + fmtOutlook(start)
+            + '&enddt=' + fmtOutlook(end)
+            + '&location=' + encodeURIComponent(loc)
+            + '&body=' + encodeURIComponent(desc);
+
+        // Yahoo
+        var yahooUrl = 'https://calendar.yahoo.com/?v=60'
+            + '&title=' + encodeURIComponent(title)
+            + '&st=' + start + '&et=' + end
+            + '&in_loc=' + encodeURIComponent(loc)
+            + '&desc=' + encodeURIComponent(desc);
+
+        // ICS download
+        var icsLines = [
+            'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//LIFT Philly//EN',
+            'BEGIN:VEVENT',
+            isAllDay ? 'DTSTART;VALUE=DATE:' + start : 'DTSTART:' + start,
+            isAllDay ? 'DTEND;VALUE=DATE:' + end : 'DTEND:' + end,
+            'SUMMARY:' + title,
+            'LOCATION:' + loc,
+            'DESCRIPTION:' + desc,
+            'END:VEVENT', 'END:VCALENDAR'
+        ];
+        var icsUri = 'data:text/calendar;charset=utf8,' + encodeURIComponent(icsLines.join('\r\n'));
+
+        var menu = document.createElement('div');
+        menu.className = 'cal-menu';
+        menu.innerHTML =
+            '<a href="' + googleUrl + '" target="_blank" rel="noopener">Google Calendar</a>' +
+            '<a href="' + outlookUrl + '" target="_blank" rel="noopener">Outlook</a>' +
+            '<a href="' + yahooUrl + '" target="_blank" rel="noopener">Yahoo Calendar</a>' +
+            '<a href="' + icsUri + '" download="lift-act-event.ics">Apple / iCal (.ics)</a>';
+
+        wrap.appendChild(menu);
+    }
 </script>
 
 </body>
