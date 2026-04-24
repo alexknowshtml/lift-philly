@@ -532,7 +532,7 @@
             }
             .nav-dropdown-trigger { width: 100%; justify-content: space-between; }
             .nav-dropdown-wrap.collapsed .nav-chevron { transform: rotate(-90deg); }
-            .nav-links a[href="/petition"] { background: var(--gold) !important; color: var(--navy) !important; border: none !important; border-radius: 6px !important; padding: 8px 16px !important; text-align: center !important; margin-top: 4px !important; display: block !important; }
+            .nav-links a[href="/petition"] { background: var(--gold) !important; color: var(--navy) !important; border: none !important; border-radius: 6px !important; padding: 8px 24px !important; text-align: center !important; margin-top: 4px !important; display: block !important; }
         }
 
         /* Google Translate hide */
@@ -683,6 +683,7 @@
     (function() {
         var path = window.location.pathname.replace(/\/$/, '') || '/';
         document.querySelectorAll('.nav-links a').forEach(function(link) {
+            if (link.closest('.nav-submenu')) return;
             var href = link.getAttribute('href').replace(/\/$/, '') || '/';
             if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
                 link.classList.add('active');
