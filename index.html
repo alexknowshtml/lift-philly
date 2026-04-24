@@ -1245,7 +1245,15 @@
                         </div>
                         <span style="font-size: 7rem; font-weight: 800; color: var(--gold); letter-spacing: 0.05em; line-height: 0.85;">LIFT</span>
                     </div>
-                    <script async data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
+                    <div style="margin-top: 4px;">
+                        <div class="btn-group">
+                            <a href="/petition" class="btn btn-primary" style="background:var(--gold);color:var(--navy);">Sign the Petition →</a>
+                            <a href="/calculator/" class="btn btn-outline">Calculate Your Tax Impact</a>
+                            <a href="/one-sheet.pdf" class="btn btn-outline" target="_blank">Read the One-Pager</a>
+                            <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">Sign Up to Testify</a>
+                            <button class="btn btn-outline" onclick="shareModal.showModal()" style="cursor: pointer; white-space: nowrap;">Share with Your Community</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="hero-stats" style="margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 580px; margin-left: auto; margin-right: auto;">
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
@@ -1280,20 +1288,8 @@
         <div class="container">
             <div class="section-label">Resources</div>
             <h2 class="section-title">Take Action</h2>
-            <div class="btn-group">
-                <a href="/petition" class="btn btn-primary" style="background:var(--gold);color:var(--navy);">Sign the Petition →</a>
-                <a href="/calculator/" class="btn btn-outline">
-                    Calculate Your Tax Impact
-                </a>
-                <a href="/one-sheet.pdf" class="btn btn-outline" target="_blank">
-                    Read the One-Pager
-                </a>
-                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">
-                    Sign Up to Testify
-                </a>
-                <button class="btn btn-outline" onclick="shareModal.showModal()" style="cursor: pointer; white-space: nowrap;">
-                    Share with Your Community
-                </button>
+            <div style="max-width: 580px; margin: 0 auto;">
+                <script async data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
             </div>
 
             <dialog id="shareModal" onclick="if(event.target===this)this.close()" style="border: none; border-radius: 16px; padding: 24px; width: calc(100% - 48px); max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); inset: 0; margin: auto;">
