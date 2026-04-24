@@ -1170,6 +1170,7 @@
         (function() {
             var path = window.location.pathname.replace(/\/$/, '') || '/';
             document.querySelectorAll('.nav-links a').forEach(function(link) {
+                if (link.closest('.nav-submenu')) return;
                 var href = link.getAttribute('href').replace(/\/$/, '') || '/';
                 if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
                     link.classList.add('active');
@@ -1181,6 +1182,7 @@
         (function() {
             var path = window.location.pathname.replace(/\/$/, '') || '/';
             document.querySelectorAll('.nav-links a').forEach(function(link) {
+                if (link.closest('.nav-submenu')) return;
                 var href = link.getAttribute('href').replace(/\/$/, '') || '/';
                 if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
                     link.classList.add('active');
@@ -1192,6 +1194,7 @@
         (function() {
             var path = window.location.pathname.replace(/\/$/, '') || '/';
             document.querySelectorAll('.nav-links a').forEach(function(link) {
+                if (link.closest('.nav-submenu')) return;
                 var href = link.getAttribute('href').replace(/\/$/, '') || '/';
                 if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
                     link.classList.add('active');
