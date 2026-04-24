@@ -591,6 +591,17 @@
         })();
     </script>
     <script>
+        (function() {
+            var path = window.location.pathname.replace(/\/$/, '') || '/';
+            document.querySelectorAll('.nav-links a').forEach(function(link) {
+                var href = link.getAttribute('href').replace(/\/$/, '') || '/';
+                if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
+                    link.classList.add('active');
+                }
+            });
+        })();
+    </script>
+    <script>
     function toggleNav() {
         document.querySelector('.nav-toggle').classList.toggle('open');
         document.querySelector('.nav-links').classList.toggle('open');
@@ -784,22 +795,20 @@
     </div>
 </section>
 
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="footer-brand">LIFT <span>Philly</span></div>
-        <p>Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform</p>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/explain">Why It Happened</a>
-            <a href="/filing-your-birt.html">Filing Your BIRT</a>
-            <a href="/calculator">Increase Calculator</a>
-            <a href="/hearings">Tell Council Your Story</a>
-            <a href="/petition/">Sign the Petition</a>
-            <a href="mailto:hello@liftphilly.org">Contact</a>
-        </nav>
-    </div>
-</footer>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">LIFT <span>Philly</span></div>
+            <p>Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform</p>
+            <nav style="margin-top: 20px; margin-bottom: 8px;">
+                <a href="/" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Home</a>
+                <a href="/petition/" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Sign the Petition</a>
+                <a href="/calculator/" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Tax Calculator</a>
+                <a href="/filing-your-birt.html" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Filing Your BIRT</a>
+            </nav>
+            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities.</p>
+        </div>
+    </footer>
 
 <script>
     document.addEventListener('click', function(e) {

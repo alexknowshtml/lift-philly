@@ -19,6 +19,8 @@ const TARGET_PAGES = [
     'filing-your-birt.html',
     'calculator/index.html',
     'petition/index.html',
+    'explain/index.html',
+    'hearings/index.html',
 ];
 
 const navContent = fs.readFileSync(NAV_INCLUDE, 'utf8');
