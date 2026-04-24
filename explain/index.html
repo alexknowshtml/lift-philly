@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Philadelphia's Small Business Tax Exemption Was Eliminated - LIFT Philly</title>
+    <meta name="description" content="A plain-language explanation of why Philadelphia had to roll back the $100K BIRT exemption, what it means for 75,000 small businesses, and how the LIFT Act fixes it.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liftphilly.org/explain">
+    <meta property="og:site_name" content="LIFT Philly">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Why Philadelphia's Small Business Tax Exemption Was Eliminated">
+    <meta property="og:description" content="A plain-language explanation of why Philadelphia had to roll back the $100K BIRT exemption, what it means for 75,000 small businesses, and how the LIFT Act fixes it.">
+    <meta property="og:image" content="https://liftphilly.org/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liftphilly.org/explain">
+    <meta name="twitter:title" content="Why Philadelphia's Small Business Tax Exemption Was Eliminated">
+    <meta name="twitter:description" content="A plain-language explanation of why Philadelphia had to roll back the $100K BIRT exemption, what it means for 75,000 small businesses, and how the LIFT Act fixes it.">
+    <meta name="twitter:image" content="https://liftphilly.org/og-image.png">
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-bEPTzuGWc7ZFrRQnG7Cg6.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --cream: #fefce8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow: visible;
+        }
+
+        .nav .container {
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-brand span { color: var(--gold); }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a.active { color: var(--gold); }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--gradient);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .page-header .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content */
+        .content {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .explainer {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        /* Section cards */
+        .section-card {
+            padding: 40px 48px;
+            border-bottom: 1px solid #e8ecf0;
+        }
+
+        .section-card:last-child {
+            border-bottom: none;
+        }
+
+        .section-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: var(--navy);
+            color: var(--gold);
+            font-weight: 800;
+            font-size: 0.9rem;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            margin-bottom: 12px;
+        }
+
+        .section-card h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .section-card p {
+            color: var(--text);
+            margin-bottom: 14px;
+            font-size: 1.05rem;
+        }
+
+        .section-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-card a {
+            color: var(--navy);
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .section-card a:hover {
+            color: var(--gold-dark);
+        }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+
+        .callout-red {
+            background: #fff5f5;
+            border-left: 4px solid #dc2626;
+        }
+
+        .callout-gold {
+            background: var(--cream);
+            border-left: 4px solid var(--gold-dark);
+        }
+
+        .callout-green {
+            background: #f0fdf4;
+            border-left: 4px solid #16a34a;
+        }
+
+        .callout p {
+            margin-bottom: 0 !important;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+        }
+
+        /* Impact examples */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .impact-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .impact-card .amount {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #dc2626;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .impact-card .label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.3;
+        }
+
+        /* The fix section */
+        .fix-section {
+            background: var(--navy);
+        }
+
+        .fix-section h2 {
+            color: var(--white) !important;
+        }
+
+        .fix-section p {
+            color: rgba(255,255,255,0.85) !important;
+        }
+
+        .fix-section .section-number {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .fix-section a {
+            color: var(--gold) !important;
+        }
+
+        .fix-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 16px 0;
+        }
+
+        .fix-card h3 {
+            color: var(--gold);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .fix-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0 !important;
+        }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(251,191,36,0.15);
+            border: 1px solid rgba(251,191,36,0.4);
+            color: var(--gold);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--navy);
+            padding: 64px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--gold);
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background 0.2s, transform 0.15s;
+            margin: 8px;
+        }
+
+        .btn:hover {
+            background: var(--gold-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-outline:hover {
+            background: rgba(251,191,36,0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a1020;
+            padding: 40px 0;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .footer-brand span { color: var(--gold); }
+
+        footer nav { margin-top: 20px; margin-bottom: 8px; }
+
+        footer nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 0.9rem;
+        }
+
+        footer nav a:hover { color: var(--gold); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-toggle { display: flex; }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 0;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--navy-light);
+                padding: 16px 0;
+                z-index: 200;
+            }
+
+            .nav-links.open { display: flex; }
+
+            .nav-links li a {
+                display: block;
+                padding: 12px 24px;
+            }
+
+            .section-card { padding: 28px 24px; }
+
+            .impact-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+    <div class="container">
+        <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
+            <li><a href="/calculator">Increase Calculator</a></li>
+            <li><a href="/#join">Join Coalition</a></li>
+            <li><a href="/petition" style="color:var(--gold);font-weight:700;">Sign the Petition</a></li>
+        </ul>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+<script>
+    (function() {
+        var path = window.location.pathname.replace(/\/$/, '') || '/';
+        document.querySelectorAll('.nav-links a').forEach(function(link) {
+            var href = link.getAttribute('href').replace(/\/$/, '') || '/';
+            if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
+                link.classList.add('active');
+            }
+        });
+    })();
+</script>
+
+<!-- Page Header -->
+<header class="page-header">
+    <div class="container">
+        <h1>Why Philadelphia's Small Business<br>Tax Exemption Was Eliminated</h1>
+        <p class="subtitle">A plain-language explainer — and how the LIFT Act fixes it for good</p>
+    </div>
+</header>
+
+<!-- Content -->
+<main class="content">
+    <div class="container">
+        <div class="explainer">
+
+            <!-- Section 1: What was the exemption -->
+            <div class="section-card">
+                <div class="section-number">1</div>
+                <h2>What Was the $100K BIRT Exemption?</h2>
+                <p>Philadelphia has a tax called BIRT — the <strong>Business Income and Receipts Tax</strong>. Every business that does work in Philadelphia owes it, based on how much money comes in and how much profit is made.</p>
+                <p>For years, Philadelphia had a protection in place: if your business earned less than <strong>$100,000 in gross receipts</strong>, you owed nothing. Zero. You didn't even have to file. About <a href="https://www.inquirer.com/business/birt-philadelphia-business-taxes-20260415.html" target="_blank">75,000 small businesses</a> — freelancers, therapists, food cart operators, gig workers, barbers, consultants — were fully covered by this exemption.</p>
+                <div class="callout callout-gold">
+                    <strong>In plain terms</strong>
+                    If you ran a small business making under $100K, BIRT wasn't your problem. Until 2026.
+                </div>
+            </div>
+
+            <!-- Section 2: Why it was eliminated -->
+            <div class="section-card">
+                <div class="section-number">2</div>
+                <h2>Why Did the City Eliminate It?</h2>
+                <p>In 2024, a Massachusetts medical device company called <strong>Zoll Medical Corporation</strong> filed a lawsuit against the city. Their argument: the $100K exemption was unconstitutional.</p>
+                <p>Pennsylvania's constitution includes something called the <strong>"Uniformity Clause."</strong> It says that all taxpayers in the same class must be taxed at the same rate — you can't create a tiered system where some pay nothing and others pay full rate. Zoll argued the exemption did exactly that.</p>
+                <div class="callout callout-red">
+                    <strong>The legal problem</strong>
+                    Under the exemption, a business earning $50K paid nothing. A business earning $1M paid the full rate — but only on the amount over $100K. That made the effective rate different for different businesses. Pennsylvania's constitution says that's not allowed.
+                </div>
+                <p>In 2017, the <a href="https://www.pew.org/en/research-and-analysis/fact-sheets/2022/03/how-pennsylvanias-uniformity-clause-affects-property-and-wage-taxes-in-philadelphia" target="_blank">Pennsylvania Supreme Court</a> had already struck down a similar tiered tax structure in another case. Philadelphia's Law Department reviewed the situation and concluded the city would <a href="https://www.inquirer.com/politics/philadelphia/mayor-cherelle-parker-eliminating-small-business-tax-break-lawsuit-20250317.html" target="_blank">likely lose in court</a>.</p>
+                <p>Rather than wait for a court ruling — which could have forced the city to pay back years of tax revenue to corporations — <a href="https://www.salestaxinstitute.com/resources/philadelphia-birt-rate-reduction-eliminates-100k-exclusion" target="_blank">Mayor Cherelle Parker signed the exemption into elimination on June 13, 2025</a>. Effective tax year 2025.</p>
+            </div>
+
+            <!-- Section 3: What it means -->
+            <div class="section-card">
+                <div class="section-number">3</div>
+                <h2>What Does This Mean for Small Businesses?</h2>
+                <p>Starting with 2025 tax returns — due April 2026 — <a href="https://www.phila.gov/2025-08-05-city-of-philadelphia-clarifies-business-income-receipts-tax-birt-policy-to-ease-transition-for-businesses-impacted-by-the-exemption-change/" target="_blank">every Philadelphia business must file a BIRT return</a>, regardless of how much they earn. The people hardest hit are the smallest:</p>
+
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <span class="amount">75,000</span>
+                        <span class="label">small businesses now paying BIRT for the first time</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="amount">$1,208+</span>
+                        <span class="label">new annual tax for a contractor earning $50K</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="amount">$4,600+</span>
+                        <span class="label">new annual tax for a business with $95K in net profit</span>
+                    </div>
+                </div>
+
+                <p>One Philadelphia therapist reported a <a href="https://www.inquirer.com/business/birt-philadelphia-business-taxes-20260415.html" target="_blank">BIRT bill over $5,700</a> — just for 2025. That's on top of the Net Profits Tax they already pay. Freelancers, gig workers, food cart vendors, and solo practitioners across the city are facing the same shock.</p>
+                <div class="callout callout-red">
+                    <strong>The double taxation problem</strong>
+                    Solo business owners pay both BIRT <em>and</em> the Net Profits Tax. Large corporations like Comcast do not face this same double burden. The BIRT elimination made that inequity dramatically worse for Philly's smallest operators.
+                </div>
+            </div>
+
+            <!-- Section 4: The LIFT Act fix -->
+            <div class="section-card fix-section">
+                <div class="section-number">4</div>
+                <h2>How Does the LIFT Act Fix It?</h2>
+                <p>The LIFT Act isn't just a repeat of the old exemption — it's designed to be <em>constitutionally durable</em>. Here's the key insight behind it:</p>
+
+                <div class="fix-card">
+                    <h3>The Old Approach (struck down)</h3>
+                    <p>Exempted businesses based on income level. This created different effective tax rates within the same class of taxpayer — exactly what the Uniformity Clause prohibits.</p>
+                </div>
+
+                <div class="fix-card">
+                    <h3>The LIFT Act Approach</h3>
+                    <p>Creates an entirely <strong>new tax classification</strong> for sole proprietors and single-member LLCs. Every business in this new class gets the same treatment: zero BIRT. Same rate for everyone in the class = constitutional. Philadelphia's Law Department confirmed this approach would <a href="https://www.audacy.com/kywnewsradio/news/local/new-bill-would-return-birt-exemption-for-some-small-business" target="_blank">"likely survive a legal challenge."</a></p>
+                </div>
+
+                <p>Sole proprietors and single-member LLCs would still pay the Net Profits Tax — they just wouldn't face the double-taxation of BIRT on top of it. The same protection as before, built on a legally solid foundation.</p>
+
+                <p><a href="https://www.inquirer.com/politics/philadelphia/city-council-self-employed-business-tax-philadelphia-20251120.html" target="_blank">Councilmember Mike Driscoll introduced the bill</a> (Philadelphia City Council Bill 251026) on November 25, 2025, backed by the <a href="https://liftphilly.org" target="_blank">LIFT Philly coalition</a> representing approximately 122,000 individual business owners.</p>
+
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Status: Pending in City Council — your voice matters now
+                </div>
+            </div>
+
+            <!-- Section 5: What you can do -->
+            <div class="section-card">
+                <div class="section-number">5</div>
+                <h2>What Can You Do?</h2>
+                <p>The LIFT Act is pending in City Council. No hearing has been scheduled yet. The more voices City Council hears from — especially from affected business owners — the more likely this moves forward.</p>
+                <p>If you're a freelancer, independent contractor, sole proprietor, or single-member LLC doing business in Philadelphia, this directly affects you. Signing the petition takes 60 seconds and puts your name on record with your elected representatives.</p>
+                <div class="callout callout-green">
+                    <strong>Ready to take action?</strong>
+                    Sign the petition below and share this page with every Philadelphia small business owner you know.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Sign the Petition</h2>
+        <p>Join thousands of Philadelphia small business owners calling on City Council to pass the LIFT Act.</p>
+        <a href="/petition" class="btn">Sign the Petition →</a>
+        <a href="/#join" class="btn btn-outline">Join the Coalition</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-brand">LIFT <span>Philly</span></div>
+        <p>Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform</p>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/explain">Why It Happened</a>
+            <a href="/petition/">Sign the Petition</a>
+            <a href="/calculator">Tax Calculator</a>
+            <a href="/simulator/">Tax Simulator</a>
+            <a href="mailto:hello@liftphilly.org">Contact</a>
+        </nav>
+        <p style="margin-top: 16px; font-size: 0.8rem;">
+            Sources: <a href="https://www.inquirer.com/politics/philadelphia/mayor-cherelle-parker-eliminating-small-business-tax-break-lawsuit-20250317.html" target="_blank" style="color:rgba(255,255,255,0.5)">Philadelphia Inquirer</a> ·
+            <a href="https://www.phila.gov/2025-08-05-city-of-philadelphia-clarifies-business-income-receipts-tax-birt-policy-to-ease-transition-for-businesses-impacted-by-the-exemption-change/" target="_blank" style="color:rgba(255,255,255,0.5)">City of Philadelphia</a> ·
+            <a href="https://liftphilly.org" style="color:rgba(255,255,255,0.5)">LIFT Philly</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
