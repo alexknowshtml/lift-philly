@@ -592,29 +592,29 @@
 </head>
 <body>
 
-<!-- Navigation -->
-<nav class="nav">
-    <div class="container">
-        <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li class="nav-dropdown-wrap">
-                <a href="#" class="nav-dropdown-trigger" onclick="toggleResourcesMenu(event)">Resources <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></a>
-                <ul class="nav-submenu">
-                    <li><a href="/explain">Why It Happened</a></li>
-                    <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
-                    <li><a href="/calculator">Increase Calculator</a></li>
-                    <li><a href="/petition">Support the Bill</a></li>
-                    <li><a href="/hearings">Tell Council Your Story</a></li>
-                </ul>
-            </li>
-            <li><a href="/petition" style="color:var(--gold);font-weight:700;border:1.5px solid var(--gold);border-radius:5px;padding:5px 12px;margin:0 8px;">Sign the Petition</a></li>
-        </ul>
-        <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li class="nav-dropdown-wrap">
+                    <a href="#" class="nav-dropdown-trigger" onclick="toggleResourcesMenu(event)">Resources <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></a>
+                    <ul class="nav-submenu">
+                        <li><a href="/explain">Why It Happened</a></li>
+                        <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
+                        <li><a href="/calculator">Increase Calculator</a></li>
+                        <li><a href="/petition">Support the Bill</a></li>
+                        <li><a href="/hearings">Tell Council Your Story</a></li>
+                    </ul>
+                </li>
+                <li><a href="/petition" style="color:var(--gold);font-weight:700;border:1.5px solid var(--gold);border-radius:5px;padding:5px 12px;margin:0 8px;">Sign the Petition</a></li>
+            </ul>
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="nav-translate">
                 <button class="nav-translate-btn" onclick="toggleTranslateDropdown()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -649,9 +649,20 @@
                 </div>
             </div>
             <div id="google_translate_element"></div>
-    </div>
-</nav>
-<script>
+        </div>
+    </nav>
+    <script>
+        (function() {
+            var path = window.location.pathname.replace(/\/$/, '') || '/';
+            document.querySelectorAll('.nav-links a').forEach(function(link) {
+                var href = link.getAttribute('href').replace(/\/$/, '') || '/';
+                if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
+                    link.classList.add('active');
+                }
+            });
+        })();
+    </script>
+    <script>
     function toggleNav() {
         document.querySelector('.nav-toggle').classList.toggle('open');
         document.querySelector('.nav-links').classList.toggle('open');
@@ -681,21 +692,14 @@
         }
     });
     (function() {
-        var path = window.location.pathname.replace(/\/$/, '') || '/';
-        document.querySelectorAll('.nav-links a').forEach(function(link) {
-            if (link.closest('.nav-submenu')) return;
-            var href = link.getAttribute('href').replace(/\/$/, '') || '/';
-            if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
-                link.classList.add('active');
-            }
-        });
         var resourcePaths = ['/explain', '/filing-your-birt', '/calculator', '/hearings'];
+        var path = window.location.pathname.replace(/\/$/, '') || '/';
         if (resourcePaths.some(function(p) { return path.startsWith(p); })) {
             var wrap = document.querySelector('.nav-dropdown-wrap');
             if (wrap) wrap.classList.add('active');
         }
     })();
-</script>
+    </script>
 <!-- Page Header -->
 <header class="page-header">
     <div class="container">
