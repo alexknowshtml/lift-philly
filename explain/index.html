@@ -533,7 +533,61 @@
             .nav-dropdown-trigger { width: 100%; justify-content: space-between; }
             .nav-dropdown-wrap.collapsed .nav-chevron { transform: rotate(-90deg); }
         }
+
+        /* Google Translate hide */
+        #google_translate_element { display: none !important; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+        .skiptranslate { display: none !important; }
+        .goog-te-spinner-pos { display: none !important; }
+
+        /* Translate widget */
+        .nav-translate { position: relative; }
+        .nav-translate-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 6px 12px; color: rgba(255,255,255,0.9); font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        .nav-translate-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .nav-translate-btn svg { width: 16px; height: 16px; }
+        .nav-translate-btn .chevron { width: 12px; height: 12px; transition: transform 0.2s; }
+        .nav-translate.open .nav-translate-btn .chevron { transform: rotate(180deg); }
+        .nav-translate-dropdown { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--navy-light); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 0; min-width: 220px; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 1000; }
+        .nav-translate.open .nav-translate-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-translate-dropdown .lang-list { max-height: 280px; overflow-y: auto; }
+        .nav-translate-dropdown button { display: block; width: 100%; padding: 10px 16px; background: none; border: none; color: rgba(255,255,255,0.8); font-family: 'Inter', sans-serif; font-size: 0.9rem; text-align: left; cursor: pointer; transition: all 0.15s; }
+        .nav-translate-dropdown button:hover { background: rgba(255,255,255,0.08); color: white; }
+        .nav-translate-dropdown .help-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 8px 0; }
+        .nav-translate-dropdown .help-link { display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: rgba(255,255,255,0.6); font-size: 0.85rem; text-decoration: none; }
+        .nav-translate-dropdown .help-link:hover { color: rgba(255,255,255,0.9); }
+        .nav-translate-dropdown .help-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+        @media (max-width: 768px) {
+            .nav-translate { order: 2; margin-left: auto; }
+            .nav-translate-btn span { display: none; }
+            .nav-translate-btn { padding: 6px 8px; }
+        }
     </style>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'es,zh-CN,vi,ko,ru,ar,fr,pt,hi,tl',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+        function translatePage(langCode) {
+            var domain = window.location.hostname;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/; domain=' + domain;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/';
+            window.location.reload();
+        }
+        function toggleTranslateDropdown() {
+            document.querySelector('.nav-translate').classList.toggle('open');
+        }
+        document.addEventListener('click', function(e) {
+            var translateDropdown = document.querySelector('.nav-translate');
+            if (translateDropdown && !translateDropdown.contains(e.target)) {
+                translateDropdown.classList.remove('open');
+            }
+        });
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
 
@@ -555,25 +609,47 @@
             </li>
             <li><a href="/petition" style="color:var(--gold);font-weight:700;">Sign the Petition</a></li>
         </ul>
-        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">
+        <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
             <span></span>
             <span></span>
             <span></span>
         </button>
+            <div class="nav-translate">
+                <button class="nav-translate-btn" onclick="toggleTranslateDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                    </svg>
+                    <span>Translate</span>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="nav-translate-dropdown">
+                    <div class="lang-list">
+                        <button onclick="translatePage('en')">English</button>
+                        <button onclick="translatePage('es')">Español</button>
+                        <button onclick="translatePage('zh-CN')">中文 (简体)</button>
+                        <button onclick="translatePage('vi')">Tiếng Việt</button>
+                        <button onclick="translatePage('ko')">한국어</button>
+                        <button onclick="translatePage('ru')">Русский</button>
+                        <button onclick="translatePage('ar')">العربية</button>
+                        <button onclick="translatePage('fr')">Français</button>
+                        <button onclick="translatePage('pt')">Português</button>
+                        <button onclick="translatePage('hi')">हिन्दी</button>
+                        <button onclick="translatePage('tl')">Filipino</button>
+                    </div>
+                    <div class="help-divider"></div>
+                    <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="help-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Help us translate
+                    </a>
+                </div>
+            </div>
+            <div id="google_translate_element"></div>
     </div>
 </nav>
-<script>
-    (function() {
-        var path = window.location.pathname.replace(/\/$/, '') || '/';
-        document.querySelectorAll('.nav-links a').forEach(function(link) {
-            var href = link.getAttribute('href').replace(/\/$/, '') || '/';
-            if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
-                link.classList.add('active');
-            }
-        });
-    })();
-</script>
-
 <!-- Page Header -->
 <header class="page-header">
     <div class="container">
