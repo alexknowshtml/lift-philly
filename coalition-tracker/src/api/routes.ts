@@ -1,13 +1,17 @@
 import { Hono } from 'hono';
 
-async function addSubscriberToKit(email: string, name: string): Promise<void> {
+async function addSubscriberToKit(email: string, name: string, attempt = 0): Promise<void> {
   const key = process.env.KIT_API_KEY;
   if (!key) return;
-  await fetch('https://api.kit.com/v4/subscribers', {
+  const res = await fetch('https://api.kit.com/v4/subscribers', {
     method: 'POST',
     headers: { 'X-Kit-Api-Key': key, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email_address: email, first_name: name }),
+    body: JSON.stringify({ email_address: email, first_name: name.split(' ')[0] }),
   });
+  if (res.status === 429 && attempt < 3) {
+    await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+    return addSubscriberToKit(email, name, attempt + 1);
+  }
 }
 
 async function removeSubscriberFromKit(email: string): Promise<void> {
