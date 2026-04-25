@@ -526,7 +526,7 @@ app.post('/api/petition/:id/approved', requireAuth, requireAdmin, async (c) => {
   const ok = await updatePetitionSignerStatus(id, 'approved');
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
-  addSubscriberToKit(signer.email, signer.name).catch(() => {});
+  await addSubscriberToKit(signer.email, signer.name).catch(() => {});
   return c.json({ success: true });
 });
 
