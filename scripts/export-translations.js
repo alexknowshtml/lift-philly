@@ -18,7 +18,7 @@ const { execSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const LANGUAGES = ['es', 'zh', 'vi'];
 
-const PAGES = ['index', 'birt', 'one-sheet', 'calculator', 'petition', 'hearings', 'explain'];
+const PAGES = ['common', 'index', 'birt', 'one-sheet', 'calculator', 'petition', 'hearings', 'explain'];
 
 function loadJson(filePath) {
   if (!fs.existsSync(filePath)) return {};
@@ -81,6 +81,11 @@ function exportPage(page, langs) {
   const enFlat = flatten(loadJson(enPath));
   const committedEn = getCommittedEnglish(page);
 
+  // For non-common pages, skip keys already covered by common.json
+  const commonKeys = page !== 'common'
+    ? new Set(Object.keys(flatten(loadJson(path.join(ROOT, 'translations', 'en', 'common.json')))))
+    : new Set();
+
   // Load existing lang translations (flattened)
   const langData = {};
   for (const lang of langs) {
@@ -93,6 +98,7 @@ function exportPage(page, langs) {
   const rows = [header];
 
   for (const [key, enVal] of Object.entries(enFlat)) {
+    if (commonKeys.has(key)) continue;
     const committed = committedEn[key];
     let status;
     if (committed === undefined) {

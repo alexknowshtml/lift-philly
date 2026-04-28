@@ -19,6 +19,7 @@ const cheerio = require('cheerio');
 const ROOT = path.join(__dirname, '..');
 
 const PAGES = [
+  { sources: ['_includes/nav.html', '_includes/footer.html'], page: 'common' },
   { source: 'index.html',            page: 'index' },
   { source: 'filing-your-birt.html', page: 'birt' },
   { source: 'one-sheet.html',        page: 'one-sheet' },
@@ -41,15 +42,23 @@ function setKey(obj, keyPath, value) {
 }
 
 function extractPage(pageConfig) {
-  const { source, page } = pageConfig;
-  const sourcePath = path.join(ROOT, source);
+  const { source, sources, page } = pageConfig;
 
-  if (!fs.existsSync(sourcePath)) {
-    console.warn(`  [SKIP] Not found: ${source}`);
-    return;
+  let html;
+  if (sources) {
+    html = sources.map(s => {
+      const p = path.join(ROOT, s);
+      if (!fs.existsSync(p)) { console.warn(`  [SKIP] Not found: ${s}`); return ''; }
+      return fs.readFileSync(p, 'utf8');
+    }).join('\n');
+  } else {
+    const sourcePath = path.join(ROOT, source);
+    if (!fs.existsSync(sourcePath)) {
+      console.warn(`  [SKIP] Not found: ${source}`);
+      return;
+    }
+    html = fs.readFileSync(sourcePath, 'utf8');
   }
-
-  const html = fs.readFileSync(sourcePath, 'utf8');
   const $ = cheerio.load(html, { decodeEntities: false });
 
   const extracted = {};
