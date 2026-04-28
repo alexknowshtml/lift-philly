@@ -40,6 +40,8 @@ const SKIP_CONTAINERS = [
   '.footer-brand',    // brand name
   '.logo',            // brand name in print documents
   '[data-i18n-html]', // parent annotated as HTML — children covered by parent
+  '.social-share',    // social share links (LinkedIn/Facebook/Twitter are brand names)
+  '.last-updated',    // dynamic date string, not static copy
 ];
 
 function hasI18n(el, $) {

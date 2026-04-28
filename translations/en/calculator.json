@@ -14,6 +14,52 @@
     "help_translate": "Help us translate",
     "toggle_nav": "Toggle navigation"
   },
+  "hero": {
+    "subtitle": "See how the removal of the $100K BIRT exemption will affect your Philadelphia individual business starting in 2026.",
+    "title": "Know Before <span>You File</span>"
+  },
+  "form": {
+    "year_label": "What was your first year doing business in Philadelphia?",
+    "year_hint": "This must be accurate for the calculator to work correctly",
+    "year_2022_or_earlier": "2022 or earlier",
+    "continue_btn": "Continue",
+    "gross_label": "Average Annual Gross Receipts",
+    "gross_hint": "Your total revenue before expenses",
+    "net_label": "Average Annual Net Income",
+    "net_hint": "Your business profit after expenses (what you'd report on your taxes)",
+    "calculate_btn": "Calculate My Tax Impact",
+    "income_adjustment_note": "<strong>Note:</strong> Philadelphia Sales and Income Impact Calculation. Your income has been adjusted to equal your gross receipts. Adjust your income if you have separate expenses attributed to just Philadelphia.",
+    "gross_placeholder": "$75,000",
+    "net_placeholder": "$50,000"
+  },
+  "results": {
+    "title": "Your Tax Burden Increase",
+    "annual_title": "Your Annual Tax Increase",
+    "annual_detail": "Every year, ongoing (tax due only, no estimated payments)",
+    "shock_title": "Your Shock Year Tax Increase",
+    "petition_btn": "Sign the Petition to Fix This →",
+    "coalition_btn": "Join the Coalition",
+    "see_breakdown": "See full breakdown",
+    "breakdown_title": "Year-by-Year Breakdown"
+  },
+  "estimated": {
+    "title": "Wait, what are estimated payments?",
+    "p1": "Here's the deal: the City wants their money upfront.",
+    "p4": "If your income drops next year, you've already paid based on this year. You'll get it back eventually, but your cash flow takes the hit now.",
+    "p2": "Every April, you don't just pay taxes on last year's income — you also pre-pay a chunk of <em>next year's</em> taxes based on what you made this year.",
+    "p3": "<strong>That means you're fronting the city money that you haven't earned yet.</strong>"
+  },
+  "cta": {
+    "title": "Ready to Take Action?",
+    "body": "Sign the petition demanding a City Council hearing — then join the coalition fighting for fair tax treatment.",
+    "petition_btn": "Sign the Petition →",
+    "coalition_btn": "Join the Coalition",
+    "testify_btn": "Sign Up to Testify",
+    "share_prompt": "Share this calculator with your network"
+  },
+  "share": {
+    "copy_link": "Copy Link"
+  },
   "footer": {
     "tagline": "Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform",
     "nav": {
@@ -23,5 +69,12 @@
       "filing_birt": "Filing Your BIRT"
     },
     "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
+  },
+  "disclaimer": {
+    "title": "Important Disclaimer",
+    "privacy": "No data—personally identifying or otherwise—is stored for this calculation.",
+    "accept_btn": "I Understand – Show My Numbers",
+    "legal": "This resource is <strong>not intended to be legal advice</strong> and your legal and tax advisors should be consulted.",
+    "note": "Note: The LIFT class does not include<br>S-Corp and C-Corp entities."
   }
 }
