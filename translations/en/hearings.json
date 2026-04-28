@@ -14,6 +14,86 @@
     "help_translate": "Help us translate",
     "toggle_nav": "Toggle navigation"
   },
+  "header": {
+    "title": "Show Up. Make Your Voice Heard.",
+    "subtitle": "Upcoming hearings and town halls where you can speak directly to Philadelphia's elected officials about the LIFT Act"
+  },
+  "intro": {
+    "p1": "City Council responds when people show up publicly, consistently, and repeatedly. Every voice adds pressure. Every seat filled sends a message."
+  },
+  "council_group": {
+    "title": "City Council Town Halls",
+    "description": "Speak directly to your Council member before the May 6 hearing"
+  },
+  "council1": {
+    "date": "Tue, April 28",
+    "time": "6:00 – 7:30 PM",
+    "venue": "Upper Room Baptist Church",
+    "address": "7236 Ogontz Avenue, Philadelphia, PA 19138"
+  },
+  "common": {
+    "add_to_cal": "📅 Add to Calendar"
+  },
+  "council2": {
+    "date": "Thu, April 30",
+    "time": "6:00 – 7:30 PM",
+    "venue": "Mummers Museum",
+    "address": "1100 South 2nd Street, Philadelphia, PA 19147"
+  },
+  "council3": {
+    "date": "Tue, May 5",
+    "time": "6:00 – 7:30 PM",
+    "venue": "Salt & Light Church",
+    "address": "5736 Chester Avenue, Philadelphia, PA 19143"
+  },
+  "budget": {
+    "label": "Most Important — Budget Hearing",
+    "title": "Budget Hearing",
+    "date": "Wednesday, May 6, 2026",
+    "time": "10:00 AM – 4:00 PM",
+    "where": "Philadelphia City Council Chambers, Room 400<br>\n                    Fourth Floor, City Hall<br>\n                    Philadelphia, PA",
+    "testify": "To testify: call <a href=\"tel:2156863407\" style=\"color:var(--gold);\">215-686-3407</a> or email <a href=\"mailto:budget@phila.gov\" style=\"color:var(--gold);\">budget@phila.gov</a> by 3 PM the day before with your name, position (support/oppose), phone number, and address."
+  },
+  "mayor_group": {
+    "title": "Mayor Parker's Town Halls",
+    "description": "Additional opportunities across the city through late May"
+  },
+  "mayor1": {
+    "date": "Thu, May 7",
+    "time": "6:00 – 8:00 PM",
+    "venue": "JYK Discovery Charter School",
+    "address": "4700 Parkside Avenue — West Parkside, 4th District"
+  },
+  "mayor2": {
+    "date": "Tue, May 12",
+    "time": "6:00 – 8:00 PM",
+    "venue": "Thomas Holme Elementary School",
+    "address": "9125 Academy Road — Northeast, 6th District"
+  },
+  "mayor3": {
+    "date": "Thu, May 14",
+    "time": "6:00 – 8:00 PM",
+    "venue": "St. Cecilia's Catholic Church",
+    "address": "535 Rhawn Street — Fox Chase, 10th District"
+  },
+  "mayor4": {
+    "date": "Thu, May 21",
+    "time": "6:00 – 8:00 PM",
+    "venue": "Victory Christian Center",
+    "address": "5220 Whitby Avenue — Kingsessing, 3rd District"
+  },
+  "mayor5": {
+    "date": "Thu, May 28",
+    "time": "6:00 – 8:00 PM",
+    "venue": "Cohocksink Recreation Center",
+    "address": "2901 Cedar Street — Port Richmond, 1st District"
+  },
+  "cta": {
+    "title": "Sign the Petition",
+    "subtitle": "Join Philadelphia small business owners calling on City Council to pass the LIFT Act.",
+    "sign_petition": "Sign the Petition →",
+    "why_it_matters": "Why This Matters"
+  },
   "footer": {
     "tagline": "Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform",
     "nav": {
@@ -23,5 +103,8 @@
       "filing_birt": "Filing Your BIRT"
     },
     "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
+  },
+  "meta": {
+    "description": "Dates, times, and locations for City Council hearings and town halls where you can speak up for the LIFT Act."
   }
 }
