@@ -100,16 +100,18 @@ function exportPage(page, langs) {
   for (const [key, enVal] of Object.entries(enFlat)) {
     if (commonKeys.has(key)) continue;
     const committed = committedEn[key];
+    const langVals = langs.map(lang => langData[lang][key] ?? '');
+    const anyMissing = langVals.some(v => v === '');
     let status;
-    if (committed === undefined) {
+    if (committed !== enVal) {
+      // English changed (or key is brand-new in en/ history) — always needs work
+      status = committed === undefined ? 'new' : 'changed';
+    } else if (anyMissing) {
+      // English stable but some lang still untranslated
       status = 'new';
-    } else if (committed !== enVal) {
-      status = 'changed';
     } else {
       status = 'ok';
     }
-
-    const langVals = langs.map(lang => langData[lang][key] ?? '');
     rows.push([key, enVal, ...langVals, status]);
   }
 
