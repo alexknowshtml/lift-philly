@@ -284,12 +284,14 @@ function goTo(screen) {
   const pill = document.getElementById('restart-pill');
   if (pill) pill.style.display = screen === 'landing' ? 'none' : 'block';
   if (screen === 'landing') updateLandingCTAs();
-  // Send resize to parent iframe
-  setTimeout(function() {
-    if (window.parent !== window) {
-      window.parent.postMessage({ type: 'resize', height: document.body.scrollHeight }, '*');
-    }
-  }, 80);
+  setTimeout(sendResize, 80);
+}
+
+function sendResize() {
+  if (window.parent !== window) {
+    var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    window.parent.postMessage({ type: 'resize', height: h }, '*');
+  }
 }
 
 function esc(str) {
@@ -387,6 +389,7 @@ function updateLandingCTAs() {
     }
   } catch(e) {}
   document.addEventListener('DOMContentLoaded', updateLandingCTAs);
+  window.addEventListener('load', function() { setTimeout(sendResize, 150); });
 })();
 
 function startInterview() { startFresh(); }

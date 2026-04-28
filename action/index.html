@@ -114,7 +114,7 @@
             width: 100%;
             border: none;
             display: block;
-            min-height: 600px;
+            min-height: 800px;
             transition: height 0.2s ease;
         }
 
@@ -252,7 +252,7 @@
         window.addEventListener('message', function(e) {
             if (!embed) return;
             if (e.data && e.data.type === 'resize') {
-                embed.style.height = (e.data.height + 40) + 'px';
+                embed.style.height = (e.data.height + 80) + 'px';
             }
             if (e.data && e.data.type === 'scroll-top') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
