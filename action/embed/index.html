@@ -389,7 +389,16 @@ function updateLandingCTAs() {
     }
   } catch(e) {}
   document.addEventListener('DOMContentLoaded', updateLandingCTAs);
-  window.addEventListener('load', function() { setTimeout(sendResize, 150); });
+  window.addEventListener('load', function() {
+    setTimeout(sendResize, 150);
+    if (window.ResizeObserver) {
+      var _lastH = 0;
+      new ResizeObserver(function() {
+        var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        if (h !== _lastH) { _lastH = h; sendResize(); }
+      }).observe(document.body);
+    }
+  });
 })();
 
 function startInterview() { startFresh(); }
