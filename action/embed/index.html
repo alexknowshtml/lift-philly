@@ -163,15 +163,15 @@
 <div id="screen-landing" class="screen active">
   <div class="landing-hero">
     <div class="container">
-      <div class="landing-eyebrow">LIFT Philly — Bill No. 251026</div>
-      <h1 class="landing-heading">Your story can change this vote.</h1>
-      <p class="landing-body">75,000 Philadelphia self-employed workers are facing a surprise tax increase in 2026. Personal testimony from constituents is what moves Council members to act.<br>Answer a few questions — we'll turn your words into scripts you can use to email, call, or testify.</p>
+      <div class="landing-eyebrow" data-i18n="landing.eyebrow">LIFT Philly — Bill No. 251026</div>
+      <h1 class="landing-heading" data-i18n="landing.heading">Your story can change this vote.</h1>
+      <p class="landing-body" data-i18n-html="landing.body">75,000 Philadelphia self-employed workers are facing a surprise tax increase in 2026. Personal testimony from constituents is what moves Council members to act.<br>Answer a few questions — we'll turn your words into scripts you can use to email, call, or testify.</p>
     </div>
   </div>
   <div class="container landing-actions" style="padding-top:36px;">
-    <button class="btn btn-primary btn-full" onclick="startFresh()">Tell Your Story →</button>
-    <button id="resume-btn" class="btn btn-outline btn-full" onclick="resumeStory()" style="display:none;margin-top:10px;">Resume My Story →</button>
-    <div class="skip-link" onclick="goTo('support')">Just want to sign the petition?</div>
+    <button class="btn btn-primary btn-full" onclick="startFresh()" data-i18n="landing.cta_start">Tell Your Story →</button>
+    <button id="resume-btn" class="btn btn-outline btn-full" onclick="resumeStory()" style="display:none;margin-top:10px;" data-i18n="landing.cta_resume">Resume My Story →</button>
+    <div class="skip-link" onclick="goTo('support')" data-i18n="landing.skip">Just want to sign the petition?</div>
   </div>
 </div>
 
@@ -181,8 +181,8 @@
     <div id="interview-history" class="int-history"></div>
     <div id="interview-current"></div>
     <div class="btn-row">
-      <button id="int-prev-btn" class="btn btn-outline btn-sm" onclick="intPrev()" style="display:none;">← Back</button>
-      <button id="int-next-btn" class="btn btn-primary" onclick="intNext()">Next →</button>
+      <button id="int-prev-btn" class="btn btn-outline btn-sm" onclick="intPrev()" style="display:none;" data-i18n="nav.prev">← Back</button>
+      <button id="int-next-btn" class="btn btn-primary" onclick="intNext()" data-i18n="nav.next">Next →</button>
     </div>
   </div>
 </div>
@@ -190,27 +190,27 @@
 <!-- Action choice -->
 <div id="screen-action" class="screen">
   <div class="container">
-    <button class="back-btn" onclick="currentIntQ=INTERVIEW_QS.length-1;goTo('interview');renderInterview();">← Edit my story</button>
+    <button class="back-btn" onclick="currentIntQ=INTERVIEW_QS.length-1;goTo('interview');renderInterview();" data-i18n="nav.back_story">← Edit my story</button>
     <div class="action-intro">
-      <h2>How do you want to take action?</h2>
-      <p>We'll use your story to generate whichever script you need — in your own words.</p>
+      <h2 data-i18n="action.heading">How do you want to take action?</h2>
+      <p data-i18n="action.sub">We'll use your story to generate whichever script you need — in your own words.</p>
     </div>
     <div class="action-cards">
       <div class="action-card" onclick="chooseAction('email')">
         <div class="action-icon">✉️</div>
-        <div><div class="action-title">Email My Council Member</div><div class="action-desc">Personalized letter to your district rep</div></div>
+        <div><div class="action-title" data-i18n="action.email_title">Email My Council Member</div><div class="action-desc" data-i18n="action.email_desc">Personalized letter to your district rep</div></div>
       </div>
       <div class="action-card" onclick="chooseAction('phone')">
         <div class="action-icon">📞</div>
-        <div><div class="action-title">Call Their Office</div><div class="action-desc">Quick talking guide for a 2-minute call</div></div>
+        <div><div class="action-title" data-i18n="action.phone_title">Call Their Office</div><div class="action-desc" data-i18n="action.phone_desc">Quick talking guide for a 2-minute call</div></div>
       </div>
       <div class="action-card" onclick="chooseAction('testify')">
         <div class="action-icon">🎤</div>
-        <div><div class="action-title">Testify at a Hearing</div><div class="action-desc">2-minute script for City Council</div></div>
+        <div><div class="action-title" data-i18n="action.testify_title">Testify at a Hearing</div><div class="action-desc" data-i18n="action.testify_desc">2-minute script for City Council</div></div>
       </div>
       <div class="action-card action-card-all" onclick="chooseAction('all')">
         <div class="action-icon">⚡</div>
-        <div><div class="action-title">Give Me Everything</div><div class="action-desc">Email, phone script, and testimony — all three</div></div>
+        <div><div class="action-title" data-i18n="action.all_title">Give Me Everything</div><div class="action-desc" data-i18n="action.all_desc">Email, phone script, and testimony — all three</div></div>
       </div>
     </div>
   </div>
@@ -219,7 +219,7 @@
 <!-- Output -->
 <div id="screen-output" class="screen">
   <div class="container">
-    <button class="back-btn" onclick="goTo('action')">← Change action</button>
+    <button class="back-btn" onclick="goTo('action')" data-i18n="nav.back_action">← Change action</button>
     <div id="output-content"></div>
   </div>
 </div>
@@ -227,22 +227,22 @@
 <!-- Support -->
 <div id="screen-support" class="screen">
   <div class="container">
-    <button class="back-btn" onclick="goTo('landing')">← Back</button>
-    <h2 class="section-heading">Sign the Petition</h2>
-    <p class="section-sub">Add your name to show Council the scale of support for Bill No. 251026.</p>
+    <button class="back-btn" onclick="goTo('landing')" data-i18n="nav.back">← Back</button>
+    <h2 class="section-heading" data-i18n="support.heading">Sign the Petition</h2>
+    <p class="section-sub" data-i18n="support.sub">Add your name to show Council the scale of support for Bill No. 251026.</p>
     <div class="support-stat">
-      <div class="stat-number">75,000</div>
-      <div class="stat-label">Philadelphia small business owners affected</div>
+      <div class="stat-number" data-i18n="support.stat_number">75,000</div>
+      <div class="stat-label" data-i18n="support.stat_label">Philadelphia small business owners affected</div>
     </div>
-    <a href="https://liftphilly.org/petition" target="_blank" class="btn btn-primary btn-full" style="margin-bottom:16px;">Sign the Petition →</a>
+    <a href="https://liftphilly.org/petition" target="_blank" class="btn btn-primary btn-full" style="margin-bottom:16px;" data-i18n="support.cta">Sign the Petition →</a>
     <hr class="divider">
-    <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">Can't attend — but want to do more?</h3>
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;" data-i18n="support.cant_attend">Can't attend — but want to do more?</h3>
     <ul class="steps">
-      <li>Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.</li>
-      <li>Call your council member's office. You don't need a script — just say "I support Bill 251026 and want it brought to a vote."</li>
-      <li>Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.</li>
+      <li data-i18n="support.step1">Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.</li>
+      <li data-i18n="support.step2">Call your council member's office. You don't need a script — just say "I support Bill 251026 and want it brought to a vote."</li>
+      <li data-i18n="support.step3">Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.</li>
     </ul>
-    <div class="president-note" style="margin-top:16px;">
+    <div class="president-note" style="margin-top:16px;" data-i18n-html="support.president_note">
       <strong>Council President Kenyatta Johnson</strong> controls what comes to a floor vote.<br>
       <strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580<br>
       <em>Even a 2-minute call from a constituent makes a difference.</em>
@@ -251,6 +251,157 @@
 </div>
 
 <script>
+// All user-visible strings. Swap this object for a translated version to localize.
+const T = {
+  landing: {
+    eyebrow:   'LIFT Philly — Bill No. 251026',
+    heading:   'Your story can change this vote.',
+    body:      '75,000 Philadelphia self-employed workers are facing a surprise tax increase in 2026. Personal testimony from constituents is what moves Council members to act.<br>Answer a few questions — we’ll turn your words into scripts you can use to email, call, or testify.',
+    cta_start: 'Tell Your Story →',
+    cta_resume:'Resume My Story →',
+    skip:      'Just want to sign the petition?',
+  },
+  nav: {
+    prev:       '← Back',
+    next:       'Next →',
+    next_final: 'See How to Take Action →',
+    back_story: '← Edit my story',
+    back_action:'← Change action',
+    back:       '← Back',
+    restart:    '↺ Start over',
+  },
+  interview: {
+    progress:      (n, total) => `Question ${n} of ${total}`,
+    optional_hint: 'Optional — skip if you prefer.',
+    q: [
+      {
+        label: 'First, the basics',
+        sub:   'These personalize your scripts.',
+        fields: [
+          { label: 'Your name',        placeholder: 'Full name' },
+          { label: 'What you do',      placeholder: 'e.g. barber, therapist, freelance designer' },
+          { label: 'Your neighborhood',placeholder: 'e.g. Fishtown, West Philly, Germantown' },
+        ],
+      },
+      {
+        label:       'What would this tax increase actually cost you?',
+        sub:         'Put a number on it if you can — dollars, months of rent, a client you’d have to drop. Your own words are most powerful.',
+        placeholder: 'e.g. “I’d owe around $2,400 — that’s my daughter’s childcare for three months.”',
+      },
+      {
+        label:       'Why did you choose self-employment?',
+        sub:         'What does it mean to you — freedom, necessity, craft, community?',
+        placeholder: 'e.g. “I started my business after being laid off. I built something from nothing and I’m proud of it.”',
+      },
+      {
+        label:       'Tell us about a specific moment.',
+        sub:         'A bill you opened, a conversation you had, something you had to rethink — whatever makes this real.',
+        placeholder: 'e.g. “My accountant called in February and told me to set aside an extra $3,000. I didn’t have it.”',
+      },
+      {
+        label:       'Anything else you want Council to know?',
+        sub:         null,
+        placeholder: 'Optional — leave blank to skip.',
+      },
+    ],
+  },
+  action: {
+    heading:     'How do you want to take action?',
+    sub:         'We’ll use your story to generate whichever script you need — in your own words.',
+    email_title: 'Email My Council Member',
+    email_desc:  'Personalized letter to your district rep',
+    phone_title: 'Call Their Office',
+    phone_desc:  'Quick talking guide for a 2-minute call',
+    testify_title:'Testify at a Hearing',
+    testify_desc: '2-minute script for City Council',
+    all_title:   'Give Me Everything',
+    all_desc:    'Email, phone script, and testimony — all three',
+  },
+  all: {
+    heading:   'Your Scripts',
+    sub:       'All three — generated from your story.',
+    tab_email: '✉️ Email',
+    tab_phone: '📞 Call',
+    tab_testify:'🎤 Testify',
+  },
+  email: {
+    heading:       'Email Your Council Member',
+    sub:           'Enter your zip code to find your rep and generate a personalized email.',
+    zip_placeholder:'Zip code',
+    find_rep:      'Find My Rep',
+    draft_label:   'Draft Email',
+    copy_btn:      'Copy Email',
+    open_btn:      'Open in Email App',
+    copied:        '✓ Copied!',
+    district_label:(d) => d ? `District ${d}` : 'Your Rep',
+    error_zip:     (zip) => `Couldn’t identify your district for zip <strong>${esc(zip)}</strong>. <a href="https://phlcouncil.com/council-members/" target="_blank">Look up your rep →</a>`,
+    president_note:'<strong>Also contact Council President Kenyatta Johnson</strong> — he controls the floor schedule and which bills come to a vote. The most effective thing you can do is contact him directly. Elected officials move when their constituents speak up.<br><strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580',
+    cant_find:     '<strong>Can’t find an email address?</strong> Call <strong>(215) 686-3400</strong> (Council main line) or visit <a href="https://phlcouncil.com/council-members/" target="_blank">phlcouncil.com</a>.',
+    subject:       (hood) => `${hood} self-employed worker urges passage of Bill No. 251026`,
+    body:          (n, occ, hood, mName, impactPara, storyPara, extraPara) =>
+`Dear Council Member ${mName},
+
+My name is ${n}. I am a ${occ} in ${hood}.${impactPara}${storyPara}${extraPara}
+Self-employed workers like me already pay the Net Profits Tax. BIRT taxes the same income a second time. That is not a tax — it is a penalty for choosing to work for yourself in Philadelphia.
+
+Bill No. 251026 has nine sponsors and has been confirmed constitutional by the City Law Department. It costs less than one percent of the city budget. The solution is ready. All it needs is a vote.
+
+I am asking you to pass Bill No. 251026 — in the FY2027 budget or as a standalone bill — before April 2026 bills arrive.
+
+Respectfully,
+${n}
+${occ}, ${hood}`,
+  },
+  phone: {
+    heading:        'Call Their Office',
+    sub:            'A 2-minute call from a constituent carries real weight. Here’s what to say.',
+    zip_placeholder:'Zip code',
+    find_rep:       'Find My Rep',
+    call_label:     'Call:',
+    district_label: (d) => d ? `District ${d}` : 'Your Rep',
+    error_zip:      'Couldn’t identify your district. <a href="https://phlcouncil.com/council-members/" target="_blank">Look up your rep →</a>',
+    step1_say:      (n, occ, hood) => `“My name is ${esc(n)}. I’m a ${esc(occ)} in ${esc(hood)}.”`,
+    step2_meta:     'Don’t read from a script if you can help it — just be honest.',
+    step3_say:      (mName) => `“I’m calling to ask ${esc(mName)} to vote yes on Bill Number 251026.”`,
+    step4_say:      '“Can you log my call in support of Bill 251026?”',
+    step4_meta:     'Staffers track constituent contact. Your call gets counted.',
+    step5:          'Thank them. The whole call is under 2 minutes.',
+    president_note: '<strong>Also call Council President Kenyatta Johnson</strong> — (215) 686-3412, Room 580. He controls what comes to a floor vote. The most effective thing you can do is contact him directly. Elected officials move when their constituents speak up.',
+  },
+  testify: {
+    heading:      'Testify at a Hearing',
+    sub:          'Your 2-minute script — in your own words. Practice once or twice. You’ve got this.',
+    hearings: [
+      { month: 'APR', day: '28', name: 'City Council Town Hall',            details: '6:00–7:30 PM · Upper Room Baptist Church — good for practice', key: false },
+      { month: 'APR', day: '30', name: 'City Council Town Hall',            details: '6:00–7:30 PM · Mummers Museum',                                    key: false },
+      { month: 'MAY', day: '5',  name: 'City Council Town Hall',            details: '6:00–7:30 PM · Salt & Light Church — night before the budget hearing', key: false },
+      { month: 'MAY', day: '6',  name: 'Budget Hearing',                    details: '10:00 AM–4:00 PM · Room 400, City Hall — register by 3 PM on May 5', key: true },
+    ],
+    key_badge:      'Key Date',
+    register_note:  '<strong>To testify at the May 6 budget hearing:</strong> Call <strong>(215) 686-3407</strong> or email <strong>budget@phila.gov</strong> by <strong>3 PM on May 5</strong>. Provide your name, position (support), phone, and address.',
+    copy_btn:       'Copy Script',
+    copied:         '✓ Copied!',
+    at_hearing:     '<strong>At the hearing:</strong> State your name, occupation, and bill number (251026). Keep it under 2–3 minutes. End with “That concludes my testimony.” Reading from paper is completely fine.',
+    beat_labels:    ['Beat 1 — Who You Are', 'Beat 2 — The Stakes', 'Beat 3 — The Equity Argument', 'Beat 4 — The Policy Case', 'Beat 5 — The Close'],
+    beat_equity:    'I am not here asking for a tax break. I am asking for parity. Self-employed workers already pay the Net Profits Tax. BIRT taxes the same income a second time. Corporations don’t face that double burden. We do. That disparity is not an oversight — it is a policy choice this Council can change.',
+    beat_policy_suffix: 'The LIFT Act costs less than one percent of the city budget. It has nine sponsors. The City Law Department has confirmed it is constitutional. The solution is ready.',
+    beat_close:     'I am asking this Council to pass Bill Number 251026 — in the budget or as a standalone bill — before April 2026 bills arrive. 75,000 Philadelphia small business owners are counting on you. Please vote yes. That concludes my testimony.',
+    beat_stakes_fallback: 'If the LIFT Act does not pass, I will face a significant new tax bill in 2026 — money I have not budgeted for and cannot absorb.',
+  },
+  support: {
+    heading:        'Sign the Petition',
+    sub:            'Add your name to show Council the scale of support for Bill No. 251026.',
+    stat_number:    '75,000',
+    stat_label:     'Philadelphia small business owners affected',
+    cta:            'Sign the Petition →',
+    cant_attend:    'Can’t attend — but want to do more?',
+    step1:          'Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.',
+    step2:          'Call your council member’s office. You don’t need a script — just say “I support Bill 251026 and want it brought to a vote.”',
+    step3:          'Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.',
+    president_note: '<strong>Council President Kenyatta Johnson</strong> controls what comes to a floor vote.<br><strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580<br><em>Even a 2-minute call from a constituent makes a difference.</em>',
+  },
+};
+
 const COUNCIL_MEMBERS = {
   1:  { name: "Mark Squilla",       role: "District 1 — Old City, Fishtown, Northern Liberties, South Philly", phone: "(215) 686-3458", room: "Room 332", email: "mark.squilla@phila.gov" },
   2:  { name: "Kenyatta Johnson",   role: "District 2 — South Philly, Point Breeze, Grays Ferry (Council President)", phone: "(215) 686-3412", room: "Room 580", email: "kenyatta.johnson@phila.gov" },
@@ -303,42 +454,42 @@ function esc(str) {
 const INTERVIEW_QS = [
   {
     type: 'multi',
-    label: 'First, the basics',
-    sub: 'These personalize your scripts.',
+    label: T.interview.q[0].label,
+    sub:   T.interview.q[0].sub,
     fields: [
-      { key: 'name', label: 'Your name', placeholder: 'Full name' },
-      { key: 'occupation', label: 'What you do', placeholder: 'e.g. barber, therapist, freelance designer' },
-      { key: 'neighborhood', label: 'Your neighborhood', placeholder: 'e.g. Fishtown, West Philly, Germantown' },
-    ]
+      { key: 'name',         label: T.interview.q[0].fields[0].label, placeholder: T.interview.q[0].fields[0].placeholder },
+      { key: 'occupation',   label: T.interview.q[0].fields[1].label, placeholder: T.interview.q[0].fields[1].placeholder },
+      { key: 'neighborhood', label: T.interview.q[0].fields[2].label, placeholder: T.interview.q[0].fields[2].placeholder },
+    ],
   },
   {
     type: 'textarea', key: 'impact',
-    label: 'What would this tax increase actually cost you?',
-    sub: 'Put a number on it if you can — dollars, months of rent, a client you\'d have to drop. Your own words are most powerful.',
-    placeholder: 'e.g. "I\'d owe around $2,400 — that\'s my daughter\'s childcare for three months."',
+    label:       T.interview.q[1].label,
+    sub:         T.interview.q[1].sub,
+    placeholder: T.interview.q[1].placeholder,
     optional: false,
   },
   {
     type: 'textarea', key: 'why',
-    label: 'Why did you choose self-employment?',
-    sub: 'What does it mean to you — freedom, necessity, craft, community?',
-    placeholder: 'e.g. "I started my business after being laid off. I built something from nothing and I\'m proud of it."',
+    label:       T.interview.q[2].label,
+    sub:         T.interview.q[2].sub,
+    placeholder: T.interview.q[2].placeholder,
     optional: false,
   },
   {
     type: 'textarea', key: 'moment',
-    label: 'Tell us about a specific moment.',
-    sub: 'A bill you opened, a conversation you had, something you had to rethink — whatever makes this real.',
-    placeholder: 'e.g. "My accountant called in February and told me to set aside an extra $3,000. I didn\'t have it."',
+    label:       T.interview.q[3].label,
+    sub:         T.interview.q[3].sub,
+    placeholder: T.interview.q[3].placeholder,
     optional: false,
   },
   {
     type: 'textarea', key: 'extra',
-    label: 'Anything else you want Council to know?',
-    sub: null,
-    placeholder: 'Optional — leave blank to skip.',
+    label:       T.interview.q[4].label,
+    sub:         T.interview.q[4].sub,
+    placeholder: T.interview.q[4].placeholder,
     optional: true,
-  }
+  },
 ];
 
 const STORAGE_KEY = 'lift-philly-guide';
@@ -422,12 +573,12 @@ function renderInterview() {
     ).join('');
   } else {
     inputHtml = `<textarea id="int-${q.key}" class="int-textarea" placeholder="${esc(q.placeholder)}">${esc(story[q.key]||'')}</textarea>`;
-    if (q.optional) inputHtml += `<div class="hint">Optional — skip if you prefer.</div>`;
+    if (q.optional) inputHtml += `<div class="hint">${T.interview.optional_hint}</div>`;
   }
 
   document.getElementById('interview-current').innerHTML = `
     <div class="int-question">
-      <div class="int-progress">Question ${currentIntQ+1} of ${INTERVIEW_QS.length}</div>
+      <div class="int-progress">${T.interview.progress(currentIntQ+1, INTERVIEW_QS.length)}</div>
       <div class="int-label">${esc(q.label)}</div>
       ${q.sub ? `<div class="int-sub">${esc(q.sub)}</div>` : ''}
       <div class="int-input-wrap">${inputHtml}</div>
@@ -437,7 +588,7 @@ function renderInterview() {
   if (first) setTimeout(() => first.focus(), 60);
 
   document.getElementById('int-prev-btn').style.display = currentIntQ > 0 ? 'inline-block' : 'none';
-  document.getElementById('int-next-btn').textContent = currentIntQ === INTERVIEW_QS.length-1 ? 'See How to Take Action →' : 'Next →';
+  document.getElementById('int-next-btn').textContent = currentIntQ === INTERVIEW_QS.length-1 ? T.nav.next_final : T.nav.next;
 }
 
 function intNext() {
@@ -485,12 +636,12 @@ function chooseAction(action) {
     generateTestimony('to1');
   } else if (action === 'all') {
     el.innerHTML = `
-      <h2 class="section-heading">Your Scripts</h2>
-      <p class="section-sub">All three — generated from your story.</p>
+      <h2 class="section-heading">${T.all.heading}</h2>
+      <p class="section-sub">${T.all.sub}</p>
       <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab(this,'tab-email')">✉️ Email</button>
-        <button class="tab-btn" onclick="switchTab(this,'tab-phone')">📞 Call</button>
-        <button class="tab-btn" onclick="switchTab(this,'tab-testify')">🎤 Testify</button>
+        <button class="tab-btn active" onclick="switchTab(this,'tab-email')">${T.all.tab_email}</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-phone')">${T.all.tab_phone}</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-testify')">${T.all.tab_testify}</button>
       </div>
       <div id="tab-email" class="tab-panel active">${emailSection('aez','aem','aeb')}</div>
       <div id="tab-phone" class="tab-panel">${phoneSection('apz','apm','apb')}</div>
@@ -508,11 +659,11 @@ function switchTab(btn, panelId) {
 
 // ===== EMAIL =====
 function emailSection(zipId, memberId, bodyId) {
-  return `<h2 class="section-heading">Email Your Council Member</h2>
-    <p class="section-sub">Enter your zip code to find your rep and generate a personalized email.</p>
+  return `<h2 class="section-heading">${T.email.heading}</h2>
+    <p class="section-sub">${T.email.sub}</p>
     <div class="zip-row">
-      <input type="text" id="${zipId}" placeholder="Zip code" maxlength="5" inputmode="numeric">
-      <button class="btn btn-primary btn-sm" onclick="doEmailLookup('${zipId}','${memberId}','${bodyId}')">Find My Rep</button>
+      <input type="text" id="${zipId}" placeholder="${T.email.zip_placeholder}" maxlength="5" inputmode="numeric">
+      <button class="btn btn-primary btn-sm" onclick="doEmailLookup('${zipId}','${memberId}','${bodyId}')">${T.email.find_rep}</button>
     </div>
     <div id="${memberId}"></div><div id="${bodyId}"></div>`;
 }
@@ -525,17 +676,14 @@ async function doEmailLookup(zipId, memberId, bodyId) {
   const memEl = document.getElementById(memberId);
   if (member) {
     memEl.innerHTML = `<div class="council-card">
-      <div class="member-label">${member.district ? 'District '+member.district : 'Your Rep'}</div>
+      <div class="member-label">${T.email.district_label(member.district)}</div>
       <div class="member-name">${esc(member.name)}</div>
       <div class="member-role">${esc(member.role)}</div>
       <div class="member-contact"><strong>Phone:</strong> ${member.phone} &nbsp;|&nbsp; City Hall, ${member.room}</div>
     </div>
-    <div class="president-note">
-      <strong>Also contact Council President Kenyatta Johnson</strong> — he controls the floor schedule and which bills come to a vote. The most effective thing you can do is contact him directly. Elected officials move when their constituents speak up.<br>
-      <strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580
-    </div>`;
+    <div class="president-note">${T.email.president_note}</div>`;
   } else {
-    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">Couldn't identify your district for zip <strong>${esc(zip)}</strong>. <a href="https://phlcouncil.com/council-members/" target="_blank">Look up your rep →</a></div>`;
+    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">${T.email.error_zip(zip)}</div>`;
   }
   renderEmailBody(member, bodyId);
 }
@@ -545,48 +693,36 @@ function renderEmailBody(member, bodyId) {
   const occ = story.occupation || '[your occupation]';
   const hood = story.neighborhood || '[your neighborhood]';
   const mName = member ? member.name : '[Council Member]';
-  const subject = `${hood} self-employed worker urges passage of Bill No. 251026`;
+  const subject = T.email.subject(hood);
   const impactPara = story.impact ? '\n' + story.impact + '\n' : '';
   const storyPara = (story.moment || story.why)
     ? '\n' + [story.moment, story.why].filter(Boolean).join('\n\n') + '\n'
     : '';
   const extraPara = story.extra ? '\n' + story.extra + '\n' : '';
-  const body = `Dear Council Member ${mName},
-
-My name is ${n}. I am a ${occ} in ${hood}.
-${impactPara}${storyPara}${extraPara}
-Self-employed workers like me already pay the Net Profits Tax. BIRT taxes the same income a second time. That is not a tax — it is a penalty for choosing to work for yourself in Philadelphia.
-
-Bill No. 251026 has nine sponsors and has been confirmed constitutional by the City Law Department. It costs less than one percent of the city budget. The solution is ready. All it needs is a vote.
-
-I am asking you to pass Bill No. 251026 — in the FY2027 budget or as a standalone bill — before April 2026 bills arrive.
-
-Respectfully,
-${n}
-${occ}, ${hood}`;
+  const body = T.email.body(n, occ, hood, mName, impactPara, storyPara, extraPara);
 
   const emailHref = `mailto:${member ? member.email : ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   document.getElementById(bodyId).innerHTML = `
-    <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">Draft Email</div>
+    <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">${T.email.draft_label}</div>
     <div class="email-box">
       <div class="email-subject">Subject: ${esc(subject)}</div>
       <div id="${bodyId}-t" style="white-space:pre-wrap;">${esc(body)}</div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-secondary btn-sm" onclick="copyText('${bodyId}-t','${bodyId}-cs','Subject: ${esc(subject).replace(/'/g,"&#39;")}\\n\\n')">Copy Email</button>
-      <span id="${bodyId}-cs" class="copy-success">✓ Copied!</span>
-      <a href="${emailHref}" class="btn btn-outline btn-sm">Open in Email App</a>
+      <button class="btn btn-secondary btn-sm" onclick="copyText('${bodyId}-t','${bodyId}-cs','Subject: ${esc(subject).replace(/'/g,"&#39;")}\\n\\n')">${T.email.copy_btn}</button>
+      <span id="${bodyId}-cs" class="copy-success">${T.email.copied}</span>
+      <a href="${emailHref}" class="btn btn-outline btn-sm">${T.email.open_btn}</a>
     </div>
-    <div class="info-box" style="margin-top:14px;font-size:0.8rem;"><strong>Can't find an email address?</strong> Call <strong>(215) 686-3400</strong> (Council main line) or visit <a href="https://phlcouncil.com/council-members/" target="_blank">phlcouncil.com</a>.</div>`;
+    <div class="info-box" style="margin-top:14px;font-size:0.8rem;">${T.email.cant_find}</div>`;
 }
 
 // ===== PHONE =====
 function phoneSection(zipId, memberId, bodyId) {
-  return `<h2 class="section-heading">Call Their Office</h2>
-    <p class="section-sub">A 2-minute call from a constituent carries real weight. Here's what to say.</p>
+  return `<h2 class="section-heading">${T.phone.heading}</h2>
+    <p class="section-sub">${T.phone.sub}</p>
     <div class="zip-row">
-      <input type="text" id="${zipId}" placeholder="Zip code" maxlength="5" inputmode="numeric">
-      <button class="btn btn-primary btn-sm" onclick="doPhoneLookup('${zipId}','${memberId}','${bodyId}')">Find My Rep</button>
+      <input type="text" id="${zipId}" placeholder="${T.phone.zip_placeholder}" maxlength="5" inputmode="numeric">
+      <button class="btn btn-primary btn-sm" onclick="doPhoneLookup('${zipId}','${memberId}','${bodyId}')">${T.phone.find_rep}</button>
     </div>
     <div id="${memberId}"></div><div id="${bodyId}"></div>`;
 }
@@ -599,12 +735,12 @@ async function doPhoneLookup(zipId, memberId, bodyId) {
   const memEl = document.getElementById(memberId);
   if (member) {
     memEl.innerHTML = `<div class="council-card">
-      <div class="member-label">${member.district ? 'District '+member.district : 'Your Rep'}</div>
+      <div class="member-label">${T.phone.district_label(member.district)}</div>
       <div class="member-name">${esc(member.name)}</div>
-      <div class="member-contact">Call: <strong>${member.phone}</strong> &nbsp;|&nbsp; City Hall, ${member.room}</div>
+      <div class="member-contact">${T.phone.call_label} <strong>${member.phone}</strong> &nbsp;|&nbsp; City Hall, ${member.room}</div>
     </div>`;
   } else {
-    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">Couldn't identify your district. <a href="https://phlcouncil.com/council-members/" target="_blank">Look up your rep →</a></div>`;
+    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">${T.phone.error_zip}</div>`;
   }
   renderPhoneScript(member, bodyId);
 }
@@ -622,65 +758,51 @@ function renderPhoneScript(member, bodyId) {
     <div class="phone-steps">
       <div class="phone-step">
         <div class="phone-num">1</div>
-        <div>Say: <span class="phone-say">"My name is ${esc(n)}. I'm a ${esc(occ)} in ${esc(hood)}."</span></div>
+        <div>Say: <span class="phone-say">${T.phone.step1_say(n, occ, hood)}</span></div>
       </div>
       <div class="phone-step">
         <div class="phone-num">2</div>
         <div>
           <div>${impactShort ? `<span class="phone-say">"${esc(impactShort)}"</span>` : 'Describe your situation in one sentence — your own words.'}</div>
-          <div class="phone-meta">Don't read from a script if you can help it — just be honest.</div>
+          <div class="phone-meta">${T.phone.step2_meta}</div>
         </div>
       </div>
       <div class="phone-step">
         <div class="phone-num">3</div>
-        <div>Say: <span class="phone-say">"I'm calling to ask ${esc(mName)} to vote yes on Bill Number 251026."</span></div>
+        <div>Say: <span class="phone-say">${T.phone.step3_say(mName)}</span></div>
       </div>
       <div class="phone-step">
         <div class="phone-num">4</div>
         <div>
-          <div>Ask: <span class="phone-say">"Can you log my call in support of Bill 251026?"</span></div>
-          <div class="phone-meta">Staffers track constituent contact. Your call gets counted.</div>
+          <div>Ask: <span class="phone-say">${T.phone.step4_say}</span></div>
+          <div class="phone-meta">${T.phone.step4_meta}</div>
         </div>
       </div>
       <div class="phone-step">
         <div class="phone-num">5</div>
-        <div>Thank them. The whole call is under 2 minutes.</div>
+        <div>${T.phone.step5}</div>
       </div>
     </div>
-    <div class="president-note">
-      <strong>Also call Council President Kenyatta Johnson</strong> — (215) 686-3412, Room 580. He controls what comes to a floor vote. The most effective thing you can do is contact him directly. Elected officials move when their constituents speak up.
-    </div>`;
+    <div class="president-note">${T.phone.president_note}</div>`;
 }
 
 // ===== TESTIMONY =====
 function testifySection(outputId) {
-  return `<h2 class="section-heading">Testify at a Hearing</h2>
-    <p class="section-sub">Your 2-minute script — in your own words. Practice once or twice. You've got this.</p>
-    <ul class="hearing-list">
-      <li class="hearing-item">
-        <div class="hearing-date-block"><div class="month">APR</div><div class="day">28</div></div>
-        <div class="hearing-info"><div class="hearing-name">City Council Town Hall</div><div class="hearing-details">6:00–7:30 PM · Upper Room Baptist Church — good for practice</div></div>
-      </li>
-      <li class="hearing-item">
-        <div class="hearing-date-block"><div class="month">APR</div><div class="day">30</div></div>
-        <div class="hearing-info"><div class="hearing-name">City Council Town Hall</div><div class="hearing-details">6:00–7:30 PM · Mummers Museum</div></div>
-      </li>
-      <li class="hearing-item">
-        <div class="hearing-date-block"><div class="month">MAY</div><div class="day">5</div></div>
-        <div class="hearing-info"><div class="hearing-name">City Council Town Hall</div><div class="hearing-details">6:00–7:30 PM · Salt & Light Church — night before the budget hearing</div></div>
-      </li>
-      <li class="hearing-item key-hearing">
-        <div class="hearing-date-block"><div class="month">MAY</div><div class="day">6</div></div>
-        <div class="hearing-info"><div class="hearing-name">Budget Hearing <span class="key-badge">Key Date</span></div><div class="hearing-details">10:00 AM–4:00 PM · Room 400, City Hall — register by 3 PM on May 5</div></div>
-      </li>
-    </ul>
-    <div class="info-box" style="margin-bottom:16px;"><strong>To testify at the May 6 budget hearing:</strong> Call <strong>(215) 686-3407</strong> or email <strong>budget@phila.gov</strong> by <strong>3 PM on May 5</strong>. Provide your name, position (support), phone, and address.</div>
+  const hearingItems = T.testify.hearings.map(h => `
+    <li class="hearing-item${h.key ? ' key-hearing' : ''}">
+      <div class="hearing-date-block"><div class="month">${h.month}</div><div class="day">${h.day}</div></div>
+      <div class="hearing-info"><div class="hearing-name">${h.name}${h.key ? ` <span class="key-badge">${T.testify.key_badge}</span>` : ''}</div><div class="hearing-details">${h.details}</div></div>
+    </li>`).join('');
+  return `<h2 class="section-heading">${T.testify.heading}</h2>
+    <p class="section-sub">${T.testify.sub}</p>
+    <ul class="hearing-list">${hearingItems}</ul>
+    <div class="info-box" style="margin-bottom:16px;">${T.testify.register_note}</div>
     <div class="testimony-output" id="${outputId}"></div>
     <div class="btn-row" style="margin-top:14px;">
-      <button class="btn btn-secondary btn-sm" onclick="copyTestimony('${outputId}','tc-${outputId}')">Copy Script</button>
-      <span id="tc-${outputId}" class="copy-success">✓ Copied!</span>
+      <button class="btn btn-secondary btn-sm" onclick="copyTestimony('${outputId}','tc-${outputId}')">${T.testify.copy_btn}</button>
+      <span id="tc-${outputId}" class="copy-success">${T.testify.copied}</span>
     </div>
-    <div class="info-box" style="margin-top:16px;"><strong>At the hearing:</strong> State your name, occupation, and bill number (251026). Keep it under 2–3 minutes. End with "That concludes my testimony." Reading from paper is completely fine.</div>`;
+    <div class="info-box" style="margin-top:16px;">${T.testify.at_hearing}</div>`;
 }
 
 function generateTestimony(outputId) {
@@ -689,22 +811,15 @@ function generateTestimony(outputId) {
   const hood = story.neighborhood || 'Philadelphia';
 
   const beat1 = `My name is ${n}. I am a ${occ} in ${hood}.`;
-  const beat2 = [story.impact, story.moment].filter(Boolean).join(' ')
-    || `If the LIFT Act does not pass, I will face a significant new tax bill in 2026 — money I have not budgeted for and cannot absorb.`;
-  const beat3 = `I am not here asking for a tax break. I am asking for parity. Self-employed workers already pay the Net Profits Tax. BIRT taxes the same income a second time. Corporations don't face that double burden. We do. That disparity is not an oversight — it is a policy choice this Council can change.`;
-  const beat4 = (story.why ? story.why + ' ' : '') + `The LIFT Act costs less than one percent of the city budget. It has nine sponsors. The City Law Department has confirmed it is constitutional. The solution is ready.`;
-  const beat5 = `I am asking this Council to pass Bill Number 251026 — in the budget or as a standalone bill — before April 2026 bills arrive. 75,000 Philadelphia small business owners are counting on you. Please vote yes. That concludes my testimony.`;
+  const beat2 = [story.impact, story.moment].filter(Boolean).join(' ') || T.testify.beat_stakes_fallback;
+  const beat3 = T.testify.beat_equity;
+  const beat4 = (story.why ? story.why + ' ' : '') + T.testify.beat_policy_suffix;
+  const beat5 = T.testify.beat_close;
 
   const el = document.getElementById(outputId);
   if (!el) return;
-  el.innerHTML = [
-    ['Beat 1 — Who You Are', beat1],
-    ['Beat 2 — The Stakes', beat2],
-    ['Beat 3 — The Equity Argument', beat3],
-    ['Beat 4 — The Policy Case', beat4],
-    ['Beat 5 — The Close', beat5],
-  ].map(([label, text]) =>
-    `<div class="beat"><div class="beat-label">${label}</div><div class="beat-text">${esc(text)}</div></div>`
+  el.innerHTML = [beat1, beat2, beat3, beat4, beat5].map((text, i) =>
+    `<div class="beat"><div class="beat-label">${T.testify.beat_labels[i]}</div><div class="beat-text">${esc(text)}</div></div>`
   ).join('');
 }
 
@@ -743,6 +858,6 @@ async function resolveMember(zip) {
   return { ...COUNCIL_MEMBERS[district], district };
 }
 </script>
-<button id="restart-pill" class="restart-pill" onclick="clearProgress()">↺ Start over</button>
+<button id="restart-pill" class="restart-pill" onclick="clearProgress()" data-i18n="nav.restart">↺ Start over</button>
 </body>
 </html>

@@ -27,6 +27,8 @@ const PAGES = [
   { source: 'petition/index.html',   page: 'petition' },
   { source: 'hearings/index.html',   page: 'hearings' },
   { source: 'explain/index.html',    page: 'explain' },
+  { source: 'action/index.html',       page: 'action' },
+  { source: 'action/embed/index.html', page: 'action-embed' },
 ];
 
 function setKey(obj, keyPath, value) {
