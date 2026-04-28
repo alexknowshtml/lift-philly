@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFT Philly - Tax Reform for Philadelphia's Individual Businesses</title>
-    <meta name="description" content="Join the coalition supporting tax reform for Philadelphia's 75,000 individual business owners.">
+    <title data-i18n="meta.title">LIFT Philly - Tax Reform for Philadelphia's Individual Businesses</title>
+    <meta name="description" content="Join the coalition supporting tax reform for Philadelphia's 75,000 individual business owners." data-i18n-attr-content="meta.description">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
     <!-- Open Graph / Facebook -->
@@ -12,8 +12,8 @@
     <meta property="og:url" content="https://liftphilly.org/">
     <meta property="og:site_name" content="LIFT Philly">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="LIFT Philly - Tax Reform for Philadelphia's Individual Businesses">
-    <meta property="og:description" content="&quot;This could be the difference between those businesses being open or closed.&quot; — Councilmember Mike Driscoll. Join the coalition for effective, efficient, & equitable tax reform.">
+    <meta property="og:title" content="LIFT Philly - Tax Reform for Philadelphia's Individual Businesses" data-i18n-attr-content="meta.og_title">
+    <meta property="og:description" content="&quot;This could be the difference between those businesses being open or closed.&quot; — Councilmember Mike Driscoll. Join the coalition for effective, efficient, & equitable tax reform." data-i18n-attr-content="meta.og_description">
     <meta property="og:image" content="https://liftphilly.org/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
@@ -1205,6 +1205,17 @@
         (function() {
             var path = window.location.pathname.replace(/\/$/, '') || '/';
             document.querySelectorAll('.nav-links a').forEach(function(link) {
+                var href = link.getAttribute('href').replace(/\/$/, '') || '/';
+                if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
+                    link.classList.add('active');
+                }
+            });
+        })();
+    </script>
+    <script>
+        (function() {
+            var path = window.location.pathname.replace(/\/$/, '') || '/';
+            document.querySelectorAll('.nav-links a').forEach(function(link) {
                 if (link.closest('.nav-submenu')) return;
                 var href = link.getAttribute('href').replace(/\/$/, '') || '/';
                 if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
@@ -1242,61 +1253,61 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="badge">Coalition for Effective, Efficient,<span class="mobile-break"></span> & Equitable Tax Reform</div>
-                <h1>Protecting Philly's<br><span>economic wellbeing</span></h1>
-                <p class="subtitle">75,000 working families, tradespeople, caregivers, gig workers, and creative entrepreneurs are facing a massive tax increase in 2026 and beyond.</p>
-                <p class="subtitle" style="font-weight: 700;">We are the individuals and organizations working together to change that.</p>
+                <div class="badge" data-i18n="hero.badge">Coalition for Effective, Efficient,<span class="mobile-break"></span> & Equitable Tax Reform</div>
+                <h1 data-i18n-html="hero.headline_html">Protecting Philly's<br><span>economic wellbeing</span></h1>
+                <p class="subtitle" data-i18n="hero.subtitle">75,000 working families, tradespeople, caregivers, gig workers, and creative entrepreneurs are facing a massive tax increase in 2026 and beyond.</p>
+                <p class="subtitle" style="font-weight: 700;" data-i18n="hero.subtitle_emphasis">We are the individuals and organizations working together to change that.</p>
 
                 <div class="hero-signup" style="margin-top: 32px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px;">
                     <div class="lift-acronym" style="display: flex; justify-content: center; align-items: center; gap: 32px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15);">
                         <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.5;">
-                            <span><strong style="color: var(--gold);">L</strong>abor (Independent Contractors)</span>
-                            <span><strong style="color: var(--gold);">I</strong>ndividual Enterprise</span>
-                            <span><strong style="color: var(--gold);">F</strong>amily Enterprise</span>
-                            <span><strong style="color: var(--gold);">T</strong>ax Reform</span>
+                            <span data-i18n-html="hero.lift_acronym.l"><strong style="color: var(--gold);">L</strong>abor (Independent Contractors)</span>
+                            <span data-i18n-html="hero.lift_acronym.i"><strong style="color: var(--gold);">I</strong>ndividual Enterprise</span>
+                            <span data-i18n-html="hero.lift_acronym.f"><strong style="color: var(--gold);">F</strong>amily Enterprise</span>
+                            <span data-i18n-html="hero.lift_acronym.t"><strong style="color: var(--gold);">T</strong>ax Reform</span>
                         </div>
                         <span style="font-size: 7rem; font-weight: 800; color: var(--gold); letter-spacing: 0.05em; line-height: 0.85;">LIFT</span>
                     </div>
                     <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 16px; max-width: 560px; margin-left: auto; margin-right: auto;">
                         <div>
-                            <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;">Take Action</p>
+                            <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;" data-i18n="hero.cta.take_action">Take Action</p>
                             <div class="btn-group" style="flex-direction:column;gap:8px;align-items:stretch;margin-top:0;">
-                                <a href="/petition" class="btn btn-primary" style="background:var(--gold);color:var(--navy);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.6;font-weight:400;flex-shrink:0;">1.</span>Sign the Petition →</a>
-                                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;" target="_blank"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">2.</span>Testify at Council</a>
-                                <button class="btn btn-outline" onclick="shareModal.showModal()" style="background:var(--white);color:var(--navy);border-color:var(--white);cursor:pointer;justify-content:flex-start;width:100%;text-align:left;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">3.</span>Share This Page</button>
-                                <a href="#join" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">4.</span>Join the Coalition</a>
+                                <a href="/petition" class="btn btn-primary" style="background:var(--gold);color:var(--navy);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.6;font-weight:400;flex-shrink:0;">1.</span><span data-i18n="hero.cta.sign_petition">Sign the Petition →</span></a>
+                                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;" target="_blank"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">2.</span><span data-i18n="hero.cta.testify">Testify at Council</span></a>
+                                <button class="btn btn-outline" onclick="shareModal.showModal()" style="background:var(--white);color:var(--navy);border-color:var(--white);cursor:pointer;justify-content:flex-start;width:100%;text-align:left;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">3.</span><span data-i18n="hero.cta.share">Share This Page</span></button>
+                                <a href="#join" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">4.</span><span data-i18n="hero.cta.join_coalition">Join the Coalition</span></a>
                             </div>
                         </div>
                         <div>
-                            <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;">Learn More</p>
+                            <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;" data-i18n="hero.cta.learn_more">Learn More</p>
                             <div class="btn-group" style="flex-direction:column;gap:8px;align-items:stretch;margin-top:0;">
-                                <a href="/one-sheet.pdf" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);" target="_blank">Read the One-Pager</a>
-                                <a href="/calculator/" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);">Calculate Your Impact</a>
+                                <a href="/one-sheet.pdf" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);" target="_blank" data-i18n="hero.cta.one_pager">Read the One-Pager</a>
+                                <a href="/calculator/" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);" data-i18n="hero.cta.calculate">Calculate Your Impact</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="hero-stats" style="margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 580px; margin-left: auto; margin-right: auto;">
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
-                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">75K</div>
-                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Employer & Non-Employer businesses affected</div>
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;" data-i18n="hero.stats.stat1_number">75K</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;" data-i18n="hero.stats.stat1_label">Employer & Non-Employer businesses affected</div>
                     </div>
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
-                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">85%</div>
-                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Of Philly businesses are single-owner</div>
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;" data-i18n="hero.stats.stat2_number">85%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;" data-i18n="hero.stats.stat2_label">Of Philly businesses are single-owner</div>
                     </div>
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
-                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">&lt;1%</div>
-                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Fiscally responsible, impacts less than 1% of city budget</div>
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;" data-i18n="hero.stats.stat3_number">&lt;1%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;" data-i18n="hero.stats.stat3_label">Fiscally responsible, impacts less than 1% of city budget</div>
                     </div>
                 </div>
 
                 <div style="margin-top: 40px; max-width: 480px; margin-left: auto; margin-right: auto; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 24px 28px; border-left: 4px solid var(--gold);">
                     <blockquote style="font-size: 1.1rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
-                        <p style="margin: 0;">"This BIRT problem has become a pressure point with small mom-and-pop businesses.</p>
-                        <p style="margin: 8px 0 0 0;">This could be the difference between those businesses being open or closed."</p>
+                        <p style="margin: 0;" data-i18n="hero.quote.text1">"This BIRT problem has become a pressure point with small mom-and-pop businesses.</p>
+                        <p style="margin: 8px 0 0 0;" data-i18n="hero.quote.text2">This could be the difference between those businesses being open or closed."</p>
                     </blockquote>
-                    <cite style="display: block; margin-top: 12px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">— Councilmember Mike Driscoll</cite>
+                    <cite style="display: block; margin-top: 12px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;" data-i18n="hero.quote.attribution">— Councilmember Mike Driscoll</cite>
                 </div>
 
 
@@ -1307,28 +1318,28 @@
     <!-- Resources -->
     <section class="resources" id="join">
         <div class="container">
-            <div class="section-label">Resources</div>
-            <h2 class="section-title">Take Action</h2>
+            <div class="section-label" data-i18n="resources.label">Resources</div>
+            <h2 class="section-title" data-i18n="resources.title">Take Action</h2>
             <div style="max-width: 580px; margin: 0 auto;">
                 <script async data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
             </div>
 
             <dialog id="shareModal" onclick="if(event.target===this)this.close()" style="border: none; border-radius: 16px; padding: 24px; width: calc(100% - 48px); max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); inset: 0; margin: auto;">
-                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; text-align: center;">Share with Your Community</h3>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; text-align: center;" data-i18n="resources.share_modal.title">Share with Your Community</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://liftphilly.org&title=LIFT%20Philly%20-%20Tax%20Reform%20for%20Small%20Businesses" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                        LinkedIn
+                        <span data-i18n="resources.share_modal.linkedin">LinkedIn</span>
                     </a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://liftphilly.org" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                        Facebook
+                        <span data-i18n="resources.share_modal.facebook">Facebook</span>
                     </a>
                     <a href="https://twitter.com/intent/tweet?text=75,000%20Philly%20small%20businesses%20face%20a%20massive%20tax%20increase%20in%202026.%20The%20LIFT%20Act%20can%20fix%20this.&url=https://liftphilly.org" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        Share on Twitter
+                        <span data-i18n="resources.share_modal.twitter">Share on Twitter</span>
                     </a>
-                    <button onclick="navigator.clipboard.writeText('https://liftphilly.org'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Link', 2000)" style="display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 16px; background: var(--navy); color: white; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 1rem;">
+                    <button onclick="navigator.clipboard.writeText('https://liftphilly.org'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Link', 2000)" style="display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 16px; background: var(--navy); color: white; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 1rem;" data-i18n="resources.share_modal.copy_link">
                         Copy Link
                     </button>
                 </div>
@@ -1336,12 +1347,12 @@
             </dialog>
 
             <div style="max-width: 100%; margin: 60px auto 0; text-align: center;">
-                <blockquote style="font-size: 1.15rem; color: var(--text); line-height: 1.7; font-style: italic; margin: 0;">
+                <blockquote style="font-size: 1.15rem; color: var(--text); line-height: 1.7; font-style: italic; margin: 0;" data-i18n="resources.mays_quote.text">
                     "The tragedy of life is often not in our failure, but rather in our complacency..."
                 </blockquote>
                 <cite style="display: block; margin-top: 16px; font-size: 0.9rem; color: var(--text-light); font-style: normal;">
-                    — Dr. Benjamin E. Mays<br>
-                    <span style="font-size: 0.85rem;">Renowned educator, minister, and civil rights leader.<br>President of Morehouse College and lifelong mentor to Dr. Martin Luther King Jr.</span>
+                    <span data-i18n="resources.mays_quote.attribution">— Dr. Benjamin E. Mays</span><br>
+                    <span style="font-size: 0.85rem;" data-i18n="resources.mays_quote.role">Renowned educator, minister, and civil rights leader.<br>President of Morehouse College and lifelong mentor to Dr. Martin Luther King Jr.</span>
                 </cite>
             </div>
         </div>
@@ -1351,58 +1362,58 @@
     <section class="problem">
         <div class="container">
             <div style="max-width: 660px; margin: 0 auto;">
-                <div class="section-label">The Problem</div>
-                <h2 class="section-title">Philadelphia's tax code wasn't built for the modern workforce</h2>
-                <p class="section-subtitle">Starting in 2026, all businesses in Philadelphia are about to be hit with a new—and probably surprise—tax bill.</p>
-                <p class="section-subtitle" style="margin-top: 16px;">For the last 10 years, the smallest businesses in Philadelphia had a shield from the regressive Business Income and Receipts Tax, lovingly known as BIRT.</p>
-                <p class="section-subtitle" style="margin-top: 16px;">That shield allowed them to start and grow into a business that could support themselves, their family, their community, and employ other Philadelphians.</p>
-                <p class="section-subtitle" style="margin-top: 16px;"><strong>In 2026, that shield is gone.</strong></p>
+                <div class="section-label" data-i18n="problem.label">The Problem</div>
+                <h2 class="section-title" data-i18n="problem.title">Philadelphia's tax code wasn't built for the modern workforce</h2>
+                <p class="section-subtitle" data-i18n="problem.intro1">Starting in 2026, all businesses in Philadelphia are about to be hit with a new—and probably surprise—tax bill.</p>
+                <p class="section-subtitle" style="margin-top: 16px;" data-i18n="problem.intro2">For the last 10 years, the smallest businesses in Philadelphia had a shield from the regressive Business Income and Receipts Tax, lovingly known as BIRT.</p>
+                <p class="section-subtitle" style="margin-top: 16px;" data-i18n="problem.intro3">That shield allowed them to start and grow into a business that could support themselves, their family, their community, and employ other Philadelphians.</p>
+                <p class="section-subtitle" style="margin-top: 16px;"><strong data-i18n="problem.intro4">In 2026, that shield is gone.</strong></p>
 
-                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">The Scale of the Problem</h3>
-                <p class="section-subtitle">While this information is public, most people don't realize the scale of the impact it's about to have on Philadelphians who run an individual business as a way to simply survive.</p>
+                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;" data-i18n="problem.scale_title">The Scale of the Problem</h3>
+                <p class="section-subtitle" data-i18n="problem.scale_text">While this information is public, most people don't realize the scale of the impact it's about to have on Philadelphians who run an individual business as a way to simply survive.</p>
             </div>
             <div class="problem-grid">
                 <div class="impact-card">
                     <div style="margin-bottom: 24px; text-align: center; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb;">
-                        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4; font-weight: 600;"><strong>If in</strong><span class="mobile-break"></span> <span style="font-size: 1.75rem; font-weight: 800; color: var(--navy);">2025</span><span class="mobile-break"></span> <strong>you earned</strong><span class="mobile-break"></span> <span style="font-size: 1.75rem; font-weight: 800; color: var(--navy);">$50,000</span><span class="mobile-break"></span> <strong>and you are a:</strong></p>
+                        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4; font-weight: 600;" data-i18n-html="problem.impact_card.condition_html"><strong>If in</strong><span class="mobile-break"></span> <span style="font-size: 1.75rem; font-weight: 800; color: var(--navy);">2025</span><span class="mobile-break"></span> <strong>you earned</strong><span class="mobile-break"></span> <span style="font-size: 1.75rem; font-weight: 800; color: var(--navy);">$50,000</span><span class="mobile-break"></span> <strong>and you are a:</strong></p>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
-                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Laborer (Independent Contractor)</span>
-                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Individual Enterprise</span>
-                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Family Enterprise</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);" data-i18n="problem.impact_card.labels.laborer">Laborer (Independent Contractor)</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);" data-i18n="problem.impact_card.labels.individual">Individual Enterprise</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);" data-i18n="problem.impact_card.labels.family">Family Enterprise</span>
                         </div>
                     </div>
                     <div style="margin: 24px 0;">
-                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 20px;">In April 2026, your Philadelphia tax bill will increase by:</h3>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 20px;" data-i18n="problem.impact_card.result_title">In April 2026, your Philadelphia tax bill will increase by:</h3>
                         <div class="impact-range" style="display: flex; align-items: center; gap: 16px;">
-                            <div class="impact-number">+$1,208</div>
+                            <div class="impact-number" data-i18n="problem.impact_card.impact_low">+$1,208</div>
                             <div class="impact-bar-container" style="flex: 1; display: flex; align-items: center;">
                                 <div class="impact-bar" style="width: 100%; height: 8px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 4px; position: relative;">
                                     <div style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #dc2626; border-radius: 50%; border: 3px solid white;"></div>
                                     <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #991b1b; border-radius: 50%; border: 3px solid white;"></div>
                                 </div>
                             </div>
-                            <div class="impact-number">+$3,746</div>
+                            <div class="impact-number" data-i18n="problem.impact_card.impact_high">+$3,746</div>
                         </div>
                     </div>
                     <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                        <p style="font-size: 1.25rem; color: var(--navy);">That's <strong>between 1 and 3 months' rent</strong> for many Philadelphians—and they simply can't afford it.</p>
+                        <p style="font-size: 1.25rem; color: var(--navy);" data-i18n-html="problem.impact_card.conclusion">That's <strong>between 1 and 3 months' rent</strong> for many Philadelphians—and they simply can't afford it.</p>
                     </div>
                 </div>
 
                 <div class="thomas-quote" style="background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%); border-radius: 24px; padding: 48px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(15,23,42,0.15); max-width: 900px; margin-left: auto; margin-right: auto;">
                     <div style="position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--gold); border-radius: 3px 0 0 3px;"></div>
                     <blockquote style="font-size: 1.4rem; color: var(--white); line-height: 1.7; font-style: italic; margin: 0; padding-left: 24px; position: relative; z-index: 1;">
-                        <p style="margin-bottom: 20px;">"I don't think we realize how <strong>catastrophic</strong> this is gonna be, [and] not just for small businesses.</p>
-                        <p>Us getting rid of the $100,000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will <strong>leave Philadelphia</strong>."</p>
+                        <p style="margin-bottom: 20px;" data-i18n-html="problem.thomas_quote.text1">"I don't think we realize how <strong>catastrophic</strong> this is gonna be, [and] not just for small businesses.</p>
+                        <p data-i18n-html="problem.thomas_quote.text2">Us getting rid of the $100,000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will <strong>leave Philadelphia</strong>."</p>
                     </blockquote>
                     <div class="quote-footer" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; padding-left: 24px; position: relative; z-index: 1;">
                         <a href="https://youtu.be/tRA5j_ha244?t=3751" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: var(--white); padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                            Watch full quote (1:02:31)
+                            <span data-i18n="problem.thomas_quote.watch_button">Watch full quote (1:02:31)</span>
                         </a>
                         <div style="text-align: right;">
-                            <cite style="display: block; font-size: 1.1rem; color: var(--white); font-style: normal; font-weight: 700;">Councilman Isaiah Thomas</cite>
-                            <span style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Philadelphia City Council</span>
+                            <cite style="display: block; font-size: 1.1rem; color: var(--white); font-style: normal; font-weight: 700;" data-i18n="problem.thomas_quote.attribution">Councilman Isaiah Thomas</cite>
+                            <span style="font-size: 0.9rem; color: rgba(255,255,255,0.6);" data-i18n="problem.thomas_quote.role">Philadelphia City Council</span>
                         </div>
                     </div>
                 </div>
@@ -1410,19 +1421,19 @@
             </div>
 
             <div style="max-width: 660px; margin: 0 auto;">
-                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">A system problem, not a rate problem</h3>
-                <p class="section-subtitle">Philadelphia's two-class tax system treats every corporation <strong>and</strong> non-corporation the same: whether you're a solo freelancer, a 50-person partnership, or a large corporation like Comcast.</p>
-                <p class="section-subtitle" style="margin-top: 16px;">This means individual business owners face double taxation on income already captured by the Net Profits Tax, while corporations do not.</p>
+                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;" data-i18n="problem.system_title">A system problem, not a rate problem</h3>
+                <p class="section-subtitle" data-i18n-html="problem.system_text1">Philadelphia's two-class tax system treats every corporation <strong>and</strong> non-corporation the same: whether you're a solo freelancer, a 50-person partnership, or a large corporation like Comcast.</p>
+                <p class="section-subtitle" style="margin-top: 16px;" data-i18n="problem.system_text2">This means individual business owners face double taxation on income already captured by the Net Profits Tax, while corporations do not.</p>
             </div>
             <div style="padding-top: 48px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <p style="font-size: 1.75rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin: 0; display: inline-block; border-bottom: 4px solid var(--gold); padding-bottom: 8px;">"We are taxing working families out of their homes."</p>
+                <p style="font-size: 1.75rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin: 0; display: inline-block; border-bottom: 4px solid var(--gold); padding-bottom: 8px;" data-i18n="problem.callout">"We are taxing working families out of their homes."</p>
             </div>
 
             <div style="max-width: 700px; margin: 48px auto 0; background: var(--white); border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-left: 4px solid var(--gold);">
                 <blockquote style="font-size: 1.2rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
-                    <p style="margin: 0;">"We're going to see many businesses that have never filed taxes before trying to figure out how or where to file these taxes...I don't even know how many of them will know this is happening."</p>
+                    <p style="margin: 0;" data-i18n="problem.brooks_quote.text">"We're going to see many businesses that have never filed taxes before trying to figure out how or where to file these taxes...I don't even know how many of them will know this is happening."</p>
                 </blockquote>
-                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">— Council Member Kendra Brooks, a former small business owner</cite>
+                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;" data-i18n="problem.brooks_quote.attribution">— Council Member Kendra Brooks, a former small business owner</cite>
             </div>
         </div>
     </section>
@@ -1430,39 +1441,39 @@
     <!-- Solution -->
     <section class="solution">
         <div class="container">
-            <div class="section-label">The Solution</div>
-            <h2 class="section-title">The LIFT Act</h2>
-            <p class="section-subtitle"><strong>Fix the system.</strong> Create a tax class for Laborers (Independent Contractors), Individual Enterprises & Family Enterprises (Individually owned LLCs).</p>
+            <div class="section-label" data-i18n="solution.label">The Solution</div>
+            <h2 class="section-title" data-i18n="solution.title">The LIFT Act</h2>
+            <p class="section-subtitle" data-i18n-html="solution.subtitle"><strong>Fix the system.</strong> Create a tax class for Laborers (Independent Contractors), Individual Enterprises & Family Enterprises (Individually owned LLCs).</p>
 
             <div class="solution-grid">
                 <div class="solution-card">
                     <div class="solution-icon">📋</div>
-                    <h4>Exempt from BIRT</h4>
-                    <p>Removes BIRT for the LIFT class completely.</p>
+                    <h4 data-i18n="solution.cards.exempt.title">Exempt from BIRT</h4>
+                    <p data-i18n="solution.cards.exempt.description">Removes BIRT for the LIFT class completely.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-icon">✓</div>
-                    <h4>Keep NPT Tax</h4>
-                    <p>This isn't a free ride.</p>
+                    <h4 data-i18n="solution.cards.npt.title">Keep NPT Tax</h4>
+                    <p data-i18n="solution.cards.npt.description">This isn't a free ride.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-icon">⚖️</div>
-                    <h4>Legally Sound</h4>
-                    <p>Meets Pennsylvania Constitution's Uniformity Clause requirements. Confirmed by Philadelphia Law Dept.</p>
+                    <h4 data-i18n="solution.cards.legal.title">Legally Sound</h4>
+                    <p data-i18n="solution.cards.legal.description">Meets Pennsylvania Constitution's Uniformity Clause requirements. Confirmed by Philadelphia Law Dept.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-icon" title="C.R.E.A.M. Dolla Dolla Bill Y'all">💰</div>
-                    <h4>Keeps Money Local</h4>
-                    <p>Every dollar retained by a Philadelphian becomes three dollars in local spending.</p>
+                    <h4 data-i18n="solution.cards.local.title">Keeps Money Local</h4>
+                    <p data-i18n="solution.cards.local.description">Every dollar retained by a Philadelphian becomes three dollars in local spending.</p>
                 </div>
             </div>
 
             <div style="max-width: 700px; margin: 60px auto 0; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; text-align: center;">
                 <blockquote style="font-size: 1.2rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
-                    <p style="margin: 0;">"I'm not talking about incremental change.</p>
-                    <p style="margin: 8px 0 0 0;">I'm talking about bold, transformative steps..."</p>
+                    <p style="margin: 0;" data-i18n="solution.parker_quote.text1">"I'm not talking about incremental change.</p>
+                    <p style="margin: 8px 0 0 0;" data-i18n="solution.parker_quote.text2">I'm talking about bold, transformative steps..."</p>
                 </blockquote>
-                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600;">— Mayor Cherelle Parker, Inaugural Address, January 2, 2024</cite>
+                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600;" data-i18n="solution.parker_quote.attribution">— Mayor Cherelle Parker, Inaugural Address, January 2, 2024</cite>
             </div>
 
             <!-- Timeline hidden: pending update
@@ -1492,23 +1503,23 @@
     <!-- Who This Affects -->
     <section class="affected">
         <div class="container" style="text-align: center;">
-            <div class="section-label">Who This Affects</div>
-            <h2 class="section-title">The Backbone of Philadelphia's Economy</h2>
-            <p class="section-subtitle" style="margin: 0 auto;">These are your neighbors, the people who power your community.</p>
+            <div class="section-label" data-i18n="affected.label">Who This Affects</div>
+            <h2 class="section-title" data-i18n="affected.title">The Backbone of Philadelphia's Economy</h2>
+            <p class="section-subtitle" style="margin: 0 auto;" data-i18n="affected.subtitle">These are your neighbors, the people who power your community.</p>
 
             <div class="affected-grid">
-                <span class="affected-tag">Freelancers</span>
-                <span class="affected-tag">Artists & Creatives</span>
-                <span class="affected-tag">Rideshare Drivers</span>
-                <span class="affected-tag">Home Daycare Providers</span>
-                <span class="affected-tag">Barbers & Stylists</span>
-                <span class="affected-tag">Food Truck Owners</span>
-                <span class="affected-tag">Plumbers & Electricians</span>
-                <span class="affected-tag">Consultants</span>
-                <span class="affected-tag">Therapists</span>
-                <span class="affected-tag">Social Media Creators</span>
-                <span class="affected-tag">Corner Store Owners</span>
-                <span class="affected-tag">Caregivers</span>
+                <span class="affected-tag" data-i18n="affected.tags.0">Freelancers</span>
+                <span class="affected-tag" data-i18n="affected.tags.1">Artists & Creatives</span>
+                <span class="affected-tag" data-i18n="affected.tags.2">Rideshare Drivers</span>
+                <span class="affected-tag" data-i18n="affected.tags.3">Home Daycare Providers</span>
+                <span class="affected-tag" data-i18n="affected.tags.4">Barbers & Stylists</span>
+                <span class="affected-tag" data-i18n="affected.tags.5">Food Truck Owners</span>
+                <span class="affected-tag" data-i18n="affected.tags.6">Plumbers & Electricians</span>
+                <span class="affected-tag" data-i18n="affected.tags.7">Consultants</span>
+                <span class="affected-tag" data-i18n="affected.tags.8">Therapists</span>
+                <span class="affected-tag" data-i18n="affected.tags.9">Social Media Creators</span>
+                <span class="affected-tag" data-i18n="affected.tags.10">Corner Store Owners</span>
+                <span class="affected-tag" data-i18n="affected.tags.11">Caregivers</span>
             </div>
         </div>
     </section>
@@ -1516,9 +1527,9 @@
     <!-- Sign Up -->
     <section class="signup" id="join">
         <div class="container">
-            <div class="section-label">Take Action</div>
-            <h2 class="section-title">Join Our Coalition</h2>
-            <p class="section-subtitle" style="margin: 0 auto; font-weight: 600;">Get updates on our efforts, actions you can take, how to spread the word, and other ways to ensure we protect Philly's economic wellbeing.</p>
+            <div class="section-label" data-i18n="signup.label">Take Action</div>
+            <h2 class="section-title" data-i18n="signup.title">Join Our Coalition</h2>
+            <p class="section-subtitle" style="margin: 0 auto; font-weight: 600;" data-i18n="signup.subtitle">Get updates on our efforts, actions you can take, how to spread the word, and other ways to ensure we protect Philly's economic wellbeing.</p>
 
             <div class="form-container">
                 <script async data-uid="a1dc029c21" src="https://lift-philly.kit.com/a1dc029c21/index.js"></script>

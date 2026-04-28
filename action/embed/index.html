@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talk to Your Council Member — LIFT Philly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0f172a; --navy-light: #1e293b;
+    --gold: #fbbf24; --gold-dark: #f59e0b;
+    --cream: #fefce8; --text: #334155; --text-light: #64748b;
+    --white: #ffffff; --bg: #f8fafc;
+    --border: #e2e8f0; --success: #059669; --error: #dc2626;
+    --gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #1a365d 100%);
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+  .screen { display: none; padding: 28px 0 48px; }
+  .screen.active { display: block; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 22px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; border: 2px solid transparent; text-decoration: none; transition: opacity 0.15s, transform 0.1s; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--navy); color: white; border-color: var(--navy); }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-secondary { background: var(--gold); color: var(--text); border-color: var(--gold); }
+  .btn-outline { background: transparent; color: var(--navy); border-color: var(--navy); }
+  .btn-outline:hover { background: var(--navy); color: white; }
+  .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+  .btn-full { width: 100%; display: flex; }
+  .btn-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .back-btn { background: none; border: none; color: var(--text-light); font-family: inherit; font-size: 0.85rem; cursor: pointer; padding: 0 0 16px; display: block; }
+  .back-btn:hover { color: var(--text); }
+
+  /* Landing */
+  .landing-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .landing-heading { font-size: 2rem; font-weight: 800; color: var(--navy); line-height: 1.2; margin-bottom: 14px; }
+  .landing-body { font-size: 0.95rem; color: var(--text-light); margin-bottom: 24px; line-height: 1.7; }
+  .landing-stat { background: rgba(255,255,255,0.12); border: 1px solid rgba(251,191,36,0.35); color: white; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+  .stat-num { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+  .stat-text { font-size: 0.85rem; opacity: 0.85; line-height: 1.4; }
+  .skip-link { text-align: center; margin-top: 14px; font-size: 0.8rem; color: var(--text-light); cursor: pointer; }
+  .skip-link:hover { color: var(--navy); }
+
+  /* Interview */
+  .int-history { margin-bottom: 16px; }
+  .int-history-item { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; opacity: 0.65; }
+  .int-history-q { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 2px; }
+  .int-history-a { font-size: 0.88rem; color: var(--text); }
+  .int-question { background: white; border: 2px solid var(--gold); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; }
+  .int-progress { font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .int-label { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .int-sub { font-size: 0.84rem; color: var(--text-light); margin-bottom: 14px; line-height: 1.5; }
+  .int-input-wrap { margin-top: 10px; }
+  .int-input, .int-textarea { width: 100%; padding: 11px 14px; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 16px; color: var(--text); background: white; transition: border-color 0.15s; }
+  .int-input:focus, .int-textarea:focus { outline: none; border-color: var(--navy); }
+  .int-textarea { min-height: 100px; resize: vertical; line-height: 1.5; }
+  .field { margin-bottom: 10px; }
+  .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-light); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .hint { font-size: 0.8rem; color: var(--text-light); margin-top: 6px; }
+
+  /* Action cards */
+  .action-intro { margin-bottom: 20px; }
+  .action-intro h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .action-intro p { font-size: 0.9rem; color: var(--text-light); }
+  .action-cards { display: flex; flex-direction: column; gap: 10px; }
+  .action-card { background: white; border: 2px solid var(--border); border-radius: 12px; padding: 16px 18px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .action-card:hover { border-color: var(--navy); box-shadow: var(--card-shadow); }
+  .action-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .action-title { font-weight: 700; font-size: 1rem; color: var(--text); }
+  .action-desc { font-size: 0.82rem; color: var(--text-light); margin-top: 2px; }
+  .action-card-all { border-color: var(--gold); background: var(--cream); }
+  .action-card-all:hover { border-color: var(--navy); }
+
+  /* Output */
+  .section-heading { font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .section-sub { font-size: 0.88rem; color: var(--text-light); margin-bottom: 20px; line-height: 1.5; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* Tabs */
+  .tab-bar { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
+  .tab-btn { padding: 8px 16px; border: none; border-bottom: 3px solid transparent; background: none; font-family: inherit; font-size: 0.85rem; font-weight: 600; color: var(--text-light); cursor: pointer; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; }
+  .tab-btn.active { color: var(--navy); border-bottom-color: var(--gold-dark); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Zip */
+  .zip-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 16px; }
+  .zip-row input { flex: 1; max-width: 180px; padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 16px; }
+  .zip-row input:focus { outline: none; border-color: var(--navy); }
+
+  .council-card { background: white; border: 2px solid var(--navy); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+  .member-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-dark); margin-bottom: 4px; }
+  .member-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .member-role { font-size: 0.82rem; color: var(--text-light); margin-top: 2px; }
+  .member-contact { font-size: 0.82rem; color: var(--text); margin-top: 8px; }
+  .president-note { background: var(--cream); border: 1px solid rgba(251,191,36,0.4); border-radius: 8px; padding: 12px 14px; font-size: 0.85rem; color: var(--text); margin-bottom: 16px; line-height: 1.5; }
+
+  /* Email */
+  .email-box { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 18px; font-size: 0.9rem; line-height: 1.7; word-break: break-word; margin-bottom: 12px; }
+  .email-subject { font-weight: 700; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+  /* Phone */
+  .phone-steps { background: white; border: 2px solid var(--gold); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
+  .phone-step { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+  .phone-step:last-child { border-bottom: none; padding-bottom: 0; }
+  .phone-num { color: var(--gold-dark); font-weight: 700; flex-shrink: 0; min-width: 18px; }
+  .phone-say { font-style: italic; }
+  .phone-meta { font-size: 0.78rem; color: var(--text-light); margin-top: 3px; }
+
+  /* Testimony */
+  .testimony-output { background: white; border: 2px solid var(--navy); border-radius: 12px; padding: 22px; margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6; word-break: break-word; }
+  .beat { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--border); }
+  .beat:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .beat-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 4px; }
+
+  /* Info box */
+  .info-box { background: var(--cream); border: 1px solid rgba(251,191,36,0.35); border-radius: 8px; padding: 14px 16px; font-size: 0.85rem; color: var(--text); line-height: 1.5; }
+  .info-box a { color: var(--navy); font-weight: 600; }
+
+  /* Hearing list */
+  .hearing-list { list-style: none; margin-bottom: 16px; }
+  .hearing-item { display: flex; gap: 14px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+  .hearing-date-block { text-align: center; flex-shrink: 0; width: 44px; }
+  .month { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-dark); }
+  .day { font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .hearing-name { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+  .hearing-details { font-size: 0.8rem; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
+  .key-hearing { border-color: var(--gold); background: #FFFBF0; }
+  .key-badge { background: var(--gold); color: var(--navy); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+
+  .copy-success { font-size: 0.82rem; color: var(--success); display: none; }
+  .copy-success.show { display: inline; }
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Support */
+  .support-stat { text-align: center; padding: 24px; background: white; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
+  .stat-number { font-size: 3rem; font-weight: 800; color: var(--navy); line-height: 1; }
+  .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; }
+  .steps { list-style: none; }
+  .steps li { padding: 10px 0 10px 20px; border-bottom: 1px solid var(--border); position: relative; font-size: 0.9rem; }
+  .steps li::before { content: '→'; position: absolute; left: 0; color: var(--gold-dark); font-weight: 700; }
+  .steps li:last-child { border-bottom: none; }
+
+  @media (min-width: 600px) { .landing-heading { font-size: 2.4rem; } }
+
+
+
+  /* Sticky restart pill */
+  .restart-pill { position: fixed; bottom: 20px; right: 20px; background: var(--navy); color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 600; padding: 9px 16px; border-radius: 20px; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.25); transition: all 0.2s; z-index: 200; display: none; border: none; font-family: inherit; }
+  .restart-pill:hover { background: var(--navy-light); color: var(--gold); }
+
+</style>
+</head>
+<body>
+<!-- Landing -->
+<div id="screen-landing" class="screen active">
+  <div class="landing-hero">
+    <div class="container">
+      <div class="landing-eyebrow">LIFT Philly — Bill No. 251026</div>
+      <h1 class="landing-heading">Your story can change this vote.</h1>
+      <p class="landing-body">75,000 Philadelphia self-employed workers are facing a surprise tax increase in 2026. Personal testimony from constituents is what moves Council members to act.<br>Answer a few questions — we'll turn your words into scripts you can use to email, call, or testify.</p>
+    </div>
+  </div>
+  <div class="container landing-actions" style="padding-top:36px;">
+    <button class="btn btn-primary btn-full" onclick="startFresh()">Tell Your Story →</button>
+    <button id="resume-btn" class="btn btn-outline btn-full" onclick="resumeStory()" style="display:none;margin-top:10px;">Resume My Story →</button>
+    <div class="skip-link" onclick="goTo('support')">Just want to sign the petition?</div>
+  </div>
+</div>
+
+<!-- Interview -->
+<div id="screen-interview" class="screen">
+  <div class="container">
+    <div id="interview-history" class="int-history"></div>
+    <div id="interview-current"></div>
+    <div class="btn-row">
+      <button id="int-prev-btn" class="btn btn-outline btn-sm" onclick="intPrev()" style="display:none;">← Back</button>
+      <button id="int-next-btn" class="btn btn-primary" onclick="intNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Action choice -->
+<div id="screen-action" class="screen">
+  <div class="container">
+    <button class="back-btn" onclick="currentIntQ=INTERVIEW_QS.length-1;goTo('interview');renderInterview();">← Edit my story</button>
+    <div class="action-intro">
+      <h2>How do you want to take action?</h2>
+      <p>We'll use your story to generate whichever script you need — in your own words.</p>
+    </div>
+    <div class="action-cards">
+      <div class="action-card" onclick="chooseAction('email')">
+        <div class="action-icon">✉️</div>
+        <div><div class="action-title">Email My Council Member</div><div class="action-desc">Personalized letter to your district rep</div></div>
+      </div>
+      <div class="action-card" onclick="chooseAction('phone')">
+        <div class="action-icon">📞</div>
+        <div><div class="action-title">Call Their Office</div><div class="action-desc">Quick talking guide for a 2-minute call</div></div>
+      </div>
+      <div class="action-card" onclick="chooseAction('testify')">
+        <div class="action-icon">🎤</div>
+        <div><div class="action-title">Testify at a Hearing</div><div class="action-desc">2-minute script for City Council</div></div>
+      </div>
+      <div class="action-card action-card-all" onclick="chooseAction('all')">
+        <div class="action-icon">⚡</div>
+        <div><div class="action-title">Give Me Everything</div><div class="action-desc">Email, phone script, and testimony — all three</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Output -->
+<div id="screen-output" class="screen">
+  <div class="container">
+    <button class="back-btn" onclick="goTo('action')">← Change action</button>
+    <div id="output-content"></div>
+  </div>
+</div>
+
+<!-- Support -->
+<div id="screen-support" class="screen">
+  <div class="container">
+    <button class="back-btn" onclick="goTo('landing')">← Back</button>
+    <h2 class="section-heading">Sign the Petition</h2>
+    <p class="section-sub">Add your name to show Council the scale of support for Bill No. 251026.</p>
+    <div class="support-stat">
+      <div class="stat-number">75,000</div>
+      <div class="stat-label">Philadelphia small business owners affected</div>
+    </div>
+    <a href="https://liftphilly.org/petition" target="_blank" class="btn btn-primary btn-full" style="margin-bottom:16px;">Sign the Petition →</a>
+    <hr class="divider">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">Can't attend — but want to do more?</h3>
+    <ul class="steps">
+      <li>Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.</li>
+      <li>Call your council member's office. You don't need a script — just say "I support Bill 251026 and want it brought to a vote."</li>
+      <li>Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.</li>
+    </ul>
+    <div class="president-note" style="margin-top:16px;">
+      <strong>Council President Kenyatta Johnson</strong> controls what comes to a floor vote.<br>
+      <strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580<br>
+      <em>Even a 2-minute call from a constituent makes a difference.</em>
+    </div>
+  </div>
+</div>
+
+<script>
+const COUNCIL_MEMBERS = {
+  1:  { name: "Mark Squilla",       role: "District 1 — Old City, Fishtown, Northern Liberties, South Philly", phone: "(215) 686-3458", room: "Room 332", email: "mark.squilla@phila.gov" },
+  2:  { name: "Kenyatta Johnson",   role: "District 2 — South Philly, Point Breeze, Grays Ferry (Council President)", phone: "(215) 686-3412", room: "Room 580", email: "kenyatta.johnson@phila.gov" },
+  3:  { name: "Jamie Gauthier",     role: "District 3 — University City, Spruce Hill, Cobbs Creek, West Philly", phone: "(215) 686-0459", room: "Room 316", email: "jamie.gauthier@phila.gov" },
+  4:  { name: "Curtis Jones, Jr.",  role: "District 4 — Wynnefield, Overbrook, Roxborough, Manayunk", phone: "(215) 686-3416", room: "Room 404", email: "curtis.jones@phila.gov" },
+  5:  { name: "Jeffery Young, Jr.", role: "District 5 — North Philly, Strawberry Mansion, Fairmount", phone: "(215) 686-3442", room: "Room 586", email: "jeffery.young@phila.gov" },
+  6:  { name: "Michael Driscoll",   role: "District 6 — Far Northeast Philadelphia", phone: "(215) 686-3444", room: "Room 313", email: "michael.driscoll@phila.gov" },
+  7:  { name: "Quetcy Lozada",      role: "District 7 — Kensington, Hunting Park, Juniata Park", phone: "(215) 686-3448", room: "Room 484", email: "quetcy.lozada@phila.gov" },
+  8:  { name: "Cindy Bass",         role: "District 8 — Germantown, Mt. Airy, West Oak Lane", phone: "(215) 686-3424", room: "Room 508", email: "cindy.bass@phila.gov" },
+  9:  { name: "Anthony Phillips",   role: "District 9 — Mayfair, Rhawnhurst, Oxford Circle", phone: "(215) 686-3455", room: "Room 594", email: "anthony.phillips@phila.gov" },
+  10: { name: "Brian J. O'Neill",   role: "District 10 — Somerton, Bustleton, Far Northeast", phone: "(215) 686-3422", room: "Room 562", email: "brian.oneill@phila.gov" },
+};
+
+const ZIP_TO_DISTRICT = {
+  "19106":1,"19107":1,"19123":1,"19125":1,"19147":1,"19137":1,
+  "19145":2,"19146":2,"19153":2,"19148":2,
+  "19104":3,"19143":3,"19139":3,
+  "19131":4,"19128":4,"19127":4,"19151":4,
+  "19121":5,"19130":5,"19132":5,"19122":5,
+  "19114":6,"19115":6,"19116":6,"19136":6,"19135":6,
+  "19134":7,"19140":7,"19124":7,"19133":7,"19120":7,
+  "19119":8,"19138":8,"19144":8,"19150":8,"19126":8,"19141":8,"19129":8,"19118":8,
+  "19111":9,"19149":9,"19152":9,
+  "19154":10,
+};
+
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  if (window.parent !== window) window.parent.postMessage({ type: 'scroll-top' }, '*');
+  window.scrollTo(0, 0);
+  const pill = document.getElementById('restart-pill');
+  if (pill) pill.style.display = screen === 'landing' ? 'none' : 'block';
+  if (screen === 'landing') updateLandingCTAs();
+  // Send resize to parent iframe
+  setTimeout(function() {
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: 'resize', height: document.body.scrollHeight }, '*');
+    }
+  }, 80);
+}
+
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== INTERVIEW =====
+const INTERVIEW_QS = [
+  {
+    type: 'multi',
+    label: 'First, the basics',
+    sub: 'These personalize your scripts.',
+    fields: [
+      { key: 'name', label: 'Your name', placeholder: 'Full name' },
+      { key: 'occupation', label: 'What you do', placeholder: 'e.g. barber, therapist, freelance designer' },
+      { key: 'neighborhood', label: 'Your neighborhood', placeholder: 'e.g. Fishtown, West Philly, Germantown' },
+    ]
+  },
+  {
+    type: 'textarea', key: 'impact',
+    label: 'What would this tax increase actually cost you?',
+    sub: 'Put a number on it if you can — dollars, months of rent, a client you\'d have to drop. Your own words are most powerful.',
+    placeholder: 'e.g. "I\'d owe around $2,400 — that\'s my daughter\'s childcare for three months."',
+    optional: false,
+  },
+  {
+    type: 'textarea', key: 'why',
+    label: 'Why did you choose self-employment?',
+    sub: 'What does it mean to you — freedom, necessity, craft, community?',
+    placeholder: 'e.g. "I started my business after being laid off. I built something from nothing and I\'m proud of it."',
+    optional: false,
+  },
+  {
+    type: 'textarea', key: 'moment',
+    label: 'Tell us about a specific moment.',
+    sub: 'A bill you opened, a conversation you had, something you had to rethink — whatever makes this real.',
+    placeholder: 'e.g. "My accountant called in February and told me to set aside an extra $3,000. I didn\'t have it."',
+    optional: false,
+  },
+  {
+    type: 'textarea', key: 'extra',
+    label: 'Anything else you want Council to know?',
+    sub: null,
+    placeholder: 'Optional — leave blank to skip.',
+    optional: true,
+  }
+];
+
+const STORAGE_KEY = 'lift-philly-guide';
+const STORY_DEFAULTS = { name:'', occupation:'', neighborhood:'', impact:'', why:'', moment:'', extra:'' };
+let story = { ...STORY_DEFAULTS };
+let currentIntQ = 0;
+
+function saveProgress() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ story, currentIntQ })); } catch(e) {}
+}
+
+function clearProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  story = { ...STORY_DEFAULTS };
+  currentIntQ = 0;
+  updateLandingCTAs();
+  goTo('landing');
+}
+
+function startFresh() {
+  story = { ...STORY_DEFAULTS };
+  currentIntQ = 0;
+  saveProgress();
+  goTo('interview');
+  renderInterview();
+}
+
+function resumeStory() {
+  goTo('interview');
+  renderInterview();
+}
+
+function updateLandingCTAs() {
+  const hasSaved = !!(story.name || story.occupation || story.impact);
+  const resumeBtn = document.getElementById('resume-btn');
+  const navBtn = document.getElementById('nav-restart-btn');
+  if (resumeBtn) resumeBtn.style.display = hasSaved ? 'flex' : 'none';
+  if (navBtn) navBtn.style.display = hasSaved ? 'inline-block' : 'none';
+}
+
+// Restore from localStorage on load
+(function() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.story) story = { ...STORY_DEFAULTS, ...data.story };
+      if (typeof data.currentIntQ === 'number') currentIntQ = data.currentIntQ;
+    }
+  } catch(e) {}
+  document.addEventListener('DOMContentLoaded', updateLandingCTAs);
+})();
+
+function startInterview() { startFresh(); }
+
+function renderInterview() {
+  const histHtml = INTERVIEW_QS.slice(0, currentIntQ).map(q => {
+    const val = q.type === 'multi'
+      ? q.fields.map(f => story[f.key]).filter(Boolean).join(' · ')
+      : (story[q.key] || '');
+    if (!val) return '';
+    return `<div class="int-history-item"><div class="int-history-q">${esc(q.label)}</div><div class="int-history-a">${esc(val)}</div></div>`;
+  }).filter(Boolean).join('');
+  document.getElementById('interview-history').innerHTML = histHtml;
+
+  const q = INTERVIEW_QS[currentIntQ];
+  let inputHtml = '';
+  if (q.type === 'multi') {
+    inputHtml = q.fields.map(f =>
+      `<div class="field"><label>${esc(f.label)}</label><input type="text" id="int-f-${f.key}" class="int-input" placeholder="${esc(f.placeholder)}" value="${esc(story[f.key]||'')}"></div>`
+    ).join('');
+  } else {
+    inputHtml = `<textarea id="int-${q.key}" class="int-textarea" placeholder="${esc(q.placeholder)}">${esc(story[q.key]||'')}</textarea>`;
+    if (q.optional) inputHtml += `<div class="hint">Optional — skip if you prefer.</div>`;
+  }
+
+  document.getElementById('interview-current').innerHTML = `
+    <div class="int-question">
+      <div class="int-progress">Question ${currentIntQ+1} of ${INTERVIEW_QS.length}</div>
+      <div class="int-label">${esc(q.label)}</div>
+      ${q.sub ? `<div class="int-sub">${esc(q.sub)}</div>` : ''}
+      <div class="int-input-wrap">${inputHtml}</div>
+    </div>`;
+
+  const first = document.querySelector('#interview-current .int-input, #interview-current .int-textarea');
+  if (first) setTimeout(() => first.focus(), 60);
+
+  document.getElementById('int-prev-btn').style.display = currentIntQ > 0 ? 'inline-block' : 'none';
+  document.getElementById('int-next-btn').textContent = currentIntQ === INTERVIEW_QS.length-1 ? 'See How to Take Action →' : 'Next →';
+}
+
+function intNext() {
+  const q = INTERVIEW_QS[currentIntQ];
+  if (q.type === 'multi') {
+    let ok = true;
+    q.fields.forEach(f => {
+      const el = document.getElementById('int-f-' + f.key);
+      const val = el ? el.value.trim() : '';
+      story[f.key] = val;
+      if (!val) { if (el) el.style.borderColor = 'var(--error)'; ok = false; }
+      else if (el) el.style.borderColor = '';
+    });
+    if (!ok) return;
+  } else {
+    const el = document.getElementById('int-' + q.key);
+    const val = el ? el.value.trim() : '';
+    story[q.key] = val;
+    if (!val && !q.optional) { if (el) { el.style.borderColor = 'var(--error)'; el.focus(); } return; }
+  }
+  if (currentIntQ < INTERVIEW_QS.length-1) { currentIntQ++; saveProgress(); renderInterview(); window.scrollTo(0,0); }
+  else { saveProgress(); goTo('action'); }
+}
+
+function intPrev() {
+  const q = INTERVIEW_QS[currentIntQ];
+  if (q.type === 'multi') q.fields.forEach(f => { const el = document.getElementById('int-f-'+f.key); if (el) story[f.key]=el.value.trim(); });
+  else { const el = document.getElementById('int-'+q.key); if (el) story[q.key]=el.value.trim(); }
+  currentIntQ--;
+  saveProgress();
+  renderInterview();
+  window.scrollTo(0,0);
+}
+
+// ===== ACTION + OUTPUT =====
+function chooseAction(action) {
+  goTo('output');
+  const el = document.getElementById('output-content');
+  if (action === 'email') {
+    el.innerHTML = emailSection('ez','em','eb');
+  } else if (action === 'phone') {
+    el.innerHTML = phoneSection('pz','pm','pb');
+  } else if (action === 'testify') {
+    el.innerHTML = testifySection('to1');
+    generateTestimony('to1');
+  } else if (action === 'all') {
+    el.innerHTML = `
+      <h2 class="section-heading">Your Scripts</h2>
+      <p class="section-sub">All three — generated from your story.</p>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab(this,'tab-email')">✉️ Email</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-phone')">📞 Call</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-testify')">🎤 Testify</button>
+      </div>
+      <div id="tab-email" class="tab-panel active">${emailSection('aez','aem','aeb')}</div>
+      <div id="tab-phone" class="tab-panel">${phoneSection('apz','apm','apb')}</div>
+      <div id="tab-testify" class="tab-panel">${testifySection('ato')}</div>`;
+    generateTestimony('ato');
+  }
+}
+
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ===== EMAIL =====
+function emailSection(zipId, memberId, bodyId) {
+  return `<h2 class="section-heading">Email Your Council Member</h2>
+    <p class="section-sub">Enter your zip code to find your rep and generate a personalized email.</p>
+    <div class="zip-row">
+      <input type="text" id="${zipId}" placeholder="Zip code" maxlength="5" inputmode="numeric">
+      <button class="btn btn-primary btn-sm" onclick="doEmailLookup('${zipId}','${memberId}','${bodyId}')">Find My Rep</button>
+    </div>
+    <div id="${memberId}"></div><div id="${bodyId}"></div>`;
+}
+
+async function doEmailLookup(zipId, memberId, bodyId) {
+  const zip = document.getElementById(zipId).value.trim();
+  if (!/^\d{5}$/.test(zip)) { document.getElementById(zipId).style.borderColor='var(--error)'; return; }
+  document.getElementById(zipId).style.borderColor='';
+  const member = await resolveMember(zip);
+  const memEl = document.getElementById(memberId);
+  if (member) {
+    memEl.innerHTML = `<div class="council-card">
+      <div class="member-label">${member.district ? 'District '+member.district : 'Your Rep'}</div>
+      <div class="member-name">${esc(member.name)}</div>
+      <div class="member-role">${esc(member.role)}</div>
+      <div class="member-contact"><strong>Phone:</strong> ${member.phone} &nbsp;|&nbsp; City Hall, ${member.room}</div>
+    </div>
+    <div class="president-note">
+      <strong>Also contact Council President Kenyatta Johnson</strong> — he controls the floor schedule and which bills come to a vote. The most effective thing you can do is contact him directly. Elected officials move when their constituents speak up.<br>
+      <strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580
+    </div>`;
+  } else {
+    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">Couldn't identify your district for zip <strong>${esc(zip)}</strong>. <a href="https://phlcouncil.com/council-members/" target="_blank">Look up your rep →</a></div>`;
+  }
+  renderEmailBody(member, bodyId);
+}
+
+function renderEmailBody(member, bodyId) {
+  const n = story.name || '[Your Name]';
+  const occ = story.occupation || '[your occupation]';
+  const hood = story.neighborhood || '[your neighborhood]';
+  const mName = member ? member.name : '[Council Member]';
+  const subject = `${hood} self-employed worker urges passage of Bill No. 251026`;
+  const impactPara = story.impact ? '\n' + story.impact + '\n' : '';
+  const storyPara = (story.moment || story.why)
+    ? '\n' + [story.moment, story.why].filter(Boolean).join('\n\n') + '\n'
+    : '';
+  const extraPara = story.extra ? '\n' + story.extra + '\n' : '';
+  const body = `Dear Council Member ${mName},
+
+My name is ${n}. I am a ${occ} in ${hood}.
+${impactPara}${storyPara}${extraPara}
+Self-employed workers like me already pay the Net Profits Tax. BIRT taxes the same income a second time. That is not a tax — it is a penalty for choosing to work for yourself in Philadelphia.
+
+Bill No. 251026 has nine sponsors and has been confirmed constitutional by the City Law Department. It costs less than one percent of the city budget. The solution is ready. All it needs is a vote.
+
+I am asking you to pass Bill No. 251026 — in the FY2027 budget or as a standalone bill — before April 2026 bills arrive.
+
+Respectfully,
+${n}
+${occ}, ${hood}`;
+
+  const emailHref = `mailto:${member ? member.email : ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  document.getElementById(bodyId).innerHTML = `
+    <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">Draft Email</div>
+    <div class="email-box">
+      <div class="email-subject">Subject: ${esc(subject)}</div>
+      <div id="${bodyId}-t" style="white-space:pre-wrap;">${esc(body)}</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="copyText('${bodyId}-t','${bodyId}-cs','Subject: ${esc(subject).replace(/'/g,"&#39;")}\\n\\n')">Copy Email</button>
+      <span id="${bodyId}-cs" class="copy-success">✓ Copied!</span>
+      <a href="${emailHref}" class="btn btn-outline btn-sm">Open in Email App</a>
+    </div>
+    <div class="info-box" style="margin-top:14px;font-size:0.8rem;"><strong>Can't find an email address?</strong> Call <strong>(215) 686-3400</strong> (Council main line) or visit <a href="https://phlcouncil.com/council-members/" target="_blank">phlcouncil.com</a>.</div>`;
+}
+
+// ===== PHONE =====
+function phoneSection(zipId, memberId, bodyId) {
+  return `<h2 class="section-heading">Call Their Office</h2>
+    <p class="section-sub">A 2-minute call from a constituent carries real weight. Here's what to say.</p>
+    <div class="zip-row">
+      <input type="text" id="${zipId}" placeholder="Zip code" maxlength="5" inputmode="numeric">
+      <button class="btn btn-primary btn-sm" onclick="doPhoneLookup('${zipId}','${memberId}','${bodyId}')">Find My Rep</button>
+    </div>
+    <div id="${memberId}"></div><div id="${bodyId}"></div>`;
+}
+
+async function doPhoneLookup(zipId, memberId, bodyId) {
+  const zip = document.getElementById(zipId).value.trim();
+  if (!/^\d{5}$/.test(zip)) { document.getElementById(zipId).style.borderColor='var(--error)'; return; }
+  document.getElementById(zipId).style.borderColor='';
+  const member = await resolveMember(zip);
+  const memEl = document.getElementById(memberId);
+  if (member) {
+    memEl.innerHTML = `<div class="council-card">
+      <div class="member-label">${member.district ? 'District '+member.district : 'Your Rep'}</div>
+      <div class="member-name">${esc(member.name)}</div>
+      <div class="member-contact">Call: <strong>${member.phone}</strong> &nbsp;|&nbsp; City Hall, ${member.room}</div>
+    </div>`;
+  } else {
+    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">Couldn't identify your district. <a href="https://phlcouncil.com/council-members/" target="_blank">Look up your rep →</a></div>`;
+  }
+  renderPhoneScript(member, bodyId);
+}
+
+function renderPhoneScript(member, bodyId) {
+  const n = story.name || '[Your Name]';
+  const occ = story.occupation || 'self-employed worker';
+  const hood = story.neighborhood || 'Philadelphia';
+  const mName = member ? member.name : 'your council member';
+  const impactShort = story.impact
+    ? story.impact.split(/(?<=[.!?])\s/)[0]
+    : '';
+
+  document.getElementById(bodyId).innerHTML = `
+    <div class="phone-steps">
+      <div class="phone-step">
+        <div class="phone-num">1</div>
+        <div>Say: <span class="phone-say">"My name is ${esc(n)}. I'm a ${esc(occ)} in ${esc(hood)}."</span></div>
+      </div>
+      <div class="phone-step">
+        <div class="phone-num">2</div>
+        <div>
+          <div>${impactShort ? `<span class="phone-say">"${esc(impactShort)}"</span>` : 'Describe your situation in one sentence — your own words.'}</div>
+          <div class="phone-meta">Don't read from a script if you can help it — just be honest.</div>
+        </div>
+      </div>
+      <div class="phone-step">
+        <div class="phone-num">3</div>
+        <div>Say: <span class="phone-say">"I'm calling to ask ${esc(mName)} to vote yes on Bill Number 251026."</span></div>
+      </div>
+      <div class="phone-step">
+        <div class="phone-num">4</div>
+        <div>
+          <div>Ask: <span class="phone-say">"Can you log my call in support of Bill 251026?"</span></div>
+          <div class="phone-meta">Staffers track constituent contact. Your call gets counted.</div>
+        </div>
+      </div>
+      <div class="phone-step">
+        <div class="phone-num">5</div>
+        <div>Thank them. The whole call is under 2 minutes.</div>
+      </div>
+    </div>
+    <div class="president-note">
+      <strong>Also call Council President Kenyatta Johnson</strong> — (215) 686-3412, Room 580. He controls what comes to a floor vote. The most effective thing you can do is contact him directly. Elected officials move when their constituents speak up.
+    </div>`;
+}
+
+// ===== TESTIMONY =====
+function testifySection(outputId) {
+  return `<h2 class="section-heading">Testify at a Hearing</h2>
+    <p class="section-sub">Your 2-minute script — in your own words. Practice once or twice. You've got this.</p>
+    <ul class="hearing-list">
+      <li class="hearing-item">
+        <div class="hearing-date-block"><div class="month">APR</div><div class="day">28</div></div>
+        <div class="hearing-info"><div class="hearing-name">City Council Town Hall</div><div class="hearing-details">6:00–7:30 PM · Upper Room Baptist Church — good for practice</div></div>
+      </li>
+      <li class="hearing-item">
+        <div class="hearing-date-block"><div class="month">APR</div><div class="day">30</div></div>
+        <div class="hearing-info"><div class="hearing-name">City Council Town Hall</div><div class="hearing-details">6:00–7:30 PM · Mummers Museum</div></div>
+      </li>
+      <li class="hearing-item">
+        <div class="hearing-date-block"><div class="month">MAY</div><div class="day">5</div></div>
+        <div class="hearing-info"><div class="hearing-name">City Council Town Hall</div><div class="hearing-details">6:00–7:30 PM · Salt & Light Church — night before the budget hearing</div></div>
+      </li>
+      <li class="hearing-item key-hearing">
+        <div class="hearing-date-block"><div class="month">MAY</div><div class="day">6</div></div>
+        <div class="hearing-info"><div class="hearing-name">Budget Hearing <span class="key-badge">Key Date</span></div><div class="hearing-details">10:00 AM–4:00 PM · Room 400, City Hall — register by 3 PM on May 5</div></div>
+      </li>
+    </ul>
+    <div class="info-box" style="margin-bottom:16px;"><strong>To testify at the May 6 budget hearing:</strong> Call <strong>(215) 686-3407</strong> or email <strong>budget@phila.gov</strong> by <strong>3 PM on May 5</strong>. Provide your name, position (support), phone, and address.</div>
+    <div class="testimony-output" id="${outputId}"></div>
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn btn-secondary btn-sm" onclick="copyTestimony('${outputId}','tc-${outputId}')">Copy Script</button>
+      <span id="tc-${outputId}" class="copy-success">✓ Copied!</span>
+    </div>
+    <div class="info-box" style="margin-top:16px;"><strong>At the hearing:</strong> State your name, occupation, and bill number (251026). Keep it under 2–3 minutes. End with "That concludes my testimony." Reading from paper is completely fine.</div>`;
+}
+
+function generateTestimony(outputId) {
+  const n = story.name || '[Name]';
+  const occ = story.occupation || 'self-employed worker';
+  const hood = story.neighborhood || 'Philadelphia';
+
+  const beat1 = `My name is ${n}. I am a ${occ} in ${hood}.`;
+  const beat2 = [story.impact, story.moment].filter(Boolean).join(' ')
+    || `If the LIFT Act does not pass, I will face a significant new tax bill in 2026 — money I have not budgeted for and cannot absorb.`;
+  const beat3 = `I am not here asking for a tax break. I am asking for parity. Self-employed workers already pay the Net Profits Tax. BIRT taxes the same income a second time. Corporations don't face that double burden. We do. That disparity is not an oversight — it is a policy choice this Council can change.`;
+  const beat4 = (story.why ? story.why + ' ' : '') + `The LIFT Act costs less than one percent of the city budget. It has nine sponsors. The City Law Department has confirmed it is constitutional. The solution is ready.`;
+  const beat5 = `I am asking this Council to pass Bill Number 251026 — in the budget or as a standalone bill — before April 2026 bills arrive. 75,000 Philadelphia small business owners are counting on you. Please vote yes. That concludes my testimony.`;
+
+  const el = document.getElementById(outputId);
+  if (!el) return;
+  el.innerHTML = [
+    ['Beat 1 — Who You Are', beat1],
+    ['Beat 2 — The Stakes', beat2],
+    ['Beat 3 — The Equity Argument', beat3],
+    ['Beat 4 — The Policy Case', beat4],
+    ['Beat 5 — The Close', beat5],
+  ].map(([label, text]) =>
+    `<div class="beat"><div class="beat-label">${label}</div><div class="beat-text">${esc(text)}</div></div>`
+  ).join('');
+}
+
+function copyTestimony(outputId, successId) {
+  const beats = document.querySelectorAll('#'+outputId+' .beat-text');
+  const text = Array.from(beats).map(b => b.textContent).join('\n\n');
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById(successId);
+    if (el) { el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2500); }
+  });
+}
+
+function copyText(textId, successId, prefix) {
+  const body = document.getElementById(textId).textContent;
+  navigator.clipboard.writeText((prefix||'') + body).then(() => {
+    const el = document.getElementById(successId);
+    if (el) { el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2500); }
+  });
+}
+
+// ===== ZIP LOOKUP =====
+async function resolveMember(zip) {
+  let district = ZIP_TO_DISTRICT[zip] || null;
+  if (!district) {
+    try {
+      const g = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${zip}&countrycodes=us&format=json&limit=1`);
+      const gd = await g.json();
+      if (gd[0]) {
+        const c = await fetch(`https://phl.carto.com/api/v2/sql?q=SELECT+district+FROM+council_districts_2016+WHERE+ST_Within(ST_SetSRID(ST_Point(${gd[0].lon},${gd[0].lat}),4326),the_geom)`);
+        const cd = await c.json();
+        if (cd.rows && cd.rows[0]) district = parseInt(cd.rows[0].district);
+      }
+    } catch(e) {}
+  }
+  if (!district || !COUNCIL_MEMBERS[district]) return null;
+  return { ...COUNCIL_MEMBERS[district], district };
+}
+</script>
+<button id="restart-pill" class="restart-pill" onclick="clearProgress()">↺ Start over</button>
+</body>
+</html>
