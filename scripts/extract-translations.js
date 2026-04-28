@@ -99,6 +99,13 @@ function extractPage(pageConfig) {
     count++;
   });
 
+  $('[data-i18n-attr-aria-label]').each((_, el) => {
+    const key = $(el).attr('data-i18n-attr-aria-label');
+    const val = $(el).attr('aria-label') || '';
+    setKey(extracted, key, val);
+    count++;
+  });
+
   // Compare with existing en JSON to report orphaned keys
   const outPath = path.join(ROOT, 'translations', 'en', `${page}.json`);
   if (fs.existsSync(outPath)) {
