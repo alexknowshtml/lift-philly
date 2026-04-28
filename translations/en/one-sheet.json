@@ -1,1 +1,111 @@
-{}
+{
+  "header": {
+    "url": "liftphilly.org"
+  },
+  "acronym": {
+    "labor": "abor (Independent Contractors)",
+    "individual": "ndividual Enterprise",
+    "family": "amily Enterprise",
+    "tax": "ax Reform"
+  },
+  "problem": {
+    "title": "The Problem",
+    "label_laborer": "Laborer (Independent Contractor)",
+    "label_individual": "Individual Enterprise",
+    "label_family": "Family Enterprise",
+    "scenario_increase": "Starting in April 2026, your Philadelphia tax bill will increase by:",
+    "impact_examples": "That's between 1 and 3 months' rent for many Philadelphians who simply can't afford it.",
+    "calc_cta": "Calculate Yours Instantly",
+    "stat_label": "of all city businesses",
+    "stat_desc": "That includes 75,000 Philadelphians who own and operate single-owner entities: contractors, freelancers, gig workers, nurses, barbers, food truck vendors, artists, retailers, and more.",
+    "intro": "For 10 years, Philadelphia's smallest businesses had a shield from BIRT (Business Income and Receipts Tax)—letting them start, grow, and support their families. <strong>In 2026, that shield is gone.</strong>",
+    "scenario_intro": "If in <strong>2025</strong> you earned <strong style=\"color: var(--navy);\">$50,000</strong> and you are a:"
+  },
+  "qr": {
+    "calculator_url": "liftphilly.org/calculator",
+    "home_url": "liftphilly.org",
+    "calculator_alt": "QR Code",
+    "home_alt": "QR Code"
+  },
+  "solution": {
+    "title": "The Solution: The LIFT Act",
+    "intro2": "This class includes Laborers (Independent Contractors), and any individual or family enterprises with an individual owner (including those with employees).",
+    "legal_note": "Meets PA Constitution's Uniformity Clause requirements. Confirmed by Philadelphia Law Dept.",
+    "enables": {
+      "title": "What the LIFT Act Enables",
+      "item1": "✓ City Council and the Mayor can legally remove BIRT for the LIFT class* completely",
+      "item2": "✓ NPT tax remains, ensuring fair taxation instead of the current double-taxation structure",
+      "item3": "✓ Keeps money in local neighborhoods—every dollar retained turns into $3+ in local spending"
+    },
+    "intro": "Pioneering legislation introduced in November 2025 by Councilman Mike Driscoll, the LIFT Act fixes the system instead of patching it by acknowledging a <strong>tax class that already exists</strong> but is unrecognized by current BIRT law.",
+    "result": "Result for an individual or family earning $50K: <span style=\"text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 2px;\">completely eliminates</span> the surprise tax increase",
+    "footnote": "*LIFT class includes Laborers (Independent Contractors), and any individual or family enterprises<br>with an individual owner (including those with employees)."
+  },
+  "page2": {
+    "header_title": "What You Can Do"
+  },
+  "action1": {
+    "title": "Calculate Your Increase Before Filing",
+    "body": "Use the calculator at liftphilly.org/calculator to see your tax increase, then share it with your professional network so they can calculate theirs.",
+    "calc_cta": "Calculate Yours Instantly"
+  },
+  "action2": {
+    "title": "Start Conversations",
+    "ask": "Ask 3-5 solopreneurs you know:",
+    "quote": "\"If you had to pay 1-3 months extra rent in taxes in 2026 and beyond, how would that affect your ability to care for yourself, your family, and your community?\"",
+    "follow": "Then listen. Report back what you hear."
+  },
+  "action3": {
+    "title": "Help Us Reach the Whole City",
+    "p1": "Share this information with your friends & trusted community leaders, and help us grow our network of networks.",
+    "p2": "Know someone who can help spread the word through your community, share their experiences as an individual business owner, or both? We're looking for both formal leaders and informal connectors."
+  },
+  "action4": {
+    "title": "Identify Testimony Voices",
+    "intro": "We're building a coalition that reflects all of Philadelphia—every zip code, every background, every identity. Help us find powerful voices from:"
+  },
+  "voices": {
+    "arts": "Arts & Culture",
+    "barbers": "Barbers & Hair Stylists",
+    "business_assoc": "Business Associations & Districts",
+    "childcare": "Childcare providers",
+    "community_health": "Community Health/Orgs",
+    "construction": "Construction/trades",
+    "creative": "Creative (music, film, photo)",
+    "education": "Education & Tutoring",
+    "events": "Events & Tourism",
+    "finance": "Finance & Money",
+    "fitness": "Fitness & Wellness",
+    "food": "Food/hospitality",
+    "healthcare": "Healthcare",
+    "home_services": "Home Services",
+    "legal": "Legal solo practitioners",
+    "media": "Media & Journalism",
+    "pet": "Pet Services",
+    "professional": "Professional Services",
+    "real_estate": "Real Estate & Development",
+    "reentry": "Reentry entrepreneurs",
+    "style": "Style & Fashion",
+    "tech": "Tech & Innovation",
+    "transport": "Transportation/rideshare",
+    "your_industry": "<strong><em>and your industry or category, too!</em></strong>"
+  },
+  "bill": {
+    "title": "Bill Status and Expected Timeline",
+    "li1": "Bill introduced November 20, 2025 by Councilman Mike Driscoll",
+    "li2": "Council President drafted bill and provided technical support for Fiscal Analysis",
+    "li3": "Multiple council members engaged",
+    "li4": "Finance Committee hearings expected: Late January / Early February 2026",
+    "join_cta": "Join the Coalition"
+  },
+  "footer": {
+    "cta": "Take this sheet. Try the conversation. Calculate your impact. Join the coalition.",
+    "email": "contact@liftphilly.org",
+    "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
+  },
+  "principles": {
+    "solution_focused": "<strong>Solution-focused, not political.</strong> We're all Philadelphians solving a problem together.",
+    "no_blame": "<strong>The problem is in the system, not individuals.</strong> No blame, no shame. The system was designed for a different economy.",
+    "shepherd": "<strong>Shepherd mindset.</strong> Shepherds focus on solutions with love. Be the shepherd when advocating for LIFT. In the room with us? Share your fear, uncertainty, and doubt—we'll help you through it."
+  }
+}

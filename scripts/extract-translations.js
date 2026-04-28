@@ -106,6 +106,13 @@ function extractPage(pageConfig) {
     count++;
   });
 
+  $('[data-i18n-attr-alt]').each((_, el) => {
+    const key = $(el).attr('data-i18n-attr-alt');
+    const val = $(el).attr('alt') || '';
+    setKey(extracted, key, val);
+    count++;
+  });
+
   // Compare with existing en JSON to report orphaned keys
   const outPath = path.join(ROOT, 'translations', 'en', `${page}.json`);
   if (fs.existsSync(outPath)) {

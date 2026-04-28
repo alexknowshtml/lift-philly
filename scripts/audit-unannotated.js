@@ -38,6 +38,7 @@ const SKIP_CONTAINERS = [
   '.nav-translate',   // language switcher buttons (names are already in target lang)
   '.nav-brand',       // brand name
   '.footer-brand',    // brand name
+  '.logo',            // brand name in print documents
   '[data-i18n-html]', // parent annotated as HTML — children covered by parent
 ];
 
