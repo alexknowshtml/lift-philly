@@ -198,30 +198,8 @@
             <div id="google_translate_element"></div>
         </div>
     </nav>
-    <script>
-        (function() {
-            var path = window.location.pathname.replace(/\/$/, '') || '/';
-            document.querySelectorAll('.nav-links a').forEach(function(link) {
-                var href = link.getAttribute('href').replace(/\/$/, '') || '/';
-                if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
-                    link.classList.add('active');
-                }
-            });
-        })();
-    </script>
-    <script>
-        (function() {
-            var path = window.location.pathname.replace(/\/$/, '') || '/';
-            document.querySelectorAll('.nav-links a').forEach(function(link) {
-                var href = link.getAttribute('href').replace(/\/$/, '') || '/';
-                if (href === path || (href !== '/' && href !== '/#join' && path.startsWith(href))) {
-                    link.classList.add('active');
-                }
-            });
-        })();
-    </script>
 
-    <section class="action-hero">
+<section class="action-hero">
         <div class="container">
             <div class="eyebrow">Take Action</div>
             <h1>Talk to Your Council Member</h1>
@@ -269,32 +247,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
-
-        // Nav toggle
-        var navToggle = document.getElementById('nav-toggle');
-        var navLinks = document.querySelector('.nav-links');
-        if (navToggle) {
-            navToggle.addEventListener('click', function() {
-                navToggle.classList.toggle('open');
-                navLinks.classList.toggle('open');
-            });
-        }
-
-        // Resources dropdown
-        function toggleResourcesMenu(e) {
-            e.preventDefault();
-            var wrap = e.currentTarget.closest('.nav-dropdown-wrap');
-            if (!wrap) return;
-            var isOpen = wrap.classList.contains('open');
-            document.querySelectorAll('.nav-dropdown-wrap.open').forEach(function(el) { el.classList.remove('open'); });
-            if (!isOpen) wrap.classList.add('open');
-        }
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.nav-dropdown-wrap')) {
-                document.querySelectorAll('.nav-dropdown-wrap.open').forEach(function(el) { el.classList.remove('open'); });
-            }
-        });
     </script>
+    <script src="/nav.js"></script>
 </body>
 </html>
