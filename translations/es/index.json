@@ -1,9 +1,9 @@
 {
   "meta": {
     "title": "LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia",
-    "description": "Únete a la coalición que apoya la reforma tributaria para los 75,000 pequeños empresarios de Filadelfia.",
+    "description": "000 individual business owners.",
     "og_title": "LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia",
-    "og_description": "\"Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados.\" — Concejal Mike Driscoll. Únete a la coalición por una reforma tributaria efectiva, eficiente y equitativa."
+    "og_description": " efficient"
   },
   "nav": {
     "brand": "LIFT Philly",
@@ -15,10 +15,10 @@
     "help_translate": "Ayúdanos a traducir"
   },
   "hero": {
-    "badge": "Coalición por una Reforma Tributaria Efectiva, Eficiente y Equitativa",
+    "badge": " Efficient",
     "headline": "Protegiendo el",
     "headline_highlight": "bienestar económico de Filadelfia",
-    "subtitle": "75,000 familias trabajadoras, trabajadores del oficio, cuidadores, trabajadores de la economía gig y emprendedores creativos enfrentan un aumento masivo de impuestos en 2026 y más allá.",
+    "subtitle": "000 working families",
     "subtitle_emphasis": "Somos los individuos y organizaciones trabajando juntos para cambiar eso.",
     "lift_acronym": {
       "l": "Trabajo (Contratistas Independientes)",
@@ -32,7 +32,7 @@
       "stat2_number": "85%",
       "stat2_label": "De los negocios de Filadelfia son de un solo dueño",
       "stat3_number": "<1%",
-      "stat3_label": "Fiscalmente responsable, impacta menos del 1% del presupuesto de la ciudad"
+      "stat3_label": " impacts less than 1% of city budget"
     },
     "quote": {
       "text1": "Este problema del BIRT se ha convertido en un punto de presión para los pequeños negocios familiares.",
@@ -44,12 +44,12 @@
   "problem": {
     "label": "El Problema",
     "title": "El código tributario de Filadelfia no fue diseñado para la fuerza laboral moderna",
-    "intro1": "A partir de 2026, todos los negocios en Filadelfia van a recibir una nueva—y probablemente sorpresiva—factura de impuestos.",
-    "intro2": "Durante los últimos 10 años, los negocios más pequeños de Filadelfia tuvieron un escudo contra el regresivo Impuesto sobre Ingresos y Recibos de Negocios, conocido cariñosamente como BIRT.",
-    "intro3": "Ese escudo les permitió comenzar y crecer en un negocio que pudiera mantenerlos a ellos, a sus familias, a su comunidad y emplear a otros filadelfianos.",
-    "intro4": "En 2026, ese escudo desaparece.",
+    "intro1": " all businesses in Philadelphia are about to be hit with a new—and probably surprise—tax bill.",
+    "intro2": " the smallest businesses in Philadelphia had a shield from the regressive Business Income and Receipts Tax",
+    "intro3": " their family",
+    "intro4": " that shield is gone.",
     "scale_title": "La Magnitud del Problema",
-    "scale_text": "Aunque esta información es pública, la mayoría de la gente no se da cuenta de la magnitud del impacto que tendrá en los filadelfianos que manejan un pequeño negocio como forma de sobrevivir.",
+    "scale_text": " most people don't realize the scale of the impact it's about to have on Philadelphians who run an individual business as a way to simply survive.",
     "impact_card": {
       "condition": "Si en 2025 ganaste $50,000 y eres un:",
       "labels": {
@@ -57,31 +57,32 @@
         "individual": "Empresa Individual",
         "family": "Empresa Familiar"
       },
-      "result_title": "En abril de 2026, tu factura de impuestos de Filadelfia aumentará en:",
-      "impact_low": "+$1,208",
-      "impact_high": "+$3,746",
-      "conclusion": "Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos—y simplemente no pueden pagarlo."
+      "result_title": " your Philadelphia tax bill will increase by:",
+      "impact_low": "208",
+      "impact_high": "746",
+      "conclusion": "Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos—y simplemente no pueden pagarlo.",
+      "condition_html": "000</span><span class=mobile-break></span> <strong>and you are a:</strong>"
     },
     "thomas_quote": {
       "text1": "No creo que nos demos cuenta de lo catastrófico que esto va a ser, [y] no solo para los pequeños negocios.",
-      "text2": "Eliminar la exención de $100,000 mientras simultáneamente no reducimos la porción de ingresos netos del BIRT hará que todos [...] abandonen Filadelfia.",
+      "text2": "000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will <strong>leave Philadelphia</strong>.,Eliminar la exención de $100,000 mientras simultáneamente no reducimos la porción de ingresos netos del BIRT hará que todos [...] abandonen Filadelfia.,changed",
       "watch_button": "Ver cita completa (1:02:31)",
       "attribution": "Concejal Isaiah Thomas",
       "role": "Concejo Municipal de Filadelfia"
     },
-    "system_title": "Un problema del sistema, no de las tasas",
-    "system_text1": "El sistema tributario de dos clases de Filadelfia trata igual a todas las corporaciones y no-corporaciones: ya seas un freelancer solo, una sociedad de 50 personas, o una gran corporación como Comcast.",
-    "system_text2": "Esto significa que los dueños de negocios individuales enfrentan doble tributación sobre ingresos ya capturados por el Impuesto de Ganancias Netas, mientras que las corporaciones no.",
+    "system_title": " not a rate problem",
+    "system_text1": " a 50-person partnership",
+    "system_text2": " while corporations do not.",
     "callout": "Estamos sacando a las familias trabajadoras de sus hogares con impuestos.",
     "brooks_quote": {
       "text": "Vamos a ver muchos negocios que nunca han declarado impuestos antes tratando de averiguar cómo o dónde declarar estos impuestos...Ni siquiera sé cuántos de ellos sabrán que esto está pasando.",
-      "attribution": "— Concejal Kendra Brooks, ex propietaria de pequeño negocio"
+      "attribution": " a former small business owner"
     }
   },
   "solution": {
     "label": "La Solución",
     "title": "La Ley LIFT",
-    "subtitle": "Arreglar el sistema. Crear una clase tributaria para Trabajadores (Contratistas Independientes), Empresas Individuales y Empresas Familiares (LLCs de propiedad individual).",
+    "subtitle": " Individual Enterprises &amp; Family Enterprises (Individually owned LLCs).",
     "cards": {
       "exempt": {
         "title": "Exento del BIRT",
@@ -102,8 +103,8 @@
     },
     "parker_quote": {
       "text1": "No estoy hablando de cambio incremental.",
-      "text2": "Estoy hablando de pasos audaces y transformadores...",
-      "attribution": "— Alcaldesa Cherelle Parker, Discurso Inaugural, 2 de enero de 2024"
+      "text2": " transformative steps...,Estoy hablando de pasos audaces y transformadores...,changed",
+      "attribution": " Inaugural Address"
     },
     "timeline": {
       "label": "Cronograma Actual",
@@ -118,7 +119,7 @@
   "affected": {
     "label": "A Quiénes Afecta",
     "title": "La Columna Vertebral de la Economía de Filadelfia",
-    "subtitle": "Estos son tus vecinos, las personas que impulsan tu comunidad.",
+    "subtitle": " the people who power your community.",
     "tags": [
       "Freelancers",
       "Artistas y Creativos",
@@ -137,7 +138,7 @@
   "signup": {
     "label": "Toma Acción",
     "title": "Únete a Nuestra Coalición",
-    "subtitle": "Recibe actualizaciones sobre nuestros esfuerzos, acciones que puedes tomar, cómo difundir la palabra, y otras formas de asegurar que protejamos el bienestar económico de Filadelfia."
+    "subtitle": " actions you can take"
   },
   "coalition": {
     "label": "Coalición",
@@ -164,9 +165,9 @@
       "copied": "¡Copiado!"
     },
     "mays_quote": {
-      "text": "La tragedia de la vida a menudo no está en nuestro fracaso, sino más bien en nuestra complacencia...",
+      "text": "La tragedia de la vida a menudo no está en nuestro fracaso",
       "attribution": "— Dr. Benjamin E. Mays",
-      "role": "Reconocido educador, ministro y líder de derechos civiles. Presidente de Morehouse College y mentor de toda la vida del Dr. Martin Luther King Jr."
+      "role": " minister"
     }
   },
   "footer": {
