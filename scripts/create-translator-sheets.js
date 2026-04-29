@@ -21,6 +21,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { parse } = require('csv-parse/sync');
 
 const GOG = path.join(__dirname, '..', '..', 'andy', 'scripts', 'gog-wrapper.sh');
 const EXPORT_DIR = path.join(__dirname, '..', 'translations', 'export');
@@ -42,33 +43,8 @@ const LANGS = [
   { code: 'vi', name: 'Vietnamese' },
 ];
 
-// Single-pass CSV parser — handles quoted fields with embedded commas and newlines
 function parseCsv(text) {
-  const rows = [];
-  let fields = [], field = '', inQuote = false, i = 0;
-  while (i < text.length) {
-    const ch = text[i];
-    if (inQuote) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') { field += '"'; i += 2; }
-        else { inQuote = false; i++; }
-      } else { field += ch; i++; }
-    } else {
-      if (ch === '"') { inQuote = true; i++; }
-      else if (ch === ',') { fields.push(field); field = ''; i++; }
-      else if (ch === '\n' || ch === '\r') {
-        if (ch === '\r' && text[i + 1] === '\n') i++;
-        fields.push(field); field = '';
-        if (fields.some(f => f !== '') || rows.length === 0) rows.push(fields);
-        fields = []; i++;
-      } else { field += ch; i++; }
-    }
-  }
-  if (field || fields.length > 0) {
-    fields.push(field);
-    if (fields.some(f => f !== '')) rows.push(fields);
-  }
-  return rows;
+  return parse(text, { relax_quotes: true, skip_empty_lines: true });
 }
 
 // Prefix values that Sheets would interpret as formulas

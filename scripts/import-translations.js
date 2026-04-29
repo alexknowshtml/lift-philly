@@ -14,6 +14,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { parse } = require('csv-parse/sync');
 
 const ROOT = path.join(__dirname, '..');
 const LANGUAGES = ['es', 'zh', 'vi'];
@@ -23,60 +24,8 @@ function loadJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-/**
- * Parse a CSV file into an array of row objects keyed by header.
- * Handles quoted fields with embedded commas and newlines.
- */
 function parseCsv(content) {
-  const lines = [];
-  let cur = '';
-  let inQuote = false;
-
-  for (let i = 0; i < content.length; i++) {
-    const ch = content[i];
-    if (ch === '"') {
-      if (inQuote && content[i + 1] === '"') {
-        cur += '"';
-        i++;
-      } else {
-        inQuote = !inQuote;
-      }
-    } else if ((ch === '\n' || ch === '\r') && !inQuote) {
-      if (ch === '\r' && content[i + 1] === '\n') i++;
-      lines.push(cur);
-      cur = '';
-    } else {
-      cur += ch;
-    }
-  }
-  if (cur) lines.push(cur);
-
-  const parseRow = (line) => {
-    const fields = [];
-    let f = '';
-    let inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') {
-        if (inQ && line[i + 1] === '"') { f += '"'; i++; }
-        else inQ = !inQ;
-      } else if (ch === ',' && !inQ) {
-        fields.push(f);
-        f = '';
-      } else {
-        f += ch;
-      }
-    }
-    fields.push(f);
-    return fields;
-  };
-
-  if (lines.length === 0) return [];
-  const headers = parseRow(lines[0]);
-  return lines.slice(1).filter(l => l.trim()).map(l => {
-    const vals = parseRow(l);
-    return Object.fromEntries(headers.map((h, i) => [h, vals[i] ?? '']));
-  });
+  return parse(content, { columns: true, skip_empty_lines: true, relax_quotes: true });
 }
 
 /**
