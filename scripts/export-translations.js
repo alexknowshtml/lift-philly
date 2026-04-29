@@ -18,7 +18,7 @@ const { execSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const LANGUAGES = ['es', 'zh', 'vi'];
 
-const PAGES = ['common', 'index', 'birt', 'one-sheet', 'calculator', 'petition', 'hearings', 'explain'];
+const PAGES = ['common', 'index', 'birt', 'one-sheet', 'calculator', 'petition', 'hearings', 'explain', 'action', 'action-embed'];
 
 function loadJson(filePath) {
   if (!fs.existsSync(filePath)) return {};

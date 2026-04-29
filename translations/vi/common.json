@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "brand": "LIFT Philly",
+    "home": "Trang chủ",
+    "resources": "[NEEDS_TRANSLATION] Resources",
+    "why_it_happened": "[NEEDS_TRANSLATION] Why It Happened",
+    "filing_birt": "Nộp BIRT",
+    "calculator": "Máy tính Tăng thuế",
+    "support_bill": "[NEEDS_TRANSLATION] Support the Bill",
+    "tell_council": "[NEEDS_TRANSLATION] Tell Council Your Story",
+    "sign_petition": "[NEEDS_TRANSLATION] Sign the Petition",
+    "translate": "Dịch",
+    "help_translate": "Giúp chúng tôi dịch"
+  },
+  "footer": {
+    "brand": "LIFT Philly",
+    "tagline": "Người lao động (Nhà thầu Độc lập) · Doanh nghiệp Cá nhân · Doanh nghiệp Gia đình · Cải cách Thuế",
+    "disclaimer": "Tài liệu này không nhằm mục đích tư vấn pháp lý và bạn nên tham khảo ý kiến của cố vấn pháp lý và thuế. Loại LIFT không bao gồm các thực thể S-Corp và C-Corp."
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "zh": "中文 (简体)",
+    "vi": "Tiếng Việt",
+    "ko": "한국어",
+    "ru": "Русский",
+    "ar": "العربية",
+    "fr": "Français",
+    "pt": "Português",
+    "hi": "हिन्दी",
+    "tl": "Filipino"
+  }
+}
