@@ -32,6 +32,16 @@ function parseCsv(content) {
  * Set a nested key value using dot notation.
  * e.g. setKey(obj, 'nav.home', 'Inicio') sets obj.nav.home = 'Inicio'
  */
+function getKey(obj, keyPath) {
+  const parts = keyPath.split('.');
+  let cur = obj;
+  for (const part of parts) {
+    if (cur == null || typeof cur !== 'object') return undefined;
+    cur = cur[part];
+  }
+  return cur;
+}
+
 function setKey(obj, keyPath, value) {
   const parts = keyPath.split('.');
   let cur = obj;
@@ -49,9 +59,10 @@ const args = process.argv.slice(2);
 const pageArg = args.find(a => a.startsWith('--page='))?.split('=')[1];
 const langArg = args.find(a => a.startsWith('--lang='))?.split('=')[1];
 const fileArg = args.find(a => a.startsWith('--file='))?.split('=')[1];
+const onlyEmpty = args.includes('--only-empty');
 
 if (!pageArg || !langArg) {
-  console.error('Usage: node scripts/import-translations.js --page=<page> --lang=<lang> [--file=<csv>]');
+  console.error('Usage: node scripts/import-translations.js --page=<page> --lang=<lang> [--file=<csv>] [--only-empty]');
   process.exit(1);
 }
 
@@ -94,6 +105,7 @@ const existing = loadJson(outPath);
 
 let updated = 0;
 let skipped = 0;
+let protected_ = 0;
 
 for (const row of rows) {
   const key = row['key'];
@@ -102,6 +114,13 @@ for (const row of rows) {
   if (!val || val.trim() === '') {
     skipped++;
     continue;
+  }
+  if (onlyEmpty) {
+    const existing_val = getKey(existing, key);
+    if (existing_val && String(existing_val).trim() !== '') {
+      protected_++;
+      continue;
+    }
   }
   setKey(existing, key, val);
   updated++;
@@ -114,6 +133,7 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(outPath, JSON.stringify(existing, null, 2) + '\n');
 
 console.log(`Imported ${langArg}/${pageArg}.json`);
-console.log(`  Updated: ${updated} keys`);
-console.log(`  Skipped: ${skipped} empty keys`);
-console.log(`  Output:  translations/${langArg}/${pageArg}.json`);
+console.log(`  Updated:   ${updated} keys`);
+console.log(`  Skipped:   ${skipped} empty keys`);
+if (onlyEmpty) console.log(`  Protected: ${protected_} keys (already had values)`);
+console.log(`  Output:    translations/${langArg}/${pageArg}.json`);
