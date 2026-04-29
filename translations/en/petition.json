@@ -1,0 +1,142 @@
+{
+  "nav": {
+    "home": "Home",
+    "resources_label": "Resources",
+    "menu": {
+      "why_it_happened": "Why It Happened",
+      "filing_your_birt": "Filing Your BIRT",
+      "calculator": "Increase Calculator",
+      "support_the_bill": "Support the Bill",
+      "tell_council": "Tell Council Your Story"
+    },
+    "sign_petition": "Sign the Petition",
+    "translate_label": "Translate",
+    "help_translate": "Help us translate",
+    "toggle_nav": "Toggle navigation"
+  },
+  "hero": {
+    "badge": "Petition for Hearing",
+    "we_are_the": "We are the",
+    "sub": "This is our statement, our request for fairness, and our call for a hearing.",
+    "see_all": "See everyone this affects ↓",
+    "sign_btn": "Sign the Petition →"
+  },
+  "we_are": {
+    "opener": "We are:",
+    "barbers": "The barbers, nail techs, estheticians, and tattoo artists who know every face on the block.",
+    "food": "The food truck vendors, caterers, and pop-up chefs who feed this city.",
+    "caregivers": "The daycare owners, house cleaners, nannies, and home health aides caring for your children, your parents, and your homes.",
+    "contractors": "The contractors, plumbers, electricians, and painters rebuilding your homes.",
+    "rideshare": "The rideshare drivers and delivery workers keeping the city moving.",
+    "creatives": "The graphic designers, writers, journalists, and content creators telling this city's story one project at a time.",
+    "photo": "The photographers, videographers, and social media managers capturing life as it happens.",
+    "therapists": "The therapists, counselors, and social workers helping Philly heal, one session, one family, one crisis at a time.",
+    "tutors": "The tutors, personal trainers, event planners, and consultants doing the work that keeps this city running.",
+    "artists": "The musicians, muralists, filmmakers, and performers who make Philly's culture visible.",
+    "freelancers": "The freelancers, 1099 workers, and sole proprietors, in every neighborhood, in every trade, in every corner of this city.",
+    "closing": "We are Philly's individual business owners. And we are being taxed out of our homes and the city we built.",
+    "missing_industry": "Don't see your industry represented? Sign the petition so we can add it to the list.",
+    "add_industry_btn": "Add my industry →"
+  },
+  "petition": {
+    "p1": "We, the undersigned, are the people who make Philadelphia work.",
+    "p2": "Due to a legal challenge, the City decided to eliminate the $100,000 BIRT exemption. As a result, nearly 75,000 individual workers and sole proprietors, about 55% of Philadelphia's businesses, are now facing a tax that makes it harder to sustain a living wage, paying a higher tax rate than corporations.",
+    "p3": "We do not blame City Council for eliminating the $100,000 BIRT exemption. You believed you had no choice. But the impact is now clear.",
+    "p4": "We are Philly's Mom and Pop Business Owners, the gig economy, and are being taxed out of our homes.",
+    "p5": "Every worker is affected by this, including wage workers. If a wage worker loses their job and runs through unemployment and severance benefits, they must hustle to survive. They become a sole proprietor, a gig worker, and now they will have to pay BIRT.",
+    "p6": "In a City where more than half of renters are already struggling to afford housing, this is not just a tax change. It is more pressure on families, more instability in neighborhoods, and less money circulating in the local economy.",
+    "p8": "For example, for a gig worker earning $50,000 a year, higher taxes means:",
+    "p9": "We understand the City's concern about unintended consequences, and the responsibility that comes with making these decisions. However, our analysis shows the risk is limited and manageable. And if something does go wrong, we will have the data to see it and the ability to fix it.",
+    "p13": "Now, what remains is a Vote. A Vote to allow individuals to stay in business and keep contributing to their community.",
+    "thank_you": "Thank you.",
+    "p7": "<strong>This makes our City less safe.</strong>",
+    "p10": "We want to acknowledge and thank <strong>Mayor Parker</strong> and her teams at the Law and Revenue Departments, and the Office of Legislative Affairs for their work to analyze Bill No. 251026, confirm its constitutionality, and show that it could save the City almost <strong>$10.8 million over five years</strong> compared to the current fix, which provides tax filing support to only 6,000 businesses (while nearly 75,000 need immediate cash flow relief).",
+    "p11": "We thank all supportive City Councilmembers, including <strong>Councilmember Driscoll</strong> for introducing the Bill, <strong>Councilmember Squilla</strong> and <strong>Councilmember Brooks</strong> for their policy expertise and co-sponsorship, <strong>Councilmember Harrity</strong>, <strong>Councilmember Lozada</strong>, <strong>Councilmember O'Neill</strong>, <strong>Councilmember O'Rourke</strong>, <strong>Councilmember Phillips</strong>, and <strong>Councilmember Young</strong> for their co-sponsorship, <strong>Councilmember Gilmore Richardson</strong> for her connections, <strong>Councilmember Thomas</strong> for sounding the alarm early, <strong>Council President Johnson</strong> for access to his research and finance team for their insights, and all of City Council's legislative and technical staffs for working directly with regular Philadelphians to move this legislation forward.",
+    "p12": "<strong>The work has been done in good faith. Now faith must become action.</strong>"
+  },
+  "tax_rate": {
+    "title": "The tax rate isn't fair:",
+    "corp_label": "The corporation pays",
+    "worker_label": "The laid-off worker pays",
+    "conclusion": "That is wrong."
+  },
+  "quote": {
+    "destiny": "Philadelphia must always control its own destiny.",
+    "cream": "Cash Rules Everything Around Us."
+  },
+  "pull_quote": {
+    "title": "Less cash for:",
+    "rent": "Rent (up to 3 months)",
+    "food": "Food",
+    "childcare": "Childcare",
+    "lights": "Keeping the lights on and water flowing"
+  },
+  "our_ask": {
+    "title": "Our Ask",
+    "body": "We respectfully ask City Council and CP Johnson to hold a hearing and bring <strong>Bill No. 251026</strong> to a vote to protect the people who make Philadelphia work."
+  },
+  "form": {
+    "heading": "Add Your Name",
+    "sub": "Sign this petition and stand with Philadelphia's working business owners.",
+    "signing_as_label": "I am signing as *",
+    "type_business_owner": "IndependentBusiness Owner",
+    "type_business_owner_sub": "Directly affected by BIRT",
+    "type_employee": "Employee",
+    "type_employee_sub": "Supporting affected workers",
+    "type_citizen": "Concerned Citizen",
+    "type_citizen_sub": "Standing with my community",
+    "label_name": "Your Name *",
+    "label_business_name": "Business Name (optional)",
+    "optional": "(optional)",
+    "label_email": "Email *",
+    "email_note": "Not shown publicly",
+    "label_zip": "Zip Code *",
+    "zip_note": "Helps us match you with your council representative, not shown publicly",
+    "label_website": "Business Website (optional)",
+    "label_industry": "Industry (optional)",
+    "industry_note": "Type to search industries, or add your own",
+    "label_comment": "Why are you signing? (optional)",
+    "anon_label": "I prefer to sign anonymously",
+    "anon_note": "Your signature will be counted, but your name and personal info won't be shown publicly.",
+    "submit_btn": "Sign the Petition",
+    "placeholder_name": "Jane Smith",
+    "placeholder_business_name": "Jane's Barbershop",
+    "placeholder_email": "jane@example.com",
+    "placeholder_zip": "19103",
+    "placeholder_website": "https://...",
+    "placeholder_industry": "e.g. Hair & Beauty, Construction",
+    "placeholder_comment": "I've run my business here for 20 years..."
+  },
+  "success": {
+    "heading": "You're in. Thank you.",
+    "body": "Your name is going to City Council. Help us bring more Philly workers with you. Every share counts.",
+    "share_text": "I just signed the petition to fix Philadelphia's BIRT tax. 75,000+ independent workers (barbers, photographers, cleaners, freelancers) are being hit with an unfair surprise increase that could push us out of the city we built. City Council needs to hold a hearing. Sign here: liftphilly.org/petition",
+    "copy_text_btn": "Copy post text",
+    "share_linkedin": "Share on LinkedIn",
+    "copy_link_btn": "Copy Link"
+  },
+  "signers": {
+    "heading": "Who's Signed",
+    "loading": "Loading signatures..."
+  },
+  "closing": {
+    "headline": "We Are Philly.",
+    "p1": "Your neighbors. Your customers. Your community.",
+    "p2": "The heart of this city, and we're being taxed out of it.",
+    "p3": "We ask the Administration, City Council, and community partners to come together and pass this reform now. When our individual-owned businesses thrive, Philadelphia thrives.",
+    "p4": "We deserve a fair chance to stay, work, and build here."
+  },
+  "footer": {
+    "tagline": "Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform",
+    "nav": {
+      "home": "Home",
+      "sign_petition": "Sign the Petition",
+      "calculator": "Tax Calculator",
+      "filing_birt": "Filing Your BIRT"
+    },
+    "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
+  },
+  "meta": {
+    "description": "We are the barbers, nail techs, house cleaners, contractors, musicians, journalists, and gig workers who make Philly work. Nearly 75,000 of us are being taxed out of our homes and the city we built."
+  }
+}

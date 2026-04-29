@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Home",
+    "resources_label": "Resources",
+    "menu": {
+      "why_it_happened": "Why It Happened",
+      "filing_your_birt": "Filing Your BIRT",
+      "calculator": "Increase Calculator",
+      "support_the_bill": "Support the Bill",
+      "tell_council": "Tell Council Your Story"
+    },
+    "sign_petition": "Sign the Petition",
+    "translate_label": "Translate",
+    "help_translate": "Help us translate",
+    "toggle_nav": "Toggle navigation"
+  },
+  "hero": {
+    "eyebrow": "Take Action",
+    "title": "Talk to Your Council Member",
+    "subtitle": "Answer a few questions and get a personalized message to send to your Philadelphia City Council member about the LIFT Act.",
+    "embed_title": "Council Advocacy Guide"
+  },
+  "footer": {
+    "tagline": "Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform",
+    "nav": {
+      "home": "Home",
+      "sign_petition": "Sign the Petition",
+      "calculator": "Tax Calculator",
+      "filing_birt": "Filing Your BIRT"
+    },
+    "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
+  }
+}

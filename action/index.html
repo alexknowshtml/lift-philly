@@ -144,20 +144,20 @@
         <div class="container">
             <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
+                <li><a href="/" data-i18n="nav.home">Home</a></li>
                 <li class="nav-dropdown-wrap">
-                    <a href="#" class="nav-dropdown-trigger" onclick="toggleResourcesMenu(event)">Resources <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></a>
+                    <a href="#" class="nav-dropdown-trigger" onclick="toggleResourcesMenu(event)"><span data-i18n="nav.resources_label">Resources</span> <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></a>
                     <ul class="nav-submenu">
-                        <li><a href="/explain">Why It Happened</a></li>
-                        <li><a href="/filing-your-birt.html">Filing Your BIRT</a></li>
-                        <li><a href="/calculator">Increase Calculator</a></li>
-                        <li><a href="/petition">Support the Bill</a></li>
-                        <li><a href="/hearings">Tell Council Your Story</a></li>
+                        <li><a href="/explain" data-i18n="nav.menu.why_it_happened">Why It Happened</a></li>
+                        <li><a href="/filing-your-birt.html" data-i18n="nav.menu.filing_your_birt">Filing Your BIRT</a></li>
+                        <li><a href="/calculator" data-i18n="nav.menu.calculator">Increase Calculator</a></li>
+                        <li><a href="/petition" data-i18n="nav.menu.support_the_bill">Support the Bill</a></li>
+                        <li><a href="/hearings" data-i18n="nav.menu.tell_council">Tell Council Your Story</a></li>
                     </ul>
                 </li>
-                <li><a href="/petition" style="color:var(--gold);font-weight:700;border:1.5px solid var(--gold);border-radius:5px;padding:5px 12px;margin:0 8px;">Sign the Petition</a></li>
+                <li><a href="/petition" data-i18n="nav.sign_petition" style="color:var(--gold);font-weight:700;border:1.5px solid var(--gold);border-radius:5px;padding:5px 12px;margin:0 8px;">Sign the Petition</a></li>
             </ul>
-            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation" data-i18n-attr-aria-label="nav.toggle_nav">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -167,7 +167,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                     </svg>
-                    <span>Translate</span>
+                    <span data-i18n="nav.translate_label">Translate</span>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -191,7 +191,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
-                        Help us translate
+                        <span data-i18n="nav.help_translate">Help us translate</span>
                     </a>
                 </div>
             </div>
@@ -201,9 +201,9 @@
 
 <section class="action-hero">
         <div class="container">
-            <div class="eyebrow">Take Action</div>
-            <h1>Talk to Your Council Member</h1>
-            <p>Answer a few questions and get a personalized message to send to your Philadelphia City Council member about the LIFT Act.</p>
+            <div class="eyebrow" data-i18n="hero.eyebrow">Take Action</div>
+            <h1 data-i18n="hero.title">Talk to Your Council Member</h1>
+            <p data-i18n="hero.subtitle">Answer a few questions and get a personalized message to send to your Philadelphia City Council member about the LIFT Act.</p>
         </div>
     </section>
 
@@ -213,6 +213,7 @@
                 id="action-embed"
                 class="action-embed-frame"
                 src="/action/embed/"
+                data-i18n-attr-title="hero.embed_title"
                 title="Council Advocacy Guide"
                 scrolling="no"
             ></iframe>
@@ -223,14 +224,14 @@
     <footer>
         <div class="container">
             <div class="footer-brand">LIFT <span>Philly</span></div>
-            <p>Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform</p>
+            <p data-i18n="footer.tagline">Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform</p>
             <nav style="margin-top: 20px; margin-bottom: 8px;">
-                <a href="/" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Home</a>
-                <a href="/petition/" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Sign the Petition</a>
-                <a href="/calculator/" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Tax Calculator</a>
-                <a href="/filing-your-birt.html" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Filing Your BIRT</a>
+                <a href="/" data-i18n="footer.nav.home" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Home</a>
+                <a href="/petition/" data-i18n="footer.nav.sign_petition" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Sign the Petition</a>
+                <a href="/calculator/" data-i18n="footer.nav.calculator" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Tax Calculator</a>
+                <a href="/filing-your-birt.html" data-i18n="footer.nav.filing_birt" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Filing Your BIRT</a>
             </nav>
-            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities.</p>
+            <p data-i18n-html="footer.legal" style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities.</p>
         </div>
     </footer>
 

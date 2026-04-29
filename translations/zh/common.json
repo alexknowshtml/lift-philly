@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "brand": "LIFT Philly",
+    "home": "首页",
+    "resources": "[NEEDS_TRANSLATION] Resources",
+    "why_it_happened": "[NEEDS_TRANSLATION] Why It Happened",
+    "filing_birt": "申报BIRT",
+    "calculator": "增税计算器",
+    "support_bill": "[NEEDS_TRANSLATION] Support the Bill",
+    "tell_council": "[NEEDS_TRANSLATION] Tell Council Your Story",
+    "sign_petition": "[NEEDS_TRANSLATION] Sign the Petition",
+    "translate": "翻译",
+    "help_translate": "帮助我们翻译"
+  },
+  "footer": {
+    "brand": "LIFT Philly",
+    "tagline": "劳动者（独立承包商）· 个体企业 · 家庭企业 · 税务改革",
+    "disclaimer": "本资源不构成法律建议，您应咨询您的法律和税务顾问。LIFT类别不包括S型公司和C型公司实体。"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "zh": "中文 (简体)",
+    "vi": "Tiếng Việt",
+    "ko": "한국어",
+    "ru": "Русский",
+    "ar": "العربية",
+    "fr": "Français",
+    "pt": "Português",
+    "hi": "हिन्दी",
+    "tl": "Filipino"
+  }
+}

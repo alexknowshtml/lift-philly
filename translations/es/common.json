@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "menu": {
+      "filing_your_birt": "Declarar tu BIRT",
+      "calculator": "Calculadora de Aumento"
+    },
+    "translate_label": "Traducir",
+    "help_translate": "Ayúdanos a traducir"
+  },
+  "footer": {
+    "tagline": "Trabajo (Contratistas Independientes) · Empresas Individuales · Empresas Familiares · Reforma Tributaria",
+    "legal": "Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp."
+  }
+}

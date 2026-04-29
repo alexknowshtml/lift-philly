@@ -1,31 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia</title>
-    <meta name="description" content="Únete a la coalición que apoya la reforma tributaria para los 75,000 pequeños empresarios de Filadelfia.">
+    <title data-i18n="meta.title">LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia</title>
+    <meta name="description" content="000 individual business owners." data-i18n-attr-content="meta.description">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://liftphilly.org/es/">
+    <meta property="og:url" content="https://liftphilly.org/">
     <meta property="og:site_name" content="LIFT Philly">
-    <meta property="og:locale" content="es">
-    <meta property="og:title" content="LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia">
-    <meta property="og:description" content=""Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados." — Concejal Mike Driscoll. Únete a la coalición por una reforma tributaria efectiva, eficiente y equitativa.">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia" data-i18n-attr-content="meta.og_title">
+    <meta property="og:description" content=" efficient" data-i18n-attr-content="meta.og_description">
     <meta property="og:image" content="https://liftphilly.org/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="LIFT Philly - This could be the difference between those businesses being open or closed">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia">
-    <meta name="twitter:description" content=""Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados." — Concejal Mike Driscoll. Únete a la coalición por una reforma tributaria efectiva, eficiente y equitativa.">
+    <meta name="twitter:url" content="https://liftphilly.org/">
+    <meta name="twitter:title" content="LIFT Philly - Tax Reform for Philadelphia's Individual Businesses">
+    <meta name="twitter:description" content="&quot;This could be the difference between those businesses being open or closed.&quot; — Councilmember Mike Driscoll. Join the coalition for effective, efficient, &amp; equitable tax reform.">
     <meta name="twitter:image" content="https://liftphilly.org/og-image.png">
+    <meta name="twitter:image:alt" content="LIFT Philly - This could be the difference between those businesses being open or closed">
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async="" src="https://plausible.io/js/pa-bEPTzuGWc7ZFrRQnG7Cg6.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <style>
         :root {
             --navy: #0f172a;
@@ -57,146 +67,6 @@
             margin: 0 auto;
             padding: 0 24px;
             overflow-x: hidden;
-        }
-
-        /* Navigation */
-        .nav {
-            background: var(--navy);
-            padding: 16px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            overflow: visible;
-        }
-
-        .nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            overflow: visible;
-        }
-
-        .nav-brand {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--white);
-            text-decoration: none;
-        }
-
-        .nav-brand span {
-            color: var(--gold);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-
-        .nav-links a.active {
-            color: var(--gold);
-        }
-
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .nav-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--white);
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-
-        @media (max-width: 768px) {
-            .nav .container {
-                flex-wrap: wrap;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                right: 16px;
-                left: auto;
-                background: var(--navy-light);
-                flex-direction: column;
-                gap: 0;
-                padding: 12px 0;
-                margin-top: 8px;
-                border: 1px solid rgba(255,255,255,0.15);
-                border-radius: 8px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-                min-width: 200px;
-                z-index: 1000;
-            }
-
-            .nav-links.open {
-                display: flex;
-            }
-
-            .nav-links li {
-                padding: 0;
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 10px 16px;
-                font-size: 0.9rem;
-            }
-
-            .nav-toggle {
-                display: block;
-            }
-
-            .nav-toggle.open span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-
-            .nav-toggle.open span:nth-child(2) {
-                opacity: 0;
-            }
-
-            .nav-toggle.open span:nth-child(3) {
-                transform: rotate(-45deg) translate(5px, -5px);
-            }
-
-            /* Mobile fix for LIFT acronym section - Chinese & Vietnamese have longer text */
-            .lift-acronym {
-                flex-direction: column !important;
-                gap: 16px !important;
-                text-align: center;
-            }
-
-            .lift-acronym > div:first-child {
-                order: 2;
-                font-size: 0.85rem !important;
-            }
-
-            .lift-acronym > span {
-                order: 1;
-                font-size: 4rem !important;
-            }
         }
 
         /* Hero */
@@ -500,44 +370,6 @@
             .timeline-arrow {
                 transform: rotate(90deg);
             }
-
-            section {
-                padding: 60px 0;
-            }
-
-            .hero {
-                min-height: auto;
-                padding: 24px 0 80px 0;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero .subtitle {
-                font-size: 1rem;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 24px;
-            }
-
-            .solution-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .impact-number {
-                font-size: 2.5rem;
-            }
-
-            .impact-card {
-                padding: 24px;
-            }
-
-            .mobile-break {
-                display: block;
-            }
         }
 
         /* Affected section */
@@ -573,6 +405,7 @@
         .signup {
             background: linear-gradient(180deg, var(--cream) 0%, var(--white) 100%);
             text-align: center;
+            scroll-margin-top: 80px;
         }
 
         .signup .section-label {
@@ -724,24 +557,613 @@
             color: rgba(255,255,255,0.6);
             font-size: 0.9rem;
         }
-    </style>
-</head>
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .problem-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-stats {
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 24px 0 80px 0;
+            }
+
+            .hero .badge {
+                line-height: 1.4;
+                text-align: left;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .lift-acronym {
+                flex-direction: column !important;
+                gap: 16px !important;
+            }
+
+            .lift-acronym > div:first-child {
+                font-size: 1.1rem !important;
+            }
+
+            .lift-acronym > span:last-child {
+                font-size: 6rem !important;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .hero-stat {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 8px !important;
+                padding: 12px 12px !important;
+            }
+
+            .hero-stat-number {
+                min-width: auto !important;
+            }
+
+            .hero-stat-label {
+                font-size: 0.8rem !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+
+            .hero-stats {
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quote-footer {
+                flex-direction: column-reverse !important;
+                align-items: flex-start !important;
+                gap: 16px !important;
+            }
+
+            .quote-footer > div {
+                text-align: left !important;
+            }
+
+            .thomas-quote {
+                font-size: 1.1rem !important;
+                padding: 24px !important;
+            }
+
+            .thomas-quote blockquote {
+                font-size: 1.1rem !important;
+            }
+
+            .impact-number {
+                font-size: 2.5rem;
+            }
+
+            .impact-card {
+                padding: 24px;
+            }
+
+            .impact-card h3 {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .impact-range {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 0 !important;
+            }
+
+            .impact-range .impact-number {
+                font-size: 2rem;
+            }
+
+            .impact-bar-container {
+                order: 2;
+                width: auto !important;
+                flex: none !important;
+            }
+
+            .impact-bar {
+                width: 8px !important;
+                height: 60px !important;
+                background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%) !important;
+                margin: 8px 0 !important;
+            }
+
+            .impact-bar > div:first-child {
+                top: 0 !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+
+            .impact-bar > div:last-child {
+                top: auto !important;
+                bottom: 0 !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+
+            .impact-range .impact-number:first-child {
+                order: 1;
+            }
+
+            .impact-range .impact-number:last-child {
+                order: 3;
+            }
+
+            .mobile-break {
+                display: block;
+            }
+        }
+        /* Translate dropdown in nav */
+        .nav-translate {
+            position: relative;
+        }
+
+        .nav-translate-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: rgba(255,255,255,0.9);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-translate-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .nav-translate-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-translate-btn .chevron {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.2s;
+        }
+
+        .nav-translate.open .nav-translate-btn .chevron {
+            transform: rotate(180deg);
+        }
+
+        .nav-translate-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--navy-light);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 12px 0;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .nav-translate.open .nav-translate-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-translate-dropdown .lang-list {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .nav-translate-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .nav-translate-dropdown button:hover {
+            background: rgba(251,191,36,0.15);
+            color: var(--gold);
+        }
+
+        .nav-translate-dropdown .help-divider {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 8px 0;
+        }
+
+        .nav-translate-dropdown .help-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            color: var(--gold);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-translate-dropdown .help-link:hover {
+            opacity: 0.8;
+        }
+
+        .nav-translate-dropdown .help-link svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Hide Google Translate elements */
+        #google_translate_element {
+            display: none !important;
+        }
+
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        body {
+            top: 0 !important;
+        }
+
+        .skiptranslate {
+            display: none !important;
+        }
+
+        .goog-te-spinner-pos {
+            display: none !important;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            overflow: visible;
+        }
+
+        .nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-brand span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav .container {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 16px;
+                left: auto;
+                background: var(--navy-light);
+                flex-direction: column;
+                gap: 0;
+                padding: 12px 0;
+                margin-top: 8px;
+                border: 1px solid rgba(255,255,255,0.15);
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                min-width: 200px;
+                z-index: 1000;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                padding: 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 10px 16px;
+                color: rgba(255,255,255,0.8);
+                font-size: 0.9rem;
+                transition: all 0.15s;
+            }
+
+            .nav-links a:hover,
+            .nav-links a.active {
+                background: rgba(251,191,36,0.15);
+                color: var(--gold);
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-toggle.open span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .nav-toggle {
+                order: 3;
+                margin-left: 8px;
+            }
+
+            .nav-translate {
+                order: 2;
+                margin-left: auto;
+            }
+
+            .nav-translate-btn span {
+                display: none;
+            }
+
+            .nav-translate-btn {
+                padding: 6px 8px;
+            }
+        }
+    
+        /* Resources dropdown */
+        .nav-dropdown-wrap { position: relative; }
+
+        .nav-dropdown-trigger {
+            display: flex !important;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .nav-chevron {
+            width: 11px;
+            height: 11px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .nav-dropdown-wrap.open .nav-chevron { transform: rotate(180deg); }
+
+        .nav-submenu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy-light);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 210px;
+            list-style: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 300;
+        }
+
+        .nav-dropdown-wrap.open .nav-submenu { display: block; }
+
+        .nav-submenu li a {
+            display: block !important;
+            padding: 10px 24px 10px 24px !important;
+            font-size: 0.9rem !important;
+            white-space: nowrap;
+        }
+
+        .nav-dropdown-wrap.active > .nav-dropdown-trigger { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            .nav-submenu {
+                display: block;
+                position: static;
+                transform: none;
+                background: rgba(0,0,0,0.25);
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 4px 0;
+                margin: 0;
+            }
+            .nav-dropdown-wrap.collapsed .nav-submenu { display: none; }
+            .nav-submenu li a {
+                padding: 10px 24px 10px 24px !important;
+                font-size: 0.875rem !important;
+            }
+            .nav-dropdown-trigger { width: 100%; justify-content: space-between; }
+            .nav-dropdown-wrap.collapsed .nav-chevron { transform: rotate(-90deg); }
+            .nav-links > li > a[href="/petition"] { background: var(--gold) !important; color: var(--navy) !important; border: none !important; border-radius: 6px !important; padding: 8px 16px !important; text-align: center !important; margin: 16px 24px 4px !important; display: block !important; }
+        }
+</style>
+
+    <!-- Google Translate (hidden, triggered by custom dropdown) -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'es,zh-CN,vi,ko,ru,ar,fr,pt,hi,tl',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // Custom language selector logic
+        function translatePage(langCode) {
+            // Set the Google Translate cookie
+            var domain = window.location.hostname;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/; domain=' + domain;
+            document.cookie = 'googtrans=/en/' + langCode + '; path=/';
+
+            // Reload to apply translation
+            window.location.reload();
+        }
+
+        function toggleTranslateDropdown() {
+            document.querySelector('.nav-translate').classList.toggle('open');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            var translateDropdown = document.querySelector('.nav-translate');
+            if (translateDropdown && !translateDropdown.contains(e.target)) {
+                translateDropdown.classList.remove('open');
+            }
+        });
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link rel="stylesheet" href="/nav.css">
+<script>window.TRANSLATIONS = {"nav":{"home":"Inicio","menu":{"filing_your_birt":"Declarar tu BIRT","calculator":"Calculadora de Aumento"},"translate_label":"Traducir","help_translate":"Ayúdanos a traducir","brand":"LIFT Philly","filing_birt":"Declarar tu BIRT","calculator":"Calculadora de Aumento","join_coalition":"Únete a la Coalición","translate":"Traducir"},"footer":{"tagline":"Trabajo (Contratistas Independientes) · Empresas Individuales · Empresas Familiares · Reforma Tributaria","legal":"Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp.","brand":"LIFT Philly","disclaimer":"Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp."},"meta":{"title":"LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia","description":"000 individual business owners.","og_title":"LIFT Philly - Reforma Tributaria para las Pequeñas Empresas de Filadelfia","og_description":" efficient"},"hero":{"badge":" Efficient","headline":"Protegiendo el","headline_highlight":"bienestar económico de Filadelfia","subtitle":"000 working families","subtitle_emphasis":"Somos los individuos y organizaciones trabajando juntos para cambiar eso.","lift_acronym":{"l":"Trabajo (Contratistas Independientes)","i":"Empresa Individual","f":"Empresa Familiar","t":"Reforma Tributaria"},"stats":{"stat1_number":"75K","stat1_label":"Negocios con y sin empleados afectados","stat2_number":"85%","stat2_label":"De los negocios de Filadelfia son de un solo dueño","stat3_number":"<1%","stat3_label":" impacts less than 1% of city budget"},"quote":{"text1":"Este problema del BIRT se ha convertido en un punto de presión para los pequeños negocios familiares.","text2":"Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados.","attribution":"— Concejal Mike Driscoll","download_button":"Descargar el Resumen"}},"problem":{"label":"El Problema","title":"El código tributario de Filadelfia no fue diseñado para la fuerza laboral moderna","intro1":" all businesses in Philadelphia are about to be hit with a new—and probably surprise—tax bill.","intro2":" the smallest businesses in Philadelphia had a shield from the regressive Business Income and Receipts Tax","intro3":" their family","intro4":" that shield is gone.","scale_title":"La Magnitud del Problema","scale_text":" most people don't realize the scale of the impact it's about to have on Philadelphians who run an individual business as a way to simply survive.","impact_card":{"condition":"Si en 2025 ganaste $50,000 y eres un:","labels":{"laborer":"Trabajador (Contratista Independiente)","individual":"Empresa Individual","family":"Empresa Familiar"},"result_title":" your Philadelphia tax bill will increase by:","impact_low":"208","impact_high":"746","conclusion":"Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos—y simplemente no pueden pagarlo.","condition_html":"000</span><span class=mobile-break></span> <strong>and you are a:</strong>"},"thomas_quote":{"text1":"No creo que nos demos cuenta de lo catastrófico que esto va a ser, [y] no solo para los pequeños negocios.","text2":"000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will <strong>leave Philadelphia</strong>.,Eliminar la exención de $100,000 mientras simultáneamente no reducimos la porción de ingresos netos del BIRT hará que todos [...] abandonen Filadelfia.,changed","watch_button":"Ver cita completa (1:02:31)","attribution":"Concejal Isaiah Thomas","role":"Concejo Municipal de Filadelfia"},"system_title":" not a rate problem","system_text1":" a 50-person partnership","system_text2":" while corporations do not.","callout":"Estamos sacando a las familias trabajadoras de sus hogares con impuestos.","brooks_quote":{"text":"Vamos a ver muchos negocios que nunca han declarado impuestos antes tratando de averiguar cómo o dónde declarar estos impuestos...Ni siquiera sé cuántos de ellos sabrán que esto está pasando.","attribution":" a former small business owner"}},"solution":{"label":"La Solución","title":"La Ley LIFT","subtitle":" Individual Enterprises &amp; Family Enterprises (Individually owned LLCs).","cards":{"exempt":{"title":"Exento del BIRT","description":"Elimina el BIRT para la clase LIFT completamente."},"npt":{"title":"Mantiene el Impuesto NPT","description":"Esto no es un viaje gratis."},"legal":{"title":"Legalmente Sólido","description":"Cumple con los requisitos de la Cláusula de Uniformidad de la Constitución de Pensilvania. Confirmado por el Departamento Legal de Filadelfia."},"local":{"title":"Mantiene el Dinero Local","description":"Cada dólar retenido por un filadelfiano se convierte en tres dólares en gasto local."}},"parker_quote":{"text1":"No estoy hablando de cambio incremental.","text2":" transformative steps...,Estoy hablando de pasos audaces y transformadores...,changed","attribution":" Inaugural Address"},"timeline":{"label":"Cronograma Actual","step1_text":"Proyecto de ley presentado por el Concejal Driscoll","step1_date":"Nov 25","step2_text":"Audiencia del Comité de Finanzas","step2_date":"Por determinar","step3_text":"Fecha de Vigencia","step3_date":"Inmediatamente"}},"affected":{"label":"A Quiénes Afecta","title":"La Columna Vertebral de la Economía de Filadelfia","subtitle":" the people who power your community.","tags":["Freelancers","Artistas y Creativos","Conductores de Rideshare","Proveedores de Cuidado Infantil en el Hogar","Barberos y Estilistas","Dueños de Food Trucks","Plomeros y Electricistas","Consultores","Terapeutas","Creadores de Redes Sociales","Dueños de Tiendas de Barrio","Cuidadores"]},"signup":{"label":"Toma Acción","title":"Únete a Nuestra Coalición","subtitle":" actions you can take"},"coalition":{"label":"Coalición","title":"Organizaciones Unidas","coming_soon":"Próximamente","coming_soon_subtitle":"Individuos y organizaciones comprometidas próximamente","add_org":"Agrega tu organización →"},"resources":{"label":"Recursos","title":"Aprende Más e Involúcrate","buttons":{"calculator":"Calcula Tu Impacto Tributario","one_pager":"Lee el Resumen de Una Página","testify":"Regístrate para Testificar","share":"Comparte con Tu Comunidad"},"share_modal":{"title":"Comparte con Tu Comunidad","linkedin":"LinkedIn","facebook":"Facebook","twitter":"Compartir en Twitter","copy_link":"Copiar Enlace","copied":"¡Copiado!"},"mays_quote":{"text":"La tragedia de la vida a menudo no está en nuestro fracaso","attribution":"— Dr. Benjamin E. Mays","role":" minister"}},"languages":{"en":"English","es":"Español","zh":"中文 (简体)","vi":"Tiếng Việt","ko":"한국어","ru":"Русский","ar":"العربية","fr":"Français","pt":"Português","hi":"हिन्दी","tl":"Filipino"}};</script></head>
 <body>
     <!-- Navigation -->
     <nav class="nav">
         <div class="container">
-            <a href="/es/" class="nav-brand">LIFT <span>Philly</span></a>
+            <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
             <ul class="nav-links">
-                <li><a href="/es/" class="active">Inicio</a></li>
-                <li><a href="/es/filing-your-birt.html">Declarar tu BIRT</a></li>
-                <li><a href="/calculator">Calculadora de Aumento</a></li>
-                <li><a href="#join">Únete a la Coalición</a></li>
+                <li><a href="/" data-i18n="nav.home">Inicio</a></li>
+                <li class="nav-dropdown-wrap">
+                    <a href="#" class="nav-dropdown-trigger" onclick="toggleResourcesMenu(event)"><span data-i18n="nav.resources_label">Resources</span> <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></a>
+                    <ul class="nav-submenu">
+                        <li><a href="/explain" data-i18n="nav.menu.why_it_happened">Why It Happened</a></li>
+                        <li><a href="/filing-your-birt.html" data-i18n="nav.menu.filing_your_birt">Declarar tu BIRT</a></li>
+                        <li><a href="/calculator" data-i18n="nav.menu.calculator">Calculadora de Aumento</a></li>
+                        <li><a href="/petition" data-i18n="nav.menu.support_the_bill">Support the Bill</a></li>
+                        <li><a href="/hearings" data-i18n="nav.menu.tell_council">Tell Council Your Story</a></li>
+                    </ul>
+                </li>
+                <li><a href="/petition" data-i18n="nav.sign_petition" style="color:var(--gold);font-weight:700;border:1.5px solid var(--gold);border-radius:5px;padding:5px 12px;margin:0 8px;">Sign the Petition</a></li>
             </ul>
             <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
+            <div class="nav-translate">
+                <button class="nav-translate-btn" onclick="toggleTranslateDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                    </svg>
+                    <span data-i18n="nav.translate_label">Traducir</span>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="nav-translate-dropdown">
+                    <div class="lang-list">
+                        <button onclick="translatePage('en')">English</button>
+                        <button onclick="translatePage('es')">Español</button>
+                        <button onclick="translatePage('zh-CN')">中文 (简体)</button>
+                        <button onclick="translatePage('vi')">Tiếng Việt</button>
+                        <button onclick="translatePage('ko')">한국어</button>
+                        <button onclick="translatePage('ru')">Русский</button>
+                        <button onclick="translatePage('ar')">العربية</button>
+                        <button onclick="translatePage('fr')">Français</button>
+                        <button onclick="translatePage('pt')">Português</button>
+                        <button onclick="translatePage('hi')">हिन्दी</button>
+                        <button onclick="translatePage('tl')">Filipino</button>
+                    </div>
+                    <div class="help-divider"></div>
+                    <a href="mailto:hello@liftphilly.org?subject=Help%20Translate%20LIFT%20Philly" class="help-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                        <span data-i18n="nav.help_translate">Ayúdanos a traducir</span>
+                    </a>
+                </div>
+            </div>
+            <div id="google_translate_element"></div>
         </div>
     </nav>
 
@@ -749,51 +1171,102 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="badge">Coalición por una Reforma Tributaria Efectiva, Eficiente y Equitativa</div>
-                <h1>Protegiendo el<br><span>bienestar económico de Filadelfia</span></h1>
-                <p class="subtitle">75,000 familias trabajadoras, trabajadores del oficio, cuidadores, trabajadores de la economía gig y emprendedores creativos enfrentan un aumento masivo de impuestos en 2026 y más allá.</p>
-                <p class="subtitle" style="font-weight: 700;">Somos los individuos y organizaciones trabajando juntos para cambiar eso.</p>
+                <div class="badge" data-i18n="hero.badge"> Efficient</div>
+                <h1 data-i18n-html="hero.headline_html">Protecting Philly's<br><span>economic wellbeing</span></h1>
+                <p class="subtitle" data-i18n="hero.subtitle">000 working families</p>
+                <p class="subtitle" style="font-weight: 700;" data-i18n="hero.subtitle_emphasis">Somos los individuos y organizaciones trabajando juntos para cambiar eso.</p>
 
                 <div class="hero-signup" style="margin-top: 32px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px;">
                     <div class="lift-acronym" style="display: flex; justify-content: center; align-items: center; gap: 32px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15);">
                         <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.5;">
-                            <span><strong style="color: var(--gold);">L</strong>Trabajo (Contratistas Independientes)</span>
-                            <span><strong style="color: var(--gold);">I</strong>Empresa Individual</span>
-                            <span><strong style="color: var(--gold);">F</strong>Empresa Familiar</span>
-                            <span><strong style="color: var(--gold);">T</strong>Reforma Tributaria</span>
+                            <span data-i18n-html="hero.lift_acronym.l">Trabajo (Contratistas Independientes)</span>
+                            <span data-i18n-html="hero.lift_acronym.i">Empresa Individual</span>
+                            <span data-i18n-html="hero.lift_acronym.f">Empresa Familiar</span>
+                            <span data-i18n-html="hero.lift_acronym.t">Reforma Tributaria</span>
                         </div>
                         <span style="font-size: 7rem; font-weight: 800; color: var(--gold); letter-spacing: 0.05em; line-height: 0.85;">LIFT</span>
                     </div>
-                    <script async data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
+                    <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 16px; max-width: 560px; margin-left: auto; margin-right: auto;">
+                        <div>
+                            <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;" data-i18n="hero.cta.take_action">Take Action</p>
+                            <div class="btn-group" style="flex-direction:column;gap:8px;align-items:stretch;margin-top:0;">
+                                <a href="/petition" class="btn btn-primary" style="background:var(--gold);color:var(--navy);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.6;font-weight:400;flex-shrink:0;">1.</span><span data-i18n="hero.cta.sign_petition">Sign the Petition →</span></a>
+                                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;" target="_blank"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">2.</span><span data-i18n="hero.cta.testify">Testify at Council</span></a>
+                                <button class="btn btn-outline" onclick="shareModal.showModal()" style="background:var(--white);color:var(--navy);border-color:var(--white);cursor:pointer;justify-content:flex-start;width:100%;text-align:left;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">3.</span><span data-i18n="hero.cta.share">Share This Page</span></button>
+                                <a href="#join" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">4.</span><span data-i18n="hero.cta.join_coalition">Join the Coalition</span></a>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;" data-i18n="hero.cta.learn_more">Learn More</p>
+                            <div class="btn-group" style="flex-direction:column;gap:8px;align-items:stretch;margin-top:0;">
+                                <a href="/one-sheet.pdf" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);" target="_blank" data-i18n="hero.cta.one_pager">Read the One-Pager</a>
+                                <a href="/calculator/" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);" data-i18n="hero.cta.calculate">Calculate Your Impact</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="hero-stats" style="margin-top: 40px; display: flex; flex-direction: column; gap: 16px; max-width: 580px; margin-left: auto; margin-right: auto;">
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
-                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">75K</div>
-                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Negocios con y sin empleados afectados</div>
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;" data-i18n="hero.stats.stat1_number">75K</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;" data-i18n="hero.stats.stat1_label">Negocios con y sin empleados afectados</div>
                     </div>
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
-                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;">85%</div>
-                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">De los negocios de Filadelfia son de un solo dueño</div>
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;" data-i18n="hero.stats.stat2_number">85%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;" data-i18n="hero.stats.stat2_label">De los negocios de Filadelfia son de un solo dueño</div>
                     </div>
                     <div class="hero-stat" style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px 20px;">
-                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;"><1%</div>
-                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;">Fiscalmente responsable, impacta menos del 1% del presupuesto de la ciudad</div>
+                        <div class="hero-stat-number" style="font-size: 2rem; min-width: 80px;" data-i18n="hero.stats.stat3_number">&lt;1%</div>
+                        <div class="hero-stat-label" style="color: rgba(255,255,255,0.8); font-size: 0.95rem;" data-i18n="hero.stats.stat3_label"> impacts less than 1% of city budget</div>
                     </div>
                 </div>
 
                 <div style="margin-top: 40px; max-width: 480px; margin-left: auto; margin-right: auto; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 24px 28px; border-left: 4px solid var(--gold);">
                     <blockquote style="font-size: 1.1rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
-                        <p style="margin: 0;">"Este problema del BIRT se ha convertido en un punto de presión para los pequeños negocios familiares.</p>
-                        <p style="margin: 8px 0 0 0;">Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados."</p>
+                        <p style="margin: 0;" data-i18n="hero.quote.text1">Este problema del BIRT se ha convertido en un punto de presión para los pequeños negocios familiares.</p>
+                        <p style="margin: 8px 0 0 0;" data-i18n="hero.quote.text2">Esto podría ser la diferencia entre que esos negocios estén abiertos o cerrados.</p>
                     </blockquote>
-                    <cite style="display: block; margin-top: 12px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">— Concejal Mike Driscoll</cite>
+                    <cite style="display: block; margin-top: 12px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;" data-i18n="hero.quote.attribution">— Concejal Mike Driscoll</cite>
                 </div>
 
-                <div style="margin-top: 24px; text-align: center;">
-                    <a href="/es/one-sheet.pdf" class="btn btn-outline" style="background: rgba(255,255,255,0.95); font-size: 0.95rem; padding: 12px 24px;" download>
-                        📄 Descargar el Resumen
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="resources" id="join">
+        <div class="container">
+            <div class="section-label" data-i18n="resources.label">Recursos</div>
+            <h2 class="section-title" data-i18n="resources.title">Aprende Más e Involúcrate</h2>
+            <div style="max-width: 580px; margin: 0 auto;">
+                <script async="" data-uid="9af46470d1" src="https://lift-philly.kit.com/9af46470d1/index.js"></script>
+            </div>
+
+            <dialog id="shareModal" onclick="if(event.target===this)this.close()" style="border: none; border-radius: 16px; padding: 24px; width: calc(100% - 48px); max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); inset: 0; margin: auto;">
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; text-align: center;" data-i18n="resources.share_modal.title">Comparte con Tu Comunidad</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://liftphilly.org&amp;title=LIFT%20Philly%20-%20Tax%20Reform%20for%20Small%20Businesses" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+                        <span data-i18n="resources.share_modal.linkedin">LinkedIn</span>
                     </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://liftphilly.org" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+                        <span data-i18n="resources.share_modal.facebook">Facebook</span>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?text=75,000%20Philly%20small%20businesses%20face%20a%20massive%20tax%20increase%20in%202026.%20The%20LIFT%20Act%20can%20fix%20this.&amp;url=https://liftphilly.org" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--navy); font-weight: 500; white-space: nowrap;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        <span data-i18n="resources.share_modal.twitter">Compartir en Twitter</span>
+                    </a>
+                    <button onclick="navigator.clipboard.writeText('https://liftphilly.org'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Link', 2000)" style="display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 16px; background: var(--navy); color: white; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 1rem;" data-i18n="resources.share_modal.copy_link">Copiar Enlace</button>
                 </div>
+                <button onclick="shareModal.close()" style="position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light);">×</button>
+            </dialog>
+
+            <div style="max-width: 100%; margin: 60px auto 0; text-align: center;">
+                <blockquote style="font-size: 1.15rem; color: var(--text); line-height: 1.7; font-style: italic; margin: 0;" data-i18n="resources.mays_quote.text">La tragedia de la vida a menudo no está en nuestro fracaso</blockquote>
+                <cite style="display: block; margin-top: 16px; font-size: 0.9rem; color: var(--text-light); font-style: normal;">
+                    <span data-i18n="resources.mays_quote.attribution">— Dr. Benjamin E. Mays</span><br>
+                    <span style="font-size: 0.85rem;" data-i18n="resources.mays_quote.role"> minister</span>
+                </cite>
             </div>
         </div>
     </section>
@@ -802,77 +1275,78 @@
     <section class="problem">
         <div class="container">
             <div style="max-width: 660px; margin: 0 auto;">
-                <div class="section-label">El Problema</div>
-                <h2 class="section-title">El código tributario de Filadelfia no fue diseñado para la fuerza laboral moderna</h2>
-                <p class="section-subtitle">A partir de 2026, todos los negocios en Filadelfia van a recibir una nueva—y probablemente sorpresiva—factura de impuestos.</p>
-                <p class="section-subtitle" style="margin-top: 16px;">Durante los últimos 10 años, los negocios más pequeños de Filadelfia tuvieron un escudo contra el regresivo Impuesto sobre Ingresos y Recibos de Negocios, conocido cariñosamente como BIRT.</p>
-                <p class="section-subtitle" style="margin-top: 16px;">Ese escudo les permitió comenzar y crecer en un negocio que pudiera mantenerlos a ellos, a sus familias, a su comunidad y emplear a otros filadelfianos.</p>
-                <p class="section-subtitle" style="margin-top: 16px;"><strong>En 2026, ese escudo desaparece.</strong></p>
+                <div class="section-label" data-i18n="problem.label">El Problema</div>
+                <h2 class="section-title" data-i18n="problem.title">El código tributario de Filadelfia no fue diseñado para la fuerza laboral moderna</h2>
+                <p class="section-subtitle" data-i18n="problem.intro1"> all businesses in Philadelphia are about to be hit with a new—and probably surprise—tax bill.</p>
+                <p class="section-subtitle" style="margin-top: 16px;" data-i18n="problem.intro2"> the smallest businesses in Philadelphia had a shield from the regressive Business Income and Receipts Tax</p>
+                <p class="section-subtitle" style="margin-top: 16px;" data-i18n="problem.intro3"> their family</p>
+                <p class="section-subtitle" style="margin-top: 16px;"><strong data-i18n="problem.intro4"> that shield is gone.</strong></p>
 
-                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">La Magnitud del Problema</h3>
-                <p class="section-subtitle">Aunque esta información es pública, la mayoría de la gente no se da cuenta de la magnitud del impacto que tendrá en los filadelfianos que manejan un pequeño negocio como forma de sobrevivir.</p>
+                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;" data-i18n="problem.scale_title">La Magnitud del Problema</h3>
+                <p class="section-subtitle" data-i18n="problem.scale_text"> most people don't realize the scale of the impact it's about to have on Philadelphians who run an individual business as a way to simply survive.</p>
             </div>
             <div class="problem-grid">
                 <div class="impact-card">
                     <div style="margin-bottom: 24px; text-align: center; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb;">
-                        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4; font-weight: 600;">Si en 2025 ganaste $50,000 y eres un:</p>
+                        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4; font-weight: 600;" data-i18n-html="problem.impact_card.condition_html">000<span class="mobile-break"></span> <strong>and you are a:</strong></p>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
-                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Trabajador (Contratista Independiente)</span>
-                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Empresa Individual</span>
-                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);">Empresa Familiar</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);" data-i18n="problem.impact_card.labels.laborer">Trabajador (Contratista Independiente)</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);" data-i18n="problem.impact_card.labels.individual">Empresa Individual</span>
+                            <span style="background: var(--cream); color: var(--navy); padding: 8px 16px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--navy);" data-i18n="problem.impact_card.labels.family">Empresa Familiar</span>
                         </div>
                     </div>
                     <div style="margin: 24px 0;">
-                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 20px;">En abril de 2026, tu factura de impuestos de Filadelfia aumentará en:</h3>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 20px;" data-i18n="problem.impact_card.result_title"> your Philadelphia tax bill will increase by:</h3>
                         <div class="impact-range" style="display: flex; align-items: center; gap: 16px;">
-                            <div class="impact-number">+$1,208</div>
+                            <div class="impact-number" data-i18n="problem.impact_card.impact_low">208</div>
                             <div class="impact-bar-container" style="flex: 1; display: flex; align-items: center;">
                                 <div class="impact-bar" style="width: 100%; height: 8px; background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%); border-radius: 4px; position: relative;">
                                     <div style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #dc2626; border-radius: 50%; border: 3px solid white;"></div>
                                     <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 16px; height: 16px; background: #991b1b; border-radius: 50%; border: 3px solid white;"></div>
                                 </div>
                             </div>
-                            <div class="impact-number">+$3,746</div>
+                            <div class="impact-number" data-i18n="problem.impact_card.impact_high">746</div>
                         </div>
                     </div>
                     <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                        <p style="font-size: 1.25rem; color: var(--navy);">Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos—y simplemente no pueden pagarlo.</p>
+                        <p style="font-size: 1.25rem; color: var(--navy);" data-i18n-html="problem.impact_card.conclusion">Eso es entre 1 y 3 meses de alquiler para muchos filadelfianos—y simplemente no pueden pagarlo.</p>
                     </div>
                 </div>
 
                 <div class="thomas-quote" style="background: linear-gradient(135deg, var(--navy) 0%, #1a365d 100%); border-radius: 24px; padding: 48px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(15,23,42,0.15); max-width: 900px; margin-left: auto; margin-right: auto;">
                     <div style="position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--gold); border-radius: 3px 0 0 3px;"></div>
                     <blockquote style="font-size: 1.4rem; color: var(--white); line-height: 1.7; font-style: italic; margin: 0; padding-left: 24px; position: relative; z-index: 1;">
-                        <p style="margin-bottom: 20px;">"No creo que nos demos cuenta de lo catastrófico que esto va a ser, [y] no solo para los pequeños negocios.</p>
-                        <p>Eliminar la exención de $100,000 mientras simultáneamente no reducimos la porción de ingresos netos del BIRT hará que todos [...] abandonen Filadelfia."</p>
+                        <p style="margin-bottom: 20px;" data-i18n-html="problem.thomas_quote.text1">No creo que nos demos cuenta de lo catastrófico que esto va a ser, [y] no solo para los pequeños negocios.</p>
+                        <p data-i18n-html="problem.thomas_quote.text2">000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will <strong>leave Philadelphia</strong>.,Eliminar la exención de $100,000 mientras simultáneamente no reducimos la porción de ingresos netos del BIRT hará que todos [...] abandonen Filadelfia.,changed</p>
                     </blockquote>
                     <div class="quote-footer" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; padding-left: 24px; position: relative; z-index: 1;">
                         <a href="https://youtu.be/tRA5j_ha244?t=3751" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: var(--white); padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                            Ver cita completa (1:02:31)
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+                            <span data-i18n="problem.thomas_quote.watch_button">Ver cita completa (1:02:31)</span>
                         </a>
                         <div style="text-align: right;">
-                            <cite style="display: block; font-size: 1.1rem; color: var(--white); font-style: normal; font-weight: 700;">Concejal Isaiah Thomas</cite>
-                            <span style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Concejo Municipal de Filadelfia</span>
+                            <cite style="display: block; font-size: 1.1rem; color: var(--white); font-style: normal; font-weight: 700;" data-i18n="problem.thomas_quote.attribution">Concejal Isaiah Thomas</cite>
+                            <span style="font-size: 0.9rem; color: rgba(255,255,255,0.6);" data-i18n="problem.thomas_quote.role">Concejo Municipal de Filadelfia</span>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div style="max-width: 660px; margin: 0 auto;">
-                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;">Un problema del sistema, no de las tasas</h3>
-                <p class="section-subtitle">El sistema tributario de dos clases de Filadelfia trata igual a todas las corporaciones y no-corporaciones: ya seas un freelancer solo, una sociedad de 50 personas, o una gran corporación como Comcast.</p>
-                <p class="section-subtitle" style="margin-top: 16px;">Esto significa que los dueños de negocios individuales enfrentan doble tributación sobre ingresos ya capturados por el Impuesto de Ganancias Netas, mientras que las corporaciones no.</p>
+                <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-top: 40px; margin-bottom: 16px;" data-i18n="problem.system_title"> not a rate problem</h3>
+                <p class="section-subtitle" data-i18n-html="problem.system_text1"> a 50-person partnership</p>
+                <p class="section-subtitle" style="margin-top: 16px;" data-i18n="problem.system_text2"> while corporations do not.</p>
             </div>
             <div style="padding-top: 48px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <p style="font-size: 1.75rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin: 0; display: inline-block; border-bottom: 4px solid var(--gold); padding-bottom: 8px;">"Estamos sacando a las familias trabajadoras de sus hogares con impuestos."</p>
+                <p style="font-size: 1.75rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin: 0; display: inline-block; border-bottom: 4px solid var(--gold); padding-bottom: 8px;" data-i18n="problem.callout">Estamos sacando a las familias trabajadoras de sus hogares con impuestos.</p>
             </div>
 
             <div style="max-width: 700px; margin: 48px auto 0; background: var(--white); border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-left: 4px solid var(--gold);">
                 <blockquote style="font-size: 1.2rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
-                    <p style="margin: 0;">"Vamos a ver muchos negocios que nunca han declarado impuestos antes tratando de averiguar cómo o dónde declarar estos impuestos...Ni siquiera sé cuántos de ellos sabrán que esto está pasando."</p>
+                    <p style="margin: 0;" data-i18n="problem.brooks_quote.text">Vamos a ver muchos negocios que nunca han declarado impuestos antes tratando de averiguar cómo o dónde declarar estos impuestos...Ni siquiera sé cuántos de ellos sabrán que esto está pasando.</p>
                 </blockquote>
-                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;">— Concejal Kendra Brooks, ex propietaria de pequeño negocio</cite>
+                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600; text-align: right;" data-i18n="problem.brooks_quote.attribution"> a former small business owner</cite>
             </div>
         </div>
     </section>
@@ -880,83 +1354,85 @@
     <!-- Solution -->
     <section class="solution">
         <div class="container">
-            <div class="section-label">La Solución</div>
-            <h2 class="section-title">La Ley LIFT</h2>
-            <p class="section-subtitle"><strong>Arreglar el sistema. Crear una clase tributaria para Trabajadores (Contratistas Independientes), Empresas Individuales y Empresas Familiares (LLCs de propiedad individual).</strong></p>
+            <div class="section-label" data-i18n="solution.label">La Solución</div>
+            <h2 class="section-title" data-i18n="solution.title">La Ley LIFT</h2>
+            <p class="section-subtitle" data-i18n-html="solution.subtitle"> Individual Enterprises &amp; Family Enterprises (Individually owned LLCs).</p>
 
             <div class="solution-grid">
                 <div class="solution-card">
                     <div class="solution-icon">📋</div>
-                    <h4>Exento del BIRT</h4>
-                    <p>Elimina el BIRT para la clase LIFT completamente.</p>
+                    <h4 data-i18n="solution.cards.exempt.title">Exento del BIRT</h4>
+                    <p data-i18n="solution.cards.exempt.description">Elimina el BIRT para la clase LIFT completamente.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-icon">✓</div>
-                    <h4>Mantiene el Impuesto NPT</h4>
-                    <p>Esto no es un viaje gratis.</p>
+                    <h4 data-i18n="solution.cards.npt.title">Mantiene el Impuesto NPT</h4>
+                    <p data-i18n="solution.cards.npt.description">Esto no es un viaje gratis.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-icon">⚖️</div>
-                    <h4>Legalmente Sólido</h4>
-                    <p>Cumple con los requisitos de la Cláusula de Uniformidad de la Constitución de Pensilvania. Confirmado por el Departamento Legal de Filadelfia.</p>
+                    <h4 data-i18n="solution.cards.legal.title">Legalmente Sólido</h4>
+                    <p data-i18n="solution.cards.legal.description">Cumple con los requisitos de la Cláusula de Uniformidad de la Constitución de Pensilvania. Confirmado por el Departamento Legal de Filadelfia.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-icon" title="C.R.E.A.M. Dolla Dolla Bill Y'all">💰</div>
-                    <h4>Mantiene el Dinero Local</h4>
-                    <p>Cada dólar retenido por un filadelfiano se convierte en tres dólares en gasto local.</p>
+                    <h4 data-i18n="solution.cards.local.title">Mantiene el Dinero Local</h4>
+                    <p data-i18n="solution.cards.local.description">Cada dólar retenido por un filadelfiano se convierte en tres dólares en gasto local.</p>
                 </div>
             </div>
 
             <div style="max-width: 700px; margin: 60px auto 0; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; text-align: center;">
                 <blockquote style="font-size: 1.2rem; color: var(--navy); line-height: 1.6; font-style: italic; margin: 0;">
-                    <p style="margin: 0;">"No estoy hablando de cambio incremental.</p>
-                    <p style="margin: 8px 0 0 0;">Estoy hablando de pasos audaces y transformadores..."</p>
+                    <p style="margin: 0;" data-i18n="solution.parker_quote.text1">No estoy hablando de cambio incremental.</p>
+                    <p style="margin: 8px 0 0 0;" data-i18n="solution.parker_quote.text2"> transformative steps...,Estoy hablando de pasos audaces y transformadores...,changed</p>
                 </blockquote>
-                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600;">— Alcaldesa Cherelle Parker, Discurso Inaugural, 2 de enero de 2024</cite>
+                <cite style="display: block; margin-top: 16px; font-size: 0.95rem; color: var(--navy); font-style: normal; font-weight: 600;" data-i18n="solution.parker_quote.attribution"> Inaugural Address</cite>
             </div>
 
+            <!-- Timeline hidden: pending update
             <div style="text-align: center; margin-top: 60px; margin-bottom: 24px;">
-                <span style="display: inline-block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); background: var(--gold); padding: 10px 20px; border-radius: 100px;">Cronograma Actual</span>
+                <span style="display: inline-block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); background: var(--gold); padding: 10px 20px; border-radius: 100px;">Current Timeline</span>
             </div>
             <div class="timeline" style="margin-top: 0;">
                 <div class="timeline-item completed">
-                    <div class="timeline-text">Proyecto de ley presentado por el Concejal Driscoll</div>
+                    <div class="timeline-text">Bill introduced by<br>Councilman Driscoll</div>
                     <div class="timeline-date">Nov 25</div>
                 </div>
                 <div class="timeline-arrow">→</div>
                 <div class="timeline-item pending">
-                    <div class="timeline-text">Audiencia del Comité de Finanzas</div>
-                    <div class="timeline-date">Por determinar</div>
+                    <div class="timeline-text">Finance Committee<br>Hearing</div>
+                    <div class="timeline-date">TBD</div>
                 </div>
                 <div class="timeline-arrow">→</div>
                 <div class="timeline-item pending">
-                    <div class="timeline-text">Fecha de Vigencia</div>
-                    <div class="timeline-date">Inmediatamente</div>
+                    <div class="timeline-text">Effective<br>Date</div>
+                    <div class="timeline-date">Immediately</div>
                 </div>
             </div>
+            -->
         </div>
     </section>
 
     <!-- Who This Affects -->
     <section class="affected">
         <div class="container" style="text-align: center;">
-            <div class="section-label">A Quiénes Afecta</div>
-            <h2 class="section-title">La Columna Vertebral de la Economía de Filadelfia</h2>
-            <p class="section-subtitle" style="margin: 0 auto;">Estos son tus vecinos, las personas que impulsan tu comunidad.</p>
+            <div class="section-label" data-i18n="affected.label">A Quiénes Afecta</div>
+            <h2 class="section-title" data-i18n="affected.title">La Columna Vertebral de la Economía de Filadelfia</h2>
+            <p class="section-subtitle" style="margin: 0 auto;" data-i18n="affected.subtitle"> the people who power your community.</p>
 
             <div class="affected-grid">
-                <span class="affected-tag">Freelancers</span>
-                <span class="affected-tag">Artistas y Creativos</span>
-                <span class="affected-tag">Conductores de Rideshare</span>
-                <span class="affected-tag">Proveedores de Cuidado Infantil en el Hogar</span>
-                <span class="affected-tag">Barberos y Estilistas</span>
-                <span class="affected-tag">Dueños de Food Trucks</span>
-                <span class="affected-tag">Plomeros y Electricistas</span>
-                <span class="affected-tag">Consultores</span>
-                <span class="affected-tag">Terapeutas</span>
-                <span class="affected-tag">Creadores de Redes Sociales</span>
-                <span class="affected-tag">Dueños de Tiendas de Barrio</span>
-                <span class="affected-tag">Cuidadores</span>
+                <span class="affected-tag" data-i18n="affected.tags.0">Freelancers</span>
+                <span class="affected-tag" data-i18n="affected.tags.1">Artistas y Creativos</span>
+                <span class="affected-tag" data-i18n="affected.tags.2">Conductores de Rideshare</span>
+                <span class="affected-tag" data-i18n="affected.tags.3">Proveedores de Cuidado Infantil en el Hogar</span>
+                <span class="affected-tag" data-i18n="affected.tags.4">Barberos y Estilistas</span>
+                <span class="affected-tag" data-i18n="affected.tags.5">Dueños de Food Trucks</span>
+                <span class="affected-tag" data-i18n="affected.tags.6">Plomeros y Electricistas</span>
+                <span class="affected-tag" data-i18n="affected.tags.7">Consultores</span>
+                <span class="affected-tag" data-i18n="affected.tags.8">Terapeutas</span>
+                <span class="affected-tag" data-i18n="affected.tags.9">Creadores de Redes Sociales</span>
+                <span class="affected-tag" data-i18n="affected.tags.10">Dueños de Tiendas de Barrio</span>
+                <span class="affected-tag" data-i18n="affected.tags.11">Cuidadores</span>
             </div>
         </div>
     </section>
@@ -964,80 +1440,54 @@
     <!-- Sign Up -->
     <section class="signup" id="join">
         <div class="container">
-            <div class="section-label">Toma Acción</div>
-            <h2 class="section-title">Únete a Nuestra Coalición</h2>
-            <p class="section-subtitle" style="margin: 0 auto; font-weight: 600;">Recibe actualizaciones sobre nuestros esfuerzos, acciones que puedes tomar, cómo difundir la palabra, y otras formas de asegurar que protejamos el bienestar económico de Filadelfia.</p>
+            <div class="section-label" data-i18n="signup.label">Toma Acción</div>
+            <h2 class="section-title" data-i18n="signup.title">Únete a Nuestra Coalición</h2>
+            <p class="section-subtitle" style="margin: 0 auto; font-weight: 600;" data-i18n="signup.subtitle"> actions you can take</p>
 
             <div class="form-container">
-                <script async data-uid="a1dc029c21" src="https://lift-philly.kit.com/a1dc029c21/index.js"></script>
+                <script async="" data-uid="a1dc029c21" src="https://lift-philly.kit.com/a1dc029c21/index.js"></script>
             </div>
         </div>
     </section>
 
     <!-- Coalition Members -->
-    <section class="coalition">
+    <!-- coalition section hidden temporarily -->
+    <!-- <section class="coalition">
         <div class="container">
             <div style="text-align: center;">
-                <div class="section-label">Coalición</div>
-                <h2 class="section-title">Organizaciones Unidas</h2>
+                <div class="section-label">Coalition</div>
+                <h2 class="section-title">Organizations Standing Together</h2>
             </div>
 
             <div style="display: flex; justify-content: center; margin: 40px 0;">
                 <div class="coalition-card" style="text-align: center;">
-                    <h4>Próximamente</h4>
-                    <p style="color: var(--text); opacity: 0.7; margin-top: 8px;">Individuos y organizaciones comprometidas próximamente</p>
+                    <h4>Coming soon</h4>
+                    <p style="color: var(--text); opacity: 0.7; margin-top: 8px;">Committed individuals & organizations coming soon</p>
                 </div>
             </div>
 
             <div class="coalition-cta">
-                <a href="https://tally.so/r/kd9g8e" target="_blank">Agrega tu organización →</a>
+                <a href="https://tally.so/r/kd9g8e" target="_blank">Add your organization →</a>
             </div>
         </div>
-    </section>
-
-    <!-- Resources -->
-    <section class="resources">
-        <div class="container">
-            <div class="section-label">Recursos</div>
-            <h2 class="section-title">Aprende Más e Involúcrate</h2>
-            <div class="btn-group">
-                <a href="/calculator/" class="btn btn-primary">
-                    Calcula Tu Impacto Tributario
-                </a>
-                <a href="/es/one-sheet.pdf" class="btn btn-outline" target="_blank">
-                    Lee el Resumen de Una Página
-                </a>
-                <a href="https://tally.so/r/kd9g8e" class="btn btn-outline" target="_blank">
-                    Regístrate para Testificar
-                </a>
-            </div>
-
-            <div style="max-width: 100%; margin: 60px auto 0; text-align: center;">
-                <blockquote style="font-size: 1.15rem; color: var(--text); line-height: 1.7; font-style: italic; margin: 0;">
-                    "La tragedia de la vida a menudo no está en nuestro fracaso, sino más bien en nuestra complacencia..."
-                </blockquote>
-                <cite style="display: block; margin-top: 16px; font-size: 0.9rem; color: var(--text-light); font-style: normal;">
-                    — Dr. Benjamin E. Mays<br>
-                    <span style="font-size: 0.85rem;">Reconocido educador, ministro y líder de derechos civiles. Presidente de Morehouse College y mentor de toda la vida del Dr. Martin Luther King Jr.</span>
-                </cite>
-            </div>
-        </div>
-    </section>
+    </section> -->
 
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-brand">LIFT <span>Philly</span></div>
-            <p>Trabajo (Contratistas Independientes) · Empresas Individuales · Empresas Familiares · Reforma Tributaria</p>
-            <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp.</p>
+            <p data-i18n="footer.tagline">Trabajo (Contratistas Independientes) · Empresas Individuales · Empresas Familiares · Reforma Tributaria</p>
+            <nav style="margin-top: 20px; margin-bottom: 8px;">
+                <a href="/" data-i18n="footer.nav.home" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Home</a>
+                <a href="/petition/" data-i18n="footer.nav.sign_petition" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Sign the Petition</a>
+                <a href="/calculator/" data-i18n="footer.nav.calculator" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Tax Calculator</a>
+                <a href="/filing-your-birt.html" data-i18n="footer.nav.filing_birt" style="color: rgba(255,255,255,0.7); text-decoration: none; margin: 0 12px; font-size: 0.9rem;">Filing Your BIRT</a>
+            </nav>
+            <p data-i18n-html="footer.legal" style="font-size: 0.75rem; opacity: 0.7; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">Este recurso no pretende ser asesoramiento legal y debes consultar a tus asesores legales y fiscales. La clase LIFT no incluye entidades S-Corp y C-Corp.</p>
         </div>
     </footer>
 
-    <script>
-        function toggleNav() {
-            document.querySelector('.nav-toggle').classList.toggle('open');
-            document.querySelector('.nav-links').classList.toggle('open');
-        }
-    </script>
-</body>
-</html>
+    <script src="/nav.js"></script>
+
+
+</body></html>

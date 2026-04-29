@@ -1,30 +1,38 @@
 {
   "meta": {
-    "title": "LIFT Philly - Tax Reform for Philadelphia's Small Businesses",
-    "description": "Join the coalition supporting tax reform for Philadelphia's 75,000 small business owners.",
-    "og_title": "LIFT Philly - Tax Reform for Philadelphia's Small Businesses",
+    "title": "LIFT Philly - Tax Reform for Philadelphia's Individual Businesses",
+    "description": "Join the coalition supporting tax reform for Philadelphia's 75,000 individual business owners.",
+    "og_title": "LIFT Philly - Tax Reform for Philadelphia's Individual Businesses",
     "og_description": "\"This could be the difference between those businesses being open or closed.\" — Councilmember Mike Driscoll. Join the coalition for effective, efficient, & equitable tax reform."
   },
   "nav": {
-    "brand": "LIFT Philly",
     "home": "Home",
-    "filing_birt": "Filing Your BIRT",
-    "calculator": "Increase Calculator",
-    "join_coalition": "Join Coalition",
-    "translate": "Translate",
-    "help_translate": "Help us translate"
+    "resources_label": "Resources",
+    "menu": {
+      "why_it_happened": "Why It Happened",
+      "filing_your_birt": "Filing Your BIRT",
+      "calculator": "Increase Calculator",
+      "support_the_bill": "Support the Bill",
+      "tell_council": "Tell Council Your Story"
+    },
+    "sign_petition": "Sign the Petition",
+    "translate_label": "Translate",
+    "help_translate": "Help us translate",
+    "toggle_nav": "Toggle navigation"
   },
   "hero": {
     "badge": "Coalition for Effective, Efficient, & Equitable Tax Reform",
-    "headline": "Protecting Philly's",
-    "headline_highlight": "economic wellbeing",
     "subtitle": "75,000 working families, tradespeople, caregivers, gig workers, and creative entrepreneurs are facing a massive tax increase in 2026 and beyond.",
     "subtitle_emphasis": "We are the individuals and organizations working together to change that.",
-    "lift_acronym": {
-      "l": "Labor (Independent Contractors)",
-      "i": "Individual Enterprise",
-      "f": "Family Enterprise",
-      "t": "Tax Reform"
+    "cta": {
+      "take_action": "Take Action",
+      "sign_petition": "Sign the Petition →",
+      "testify": "Testify at Council",
+      "share": "Share This Page",
+      "join_coalition": "Join the Coalition",
+      "learn_more": "Learn More",
+      "one_pager": "Read the One-Pager",
+      "calculate": "Calculate Your Impact"
     },
     "stats": {
       "stat1_number": "75K",
@@ -35,10 +43,32 @@
       "stat3_label": "Fiscally responsible, impacts less than 1% of city budget"
     },
     "quote": {
-      "text1": "This BIRT problem has become a pressure point with small mom-and-pop businesses.",
-      "text2": "This could be the difference between those businesses being open or closed.",
-      "attribution": "— Councilmember Mike Driscoll",
-      "download_button": "Download the One-Pager"
+      "text1": "\"This BIRT problem has become a pressure point with small mom-and-pop businesses.",
+      "text2": "This could be the difference between those businesses being open or closed.\"",
+      "attribution": "— Councilmember Mike Driscoll"
+    },
+    "headline_html": "Protecting Philly's<br><span>economic wellbeing</span>",
+    "lift_acronym": {
+      "l": "<strong style=\"color: var(--gold);\">L</strong>abor (Independent Contractors)",
+      "i": "<strong style=\"color: var(--gold);\">I</strong>ndividual Enterprise",
+      "f": "<strong style=\"color: var(--gold);\">F</strong>amily Enterprise",
+      "t": "<strong style=\"color: var(--gold);\">T</strong>ax Reform"
+    }
+  },
+  "resources": {
+    "label": "Resources",
+    "title": "Take Action",
+    "share_modal": {
+      "title": "Share with Your Community",
+      "linkedin": "LinkedIn",
+      "facebook": "Facebook",
+      "twitter": "Share on Twitter",
+      "copy_link": "Copy Link"
+    },
+    "mays_quote": {
+      "text": "\"The tragedy of life is often not in our failure, but rather in our complacency...\"",
+      "attribution": "— Dr. Benjamin E. Mays",
+      "role": "Renowned educator, minister, and civil rights leader.President of Morehouse College and lifelong mentor to Dr. Martin Luther King Jr."
     }
   },
   "problem": {
@@ -49,9 +79,8 @@
     "intro3": "That shield allowed them to start and grow into a business that could support themselves, their family, their community, and employ other Philadelphians.",
     "intro4": "In 2026, that shield is gone.",
     "scale_title": "The Scale of the Problem",
-    "scale_text": "While this information is public, most people don't realize the scale of the impact it's about to have on Philadelphians who run a small business as a way to simply survive.",
+    "scale_text": "While this information is public, most people don't realize the scale of the impact it's about to have on Philadelphians who run an individual business as a way to simply survive.",
     "impact_card": {
-      "condition": "If in 2025 you earned $50,000 and you are a:",
       "labels": {
         "laborer": "Laborer (Independent Contractor)",
         "individual": "Individual Enterprise",
@@ -60,28 +89,28 @@
       "result_title": "In April 2026, your Philadelphia tax bill will increase by:",
       "impact_low": "+$1,208",
       "impact_high": "+$3,746",
-      "conclusion": "That's between 1 and 3 months' rent for many Philadelphians—and they simply can't afford it."
+      "condition_html": "<strong>If in</strong><span class=\"mobile-break\"></span> <span style=\"font-size: 1.75rem; font-weight: 800; color: var(--navy);\">2025</span><span class=\"mobile-break\"></span> <strong>you earned</strong><span class=\"mobile-break\"></span> <span style=\"font-size: 1.75rem; font-weight: 800; color: var(--navy);\">$50,000</span><span class=\"mobile-break\"></span> <strong>and you are a:</strong>",
+      "conclusion": "That's <strong>between 1 and 3 months' rent</strong> for many Philadelphians—and they simply can't afford it."
     },
     "thomas_quote": {
-      "text1": "I don't think we realize how catastrophic this is gonna be, [and] not just for small businesses.",
-      "text2": "Us getting rid of the $100,000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will leave Philadelphia.",
       "watch_button": "Watch full quote (1:02:31)",
       "attribution": "Councilman Isaiah Thomas",
-      "role": "Philadelphia City Council"
+      "role": "Philadelphia City Council",
+      "text1": "\"I don't think we realize how <strong>catastrophic</strong> this is gonna be, [and] not just for small businesses.",
+      "text2": "Us getting rid of the $100,000 exemption while simultaneously not reducing the net income portion of BIRT will make it so that everybody [...] will <strong>leave Philadelphia</strong>.\""
     },
     "system_title": "A system problem, not a rate problem",
-    "system_text1": "Philadelphia's two-class tax system treats every corporation and non-corporation the same: whether you're a solo freelancer, a 50-person partnership, or a large corporation like Comcast.",
     "system_text2": "This means individual business owners face double taxation on income already captured by the Net Profits Tax, while corporations do not.",
-    "callout": "We are taxing working families out of their homes.",
+    "callout": "\"We are taxing working families out of their homes.\"",
     "brooks_quote": {
-      "text": "We're going to see many businesses that have never filed taxes before trying to figure out how or where to file these taxes...I don't even know how many of them will know this is happening.",
+      "text": "\"We're going to see many businesses that have never filed taxes before trying to figure out how or where to file these taxes...I don't even know how many of them will know this is happening.\"",
       "attribution": "— Council Member Kendra Brooks, a former small business owner"
-    }
+    },
+    "system_text1": "Philadelphia's two-class tax system treats every corporation <strong>and</strong> non-corporation the same: whether you're a solo freelancer, a 50-person partnership, or a large corporation like Comcast."
   },
   "solution": {
     "label": "The Solution",
     "title": "The LIFT Act",
-    "subtitle": "Fix the system. Create a tax class for Laborers (Independent Contractors), Individual Enterprises & Family Enterprises (Individually owned LLCs).",
     "cards": {
       "exempt": {
         "title": "Exempt from BIRT",
@@ -101,90 +130,44 @@
       }
     },
     "parker_quote": {
-      "text1": "I'm not talking about incremental change.",
-      "text2": "I'm talking about bold, transformative steps...",
+      "text1": "\"I'm not talking about incremental change.",
+      "text2": "I'm talking about bold, transformative steps...\"",
       "attribution": "— Mayor Cherelle Parker, Inaugural Address, January 2, 2024"
     },
-    "timeline": {
-      "label": "Current Timeline",
-      "step1_text": "Bill introduced by Councilman Driscoll",
-      "step1_date": "Nov 25",
-      "step2_text": "Finance Committee Hearing",
-      "step2_date": "TBD",
-      "step3_text": "Effective Date",
-      "step3_date": "Immediately"
-    }
+    "subtitle": "<strong>Fix the system.</strong> Create a tax class for Laborers (Independent Contractors), Individual Enterprises &amp; Family Enterprises (Individually owned LLCs)."
   },
   "affected": {
     "label": "Who This Affects",
     "title": "The Backbone of Philadelphia's Economy",
     "subtitle": "These are your neighbors, the people who power your community.",
-    "tags": [
-      "Freelancers",
-      "Artists & Creatives",
-      "Rideshare Drivers",
-      "Home Daycare Providers",
-      "Barbers & Stylists",
-      "Food Truck Owners",
-      "Plumbers & Electricians",
-      "Consultants",
-      "Therapists",
-      "Social Media Creators",
-      "Corner Store Owners",
-      "Caregivers"
-    ]
+    "tags": {
+      "0": "Freelancers",
+      "1": "Artists & Creatives",
+      "2": "Rideshare Drivers",
+      "3": "Home Daycare Providers",
+      "4": "Barbers & Stylists",
+      "5": "Food Truck Owners",
+      "6": "Plumbers & Electricians",
+      "7": "Consultants",
+      "8": "Therapists",
+      "9": "Social Media Creators",
+      "10": "Corner Store Owners",
+      "11": "Caregivers"
+    }
   },
   "signup": {
     "label": "Take Action",
     "title": "Join Our Coalition",
     "subtitle": "Get updates on our efforts, actions you can take, how to spread the word, and other ways to ensure we protect Philly's economic wellbeing."
   },
-  "coalition": {
-    "label": "Coalition",
-    "title": "Organizations Standing Together",
-    "coming_soon": "Coming soon",
-    "coming_soon_subtitle": "Committed individuals & organizations coming soon",
-    "add_org": "Add your organization →"
-  },
-  "resources": {
-    "label": "Resources",
-    "title": "Learn More & Get Involved",
-    "buttons": {
-      "calculator": "Calculate Your Tax Impact",
-      "one_pager": "Read the One-Pager",
-      "testify": "Sign Up to Testify",
-      "share": "Share with Your Community"
-    },
-    "share_modal": {
-      "title": "Share with Your Community",
-      "linkedin": "LinkedIn",
-      "facebook": "Facebook",
-      "twitter": "Share on Twitter",
-      "copy_link": "Copy Link",
-      "copied": "Copied!"
-    },
-    "mays_quote": {
-      "text": "The tragedy of life is often not in our failure, but rather in our complacency...",
-      "attribution": "— Dr. Benjamin E. Mays",
-      "role": "Renowned educator, minister, and civil rights leader. President of Morehouse College and lifelong mentor to Dr. Martin Luther King Jr."
-    }
-  },
   "footer": {
-    "brand": "LIFT Philly",
     "tagline": "Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform",
-    "disclaimer": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted. The LIFT class does not include S-Corp and C-Corp entities."
-  },
-  "languages": {
-    "en": "English",
-    "es": "Español",
-    "zh": "中文 (简体)",
-    "vi": "Tiếng Việt",
-    "ko": "한국어",
-    "ru": "Русский",
-    "ar": "العربية",
-    "fr": "Français",
-    "pt": "Português",
-    "hi": "हिन्दी",
-    "tl": "Filipino"
+    "nav": {
+      "home": "Home",
+      "sign_petition": "Sign the Petition",
+      "calculator": "Tax Calculator",
+      "filing_birt": "Filing Your BIRT"
+    },
+    "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
   }
 }

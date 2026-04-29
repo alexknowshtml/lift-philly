@@ -1,78 +1,80 @@
 {
-  "meta": {
-    "title": "Filing Your BIRT: Official City Guidance - LIFT Philly",
-    "description": "Official guidance from the Philadelphia Department of Revenue on filing your Business Income and Receipts Tax (BIRT) for 2026."
+  "nav": {
+    "home": "Home",
+    "resources_label": "Resources",
+    "menu": {
+      "why_it_happened": "Why It Happened",
+      "filing_your_birt": "Filing Your BIRT",
+      "calculator": "Increase Calculator",
+      "support_the_bill": "Support the Bill",
+      "tell_council": "Tell Council Your Story"
+    },
+    "sign_petition": "Sign the Petition",
+    "translate_label": "Translate",
+    "help_translate": "Help us translate",
+    "toggle_nav": "Toggle navigation"
   },
   "header": {
-    "title": "Filing Your BIRT:",
-    "title_line2": "Official City Guidance",
     "subtitle": "Essential information for every Philadelphia business owner",
+    "source_tooltip": "From latest official communication on Thursday January 15, 2026",
     "source_badge": "Direct from the Philadelphia Department of Revenue",
-    "source_tooltip": "From latest official communication on Thursday January 15, 2026"
+    "title": "Filing Your BIRT:<br>Official City Guidance"
   },
   "letter": {
+    "from_label": "From",
     "from": "Philadelphia Department of Revenue",
-    "to": "Philadelphia Small Business Owners",
+    "to_label": "To",
+    "to": "Philadelphia Individual Business Owners",
     "date": "January 15, 2026",
     "view_original": "View original email"
   },
   "content": {
-    "intro1": "Tax season 2026 starts soon! This year, many Philly businesses will file a Business Income and Receipt Tax (BIRT) return for the first time, following a big change in City tax policy.",
-    "intro2": "We know the transition won't be easy. It's a good thing we've been preparing for this moment and are ready to help you. Here's what you need to remember this tax season:",
-
     "mandatory_title": "Mandatory Filing Requirement",
-    "mandatory_alert": "If your business is located in Philly and you did business in 2025, you must file a BIRT return by April 15.",
-    "mandatory_p1": "The $100,000 statutory exemption has expired. It's now mandatory to file BIRT returns regardless of sales. Even if you didn't do business in 2025, but still have an active Philly tax account, you need to file a BIRT return. File a BIRT-EZ if all of your sales were in Philadelphia. We no longer have a no tax liability form.",
     "mandatory_p2": "A legal action ended the City's BIRT exemption policy, effective 2025. Before that, Philly businesses with sales under $100,000 didn't need to file the BIRT.",
-
     "estimated_title": "Estimated Payments",
-    "estimated_highlight": "If you didn't have a BIRT filing requirement for tax years 2022, 2023, and 2024, we'll consider you a \"new business\" when you file your first BIRT this year. This means you only have to file and pay for your 2025 activity by April 15 of this year. You don't have to worry about paying estimated taxes until April 2027.",
-    "estimated_p1": "Although taxing agencies like Philadelphia normally require businesses to pay estimated taxes at the time of filing, we're letting you defer those payments until 2027. This relief measure helps ease the transition to filing the BIRT.",
-    "estimated_link_text": "Learn how the City is making the transition to filing the BIRT easier",
-
     "not_changing_title": "What's NOT Changing",
-
     "npt_credit_title": "NPT Credit",
-    "npt_credit_p1": "You will continue to receive a 60% NPT credit on the net income portion of the BIRT if you pay both BIRT and Net Profits Tax (NPT). The credit lowers your NPT bill. If you file online, it shows up automatically on your NPT return. Need more information? Talk to a tax professional who's familiar with Philly tax rules.",
-
     "lcf_title": "Loss Carryforwards (LCF)",
-    "lcf_p1": "You can use net operating losses (NOLs) incurred in one tax year to offset future taxable net income. It lowers your tax bill. Best part? You can deduct business losses incurred in 2022 for up to 20 years. File a full BIRT return online to record a loss you can use to offset future liabilities. The Philadelphia Tax Center stores losses and lets you carry them over automatically. Ask your tax preparer about amending previous returns to record and use net operating losses.",
-
     "reminders_title": "Additional Tax Season Reminders",
-    "reminders": [
-      {
-        "title": "File and pay online.",
-        "text": "The Philadelphia Tax Center has everything you need to securely file and pay taxes. You don't need a username and password to pay taxes on this site, but you will need to create a username and password to file returns. Once logged in, go to your profile, scroll down to the summary subtab, and find your tax accounts. You can also give access to your account to other people in your business or your tax professional. Choose \"File, view, or amend returns\" and follow the prompts. Filing and paying online is more secure and saves you time and money."
-      },
-      {
-        "title": "File and pay by April 15.",
-        "text": "You may get an extension to file, but you must pay all liabilities by April 15. Extra charges will apply to payments made after the deadline."
-      },
-      {
-        "title": "Don't wait on hold.",
-        "text": "Find answers to tax or frequently asked questions at phila.gov/tax-center-guide and phila.gov/revenue. For refund status, filing, or paying taxes, you should visit tax-services.phila.gov. No wait time or appointment needed - these online tools and resources are available 24/7."
-      },
-      {
-        "title": "But if you must call:",
-        "text": "Beginning February 1, we're extending our Call Center hours until 7:30PM. In previous years, wait times after 6PM were significantly shorter."
-      }
-    ],
-
     "contact_title": "Revenue Department Call Center",
     "contact_phone": "(215) 686-6600",
     "contact_hours": "Extended hours until 7:30PM starting February 1",
-
     "free_prep_title": "Get Free Tax Prep for Your Business",
-    "free_prep_highlight": "Are you a Philly business making less than $250,000 in sales? You can file your taxes for FREE!",
-    "free_prep_p1": "Philadelphia is taking many steps to ease the transition to filing the BIRT, including the Philadelphia Free Business Tax Preparation program from the Department of Commerce. Providers are available in several languages other than English. Personalized business help is also available for qualifying businesses.",
-
     "eitc_title": "Let Your Employees Know About EITC and WPTC",
-    "eitc_p1": "Let your employees know they may qualify for the federal Earned Income Tax Credit (EITC) and the new State Working Pennsylvanians Tax Credit (WPTC) when you issue their W-2s and 1099s.",
-    "eitc_p2": "Every Philadelphia employer must share with their workers information about the federal EITC, but we'd appreciate it if you also told them about the state-level credit. Employees who qualify for the federal tax credit can also get the WPTC, which is equal to 10% of the federal EITC. That's extra money in their pockets!"
+    "eitc_p2": "Every Philadelphia employer must share with their workers information about the federal EITC, but we'd appreciate it if you also told them about the state-level credit. Employees who qualify for the federal tax credit can also get the WPTC, which is equal to 10% of the federal EITC. That's extra money in their pockets!",
+    "intro1": "Tax season 2026 starts soon! This year, many Philly businesses will file a <a href=\"https://www.phila.gov/services/payments-assistance-taxes/taxes/business-taxes/business-taxes-by-type/business-income-receipts-tax-birt/\">Business Income and Receipt Tax</a> (BIRT) return for the first time, following a <a href=\"https://www.phila.gov/2025-06-18-philly-extends-deadline-for-relief-program-announces-tax-cuts/\">big change in City tax policy</a>.",
+    "intro2": "We know the transition won't be easy. It's a good thing we've been <a href=\"https://www.phila.gov/2026-01-15-prepare-to-file-tax-returns-for-your-2025-philly-business-activity/\">preparing for this moment</a> and are ready to help you. Here's what you need to remember this tax season:",
+    "mandatory_alert": "<strong>If your business is located in Philly and you did business in 2025, you must file a BIRT return by April 15.</strong>",
+    "mandatory_p1": "The $100,000 statutory exemption has expired. It's now <a href=\"https://www.phila.gov/2025-07-22-key-philadelphia-tax-policy-changes-you-need-to-know-now/\">mandatory to file BIRT returns</a> regardless of sales. Even if you didn't do business in 2025, but still have an active Philly tax account, you need to file a BIRT return. File a BIRT-EZ if all of your sales were in Philadelphia. We no longer have a no tax liability form.",
+    "estimated_highlight": "If you didn't have a BIRT filing requirement for tax years 2022, 2023, and 2024, we'll consider you a <a href=\"https://www.phila.gov/2025-08-12-what-anyone-doing-business-in-philly-needs-to-know-about-estimated-tax-payments/\">\"new business\"</a> when you file your first BIRT this year. This means you only have to file and pay for your 2025 activity by April 15 of this year. <strong>You don't have to worry about paying estimated taxes until April 2027.</strong>",
+    "estimated_p1": "Although taxing agencies like Philadelphia normally require businesses to pay estimated taxes at the time of filing, we're letting you defer those payments until 2027. This relief measure helps ease the transition to filing the BIRT. <a href=\"https://www.phila.gov/2025-08-12-what-anyone-doing-business-in-philly-needs-to-know-about-estimated-tax-payments/\">Learn how the City is making the transition to filing the BIRT easier</a>.",
+    "npt_credit_p1": "You will continue to receive a 60% NPT credit on the net income portion of the BIRT if you pay both BIRT and <a href=\"https://www.phila.gov/services/payments-assistance-taxes/taxes/business-taxes/business-taxes-by-type/net-profits-tax/\">Net Profits Tax</a> (NPT). The credit lowers your NPT bill. If you file online, it shows up automatically on your NPT return. Need more information? Talk to a tax professional who's familiar with Philly tax rules.",
+    "lcf_p1": "You can use net operating losses (NOLs) incurred in one tax year to offset future taxable net income. It lowers your tax bill. Best part? You can deduct business losses incurred in 2022 for up to 20 years. <a href=\"https://tax-services.phila.gov/\">File a full BIRT return online</a> to record a loss you can use to offset future liabilities. The <a href=\"https://tax-services.phila.gov/\">Philadelphia Tax Center</a> stores losses and lets you carry them over automatically. Ask your tax preparer about amending previous returns to record and use net operating losses.",
+    "reminder1": "<strong>File and pay online.</strong> The <a href=\"https://tax-services.phila.gov/\">Philadelphia Tax Center</a> has everything you need to securely file and pay taxes. You don't need a username and password to pay taxes on this site, but you will need to create a username and password to file returns. Once logged in, go to your profile, scroll down to the summary subtab, and find your tax accounts. You can also give access to your account to other people in your business or your tax professional. Choose \"File, view, or amend returns\" and follow the prompts. Filing and paying online is more secure and saves you time and money.",
+    "reminder2": "<strong>File and pay by April 15.</strong> You may get an <a href=\"https://www.phila.gov/services/payments-assistance-taxes/taxes/business-taxes/business-taxes-by-type/business-income-receipts-tax-birt/\">extension to file</a>, but you must pay all liabilities by April 15. Extra charges will apply to payments made after the deadline.",
+    "reminder3": "<strong>Don't wait on hold.</strong> Find answers to tax or frequently asked questions at <a href=\"https://www.phila.gov/services/payments-assistance-taxes/philadelphia-tax-center/\">phila.gov/tax-center-guide</a> and <a href=\"https://www.phila.gov/departments/department-of-revenue/\">phila.gov/revenue</a>. For refund status, filing, or paying taxes, you should visit <a href=\"https://tax-services.phila.gov/\">tax-services.phila.gov</a>. No wait time or appointment needed - these online tools and resources are available 24/7.",
+    "reminder4": "<strong>But if you must call:</strong> Beginning February 1, we're extending our Call Center hours until 7:30PM. In previous years, wait times after 6PM were significantly shorter.",
+    "free_prep_highlight": "<strong>Are you a Philly business making less than $250,000 in sales? You can file your taxes for FREE!</strong>",
+    "free_prep_p1": "Philadelphia is taking many steps to ease the transition to filing the BIRT, including the <a href=\"https://www.phila.gov/2025-12-18-city-launches-the-free-business-tax-preparation-program/\">Philadelphia Free Business Tax Preparation</a> program from the <a href=\"https://www.phila.gov/departments/department-of-commerce/\">Department of Commerce</a>. Providers are available in several languages other than English. <a href=\"https://www.phila.gov/departments/department-of-commerce/for-businesses/one-on-one-business-support/\">Personalized business help is also available for qualifying businesses</a>.",
+    "eitc_p1": "Let your employees know they may qualify for the federal <a href=\"https://www.phila.gov/services/payments-assistance-taxes/taxes/tax-credits/resident-tax-credits/earned-income-tax-credit-eitc-resources/\">Earned Income Tax Credit</a> (EITC) and the new State <a href=\"https://www.pa.gov/governor/newsroom/2025-press-releases/\">Working Pennsylvanians Tax Credit</a> (WPTC) when you issue their W-2s and 1099s."
   },
   "cta": {
     "title": "Support the LIFT Act",
     "subtitle": "Join the coalition working to create fair tax treatment for Philadelphia's smallest businesses.",
-    "button": "Join the Coalition →"
+    "sign_petition": "Sign the Petition →",
+    "join_coalition": "Join the Coalition"
+  },
+  "footer": {
+    "tagline": "Labor (Independent Contractors) · Individual Enterprises · Family Enterprises · Tax Reform",
+    "nav": {
+      "home": "Home",
+      "sign_petition": "Sign the Petition",
+      "calculator": "Tax Calculator",
+      "filing_birt": "Filing Your BIRT"
+    },
+    "legal": "This resource is not intended to be legal advice and your legal and tax advisors should be consulted.<br>The LIFT class does not include S-Corp and C-Corp entities."
+  },
+  "meta": {
+    "description": "Official guidance from the Philadelphia Department of Revenue on filing your Business Income and Receipts Tax (BIRT) for 2026."
   }
 }

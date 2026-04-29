@@ -1,0 +1,42 @@
+{
+  "landing": {
+    "eyebrow": "LIFT Philly — Bill No. 251026",
+    "heading": "Your story can change this vote.",
+    "cta_start": "Tell Your Story →",
+    "cta_resume": "Resume My Story →",
+    "skip": "Just want to sign the petition?",
+    "body": "75,000 Philadelphia self-employed workers are facing a surprise tax increase in 2026. Personal testimony from constituents is what moves Council members to act.<br>Answer a few questions — we'll turn your words into scripts you can use to email, call, or testify."
+  },
+  "nav": {
+    "prev": "← Back",
+    "next": "Next →",
+    "back_story": "← Edit my story",
+    "back_action": "← Change action",
+    "back": "← Back",
+    "restart": "↺ Start over"
+  },
+  "action": {
+    "heading": "How do you want to take action?",
+    "sub": "We'll use your story to generate whichever script you need — in your own words.",
+    "email_title": "Email My Council Member",
+    "email_desc": "Personalized letter to your district rep",
+    "phone_title": "Call Their Office",
+    "phone_desc": "Quick talking guide for a 2-minute call",
+    "testify_title": "Testify at a Hearing",
+    "testify_desc": "2-minute script for City Council",
+    "all_title": "Give Me Everything",
+    "all_desc": "Email, phone script, and testimony — all three"
+  },
+  "support": {
+    "heading": "Sign the Petition",
+    "sub": "Add your name to show Council the scale of support for Bill No. 251026.",
+    "stat_number": "75,000",
+    "stat_label": "Philadelphia small business owners affected",
+    "cta": "Sign the Petition →",
+    "cant_attend": "Can't attend — but want to do more?",
+    "step1": "Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.",
+    "step2": "Call your council member's office. You don't need a script — just say \"I support Bill 251026 and want it brought to a vote.\"",
+    "step3": "Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.",
+    "president_note": "<strong>Council President Kenyatta Johnson</strong> controls what comes to a floor vote.<br>\n      <strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580<br>\n      <em>Even a 2-minute call from a constituent makes a difference.</em>"
+  }
+}

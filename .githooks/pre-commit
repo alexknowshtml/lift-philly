@@ -1,0 +1,24 @@
+#!/bin/sh
+# Auto-extract translations when translatable HTML files are staged.
+# Keeps translations/en/*.json in sync without manual intervention.
+
+WATCHED="index.html filing-your-birt.html one-sheet.html petition/index.html hearings/index.html explain/index.html _includes/nav.html _includes/footer.html"
+
+CHANGED=0
+for page in $WATCHED; do
+  if git diff --cached --name-only | grep -qF "$page"; then
+    CHANGED=1
+    break
+  fi
+done
+
+if [ "$CHANGED" = "1" ]; then
+  echo "i18n: HTML changed — running extract-translations..."
+  node scripts/extract-translations.js
+  if [ $? -ne 0 ]; then
+    echo "ERROR: extract-translations.js failed. Fix errors before committing."
+    exit 1
+  fi
+  git add translations/en/
+  echo "i18n: translations/en/ updated and staged."
+fi
