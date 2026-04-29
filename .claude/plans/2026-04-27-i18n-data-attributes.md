@@ -32,7 +32,7 @@ Page-specific strings: `translations/en/{page}.json`
 - `scripts/extract-translations.js` -- reads annotated HTML, writes `translations/en/{page}.json`
 - `scripts/audit-unannotated.js` -- scans pages for unannotated text; exits 1 if issues found
 - `scripts/export-translations.js` -- generates CSV per page: key | en | es | zh | vi | status
-- `scripts/import-translations.js` -- reads filled CSV, writes back to per-language JSON (TODO)
+- `scripts/import-translations.js` -- reads filled CSV, writes back to per-language JSON (NEXT UP)
 - `scripts/generate-translations-new.js` -- substitutes strings from JSON into English HTML (TODO)
 
 ---
@@ -63,38 +63,45 @@ Audit passes clean (node scripts/audit-unannotated.js exits 0) for all 7 pages.
 Extract runs clean for all 7 pages.
 Export CSVs generated; status correctly marks missing translations as `new`.
 
-### IN PROGRESS -- Phase 3: action page
+### DONE -- Phase 3: action page
 
-#### 3a. `action/index.html` shell -- NEXT UP
-
-3 static strings unannotated in the HTML shell:
-- eyebrow div: "Take Action" -> data-i18n="hero.eyebrow"
-- h1: "Talk to Your Council Member" -> data-i18n="hero.title"
-- p subtitle: "Answer a few questions..." -> data-i18n="hero.subtitle"
-- iframe title: "Council Advocacy Guide" -> data-i18n-attr-title="hero.embed_title"
-
-Also add { source: 'action/index.html', page: 'action' } to PAGES in:
-- scripts/extract-translations.js
-- scripts/audit-unannotated.js
-
-Then run extract to generate translations/en/action.json.
+#### 3a. `action/index.html` shell
+- 21 keys extracted to `translations/en/action.json`
+- Annotated: hero.eyebrow, hero.title, hero.subtitle, hero.embed_title (iframe title attr)
+- audit-unannotated.js and extract-translations.js PAGES arrays updated
 
 #### 3b. `action/embed/index.html` -- JS-driven wizard
+- 32 keys extracted to `translations/en/action-embed.json`
+- Static HTML annotated with data-i18n for all screen headings, buttons, and labels
+- `const T = { ... }` object inserted before `const COUNCIL_MEMBERS`; covers all user-visible strings dynamically injected via JS: landing, nav buttons, interview questions (q[] array), action picker, email template functions, phone script functions, testify (hearings array + beat labels), support screen
+- `INTERVIEW_QS` refactored to pull question/placeholder/hint from `T.interview.q[*]`
+- `renderInterview`: progress => `T.interview.progress(n, total)`, hint => `T.interview.optional_hint`, next/final button text from `T.nav`
+- Runtime language switching: pass `?lang=es` in iframe src at Phase 5; T object is self-contained
+- Zero hardcoded UI strings remain
 
-- 748 lines, multi-step wizard, all strings in JS template literals
-- data-i18n attributes won't work here (content dynamically injected via JS)
-- Approach: externalize strings to a const T = { ... } translation object at top of script
-- JS references T.key instead of hardcoded strings
-- At runtime, load correct T object based on ?lang= query param or window.CURRENT_LANG
-- Estimated keys: ~40-60 strings across step labels, button text, field labels, error messages
+All 9 pages audit clean. Committed and pushed to `i18n-simplify`.
 
-### TODO -- Phase 4: Translator handoff
-- scripts/import-translations.js -- read filled CSV, write back to per-language JSON files
-- Generate export CSVs for all pages (action will be new after 3a completes)
-- Send to translators with instructions
+### IN PROGRESS -- Phase 4: Translator handoff
+
+#### 4a. `scripts/import-translations.js` -- NEXT UP
+- Read translator-filled CSV (key | en | es | zh | vi | status columns)
+- For each non-English language column, write `translations/{lang}/{page}.json`
+- Should mirror the nested key structure written by extract-translations.js
+- Report count of keys written per language
+
+#### 4b. Export CSVs for all 9 pages
+- Run `node scripts/export-translations.js` after import script is done
+- Verify all pages have CSVs in `translations/export/`
+- Pages: common, index, birt, one-sheet, calculator, petition, hearings, explain, action, action-embed
+
+#### 4c. Send to translators
+- Bundle CSVs
+- Send with instructions (fill columns, leave key column untouched)
 
 ### TODO -- Phase 5: Generate translated HTML + merge
-- Run generator for all pages x 3 languages
+- Write/finish `scripts/generate-translations-new.js`
+- Run generator for all pages x 3 languages (es, zh-CN, vi)
+- Pass `?lang={code}` in action/index.html iframe src per language
 - Spot-check each language dir
 - git push origin i18n-simplify
 - Alex reviews on branch, approves merge to main
