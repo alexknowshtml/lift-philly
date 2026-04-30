@@ -160,105 +160,52 @@ img.save(buf, format='PNG')
 print(base64.b64encode(buf.getvalue()).decode())
 ")
 
-# Fetch total signer count (including those without comments)
-TOTAL_SIGNERS=$(curl -s -X POST "$HTTP_URL/v2/pipeline" \
-  -H "Authorization: Bearer $TURSO_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"requests":[{"type":"execute","stmt":{"sql":"SELECT COUNT(*) FROM petition_signers WHERE status='\''approved'\''"}},{"type":"close"}]}' \
-  | python3 -c "
-import sys,json
-d=json.load(sys.stdin)
-r=d['results'][0]
-rows=(r.get('response') or r).get('result',{}).get('rows',[])
-v=rows[0][0]
-print(v['value'] if isinstance(v,dict) else v)
-")
-# Write turso data to file to avoid quoting issues with large JSON
-echo "$TURSO_RESPONSE" > /tmp/lp_turso.json
+# Write QR to temp file
 echo "$QR_B64" > /tmp/lp_qr.b64
 
-# Write footer generator script (reads from temp files, gets counts as args)
+# Write footer generator script
 cat > /tmp/lp_gen_footer.py << 'PYEOF'
-import sys, json, re, html as htmlmod
-from collections import Counter
-
-total_signers = sys.argv[1]
-card_count_arg = sys.argv[2]
-
-EXCLUDED = {124,249,309,374,446,473,514,573,577,608,611,682,684}
-
-with open('/tmp/lp_turso.json') as f:
-    data = json.load(f)
-
 with open('/tmp/lp_qr.b64') as f:
     qr_b64 = f.read().strip()
 
-rows = data['results'][0]['response']['result']['rows']
-
-def cell(row, idx):
-    v = row[idx]
-    if isinstance(v, dict): return v.get('value') or ''
-    return str(v) if v is not None else ''
-
-industries = Counter()
-theme_counts = Counter()
-
-theme_keywords = {
-    'Considering leaving': r'leav|relocat|move out|moving out|exit the city|will not be able to remain',
-    'Long-time business owners': r'\b(5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|25|30|36|42)\s+years',
-    'Family financial impact': r'family|kids|children|spouse|husband|wife|disabled|parent',
-    'Financial strain': r'cannot afford|can.t afford|behind on|scraping|drained|crushing|debilitat|unsustainable|impossible to',
-    'Business closures': r'close|shut down|final nail|coffin|forced.*job|cut.*back',
-}
-
-for row in rows:
-    rid = int(cell(row, 0) or 0)
-    if rid in EXCLUDED: continue
-    comment = cell(row, 4).strip()
-    ind = cell(row, 2).strip()
-    if not comment: continue
-    if ind: industries[ind] += 1
-    cl = comment.lower()
-    for theme, pat in theme_keywords.items():
-        if re.search(pat, cl):
-            theme_counts[theme] += 1
-
-top_industries = [ind for ind, _ in industries.most_common(3)]
-theme_pills = ''.join(
-    f'<span class="theme-pill">{htmlmod.escape(t)} ({c})</span>'
-    for t, c in theme_counts.most_common(5)
-)
-top_ind_pills = ''.join(
-    f'<span class="theme-pill">{htmlmod.escape(i)}</span>'
-    for i in top_industries
-)
-
-print(f"""        <div class="cover-footer">
-            <div style="flex:1;">
-                <div class="cover-stats">
-                    <div class="stat-pill"><span class="stat-num">{total_signers}</span><span class="stat-label">petition signatures</span></div>
-                    <div class="stat-pill"><span class="stat-num">{card_count_arg}</span><span class="stat-label">written testimonies</span></div>
-                    <div class="stat-pill"><span class="stat-num">{theme_counts.get('Considering leaving', 0)}</span><span class="stat-label">considering leaving Philly</span></div>
-                    <div class="stat-pill"><span class="stat-num">{theme_counts.get('Long-time business owners', 0)}</span><span class="stat-label">5+ year business owners</span></div>
-                </div>
-                <div class="cover-themes" style="margin-top:8px;">
-                    <div class="theme-label">Top industries</div>
-                    <div class="theme-pills">{top_ind_pills}</div>
-                </div>
-                <div class="cover-themes" style="margin-top:6px;">
-                    <div class="theme-label">Common themes in testimonies</div>
-                    <div class="theme-pills">{theme_pills}</div>
-                </div>
-            </div>
-            <div class="cover-qr">
-                <img src="data:image/png;base64,{qr_b64}" width="72" height="72" alt="QR code to petition">
-                <div class="qr-label">liftphilly.org/petition</div>
+print(f"""        <style>
+            .cover-footer-box {{
+                margin-top: auto;
+                margin-left: calc(-0.5in);
+                margin-right: calc(-0.5in);
+                width: calc(100% + 1in);
+                border-top: 4px solid #fbbf24;
+                background: #0f172a;
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }}
+            .footer-qr-inner {{
+                background: white;
+                padding: 10px;
+                border-radius: 4px;
+                text-align: center;
+                display: inline-block;
+            }}
+            .footer-qr-label {{
+                font-size: 7pt;
+                color: #0f172a;
+                margin-top: 4px;
+                font-weight: 600;
+                font-family: 'Inter', sans-serif;
+            }}
+        </style>
+        <div class="cover-footer-box">
+            <div class="footer-qr-inner">
+                <img src="data:image/png;base64,{qr_b64}" width="100" height="100" alt="QR to liftphilly.org/petition">
+                <div class="footer-qr-label">liftphilly.org/petition</div>
             </div>
         </div>""")
 PYEOF
 
 # Generate footer HTML → temp file
-python3 /tmp/lp_gen_footer.py "$TOTAL_SIGNERS" "$CARD_COUNT" > /tmp/lp_footer.html
+python3 /tmp/lp_gen_footer.py > /tmp/lp_footer.html
 
 # Assemble final HTML: source template + footer + close cover divs + running header + cards
 cat "$SOURCE_FILE" > /tmp/lp_council_new.html
