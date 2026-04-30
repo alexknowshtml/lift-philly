@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # rebuild-council-pdf.sh
-# Full pipeline: Turso → HTML cards → PDF → DO Spaces + cache purge
+# Full pipeline: Turso → HTML cards → PDF → git push (Netlify deploy)
 # Usage: bash scripts/rebuild-council-pdf.sh
 
 set -e
@@ -9,12 +9,7 @@ LIFT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 HTML_FILE="$LIFT_DIR/petition-comments-council.html"
 SOURCE_FILE="$LIFT_DIR/petition-comments-council-source.html"
 PDF_FILE="$LIFT_DIR/petition-comments-council.pdf"
-BUCKET="indyhall"
-DO_ENDPOINT="https://nyc3.digitaloceanspaces.com"
-FILENAME="lift-philly-petition-comments-council.pdf"
-CDN_ID="4be1bab8-ed7d-4f26-ac87-7901eed6b34b"
-CF_ZONE="8d2c9ee93fd716bfd5594bbf7b665cb7"
-PUBLIC_URL="https://page.jfdi.bot/public/${FILENAME}"
+PUBLIC_URL="https://liftphilly.org/petition-comments-council.pdf"
 
 # IDs excluded for off-message content (spam, profanity, defund tangents, factual errors)
 EXCLUDED_IDS="124,249,309,374,446,473,514,573,577,608,611,682,684"
@@ -24,7 +19,7 @@ echo ""
 
 # ── Step 1: Credentials ──────────────────────────────────────────────────────
 
-echo "[1/7] Fetching credentials..."
+echo "[1/6] Fetching credentials..."
 
 TURSO_URL=$(bun /home/alexhillman/andy/scripts/get-credential.ts lift-philly-turso-url 2>/dev/null \
   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('api_key') or d.get('token') or d.get('value') or list(d.values())[0])")
@@ -32,18 +27,11 @@ TURSO_TOKEN=$(bun /home/alexhillman/andy/scripts/get-credential.ts lift-philly-t
   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('api_key') or d.get('token') or d.get('value') or list(d.values())[0])")
 HTTP_URL="${TURSO_URL/libsql:\/\//https://}"
 
-SPACES_CREDS=$(curl -s http://localhost:2641/proxy/v1/credentials/do-spaces)
-AWS_ACCESS_KEY_ID=$(echo "$SPACES_CREDS" | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['access_key_id'])")
-AWS_SECRET_ACCESS_KEY=$(echo "$SPACES_CREDS" | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['secret_access_key'])")
-
-DO_TOKEN=$(curl -s http://localhost:2641/proxy/v1/credentials/do-api | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['api_key'])")
-CF_TOKEN=$(curl -s http://localhost:2641/proxy/v1/credentials/cloudflare | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['api_key'])")
-
 echo "    OK"
 
 # ── Step 2: Pull from Turso ──────────────────────────────────────────────────
 
-echo "[2/7] Querying petition_signers from Turso..."
+echo "[2/6] Querying petition_signers from Turso..."
 
 TURSO_RESPONSE=$(curl -s -X POST "$HTTP_URL/v2/pipeline" \
   -H "Authorization: Bearer $TURSO_TOKEN" \
@@ -70,7 +58,7 @@ echo "    $ROW_COUNT rows fetched"
 
 # ── Step 3: Build HTML cards ─────────────────────────────────────────────────
 
-echo "[3/7] Building comment cards (excluding IDs: $EXCLUDED_IDS)..."
+echo "[3/6] Building comment cards (excluding IDs: $EXCLUDED_IDS)..."
 
 CARDS_HTML=$(echo "$TURSO_RESPONSE" | python3 -c "
 import sys, json, html
@@ -145,7 +133,7 @@ echo "    $CARD_COUNT cards built, $SKIP_COUNT excluded/blank"
 
 # ── Step 4: Inject cards into HTML ──────────────────────────────────────────
 
-echo "[4/7] Injecting cards into HTML..."
+echo "[4/6] Injecting cards into HTML..."
 
 # Generate QR code as base64
 QR_B64=$(python3 -c "
@@ -253,7 +241,7 @@ echo "    HTML updated ($FINAL_LINE lines)"
 
 # ── Step 5: Generate PDF via Playwright ─────────────────────────────────────
 
-echo "[5/7] Generating PDF via Playwright..."
+echo "[5/6] Generating PDF via Playwright..."
 
 cat > /tmp/lp_gen_pdf.js << 'JSEOF'
 const { chromium } = require('playwright');
@@ -281,44 +269,9 @@ NODE_PATH=/home/alexhillman/lift-philly/node_modules node /tmp/lp_gen_pdf.js "$H
 PDF_SIZE=$(du -sh "$PDF_FILE" | cut -f1)
 echo "    $PDF_FILE ($PDF_SIZE)"
 
-# ── Step 6: Upload to DO Spaces ─────────────────────────────────────────────
+# ── Step 6: Commit and push PDF to repo (triggers Netlify deploy) ────────────
 
-echo "[6/7] Uploading to DO Spaces (indyhall/public/)..."
-
-AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
-AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
-  aws s3 cp "$PDF_FILE" "s3://$BUCKET/public/$FILENAME" \
-  --acl public-read \
-  --content-type "application/pdf" \
-  --endpoint-url="$DO_ENDPOINT" \
-  --quiet
-
-echo "    Uploaded → $PUBLIC_URL"
-
-# ── Step 7: Purge caches ─────────────────────────────────────────────────────
-
-echo "[7/7] Purging caches..."
-
-# DO CDN
-DO_PURGE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
-  "https://api.digitalocean.com/v2/cdn/endpoints/${CDN_ID}/cache" \
-  -H "Authorization: Bearer $DO_TOKEN" \
-  -H "Content-Type: application/json" \
-  --data "{\"files\":[\"public/${FILENAME}\"]}")
-echo "    DO CDN: $DO_PURGE (204 = OK)"
-
-# Cloudflare
-CF_PURGE=$(curl -s -X POST \
-  "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
-  -H "Authorization: Bearer ${CF_TOKEN}" \
-  -H "Content-Type: application/json" \
-  --data "{\"files\":[\"${PUBLIC_URL}\"]}" \
-  | python3 -c "import sys,json; d=json.load(sys.stdin); print('OK' if d.get('success') else d)")
-echo "    Cloudflare: $CF_PURGE"
-
-# ── Step 8: Commit and push PDF to repo (triggers Netlify deploy) ─────────────
-
-echo "[8/8] Committing PDF to repo..."
+echo "[6/6] Committing PDF to repo..."
 
 cd "$LIFT_DIR"
 git add petition-comments-council.pdf petition-comments-council.html
@@ -330,4 +283,3 @@ echo ""
 echo "=== Done ==="
 echo "    $CARD_COUNT comments  |  PDF: $PDF_SIZE"
 echo "    $PUBLIC_URL"
-echo "    https://liftphilly.org/petition-comments-council.pdf"
