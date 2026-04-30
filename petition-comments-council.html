@@ -404,6 +404,8 @@
             <p>Every day, Philadelphians are knocking.</p>
             <p>We respectfully ask City Council to open the door, hear these voices, hold a hearing, and hold a vote.</p>
             <p class="closing-sign">With faith, hope, and love for Philadelphia,</p>
+
+        </div>
         <style>
             /* anchor cover page so footer can be absolutely positioned */
             .cover-page {
@@ -413,26 +415,34 @@
             }
             /* yellow bar sits outside/below the header, flush against it */
             .cover-body {
-                padding-top: 0;
-                padding-bottom: 185px;
-                overflow: hidden;
+                padding-top: 16px;
+                padding-bottom: 0;
+            }
+            @media print {
+                .header-cover {
+                    margin: -0.5in 0 0 -0.5in;
+                    width: calc(100% + 1in);
+                    padding-top: calc(0.5in + 20px);
+                    padding-left: calc(0.5in + 24px);
+                    border-bottom: 4px solid #fbbf24;
+                }
             }
             .gold-divider {
-                height: 4px;
-                margin: 0 0 14px 0;
+                display: none;
             }
             /* bigger body text, tighter paragraph spacing */
             .cover-statement {
                 font-size: 10.5pt;
                 line-height: 1.5;
+                padding-bottom: 24px;
             }
             .cover-statement p {
                 margin-bottom: 5px;
             }
             .cover-footer-box {
-                position: absolute;
-                bottom: 0;
-                left: -0.5in;
+                position: relative;
+                margin-top: auto;
+                margin-left: -0.5in;
                 width: calc(100% + 1in);
                 background: #0f172a;
                 padding: 26px 24px;
@@ -471,7 +481,6 @@
             </div>
         </div>
 
-        </div>
     </div>
 </div>
 
@@ -1565,6 +1574,10 @@ The $100,000 BIRT exemption was a huge boon to people like me and I find it unco
         <div class="comment-card">
             <div class="comment-text">I&#x27;m a new social work therapist and a sole proprietor - with insurance reimbursement being quite low in the state of PA, my salary is already below what a person with a master&#x27;s degree should be earning. An additional tax on an already low salary requires an even greater financial burden on people providing services that are, frankly, essential to our community. Please exempt individual workers, sole proprietors, and solo-LLC owners to be exempt from this highly destructive and counter productive tax. Perhaps consider levying higher taxes on Comcast or Penn instead?</div>
             <div class="comment-attribution">&mdash; Sarah S. &nbsp;&bull;&nbsp; Counseling &amp; Therapy &nbsp;&bull;&nbsp; 19147</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">This effects my community and marginalizes small business owners.</div>
+            <div class="comment-attribution">&mdash; Robert S. &nbsp;&bull;&nbsp; 19144</div>
         </div>
 
 
