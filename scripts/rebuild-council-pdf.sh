@@ -169,14 +169,32 @@ with open('/tmp/lp_qr.b64') as f:
     qr_b64 = f.read().strip()
 
 print(f"""        <style>
+            /* anchor cover page so footer can be absolutely positioned */
+            .cover-page {{
+                position: relative;
+                height: 10in;
+                min-height: unset;
+            }}
+            /* reserve space so text doesn't flow behind the footer */
+            .cover-body {{
+                padding-bottom: 180px;
+                overflow: hidden;
+            }}
+            /* tighten paragraph spacing to reclaim vertical space */
+            .cover-statement p {{
+                margin-bottom: 7px;
+            }}
+            .cover-statement {{
+                line-height: 1.5;
+            }}
             .cover-footer-box {{
-                margin-top: auto;
-                margin-left: calc(-0.5in);
-                margin-right: calc(-0.5in);
+                position: absolute;
+                bottom: 0;
+                left: -0.5in;
                 width: calc(100% + 1in);
                 border-top: 4px solid #fbbf24;
                 background: #0f172a;
-                padding: 20px;
+                padding: 16px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -198,7 +216,7 @@ print(f"""        <style>
         </style>
         <div class="cover-footer-box">
             <div class="footer-qr-inner">
-                <img src="data:image/png;base64,{qr_b64}" width="100" height="100" alt="QR to liftphilly.org/petition">
+                <img src="data:image/png;base64,{qr_b64}" width="90" height="90" alt="QR to liftphilly.org/petition">
                 <div class="footer-qr-label">liftphilly.org/petition</div>
             </div>
         </div>""")
