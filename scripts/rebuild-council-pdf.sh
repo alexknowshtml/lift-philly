@@ -175,17 +175,27 @@ print(f"""        <style>
                 height: 10in;
                 min-height: unset;
             }}
-            /* reserve space so text doesn't flow behind the footer */
+            /* yellow bar at bottom of header, not top of body */
+            .header-cover {{
+                border-bottom: 3px solid #fbbf24;
+            }}
+            .gold-divider {{
+                height: 0;
+                margin: 0;
+            }}
+            /* remove space above body text */
             .cover-body {{
+                padding-top: 12px;
                 padding-bottom: 180px;
                 overflow: hidden;
             }}
-            /* tighten paragraph spacing to reclaim vertical space */
+            /* bigger body text, tighter paragraph spacing */
+            .cover-statement {{
+                font-size: 10.5pt;
+                line-height: 1.5;
+            }}
             .cover-statement p {{
                 margin-bottom: 7px;
-            }}
-            .cover-statement {{
-                line-height: 1.5;
             }}
             .cover-footer-box {{
                 position: absolute;
