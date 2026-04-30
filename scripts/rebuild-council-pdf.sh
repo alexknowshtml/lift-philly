@@ -16,7 +16,7 @@ CF_ZONE="8d2c9ee93fd716bfd5594bbf7b665cb7"
 PUBLIC_URL="https://page.jfdi.bot/public/${FILENAME}"
 
 # IDs excluded for off-message content (spam, profanity, defund tangents, factual errors)
-EXCLUDED_IDS="124,249,309,374,446,473,514,573,577,608,611"
+EXCLUDED_IDS="124,249,309,374,446,473,514,573,577,608,611,682,684"
 
 echo "=== LIFT Philly Council PDF Rebuild ==="
 echo ""
