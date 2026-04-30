@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFT Philly — Constituent Record | Council Submission</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #fbbf24;
+            --gold-dark: #f59e0b;
+            --text: #334155;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: var(--text);
+            background: white;
+        }
+
+        /* ─── COVER PAGE ─────────────────────────────────────── */
+        .cover-page {
+            width: 7.5in;
+            min-height: 10in;
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─── HEADERS ─────────────────────────────────────────── */
+        .header-cover {
+            background: var(--navy);
+            color: white;
+            padding: 20px 24px;
+            margin: -0.5in -0.5in 0 -0.5in;
+            width: calc(100% + 1in);
+        }
+
+        .header-running {
+            background: var(--navy);
+            color: white;
+            padding: 8px 20px;
+            margin: -0.5in -0.5in 16px -0.5in;
+            width: calc(100% + 1in);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28pt;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .logo-small {
+            font-size: 14pt;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .logo-small span {
+            color: var(--gold);
+        }
+
+        .running-right {
+            font-size: 9pt;
+            color: rgba(255,255,255,0.85);
+            font-weight: 500;
+        }
+
+        /* ─── COVER CONTENT ───────────────────────────────────── */
+        .cover-body {
+            padding: 32px 0 24px 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cover-title {
+            font-size: 32pt;
+            font-weight: 800;
+            color: var(--navy);
+            text-align: center;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        .cover-subtitle {
+            font-size: 11pt;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .gold-divider {
+            height: 3px;
+            background: var(--gold);
+            margin: 0 0 20px 0;
+            border-radius: 2px;
+        }
+
+        .cover-intro {
+            font-size: 10pt;
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* ─── CATEGORY GRID ───────────────────────────────────── */
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .cat-box {
+            background: var(--navy);
+            color: white;
+            padding: 12px 14px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .cat-count {
+            font-size: 22pt;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .cat-name {
+            font-size: 8pt;
+            color: rgba(255,255,255,0.88);
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        .cat-box-total {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 12px 14px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .cat-box-total .cat-count {
+            color: var(--navy);
+        }
+
+        .cat-box-total .cat-name {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        /* ─── COVER STATEMENT ────────────────────────────────── */
+        .cover-statement {
+            font-size: 9.5pt;
+            color: var(--text);
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .cover-statement p {
+            margin-bottom: 10px;
+        }
+
+        .knock-lines {
+            margin: 6px 0 10px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-style: italic;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .closing-ask {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .closing-sign {
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        /* ─── COVER FOOTER ────────────────────────────────────── */
+        .cover-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8.5pt;
+            color: var(--text-light);
+        }
+
+        .cover-footer strong {
+            color: var(--navy);
+        }
+
+        /* ─── COVER FOOTER STATS ──────────────────────────────── */
+        .cover-stats {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .stat-pill {
+            background: var(--navy);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .stat-num {
+            display: block;
+            font-size: 14pt;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 7pt;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.3;
+            margin-top: 2px;
+        }
+
+        .cover-themes {
+            flex: 1;
+        }
+
+        .theme-label {
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .theme-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .theme-pill {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: var(--navy);
+            font-size: 7.5pt;
+            font-weight: 600;
+            padding: 3px 7px;
+            border-radius: 20px;
+        }
+
+        .cover-qr {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .qr-label {
+            font-size: 6.5pt;
+            color: var(--text-light);
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+        /* ─── SECTION HEADERS ─────────────────────────────────── */
+        h2 {
+            font-size: 12pt;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 20px 0 10px 0;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--gold);
+            page-break-before: auto;
+            break-after: avoid;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        /* ─── COMMENT CARDS ───────────────────────────────────── */
+        .comment-card {
+            background: #f8fafc;
+            border-left: 3px solid var(--gold);
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .comment-text {
+            font-size: 10pt;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .comment-attribution {
+            font-size: 9pt;
+            font-weight: 700;
+            color: var(--navy);
+            margin-top: 5px;
+        }
+
+        .comment-attribution em {
+            font-weight: 400;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* ─── PRINT ───────────────────────────────────────────── */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .header-cover,
+            .header-running {
+                margin: 0 0 0 0;
+                width: 100%;
+            }
+
+            .cover-page {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     COVER PAGE
+     ═══════════════════════════════════════════════════════════ -->
+<div class="cover-page">
+    <div class="header-cover">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <div class="logo">LIFT <span>Philly</span></div>
+                <div style="font-size: 8pt; color: rgba(255,255,255,0.7); margin-top: 4px;">liftphilly.org</div>
+            </div>
+            <div style="font-size: 22pt; font-weight: 800; color: white; letter-spacing: 0.02em; line-height: 1;">Constituent Record</div>
+        </div>
+    </div>
+
+    <div class="cover-body">
+
+        <div class="gold-divider"></div>
+
+        <div class="cover-statement">
+            <p>We are submitting these testimonies because the people of Philadelphia are knocking at midnight.</p>
+            <p>In his sermon &ldquo;A Knock at Midnight,&rdquo; Dr. Martin Luther King Jr. taught that midnight is not just a time on the clock. Sometimes, it is also a dark and difficult moment in people&rsquo;s lives. It is the hour when people are tired from a hard day&rsquo;s work and still feel guilty that it was not enough. It is the hour when the need for fairness cannot wait, when help comes too slowly, and when Philly&rsquo;s spirit starts to lose hope.</p>
+            <p>Philadelphians are knocking on our door. Now we are coming to knock on yours. You have the spiritual bread they need.</p>
+            <p>These testimonies come from the people who make Philadelphia work: the barbers, nail techs, food truck vendors, daycare providers, home health aides, house cleaners, contractors, artists, gig workers, and small business owners who wake up early, work late, serve their neighbors, support their families, and keep this city moving.</p>
+            <p>Many did not know the elimination of the $100,000 BIRT exemption would hit them this hard. But now the impact is real. Their taxes went up. Their cash flow got tighter. Their ability to survive became harder.</p>
+            <p>Each testimony is a knock at the door. It says:</p>
+            <div class="knock-lines">
+                <span>&ldquo;I am here.&rdquo;</span>
+                <span>&ldquo;I am doing the work.&rdquo;</span>
+                <span>&ldquo;I am doing my best.&rdquo;</span>
+                <span>&ldquo;Please do not close the door on me.&rdquo;</span>
+            </div>
+            <p>They are not knocking because they want special treatment. They are knocking because they are trying to keep their own doors open.</p>
+            <p>Bill 251026 gives City Council a clear chance to answer that knock. It creates relief for working Philadelphians who are now carrying a heavier local tax burden than many larger corporations, helping them stay in business, serve their neighborhoods, and continue contributing to Philadelphia.</p>
+            <p>Mayor Parker&rsquo;s Administration did the work. It prepared the fiscal note, and the Law Department agreed that this bill is constitutional.</p>
+
+            <p>Every day, Philadelphians are knocking.</p>
+            <p>We respectfully ask City Council to open the door, hear these voices, hold a hearing, and hold a vote.</p>
+            <p class="closing-sign">With faith, hope, and love for Philadelphia,</p>

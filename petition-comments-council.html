@@ -225,6 +225,80 @@
             color: var(--navy);
         }
 
+        /* ─── COVER FOOTER STATS ──────────────────────────────── */
+        .cover-stats {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .stat-pill {
+            background: var(--navy);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 5px;
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .stat-num {
+            display: block;
+            font-size: 14pt;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 7pt;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.3;
+            margin-top: 2px;
+        }
+
+        .cover-themes {
+            flex: 1;
+        }
+
+        .theme-label {
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .theme-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .theme-pill {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: var(--navy);
+            font-size: 7.5pt;
+            font-weight: 600;
+            padding: 3px 7px;
+            border-radius: 20px;
+        }
+
+        .cover-qr {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .qr-label {
+            font-size: 6.5pt;
+            color: var(--text-light);
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
         /* ─── SECTION HEADERS ─────────────────────────────────── */
         h2 {
             font-size: 12pt;
@@ -327,7 +401,92 @@
             <p>Bill 251026 gives City Council a clear chance to answer that knock. It creates relief for working Philadelphians who are now carrying a heavier local tax burden than many larger corporations, helping them stay in business, serve their neighborhoods, and continue contributing to Philadelphia.</p>
             <p>Mayor Parker&rsquo;s Administration did the work. It prepared the fiscal note, and the Law Department agreed that this bill is constitutional.</p>
 
+            <p>Every day, Philadelphians are knocking.</p>
+            <p>We respectfully ask City Council to open the door, hear these voices, hold a hearing, and hold a vote.</p>
+            <p class="closing-sign">With faith, hope, and love for Philadelphia,</p>
+        <div class="cover-footer">
+            <div style="flex:1;">
+                <div class="cover-stats">
+                    <div class="stat-pill"><span class="stat-num">600</span><span class="stat-label">petition signatures</span></div>
+                    <div class="stat-pill"><span class="stat-num">264</span><span class="stat-label">written testimonies</span></div>
+                    <div class="stat-pill"><span class="stat-num">28</span><span class="stat-label">considering leaving Philly</span></div>
+                    <div class="stat-pill"><span class="stat-num">38</span><span class="stat-label">5+ year business owners</span></div>
+                </div>
+                <div class="cover-themes" style="margin-top:8px;">
+                    <div class="theme-label">Top industries</div>
+                    <div class="theme-pills"><span class="theme-pill">Mental Health Services</span><span class="theme-pill">Real Estate</span><span class="theme-pill">Counseling &amp; Therapy</span></div>
+                </div>
+                <div class="cover-themes" style="margin-top:6px;">
+                    <div class="theme-label">Common themes in testimonies</div>
+                    <div class="theme-pills"><span class="theme-pill">Long-time business owners (38)</span><span class="theme-pill">Considering leaving (28)</span><span class="theme-pill">Family financial impact (27)</span><span class="theme-pill">Financial strain (22)</span><span class="theme-pill">Business closures (3)</span></div>
+                </div>
+            </div>
+            <div class="cover-qr">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAIAAADeJhTwAAADEklEQVR4nO2dwY3cMAwAc0EKyDM9pP9S0kOe6WDzjICAOBIk7fFi5nveW2MHFC1Skj9er9cXYfD17huQfygDhDJAKAOEMkAoA4QyQHyL/vD9x8/xL/vz+9en3zV1zca9TRF9l5EBQhkglAEizBkn0RiXYWrMzdzDdk7a/h2MDBDKAKEMEKmccZIZ+zJja/R/MmN35vrtecnU73BiZIBQBghlgCjnjLuIckAnr3TmDRsYGSCUAUIZIHA5IzNX2J7r3JVLjAwQygChDBDlnLE9nmZqVtX/U61ZZdj4HYwMEMoAoQwQqZyxsXbopDq3mJqLnGz3PzIYGSCUAUIZID7u2tOXqQtVa1CdcZ/Q2zAyQCgDhDJApPZndJ7fT6b6z9X76ay13djzEWFkgFAGCGWAKNemOr2B6jN+ZuyOrtnIARGdtVsnRgYIZYBQBohUbWqqjpShs+euQzWfbdyPkQFCGSCUAWJ9H3i1r3Dl+qjOd03dw4mRAUIZIJQBYmyekbk++uzU2R6Ze5iqrVXrZhmMDBDKAKEMEGHO2K7VVJ/xr9zTV8V+xhuiDBDKAJHKGRvP5tE1J3etX5qaVznPeDDKAKEMEOV5Robt2tGVPYxODcp+xoNRBghlgLh03dRd4/j2OSLOM94QZYBQBojynr4qU2N0dQ9HZ13WRg6zn/EwlAFCGSBa78/I7Ou+8jyojbVPU1ibehjKAKEMEOUeeMT2+VGZazbqTh3sZzwYZYBQBojW+zOu3B8eUa1Zbe9dtzb1JigDhDJA4M61jaC9c2ljXZmRAUIZIJQBItUDnyLqfxDeXRGx0bePMDJAKAOEMkCsnzc1dUbT1FkjnflN5xprUw9DGSCUAaK1bipiu+e8nWM6c5rOvMTIAKEMEMoA0eqBb1Ad6zvn5k69A2oqjxoZIJQBQhkgEDljqlfReS/TBq61fTDKAKEMEOWcMVV3qq6Frc45ps6G6px/Xs1JRgYIZYBQBojyu12nmNrfV/3slWcg2s94MMoAoQwQt+3PkP8xMkAoA4QyQCgDhDJAKAOEMkD8BeBwK30rQzWfAAAAAElFTkSuQmCC" width="72" height="72" alt="QR code to petition">
+                <div class="qr-label">liftphilly.org/petition</div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="header-running">
+    <div class="logo-small">LIFT <span>Philly</span></div>
+    <div class="running-right">Constituent Testimonies &mdash; Bill 251026</div>
+</div>
+
 <div class="comment-card">
+            <div class="comment-text">I am a sole proprietor and new home owner in Philadelphia. I have been operating as a sole proprietor for the past 5 years. Previously, I owed approximately $20 annually for BIRT. This year, I owed nearly $9,000. That is more than I owed the state of Pennsylvania. This is unsustainable.</div>
+            <div class="comment-attribution">&mdash; Rachele F. &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">My taxes went up more than $7K while corporations get tax breaks.</div>
+            <div class="comment-attribution">&mdash; Joy M. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I run a small business in Philadelphia and actively choose to live and work here because it is my favorite city in the world. I have built my life and business here for 14 years and I am a graduate of Temple University. I am deeply invested in this community.
+
+Being required to pay approximately $12,000 out of pocket for BIRT this year feels overwhelming and honestly shocking. For a small, virtual business without a brick and mortar location and 1 employee, this is an enormous and disproportionate burden. The requirement to prepay future taxes only adds more financial strain and uncertainty.
+
+This does not feel supportive of small businesses. It feels like we are being pushed out.
+
+I do not want to leave Philadelphia, but this tax is forcing me to consider it. I urge the city to reconsider how BIRT is applied to small and virtual business owners so that entrepreneurship can continue to thrive here.</div>
+            <div class="comment-attribution">&mdash; Emily L. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19123</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I am a single member LLC, self employed as a mental health therapist. I work with suicidal teenagers and young adults, especially from marginalized communities. My husband is disabled, so my income is what sustains my family. The BIRT should not be meant for people like me—I am not profiting; I am simply trying to make enough to live, support my husband and support my community. The BIRT has drained our savings this year.</div>
+            <div class="comment-attribution">&mdash; Megan S. &nbsp;&bull;&nbsp; Counseling &amp; Therapy &nbsp;&bull;&nbsp; 19146</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">This year I paid over $5,000 for the BIRT tax. When reviewing this with my financial advisor, he immediately suggested I move out of Philadelphia. I am a sole proprietor just scraping by. I haven&#x27;t gone on a real vacation in years. The BIRT tax will force me to exit the city I&#x27;ve invested in for 25 years if it continues. Is that really how Philly wants to get rich?</div>
+            <div class="comment-attribution">&mdash; Meg L. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19134</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I tried my best to run a one-person therapy business in Philadelphia. It was a struggle for 3 and a half years, but the changes to the business tax structure were the final nail in the coffin, forcing me to cut my business back to the bare minimum and take a full-time job elsewhere to make ends meet. I am all for paying my fair share of taxes. I love Philadelphia and want our city to grow and succeed. But this is not the way--small businesses can&#x27;t survive when business owners at all levels of income are paying 7 to 8 percent of their earnings to the city, between the wage tax, the BIRT, and the NPT. These changes will drive small businesses to close or to move out of Philadelphia.</div>
+            <div class="comment-attribution">&mdash; Blair D. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19129</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">The BIRT tax and the requirement to pay my estimated tax for 2026 up front this year was crushing. I&#x27;m now behind on my other bills because I had to meet this obligation for the city. I didn&#x27;t get a letter about the BIRT update until December of last year, and I had no idea that I would have to pay tax year 2026 up front. The roll-out of this new policy has felt punishing for indie workers.</div>
+            <div class="comment-attribution">&mdash; Alaina J. &nbsp;&bull;&nbsp; Writing &amp; Journalism &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I&#x27;m a solo freelancer in video post-production, I gross way under 100k per year, and I can&#x27;t afford this tax increase. My mind&#x27;s on covering rent and groceries. I was already paying ~30% in taxes, and this new tax is another ~10% of my income (I have to pre-pay for next year?!). This is so, so serious. There&#x27;s no money left to bleed out of us.</div>
+            <div class="comment-attribution">&mdash; Annie H. &nbsp;&bull;&nbsp; post-production &nbsp;&bull;&nbsp; 19146</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">This increase is unfair and unsustainable. It amounts to taking a  whole week&#x27;s gross income out of my pocket.
+ I have worked as a sole proprietor in Philadelphia for over 20 years. I could have stayed completely online after the pandemic, but returned to leasing an office in Center City because I love it, and because I felt it was better for the city for us to come back and to be a part of its cultural and financial life. Now I will have less cash to spend in other small businesses in Philadelphia. The knock on effect of this will be really significant.
+Now I am considering whether it is worth my effort to stay in business in this city.  Please bring bill 251026 to a vote and do the right thing for people.</div>
+            <div class="comment-attribution">&mdash; Laura H. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19130</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">The rapid, forced imposition of these newest taxes is what makes this so unbearable. 1% over 5-6-7years is manageable, predictable, foreseeable. Having a 5.7% tax is debilitating. And for it to be taxed on gross receipts and not net income is honestly asinine and will drive small businesses out of the county. There was no way to prepare, no way to save, no way to see this coming. 
+
+We were uninformed and taken advantage of as small businesses, we don’t individually have much leverage. But we must allcollaborate to create a stop to this - to create a better plan to raise revenue for the city while not robbing small businesses.</div>
+            <div class="comment-attribution">&mdash; Madeleine H. &nbsp;&bull;&nbsp; Landscaping &amp; Lawn Care &nbsp;&bull;&nbsp; 19119</div>
+        </div>
+        <div class="comment-card">
             <div class="comment-text">I am being taxed out of my home and my business will not be able to remain in Philly—I will not be able to do the work of helping the people of Philly who I care so much about—if this tax remains in place.</div>
             <div class="comment-attribution">&mdash; JEANINE S. &nbsp;&bull;&nbsp; Mental Health / Psychotherapy &nbsp;&bull;&nbsp; 19103</div>
         </div>
@@ -439,12 +598,6 @@ I’m facing a difficult decision to leave the city in order to sustainably cont
             <div class="comment-attribution">&mdash; Stephanie N. &nbsp;&bull;&nbsp; Salon &nbsp;&bull;&nbsp; 19107</div>
         </div>
         <div class="comment-card">
-            <div class="comment-text">The rapid, forced imposition of these newest taxes is what makes this so unbearable. 1% over 5-6-7years is manageable, predictable, foreseeable. Having a 5.7% tax is debilitating. And for it to be taxed on gross receipts and not net income is honestly asinine and will drive small businesses out of the county. There was no way to prepare, no way to save, no way to see this coming. 
-
-We were uninformed and taken advantage of as small businesses, we don’t individually have much leverage. But we must allcollaborate to create a stop to this - to create a better plan to raise revenue for the city while not robbing small businesses.</div>
-            <div class="comment-attribution">&mdash; Madeleine H. &nbsp;&bull;&nbsp; Landscaping &amp; Lawn Care &nbsp;&bull;&nbsp; 19119</div>
-        </div>
-        <div class="comment-card">
             <div class="comment-text">I am a solo business owner, already feeling the tax burden of living and working in Philly. But I love it here and it’s always been important to me to invest in and work in the city where I live. This recent BIRT increase was an alarming shock to my system. I already run on pretty thin margins to be able to do the work I do and earn a living. The city and all of us as community members benefit from small businesses staying here in the city - laws like this make it exponentially less possible to do.</div>
             <div class="comment-attribution">&mdash; Erin V. &nbsp;&bull;&nbsp; Counseling &amp; Therapy &nbsp;&bull;&nbsp; 19102</div>
         </div>
@@ -455,10 +608,6 @@ We were uninformed and taken advantage of as small businesses, we don’t indivi
         <div class="comment-card">
             <div class="comment-text">As a small business owner, the new BIRT tax plus the estimated taxes, in addition to the high taxes we already pay are unaffordable and impossible to manage.</div>
             <div class="comment-attribution">&mdash; Kimberly K. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19119</div>
-        </div>
-        <div class="comment-card">
-            <div class="comment-text">This year I paid over $5,000 for the BIRT tax. When reviewing this with my financial advisor, he immediately suggested I move out of Philadelphia. I am a sole proprietor just scraping by. I haven&#x27;t gone on a real vacation in years. The BIRT tax will force me to exit the city I&#x27;ve invested in for 25 years if it continues. Is that really how Philly wants to get rich?</div>
-            <div class="comment-attribution">&mdash; Meg L. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19134</div>
         </div>
         <div class="comment-card">
             <div class="comment-text">My family has been housing providers in the city for over 20 years providing safe and affordable housing.</div>
@@ -509,10 +658,6 @@ We were uninformed and taken advantage of as small businesses, we don’t indivi
             <div class="comment-attribution">&mdash; Jessie A. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19145</div>
         </div>
         <div class="comment-card">
-            <div class="comment-text">I am a single member LLC, self employed as a mental health therapist. I work with suicidal teenagers and young adults, especially from marginalized communities. My husband is disabled, so my income is what sustains my family. The BIRT should not be meant for people like me—I am not profiting; I am simply trying to make enough to live, support my husband and support my community. The BIRT has drained our savings this year.</div>
-            <div class="comment-attribution">&mdash; Megan S. &nbsp;&bull;&nbsp; Counseling &amp; Therapy &nbsp;&bull;&nbsp; 19146</div>
-        </div>
-        <div class="comment-card">
             <div class="comment-text">I literally just started my business this year and this tax will be detrimental</div>
             <div class="comment-attribution">&mdash; Rachael A. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19145</div>
         </div>
@@ -543,12 +688,6 @@ We were uninformed and taken advantage of as small businesses, we don’t indivi
         <div class="comment-card">
             <div class="comment-text">I&#x27;ve run my consulting business in Philadelphia for 7 years. This year my tax accountant said I should move out of Philadelphia because it is too expensive to keep my business going here. I am still not sure how I will be able to pay the 2025 and 2026 BIRT bill, for now I am on a payment plan.</div>
             <div class="comment-attribution">&mdash; Selina M. &nbsp;&bull;&nbsp; Videography &amp; Film &nbsp;&bull;&nbsp; 19139</div>
-        </div>
-        <div class="comment-card">
-            <div class="comment-text">This increase is unfair and unsustainable. It amounts to taking a  whole week&#x27;s gross income out of my pocket.
- I have worked as a sole proprietor in Philadelphia for over 20 years. I could have stayed completely online after the pandemic, but returned to leasing an office in Center City because I love it, and because I felt it was better for the city for us to come back and to be a part of its cultural and financial life. Now I will have less cash to spend in other small businesses in Philadelphia. The knock on effect of this will be really significant.
-Now I am considering whether it is worth my effort to stay in business in this city.  Please bring bill 251026 to a vote and do the right thing for people.</div>
-            <div class="comment-attribution">&mdash; Laura H. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19130</div>
         </div>
         <div class="comment-card">
             <div class="comment-text">I am a small business and this years tax bill (BIRT) really hurt and negatively affected my livlihood..</div>
@@ -639,10 +778,6 @@ Now I am considering whether it is worth my effort to stay in business in this c
             <div class="comment-attribution">&mdash; Tracey o. &nbsp;&bull;&nbsp; 19130</div>
         </div>
         <div class="comment-card">
-            <div class="comment-text">I tried my best to run a one-person therapy business in Philadelphia. It was a struggle for 3 and a half years, but the changes to the business tax structure were the final nail in the coffin, forcing me to cut my business back to the bare minimum and take a full-time job elsewhere to make ends meet. I am all for paying my fair share of taxes. I love Philadelphia and want our city to grow and succeed. But this is not the way--small businesses can&#x27;t survive when business owners at all levels of income are paying 7 to 8 percent of their earnings to the city, between the wage tax, the BIRT, and the NPT. These changes will drive small businesses to close or to move out of Philadelphia.</div>
-            <div class="comment-attribution">&mdash; Blair D. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19129</div>
-        </div>
-        <div class="comment-card">
             <div class="comment-text">I started dog walking/pet sitting a few years ago because the job market was (and still is) bleak and I could apply what skills I did have to freelancing here in the city to survive. My &quot;business&quot; is just me - I do this to put food in me, to make sure I can keep shelter - that I finally have after years of couch surfing (i.e. being homeless) due to a consistently terrible economy for the average working person. My AGI is about $30K and I&#x27;m expected to pay nearly $4K to the city in just BIRT taxes on top of the thousands in other taxes I have to pay? While food &amp; shelter is increasingly expensive and I&#x27;ve cut my food intake due to not being able to afford to feed myself properly?
 
 On top of which, we already have plenty of tax money, it&#x27;s just a *lot* of it is going to PPD, which is unnecessary. Philly, like most cities in the US, have been defunding education over time and increasing policing budgets instead, which does nothing for public safety - investing in community/resources does.</div>
@@ -717,14 +852,6 @@ On top of which, we already have plenty of tax money, it&#x27;s just a *lot* of 
             <div class="comment-attribution">&mdash; Katharine S. &nbsp;&bull;&nbsp; 19125</div>
         </div>
         <div class="comment-card">
-            <div class="comment-text">My taxes went up more than $7K while corporations get tax breaks.</div>
-            <div class="comment-attribution">&mdash; Joy M. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19148</div>
-        </div>
-        <div class="comment-card">
-            <div class="comment-text">I am a sole proprietor and new home owner in Philadelphia. I have been operating as a sole proprietor for the past 5 years. Previously, I owed approximately $20 annually for BIRT. This year, I owed nearly $9,000. That is more than I owed the state of Pennsylvania. This is unsustainable.</div>
-            <div class="comment-attribution">&mdash; Rachele F. &nbsp;&bull;&nbsp; 19148</div>
-        </div>
-        <div class="comment-card">
             <div class="comment-text">Less taxes on small business</div>
             <div class="comment-attribution">&mdash; Daniel K. &nbsp;&bull;&nbsp; Music &amp; Performance &nbsp;&bull;&nbsp; 19144</div>
         </div>
@@ -751,10 +878,6 @@ On top of which, we already have plenty of tax money, it&#x27;s just a *lot* of 
         <div class="comment-card">
             <div class="comment-text">I&#x27;m lucky enough to have a W2 paycheck right now, but I&#x27;m 50 years old and have worked most of my career on 1099s. This is not just about small business owners or tradespeople with contracting businesses. Lots of people who earn money as 1099 workers are scraping by on gigs; lots of them have a regular job where their company pays them on a 1099 basis (whether it&#x27;s legal or not). I never owned a business, but I&#x27;ve been a freelancer for most of my life. The way this city taxes regular working people is absolutely terrible, and it got worse last year. The old $100k exemption was a small step toward fairness, but it wasn&#x27;t enough.  I understand that the legalities of this are tricky. This bill is not enough either, but it seems like a good start.</div>
             <div class="comment-attribution">&mdash; David S. &nbsp;&bull;&nbsp; 19145</div>
-        </div>
-        <div class="comment-card">
-            <div class="comment-text">The BIRT tax and the requirement to pay my estimated tax for 2026 up front this year was crushing. I&#x27;m now behind on my other bills because I had to meet this obligation for the city. I didn&#x27;t get a letter about the BIRT update until December of last year, and I had no idea that I would have to pay tax year 2026 up front. The roll-out of this new policy has felt punishing for indie workers.</div>
-            <div class="comment-attribution">&mdash; Alaina J. &nbsp;&bull;&nbsp; Writing &amp; Journalism &nbsp;&bull;&nbsp; 19148</div>
         </div>
         <div class="comment-card">
             <div class="comment-text">Small businesses need are a vital part of the city and will be even more important to the city&#x27;s future than before with the rise of AI. We need to relieve the pain, not add to it.</div>
@@ -847,20 +970,6 @@ I don’t want to see families struggling to afford basic necessities like housi
         <div class="comment-card">
             <div class="comment-text">I am a gig worker and opened a business 2.5years ago. I am in the growing stages of getting a business off the ground. I also have a child in dayare and I was not anticipating this high of tax payments to be made and this surprise increase has made it that i am unable to pay my credit card bills. Those credit card bills carry a hefty fine for being late. I applied for the free tax prep offered through the city only to have an accountant that was very disorganized and I felt that I would be paying more in the end if I continued to use their services and decided to hire an accountant on my own and discontinued the free service the city offered that was not helpful.</div>
             <div class="comment-attribution">&mdash; patricia d. &nbsp;&bull;&nbsp; 19121</div>
-        </div>
-        <div class="comment-card">
-            <div class="comment-text">I&#x27;m a solo freelancer in video post-production, I gross way under 100k per year, and I can&#x27;t afford this tax increase. My mind&#x27;s on covering rent and groceries. I was already paying ~30% in taxes, and this new tax is another ~10% of my income (I have to pre-pay for next year?!). This is so, so serious. There&#x27;s no money left to bleed out of us.</div>
-            <div class="comment-attribution">&mdash; Annie H. &nbsp;&bull;&nbsp; post-production &nbsp;&bull;&nbsp; 19146</div>
-        </div>
-        <div class="comment-card">
-            <div class="comment-text">I run a small business in Philadelphia and actively choose to live and work here because it is my favorite city in the world. I have built my life and business here for 14 years and I am a graduate of Temple University. I am deeply invested in this community.
-
-Being required to pay approximately $12,000 out of pocket for BIRT this year feels overwhelming and honestly shocking. For a small, virtual business without a brick and mortar location and 1 employee, this is an enormous and disproportionate burden. The requirement to prepay future taxes only adds more financial strain and uncertainty.
-
-This does not feel supportive of small businesses. It feels like we are being pushed out.
-
-I do not want to leave Philadelphia, but this tax is forcing me to consider it. I urge the city to reconsider how BIRT is applied to small and virtual business owners so that entrepreneurship can continue to thrive here.</div>
-            <div class="comment-attribution">&mdash; Emily L. &nbsp;&bull;&nbsp; Mental Health Services &nbsp;&bull;&nbsp; 19123</div>
         </div>
         <div class="comment-card">
             <div class="comment-text">11 years</div>
@@ -1327,6 +1436,93 @@ I am asking City Council and Council President Johnson to hold a hearing and bri
             <div class="comment-text">Supporting the folks making their own livelihoods.</div>
             <div class="comment-attribution">&mdash; Vanessa G. &nbsp;&bull;&nbsp; Software as a service &nbsp;&bull;&nbsp; 19147</div>
         </div>
+        <div class="comment-card">
+            <div class="comment-text">Real estate agent for 7 years</div>
+            <div class="comment-attribution">&mdash; Amy C. &nbsp;&bull;&nbsp; 19118</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I grew up in Philly, I’ve had a business since 2021 and never thought of having it anywhere else. Losing the exemption caused me to have to pay nearly 250% more than I have before and it’s got me thinking of leaving home forever. Do the right thing, City Hall.</div>
+            <div class="comment-attribution">&mdash; Kyle C. &nbsp;&bull;&nbsp; Videography &amp; Film &nbsp;&bull;&nbsp; 19121</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">It’s too much for a small business owner.</div>
+            <div class="comment-attribution">&mdash; Terrie L. &nbsp;&bull;&nbsp; Wellness &nbsp;&bull;&nbsp; 19122</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">Another small business by BIRT tax!</div>
+            <div class="comment-attribution">&mdash; Jessica W. &nbsp;&bull;&nbsp; Pet Care &amp; Dog Walking &nbsp;&bull;&nbsp; 19143</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I owed an extra thousand dollars on my taxes this year even though I made less money than I did the previous year.</div>
+            <div class="comment-attribution">&mdash; Jessica G. &nbsp;&bull;&nbsp; Theater &amp; Performing Arts &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">Because a lot of small biz folks are barely making money as-is. TAX THE RICH</div>
+            <div class="comment-attribution">&mdash; Lindsay H. &nbsp;&bull;&nbsp; Real Estate &nbsp;&bull;&nbsp; 19143</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">This tax makes it impossible to live as an independent business owner in this city.</div>
+            <div class="comment-attribution">&mdash; Jamie D. &nbsp;&bull;&nbsp; Visual Arts &amp; Muralism &nbsp;&bull;&nbsp; 19145</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I am planning to buy into a franchise, and I want to be in the city limits…. But this may change that decision.</div>
+            <div class="comment-attribution">&mdash; Troy R. &nbsp;&bull;&nbsp; 19119</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I’ve run my business for the last four years, providing a great experience for folks wanting to play dodgeball. I’m already competing against giants that run multiple sports, and my profit margins are very small. This will definitely impact me.</div>
+            <div class="comment-attribution">&mdash; Samantha s. &nbsp;&bull;&nbsp; Sports &nbsp;&bull;&nbsp; 19128</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">Counselors provide essential health care to populations in need. A vast majority of mental health providers are underpaid, overworked, and beholden to varying reimbursement rates from insurance organization. To destabilize a counselor&#x27;s source of income by increasing their taxes will destabilize mental health services to Philly&#x27;s most sensitive groups which will undoubtedly have systemic impacts for our city. Please reconsider reinstating the tax exemption for these essential workers.</div>
+            <div class="comment-attribution">&mdash; Nicole P. &nbsp;&bull;&nbsp; Counseling &amp; Therapy &nbsp;&bull;&nbsp; 19063</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">We can’t have strong community without independent businesses - and this tax is a death knoll.</div>
+            <div class="comment-attribution">&mdash; Adrienne O. &nbsp;&bull;&nbsp; 19144</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I&#x27;ve been in business for 15 years, it&#x27;s just me, doing my best to serve my clients and support my family. Things are hard enough for small businesses right now, we are not where the city should be looking for more tax income.</div>
+            <div class="comment-attribution">&mdash; Rachel U. &nbsp;&bull;&nbsp; 19146</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">Small businesses are the backbone of our city. We cannot burden them like this when there are MUCH BIGGER FISH we could fry.</div>
+            <div class="comment-attribution">&mdash; Walt Z. &nbsp;&bull;&nbsp; 19123</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I would like the opportunity to own a small business someday and any pressure off the people who work to create an economy not run of corporate monopolies is important.</div>
+            <div class="comment-attribution">&mdash; Gretel S. &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">My business income fluctuates significantly every year. In fact, I expect to earn less than half in 2026 what I earned in 2025. Having to not only pay this tax but to pay an estimated amount a year out is making me wonder why I&#x27;m even self-employed.</div>
+            <div class="comment-attribution">&mdash; Jillian I. &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I run my business and can not afford to pay even more taxes.</div>
+            <div class="comment-attribution">&mdash; Sean R. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I&#x27;m a small business owner and the financial impact of this tax is a struggle. We already pay enough!</div>
+            <div class="comment-attribution">&mdash; Jenna S. &nbsp;&bull;&nbsp; Personal Training &amp; Fitness &nbsp;&bull;&nbsp; 19146</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I’m a freelancer and am opening an official business soon. Taxes are already an incredible burden every year, let alone every quarter for businesses and this is targeting the wrong individuals/businesses that need support, not penalties.</div>
+            <div class="comment-attribution">&mdash; Kaitlin W. &nbsp;&bull;&nbsp; 1099 / Freelance (Other) &nbsp;&bull;&nbsp; 19147</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I am a freelance comic book artist/illustrator and a sole proprietor living in the city. The removal of the $100,000 BIRT exemption for the 2025 tax year caught me and even my CPA a bit by surprise. I was thankfully able to pay it from some of the savings I have in my business account. But it was definitely a hit to my finances I wasn&#x27;t anticipating. I owed ~$1,800 that I&#x27;d otherwise be spending on new equipment, or possibly even groceries and other bills if work and payments get a little infrequent as I&#x27;m not always paid every month.
+
+The $100,000 BIRT exemption was a huge boon to people like me and I find it unconscionable that myself and my fellow artists and sole proprietors/single-member LLC&#x27;s who are often in precarious financial situations are being forced to pay even more in taxes when we&#x27;re already being squeezed to our limit. This needs to be remedied in a way that restores the $100,000 exemption or something similar.</div>
+            <div class="comment-attribution">&mdash; Jason P. &nbsp;&bull;&nbsp; Graphic Design &amp; Visual Art &nbsp;&bull;&nbsp; 19147</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">We do not support the taxation</div>
+            <div class="comment-attribution">&mdash; Lauren S. &nbsp;&bull;&nbsp; medical &nbsp;&bull;&nbsp; 19148</div>
+        </div>
+        <div class="comment-card">
+            <div class="comment-text">I&#x27;m a new social work therapist and a sole proprietor - with insurance reimbursement being quite low in the state of PA, my salary is already below what a person with a master&#x27;s degree should be earning. An additional tax on an already low salary requires an even greater financial burden on people providing services that are, frankly, essential to our community. Please exempt individual workers, sole proprietors, and solo-LLC owners to be exempt from this highly destructive and counter productive tax. Perhaps consider levying higher taxes on Comcast or Penn instead?</div>
+            <div class="comment-attribution">&mdash; Sarah S. &nbsp;&bull;&nbsp; Counseling &amp; Therapy &nbsp;&bull;&nbsp; 19147</div>
+        </div>
+
 
 </body>
 </html>
