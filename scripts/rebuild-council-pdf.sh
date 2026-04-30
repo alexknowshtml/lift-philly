@@ -175,19 +175,15 @@ print(f"""        <style>
                 height: 10in;
                 min-height: unset;
             }}
-            /* yellow bar at bottom of header, not top of body */
-            .header-cover {{
-                border-bottom: 3px solid #fbbf24;
+            /* yellow bar sits outside/below the header, flush against it */
+            .cover-body {{
+                padding-top: 0;
+                padding-bottom: 185px;
+                overflow: hidden;
             }}
             .gold-divider {{
-                height: 0;
-                margin: 0;
-            }}
-            /* remove space above body text */
-            .cover-body {{
-                padding-top: 12px;
-                padding-bottom: 180px;
-                overflow: hidden;
+                height: 4px;
+                margin: 0 0 14px 0;
             }}
             /* bigger body text, tighter paragraph spacing */
             .cover-statement {{
@@ -195,20 +191,27 @@ print(f"""        <style>
                 line-height: 1.5;
             }}
             .cover-statement p {{
-                margin-bottom: 7px;
+                margin-bottom: 5px;
             }}
             .cover-footer-box {{
                 position: absolute;
                 bottom: 0;
                 left: -0.5in;
                 width: calc(100% + 1in);
-                border-top: 4px solid #fbbf24;
                 background: #0f172a;
-                padding: 16px;
+                padding: 26px 24px;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-                padding-right: 24px;
+            }}
+            .cover-footer-box::before {{
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: #fbbf24;
             }}
             .footer-qr-inner {{
                 background: white;
@@ -313,7 +316,18 @@ CF_PURGE=$(curl -s -X POST \
   | python3 -c "import sys,json; d=json.load(sys.stdin); print('OK' if d.get('success') else d)")
 echo "    Cloudflare: $CF_PURGE"
 
+# ── Step 8: Commit and push PDF to repo (triggers Netlify deploy) ─────────────
+
+echo "[8/8] Committing PDF to repo..."
+
+cd "$LIFT_DIR"
+git add petition-comments-council.pdf petition-comments-council.html
+git diff --cached --quiet || git commit -m "Rebuild council PDF ($(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')): $CARD_COUNT comments"
+git push origin main
+echo "    Pushed → liftphilly.org/petition-comments-council.pdf"
+
 echo ""
 echo "=== Done ==="
 echo "    $CARD_COUNT comments  |  PDF: $PDF_SIZE"
 echo "    $PUBLIC_URL"
+echo "    https://liftphilly.org/petition-comments-council.pdf"

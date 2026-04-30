@@ -404,26 +404,70 @@
             <p>Every day, Philadelphians are knocking.</p>
             <p>We respectfully ask City Council to open the door, hear these voices, hold a hearing, and hold a vote.</p>
             <p class="closing-sign">With faith, hope, and love for Philadelphia,</p>
-        <div class="cover-footer">
-            <div style="flex:1;">
-                <div class="cover-stats">
-                    <div class="stat-pill"><span class="stat-num">600</span><span class="stat-label">petition signatures</span></div>
-                    <div class="stat-pill"><span class="stat-num">264</span><span class="stat-label">written testimonies</span></div>
-                    <div class="stat-pill"><span class="stat-num">28</span><span class="stat-label">considering leaving Philly</span></div>
-                    <div class="stat-pill"><span class="stat-num">38</span><span class="stat-label">5+ year business owners</span></div>
-                </div>
-                <div class="cover-themes" style="margin-top:8px;">
-                    <div class="theme-label">Top industries</div>
-                    <div class="theme-pills"><span class="theme-pill">Mental Health Services</span><span class="theme-pill">Real Estate</span><span class="theme-pill">Counseling &amp; Therapy</span></div>
-                </div>
-                <div class="cover-themes" style="margin-top:6px;">
-                    <div class="theme-label">Common themes in testimonies</div>
-                    <div class="theme-pills"><span class="theme-pill">Long-time business owners (38)</span><span class="theme-pill">Considering leaving (28)</span><span class="theme-pill">Family financial impact (27)</span><span class="theme-pill">Financial strain (22)</span><span class="theme-pill">Business closures (3)</span></div>
-                </div>
-            </div>
-            <div class="cover-qr">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAIAAADeJhTwAAADEklEQVR4nO2dwY3cMAwAc0EKyDM9pP9S0kOe6WDzjICAOBIk7fFi5nveW2MHFC1Skj9er9cXYfD17huQfygDhDJAKAOEMkAoA4QyQHyL/vD9x8/xL/vz+9en3zV1zca9TRF9l5EBQhkglAEizBkn0RiXYWrMzdzDdk7a/h2MDBDKAKEMEKmccZIZ+zJja/R/MmN35vrtecnU73BiZIBQBghlgCjnjLuIckAnr3TmDRsYGSCUAUIZIHA5IzNX2J7r3JVLjAwQygChDBDlnLE9nmZqVtX/U61ZZdj4HYwMEMoAoQwQqZyxsXbopDq3mJqLnGz3PzIYGSCUAUIZID7u2tOXqQtVa1CdcZ/Q2zAyQCgDhDJApPZndJ7fT6b6z9X76ay13djzEWFkgFAGCGWAKNemOr2B6jN+ZuyOrtnIARGdtVsnRgYIZYBQBohUbWqqjpShs+euQzWfbdyPkQFCGSCUAWJ9H3i1r3Dl+qjOd03dw4mRAUIZIJQBYmyekbk++uzU2R6Ze5iqrVXrZhmMDBDKAKEMEGHO2K7VVJ/xr9zTV8V+xhuiDBDKAJHKGRvP5tE1J3etX5qaVznPeDDKAKEMEOV5Robt2tGVPYxODcp+xoNRBghlgLh03dRd4/j2OSLOM94QZYBQBojynr4qU2N0dQ9HZ13WRg6zn/EwlAFCGSBa78/I7Ou+8jyojbVPU1ibehjKAKEMEOUeeMT2+VGZazbqTh3sZzwYZYBQBojW+zOu3B8eUa1Zbe9dtzb1JigDhDJA4M61jaC9c2ljXZmRAUIZIJQBItUDnyLqfxDeXRGx0bePMDJAKAOEMkCsnzc1dUbT1FkjnflN5xprUw9DGSCUAaK1bipiu+e8nWM6c5rOvMTIAKEMEMoA0eqBb1Ad6zvn5k69A2oqjxoZIJQBQhkgEDljqlfReS/TBq61fTDKAKEMEOWcMVV3qq6Frc45ps6G6px/Xs1JRgYIZYBQBojyu12nmNrfV/3slWcg2s94MMoAoQwQt+3PkP8xMkAoA4QyQCgDhDJAKAOEMkD8BeBwK30rQzWfAAAAAElFTkSuQmCC" width="72" height="72" alt="QR code to petition">
-                <div class="qr-label">liftphilly.org/petition</div>
+        <style>
+            /* anchor cover page so footer can be absolutely positioned */
+            .cover-page {
+                position: relative;
+                height: 10in;
+                min-height: unset;
+            }
+            /* yellow bar sits outside/below the header, flush against it */
+            .cover-body {
+                padding-top: 0;
+                padding-bottom: 185px;
+                overflow: hidden;
+            }
+            .gold-divider {
+                height: 4px;
+                margin: 0 0 14px 0;
+            }
+            /* bigger body text, tighter paragraph spacing */
+            .cover-statement {
+                font-size: 10.5pt;
+                line-height: 1.5;
+            }
+            .cover-statement p {
+                margin-bottom: 5px;
+            }
+            .cover-footer-box {
+                position: absolute;
+                bottom: 0;
+                left: -0.5in;
+                width: calc(100% + 1in);
+                background: #0f172a;
+                padding: 26px 24px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+            .cover-footer-box::before {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: #fbbf24;
+            }
+            .footer-qr-inner {
+                background: white;
+                padding: 10px;
+                border-radius: 4px;
+                text-align: center;
+                display: inline-block;
+            }
+            .footer-qr-label {
+                font-size: 7pt;
+                color: #0f172a;
+                margin-top: 4px;
+                font-weight: 600;
+                font-family: 'Inter', sans-serif;
+            }
+        </style>
+        <div class="cover-footer-box">
+            <div class="footer-qr-inner">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAIAAADeJhTwAAADEklEQVR4nO2dwY3cMAwAc0EKyDM9pP9S0kOe6WDzjICAOBIk7fFi5nveW2MHFC1Skj9er9cXYfD17huQfygDhDJAKAOEMkAoA4QyQHyL/vD9x8/xL/vz+9en3zV1zca9TRF9l5EBQhkglAEizBkn0RiXYWrMzdzDdk7a/h2MDBDKAKEMEKmccZIZ+zJja/R/MmN35vrtecnU73BiZIBQBghlgCjnjLuIckAnr3TmDRsYGSCUAUIZIHA5IzNX2J7r3JVLjAwQygChDBDlnLE9nmZqVtX/U61ZZdj4HYwMEMoAoQwQqZyxsXbopDq3mJqLnGz3PzIYGSCUAUIZID7u2tOXqQtVa1CdcZ/Q2zAyQCgDhDJApPZndJ7fT6b6z9X76ay13djzEWFkgFAGCGWAKNemOr2B6jN+ZuyOrtnIARGdtVsnRgYIZYBQBohUbWqqjpShs+euQzWfbdyPkQFCGSCUAWJ9H3i1r3Dl+qjOd03dw4mRAUIZIJQBYmyekbk++uzU2R6Ze5iqrVXrZhmMDBDKAKEMEGHO2K7VVJ/xr9zTV8V+xhuiDBDKAJHKGRvP5tE1J3etX5qaVznPeDDKAKEMEOV5Robt2tGVPYxODcp+xoNRBghlgLh03dRd4/j2OSLOM94QZYBQBojynr4qU2N0dQ9HZ13WRg6zn/EwlAFCGSBa78/I7Ou+8jyojbVPU1ibehjKAKEMEOUeeMT2+VGZazbqTh3sZzwYZYBQBojW+zOu3B8eUa1Zbe9dtzb1JigDhDJA4M61jaC9c2ljXZmRAUIZIJQBItUDnyLqfxDeXRGx0bePMDJAKAOEMkCsnzc1dUbT1FkjnflN5xprUw9DGSCUAaK1bipiu+e8nWM6c5rOvMTIAKEMEMoA0eqBb1Ad6zvn5k69A2oqjxoZIJQBQhkgEDljqlfReS/TBq61fTDKAKEMEOWcMVV3qq6Frc45ps6G6px/Xs1JRgYIZYBQBojyu12nmNrfV/3slWcg2s94MMoAoQwQt+3PkP8xMkAoA4QyQCgDhDJAKAOEMkD8BeBwK30rQzWfAAAAAElFTkSuQmCC" width="64" height="64" alt="QR to liftphilly.org/petition">
+                <div class="footer-qr-label">liftphilly.org/petition</div>
             </div>
         </div>
 
