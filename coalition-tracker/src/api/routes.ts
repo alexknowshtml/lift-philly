@@ -117,8 +117,12 @@ import { getAdminHtml } from '../ui/admin';
 import { getPetitionModHtml } from '../ui/petition-mod';
 import { requireAuth, requireEditor, requireAdmin } from '../auth/middleware';
 import { hashPassword, verifyPassword, getSessionCookie, createSessionCookie, createLogoutCookie } from '../auth/utils';
+import { trimTrailingSlash } from 'hono/trailing-slash';
 
 const app = new Hono();
+
+// Normalize trailing slashes so /admin/ matches /admin routes
+app.use(trimTrailingSlash());
 
 // Enable CORS
 app.use('*', cors());
