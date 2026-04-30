@@ -196,8 +196,9 @@ print(f"""        <style>
                 background: #0f172a;
                 padding: 16px;
                 display: flex;
-                justify-content: center;
+                justify-content: flex-end;
                 align-items: center;
+                padding-right: 24px;
             }}
             .footer-qr-inner {{
                 background: white;
@@ -216,7 +217,7 @@ print(f"""        <style>
         </style>
         <div class="cover-footer-box">
             <div class="footer-qr-inner">
-                <img src="data:image/png;base64,{qr_b64}" width="90" height="90" alt="QR to liftphilly.org/petition">
+                <img src="data:image/png;base64,{qr_b64}" width="64" height="64" alt="QR to liftphilly.org/petition">
                 <div class="footer-qr-label">liftphilly.org/petition</div>
             </div>
         </div>""")
