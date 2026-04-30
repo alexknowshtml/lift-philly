@@ -1,6 +1,6 @@
 import { Context, Next } from 'hono';
 import { getSessionByToken, User } from '../db/client';
-import { getSessionCookie } from './utils';
+import { getSessionCookie, createLogoutCookie } from './utils';
 
 // Extend Hono's context to include user
 declare module 'hono' {
@@ -27,9 +27,13 @@ export async function requireAuth(c: Context, next: Next) {
   const session = await getSessionByToken(token);
   if (!session) {
     if (c.req.path.startsWith('/api/')) {
-      return c.json({ error: 'Session expired' }, 401);
+      return c.json({ error: 'Session expired' }, 401, { 'Set-Cookie': createLogoutCookie() });
     }
-    return c.redirect('/login');
+    // Clear the stale cookie so /login doesn't loop back
+    return new Response(null, {
+      status: 302,
+      headers: { 'Location': '/login', 'Set-Cookie': createLogoutCookie() },
+    });
   }
 
   // Set user in context
