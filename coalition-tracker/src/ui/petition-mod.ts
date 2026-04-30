@@ -799,6 +799,7 @@ export function getPetitionModHtml(
               <th style="padding:8px 12px;text-align:left;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">DISTRICT</th>
               <th style="padding:8px 12px;text-align:left;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">COUNCIL MEMBER</th>
               <th style="padding:8px 12px;text-align:right;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">SIGNERS</th>
+              <th style="padding:8px 12px;text-align:right;font-size:11px;color:#94a3b8;font-weight:600;border-bottom:1px solid #eee">% OF TOTAL</th>
             </tr></thead>
             <tbody id="district-table-body"></tbody>
           </table>
@@ -939,7 +940,7 @@ export function getPetitionModHtml(
       const districtTotal = districtRows.reduce((sum, r) => sum + r.count, 0);
       const tableHtml = districtRows.map(({ d, member, count }) => {
         const pct = districtTotal > 0 ? ((count / districtTotal) * 100).toFixed(1) : '0.0';
-        return \`<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:500">District \${d}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#64748b">\${member}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:600">\${count} <span style="font-size:0.75rem;font-weight:400;color:#94a3b8">(\${pct}%)</span></td></tr>\`;
+        return \`<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:500">District \${d}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#64748b">\${member}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:600">\${count}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:600">\${pct}%</td></tr>\`;
       }).join('');
       document.getElementById('district-table-body').innerHTML = tableHtml;
 
