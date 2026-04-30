@@ -17,6 +17,19 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
 
+# Strip trailing slashes from admin/api paths before function routing
+[[redirects]]
+  from = "/admin/"
+  to = "/admin"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/admin/*/"
+  to = "/admin/:splat"
+  status = 301
+  force = true
+
 # Route all tracker UI and API paths to the Netlify Function
 # Static files (petition/index.html, etc.) take priority automatically
 [[redirects]]
