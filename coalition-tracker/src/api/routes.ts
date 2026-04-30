@@ -179,16 +179,22 @@ app.post('/api/login', async (c) => {
   );
 });
 
-// Logout API
+// Logout API (POST for JS, GET for direct navigation/mobile)
 app.post('/api/logout', async (c) => {
   const cookieHeader = c.req.header('Cookie');
   const token = getSessionCookie(cookieHeader);
-
-  if (token) {
-    await deleteSession(token);
-  }
-
+  if (token) await deleteSession(token);
   return c.json({ success: true }, 200, { 'Set-Cookie': createLogoutCookie() });
+});
+
+app.get('/logout', async (c) => {
+  const cookieHeader = c.req.header('Cookie');
+  const token = getSessionCookie(cookieHeader);
+  if (token) await deleteSession(token);
+  return new Response(null, {
+    status: 302,
+    headers: { 'Location': '/login', 'Set-Cookie': createLogoutCookie() },
+  });
 });
 
 // Get current user
