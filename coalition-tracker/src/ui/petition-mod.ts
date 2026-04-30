@@ -936,9 +936,11 @@ export function getPetitionModHtml(
       const districtRows = Object.entries(DISTRICT_MEMBERS)
         .map(([d, member]) => ({ d: parseInt(d), member, count: districtCounts[d] || 0 }))
         .sort((a, b) => b.count - a.count);
-      const tableHtml = districtRows.map(({ d, member, count }) =>
-        \`<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:500">District \${d}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#64748b">\${member}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:600">\${count}</td></tr>\`
-      ).join('');
+      const districtTotal = districtRows.reduce((sum, r) => sum + r.count, 0);
+      const tableHtml = districtRows.map(({ d, member, count }) => {
+        const pct = districtTotal > 0 ? ((count / districtTotal) * 100).toFixed(1) : '0.0';
+        return \`<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:500">District \${d}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#64748b">\${member}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right;font-weight:600">\${count} <span style="font-size:0.75rem;font-weight:400;color:#94a3b8">(\${pct}%)</span></td></tr>\`;
+      }).join('');
       document.getElementById('district-table-body').innerHTML = tableHtml;
 
       // Circle markers for zip-level detail
