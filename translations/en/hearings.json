@@ -52,7 +52,14 @@
     "date": "Wednesday, May 6, 2026",
     "time": "10:00 AM – 4:00 PM",
     "where": "Philadelphia City Council Chambers, Room 400<br>\n                    Fourth Floor, City Hall<br>\n                    Philadelphia, PA",
-    "testify": "To testify: call <a href=\"tel:2156863407\" style=\"color:var(--gold);\">215-686-3407</a> or email <a href=\"mailto:budget@phila.gov\" style=\"color:var(--gold);\">budget@phila.gov</a> by 3 PM the day before with your name, position (support/oppose), phone number, and address."
+    "testify": "To testify: call <a href=\"tel:2156863407\" style=\"color:var(--gold);\">215-686-3407</a> or email <a href=\"mailto:budget@phila.gov\" style=\"color:var(--gold);\">budget@phila.gov</a> by 3 PM on May 5 with your name, position (support/oppose), phone number, and address.",
+    "tips_title": "What to know for May 6",
+    "tip_arrive": "Arrive early. The session runs all day — the LIFT bill's slot isn't announced in advance.",
+    "tip_entry": "<strong>Getting in:</strong> Enter at the northeast corner of City Hall (Market &amp; Broad, near the Masonic Temple). Bring a government-issued ID to pass through security.",
+    "tip_register": "<strong>Pre-register to testify</strong> using the contact info above — it takes 2 minutes and is the official requirement for public hearings. When you arrive, sign in at the booklet at the Room 400 entrance with your name and Bill No. 251026.",
+    "tip_testify": "<strong>Testify:</strong> You have 2 minutes (~300 words). Lead with your personal story — how this affects your work and income. Council responds to people, not statistics.",
+    "tip_close": "<strong>Finish strong:</strong> End with <em>&#8220;That concludes my testimony.&#8221;</em>",
+    "tip_bring": "<strong>Bring:</strong> Your ID, notes, water, and a pen."
   },
   "mayor_group": {
     "title": "Mayor Parker's Town Halls",

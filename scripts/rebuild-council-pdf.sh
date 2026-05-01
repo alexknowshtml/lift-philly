@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 # rebuild-council-pdf.sh
-# Full pipeline: Turso → HTML cards → PDF → git push (Netlify deploy)
-# Usage: bash scripts/rebuild-council-pdf.sh
+# Full pipeline: Turso → HTML cards → PDF → DO Spaces (test) or git push (publish)
+# Usage: bash scripts/rebuild-council-pdf.sh           # test mode (DO Spaces)
+#        bash scripts/rebuild-council-pdf.sh --publish  # publish to liftphilly.org
 
 set -e
+
+PUBLISH=false
+[[ "$1" == "--publish" ]] && PUBLISH=true
 
 LIFT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 HTML_FILE="$LIFT_DIR/petition-comments-council.html"
 SOURCE_FILE="$LIFT_DIR/petition-comments-council-source.html"
 PDF_FILE="$LIFT_DIR/petition-comments-council.pdf"
-PUBLIC_URL="https://liftphilly.org/petition-comments-council.pdf"
+BUCKET="indyhall"
+DO_ENDPOINT="https://nyc3.digitaloceanspaces.com"
+FILENAME="lift-philly-council-preview.pdf"
+CDN_ID="4be1bab8-ed7d-4f26-ac87-7901eed6b34b"
+CF_ZONE="8d2c9ee93fd716bfd5594bbf7b665cb7"
+TEST_URL="https://page.jfdi.bot/public/${FILENAME}"
+PROD_URL="https://liftphilly.org/petition-comments-council.pdf"
 
 # IDs excluded for off-message content (spam, profanity, defund tangents, factual errors)
 EXCLUDED_IDS="124,249,309,374,446,473,514,573,577,608,611,682,684"
@@ -27,7 +37,15 @@ TURSO_TOKEN=$(bun /home/alexhillman/andy/scripts/get-credential.ts lift-philly-t
   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('api_key') or d.get('token') or d.get('value') or list(d.values())[0])")
 HTTP_URL="${TURSO_URL/libsql:\/\//https://}"
 
-echo "    OK"
+if [[ "$PUBLISH" == "false" ]]; then
+  SPACES_CREDS=$(curl -s http://localhost:2641/proxy/v1/credentials/do-spaces)
+  AWS_ACCESS_KEY_ID=$(echo "$SPACES_CREDS" | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['access_key_id'])")
+  AWS_SECRET_ACCESS_KEY=$(echo "$SPACES_CREDS" | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['secret_access_key'])")
+  DO_TOKEN=$(curl -s http://localhost:2641/proxy/v1/credentials/do-api | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['api_key'])")
+  CF_TOKEN=$(curl -s http://localhost:2641/proxy/v1/credentials/cloudflare | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['api_key'])")
+fi
+
+echo "    OK (mode: $( [[ "$PUBLISH" == "true" ]] && echo publish || echo test ))"
 
 # ── Step 2: Pull from Turso ──────────────────────────────────────────────────
 
@@ -165,26 +183,34 @@ print(f"""        <style>
             }}
             /* yellow bar sits outside/below the header, flush against it */
             .cover-body {{
-                padding-top: 0;
-                padding-bottom: 185px;
-                overflow: hidden;
+                padding-top: 16px;
+                padding-bottom: 0;
+            }}
+            @media print {{
+                .header-cover {{
+                    margin: -0.5in 0 0 -0.5in;
+                    width: calc(100% + 1in);
+                    padding-top: calc(0.5in + 20px);
+                    padding-left: calc(0.5in + 24px);
+                    border-bottom: 4px solid #fbbf24;
+                }}
             }}
             .gold-divider {{
-                height: 4px;
-                margin: 0 0 14px 0;
+                display: none;
             }}
             /* bigger body text, tighter paragraph spacing */
             .cover-statement {{
                 font-size: 10.5pt;
                 line-height: 1.5;
+                padding-bottom: 24px;
             }}
             .cover-statement p {{
                 margin-bottom: 5px;
             }}
             .cover-footer-box {{
-                position: absolute;
-                bottom: 0;
-                left: -0.5in;
+                position: relative;
+                margin-top: auto;
+                margin-left: -0.5in;
                 width: calc(100% + 1in);
                 background: #0f172a;
                 padding: 26px 24px;
@@ -227,10 +253,11 @@ PYEOF
 # Generate footer HTML → temp file
 python3 /tmp/lp_gen_footer.py > /tmp/lp_footer.html
 
-# Assemble final HTML: source template + footer + close cover divs + running header + cards
+# Assemble final HTML: source template → close cover-statement → footer → close cover-body/page → running header + cards
 cat "$SOURCE_FILE" > /tmp/lp_council_new.html
+printf "\n        </div>\n" >> /tmp/lp_council_new.html
 cat /tmp/lp_footer.html >> /tmp/lp_council_new.html
-printf "\n        </div>\n    </div>\n</div>\n\n" >> /tmp/lp_council_new.html
+printf "\n    </div>\n</div>\n\n" >> /tmp/lp_council_new.html
 printf '<div class="header-running">\n    <div class="logo-small">LIFT <span>Philly</span></div>\n    <div class="running-right">Constituent Testimonies &mdash; Bill 251026</div>\n</div>\n\n' >> /tmp/lp_council_new.html
 cat /tmp/lp_cards.html >> /tmp/lp_council_new.html
 printf "\n\n</body>\n</html>\n" >> /tmp/lp_council_new.html
@@ -258,7 +285,7 @@ const PDF_FILE  = process.argv[3];
     path: PDF_FILE,
     format: 'Letter',
     printBackground: true,
-    margin: { top: '0', right: '0', bottom: '0', left: '0' }
+    margin: { top: '0.5in', right: '0.5in', bottom: '0.5in', left: '0.5in' }
   });
   await browser.close();
   console.log('PDF generated:', PDF_FILE);
@@ -269,15 +296,40 @@ NODE_PATH=/home/alexhillman/lift-philly/node_modules node /tmp/lp_gen_pdf.js "$H
 PDF_SIZE=$(du -sh "$PDF_FILE" | cut -f1)
 echo "    $PDF_FILE ($PDF_SIZE)"
 
-# ── Step 6: Commit and push PDF to repo (triggers Netlify deploy) ────────────
+# ── Step 6: Publish ──────────────────────────────────────────────────────────
 
-echo "[6/6] Committing PDF to repo..."
-
-cd "$LIFT_DIR"
-git add petition-comments-council.pdf petition-comments-council.html
-git diff --cached --quiet || git commit -m "Rebuild council PDF ($(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')): $CARD_COUNT comments"
-git push origin main
-echo "    Pushed → liftphilly.org/petition-comments-council.pdf"
+if [[ "$PUBLISH" == "true" ]]; then
+  echo "[6/6] Publishing to liftphilly.org (git push → Netlify)..."
+  cd "$LIFT_DIR"
+  git add petition-comments-council.pdf petition-comments-council.html
+  git diff --cached --quiet || git commit -m "Rebuild council PDF ($(TZ='America/New_York' date '+%Y-%m-%d %H:%M ET')): $CARD_COUNT comments"
+  git push origin main
+  echo "    Pushed → $PROD_URL"
+  PUBLIC_URL="$PROD_URL"
+else
+  echo "[6/6] Uploading to DO Spaces (test mode)..."
+  AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+  AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+    aws s3 cp "$PDF_FILE" "s3://$BUCKET/public/$FILENAME" \
+    --acl public-read \
+    --content-type "application/pdf" \
+    --endpoint-url="$DO_ENDPOINT" \
+    --quiet
+  DO_PURGE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
+    "https://api.digitalocean.com/v2/cdn/endpoints/${CDN_ID}/cache" \
+    -H "Authorization: Bearer $DO_TOKEN" \
+    -H "Content-Type: application/json" \
+    --data "{\"files\":[\"public/${FILENAME}\"]}")
+  CF_PURGE=$(curl -s -X POST \
+    "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
+    -H "Authorization: Bearer ${CF_TOKEN}" \
+    -H "Content-Type: application/json" \
+    --data "{\"files\":[\"${TEST_URL}\"]}" \
+    | python3 -c "import sys,json; d=json.load(sys.stdin); print('OK' if d.get('success') else d)")
+  echo "    DO CDN: $DO_PURGE | CF: $CF_PURGE"
+  echo "    Test URL: $TEST_URL"
+  PUBLIC_URL="$TEST_URL"
+fi
 
 echo ""
 echo "=== Done ==="
