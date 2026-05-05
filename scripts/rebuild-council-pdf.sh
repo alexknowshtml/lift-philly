@@ -82,13 +82,38 @@ CARDS_HTML=$(echo "$TURSO_RESPONSE" | python3 -c "
 import sys, json, html
 
 EXCLUDED = {$EXCLUDED_IDS}
-PINNED = [375, 373, 443, 241, 220, 324, 388, 442, 266, 214]
+PINNED = [375, 373, 443, 241, 220, 324, 388, 442, 266, 214, 764, 848, 789, 806, 813, 863]
+
+BOLD_PHRASES = {
+    375: ['owed nearly \$9,000', 'This is unsustainable'],
+    373: ['while corporations get tax breaks'],
+    443: ['It feels like we are being pushed out', 'this tax is forcing me to consider it'],
+    241: ['I am not profiting; I am simply trying to make enough to live', 'The BIRT has drained our savings this year'],
+    220: ['he immediately suggested I move out of Philadelphia', 'Is that really how Philly wants to get rich?'],
+    324: ['the changes to the business tax structure were the final nail in the coffin', 'small businesses can\'t survive'],
+    388: ['The roll-out of this new policy has felt punishing for indie workers', 'I\'m now behind on my other bills'],
+    442: ['There\'s no money left to bleed out of us', 'I was already paying ~30% in taxes'],
+    266: ['I am considering whether it is worth my effort to stay in business in this city', 'The knock on effect of this will be really significant'],
+    214: ['Having a 5.7% tax is debilitating', 'taxed on gross receipts and not net income is honestly asinine'],
+    764: ['I am no longer able to give back to my community', 'considering closing my office in Philadelphia'],
+    848: ['I could likely go out of business', 'the city won\'t be able to collect the tax anyway'],
+    789: ['taxed on what I paid right out to him', 'It isn\'t a policy that supports entrepreneurial life for the smallest ventures among us'],
+    806: ['I\'ve done everything I am supposed to do', 'BIRT seems designed to punish small business owners'],
+    813: ['suddenly I was hit with a little over \$2,000 BIRT tax', 'What\'s happening on the other end of the spectrum to tax large business'],
+    863: ['affecting my ability to continue providing affordable care'],
+}
 
 def cell(row, idx):
     v = row[idx]
     if isinstance(v, dict):
         return v.get('value') or ''
     return v or ''
+
+def apply_bold(escaped_comment, rid):
+    for phrase in BOLD_PHRASES.get(rid, []):
+        escaped_phrase = html.escape(phrase)
+        escaped_comment = escaped_comment.replace(escaped_phrase, '<strong>' + escaped_phrase + '</strong>', 1)
+    return escaped_comment
 
 def make_card(rid, name_raw, industry, zipcode, comment):
     parts = name_raw.split()
@@ -102,9 +127,10 @@ def make_card(rid, name_raw, industry, zipcode, comment):
     if zipcode:
         attr_parts.append(zipcode)
     attribution = ' &nbsp;&bull;&nbsp; '.join(attr_parts)
+    comment_html = apply_bold(html.escape(comment), rid)
     return (
         '<div class=\"comment-card\">\n'
-        '            <div class=\"comment-text\">' + html.escape(comment) + '</div>\n'
+        '            <div class=\"comment-text\">' + comment_html + '</div>\n'
         '            <div class=\"comment-attribution\">&mdash; ' + attribution + '</div>\n'
         '        </div>'
     )
