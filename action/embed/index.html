@@ -704,7 +704,7 @@ function renderEmailBody(member, bodyId) {
   const extraPara = story.extra ? '\n' + story.extra + '\n' : '';
   const body = T.email.body(n, occ, hood, mName, impactPara, storyPara, extraPara);
 
-  const emailHref = `mailto:${member ? member.email : ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const emailHref = `mailto:${member ? member.email : ''}?subject=${encodeURIComponent(subject)}`;
   document.getElementById(bodyId).innerHTML = `
     <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">${T.email.draft_label}</div>
     <div class="email-box">
@@ -716,7 +716,8 @@ function renderEmailBody(member, bodyId) {
       <span id="${bodyId}-cs" class="copy-success">${T.email.copied}</span>
       <a href="${emailHref}" class="btn btn-outline btn-sm">${T.email.open_btn}</a>
     </div>
-    <div class="info-box" style="margin-top:14px;font-size:0.8rem;">${T.email.cant_find}</div>`;
+    <div class="info-box" style="margin-top:10px;font-size:0.8rem;">Copy the draft above first, then paste it into the email body after clicking Open.</div>
+    <div class="info-box" style="margin-top:8px;font-size:0.8rem;">${T.email.cant_find}</div>`;
 }
 
 // ===== PHONE =====
