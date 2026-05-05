@@ -714,7 +714,7 @@ function renderEmailBody(member, bodyId) {
     <div class="btn-row">
       <button class="btn btn-secondary btn-sm" onclick="copyText('${bodyId}-t','${bodyId}-cs','Subject: ${esc(subject).replace(/'/g,"&#39;")}\\n\\n')">${T.email.copy_btn}</button>
       <span id="${bodyId}-cs" class="copy-success">${T.email.copied}</span>
-      <a href="${emailHref}" class="btn btn-outline btn-sm" target="_top">${T.email.open_btn}</a>
+      <a href="${emailHref}" class="btn btn-outline btn-sm" onclick="window.open(this.href);return false;">${T.email.open_btn}</a>
     </div>
     <div class="info-box" style="margin-top:10px;font-size:0.8rem;">Copy the draft above first, then paste it into the email body after clicking Open.</div>
     <div class="info-box" style="margin-top:8px;font-size:0.8rem;">${T.email.cant_find}</div>`;
