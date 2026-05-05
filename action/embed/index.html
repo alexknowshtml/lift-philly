@@ -156,6 +156,14 @@
   .restart-pill { position: fixed; top: 16px; right: 16px; background: white; color: var(--navy); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 12px 7px 10px; border-radius: 999px; cursor: pointer; box-shadow: 0 1px 3px rgba(15,23,42,0.08), 0 0 0 1px var(--gold); transition: all 0.15s ease; z-index: 200; display: none; border: none; font-family: inherit; line-height: 1; }
   .restart-pill:hover { background: var(--cream); box-shadow: 0 2px 6px rgba(15,23,42,0.12), 0 0 0 1px var(--gold-dark); color: var(--navy); }
 
+  /* Email Steps */
+  .email-steps { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .email-step { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: white; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-label { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+  .rcpt-loading { color: var(--text-light); font-size: 0.85rem; font-style: italic; }
+
 </style>
 </head>
 <body>
@@ -281,6 +289,7 @@ const T = {
           { label: 'Your name',        placeholder: 'Full name' },
           { label: 'What you do',      placeholder: 'e.g. barber, therapist, freelance designer' },
           { label: 'Your neighborhood',placeholder: 'e.g. Fishtown, West Philly, Germantown' },
+          { label: 'Zip code',           placeholder: '5-digit zip' },
         ],
       },
       {
@@ -463,6 +472,7 @@ const INTERVIEW_QS = [
       { key: 'name',         label: T.interview.q[0].fields[0].label, placeholder: T.interview.q[0].fields[0].placeholder },
       { key: 'occupation',   label: T.interview.q[0].fields[1].label, placeholder: T.interview.q[0].fields[1].placeholder },
       { key: 'neighborhood', label: T.interview.q[0].fields[2].label, placeholder: T.interview.q[0].fields[2].placeholder },
+      { key: 'zip',         label: T.interview.q[0].fields[3].label, placeholder: T.interview.q[0].fields[3].placeholder },
     ],
   },
   {
@@ -496,7 +506,7 @@ const INTERVIEW_QS = [
 ];
 
 const STORAGE_KEY = 'lift-philly-guide';
-const STORY_DEFAULTS = { name:'', occupation:'', neighborhood:'', impact:'', why:'', moment:'', extra:'' };
+const STORY_DEFAULTS = { name:'', occupation:'', neighborhood:'', zip:'', impact:'', why:'', moment:'', extra:'' };
 let story = { ...STORY_DEFAULTS };
 let currentIntQ = 0;
 
@@ -631,7 +641,8 @@ function chooseAction(action) {
   goTo('output');
   const el = document.getElementById('output-content');
   if (action === 'email') {
-    el.innerHTML = emailSection('ez','em','eb');
+    el.innerHTML = emailSection('ez');
+    initEmailSection('ez');
   } else if (action === 'phone') {
     el.innerHTML = phoneSection('pz','pm','pb');
   } else if (action === 'testify') {
@@ -646,10 +657,11 @@ function chooseAction(action) {
         <button class="tab-btn" onclick="switchTab(this,'tab-phone')">${T.all.tab_phone}</button>
         <button class="tab-btn" onclick="switchTab(this,'tab-testify')">${T.all.tab_testify}</button>
       </div>
-      <div id="tab-email" class="tab-panel active">${emailSection('aez','aem','aeb')}</div>
+      <div id="tab-email" class="tab-panel active">${emailSection('aez')}</div>
       <div id="tab-phone" class="tab-panel">${phoneSection('apz','apm','apb')}</div>
       <div id="tab-testify" class="tab-panel">${testifySection('ato')}</div>`;
     generateTestimony('ato');
+    initEmailSection('aez');
   }
 }
 
@@ -661,63 +673,79 @@ function switchTab(btn, panelId) {
 }
 
 // ===== EMAIL =====
-function emailSection(zipId, memberId, bodyId) {
-  return `<h2 class="section-heading">${T.email.heading}</h2>
-    <p class="section-sub">${T.email.sub}</p>
-    <div class="zip-row">
-      <input type="text" id="${zipId}" placeholder="${T.email.zip_placeholder}" maxlength="5" inputmode="numeric">
-      <button class="btn btn-primary btn-sm" onclick="doEmailLookup('${zipId}','${memberId}','${bodyId}')">${T.email.find_rep}</button>
-    </div>
-    <div id="${memberId}"></div><div id="${bodyId}"></div>`;
-}
-
-async function doEmailLookup(zipId, memberId, bodyId) {
-  const zip = document.getElementById(zipId).value.trim();
-  if (!/^\d{5}$/.test(zip)) { document.getElementById(zipId).style.borderColor='var(--error)'; return; }
-  document.getElementById(zipId).style.borderColor='';
-  const member = await resolveMember(zip);
-  const memEl = document.getElementById(memberId);
-  if (member) {
-    memEl.innerHTML = `<div class="council-card">
-      <div class="member-label">${T.email.district_label(member.district)}</div>
-      <div class="member-name">${esc(member.name)}</div>
-      <div class="member-role">${esc(member.role)}</div>
-      <div class="member-contact"><strong>Phone:</strong> ${member.phone} &nbsp;|&nbsp; City Hall, ${member.room}</div>
-    </div>
-    <div class="president-note">${T.email.president_note}</div>`;
-  } else {
-    memEl.innerHTML = `<div class="info-box" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;margin-bottom:14px;">${T.email.error_zip(zip)}</div>`;
-  }
-  renderEmailBody(member, bodyId);
-}
-
-function renderEmailBody(member, bodyId) {
-  const n = story.name || '[Your Name]';
-  const occ = story.occupation || '[your occupation]';
+function emailSection(prefix) {
+  const n    = story.name         || '[Your Name]';
+  const occ  = story.occupation   || '[your occupation]';
   const hood = story.neighborhood || '[your neighborhood]';
-  const mName = member ? member.name : '[Council Member]';
   const subject = T.email.subject(hood);
   const impactPara = story.impact ? '\n' + story.impact + '\n' : '';
-  const storyPara = (story.moment || story.why)
+  const storyPara  = (story.moment || story.why)
     ? '\n' + [story.moment, story.why].filter(Boolean).join('\n\n') + '\n'
     : '';
-  const extraPara = story.extra ? '\n' + story.extra + '\n' : '';
-  const body = T.email.body(n, occ, hood, mName, impactPara, storyPara, extraPara);
+  const extraPara  = story.extra ? '\n' + story.extra + '\n' : '';
+  const body = T.email.body(n, occ, hood, 'your district representative', impactPara, storyPara, extraPara);
+  return `<h2 class="section-heading">${T.email.heading}</h2>
+    <p class="section-sub">Use these three steps to compose and send your email.</p>
+    <div class="email-steps">
+      <div class="email-step">
+        <div class="step-header"><span class="step-num">1</span><span class="step-label">Copy recipients — paste into the To: field</span></div>
+        <div class="email-box-sm"><span id="${prefix}-rcpt" class="rcpt-loading">Looking up your representatives…</span></div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn btn-secondary btn-sm" onclick="copyText('${prefix}-rcpt','${prefix}-cs1')">Copy Recipients</button>
+          <span id="${prefix}-cs1" class="copy-success">${T.email.copied}</span>
+        </div>
+      </div>
+      <div class="email-step">
+        <div class="step-header"><span class="step-num">2</span><span class="step-label">Copy subject — open a new email and paste it in</span></div>
+        <div class="email-box-sm"><span id="${prefix}-subj">${esc(subject)}</span></div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn btn-secondary btn-sm" onclick="copyText('${prefix}-subj','${prefix}-cs2')">Copy Subject</button>
+          <span id="${prefix}-cs2" class="copy-success">${T.email.copied}</span>
+        </div>
+      </div>
+      <div class="email-step">
+        <div class="step-header"><span class="step-num">3</span><span class="step-label">Copy the body — go back to your email and paste it in</span></div>
+        <div class="email-box"><div id="${prefix}-body" style="white-space:pre-wrap;">${esc(body)}</div></div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn btn-secondary btn-sm" onclick="copyText('${prefix}-body','${prefix}-cs3')">Copy Body</button>
+          <span id="${prefix}-cs3" class="copy-success">${T.email.copied}</span>
+        </div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:14px;font-size:0.8rem;">${T.email.cant_find}</div>`;
+}
 
-  const emailHref = `mailto:${member ? member.email : ''}?subject=${encodeURIComponent(subject)}`;
-  document.getElementById(bodyId).innerHTML = `
-    <div style="font-size:0.75rem;font-weight:700;color:var(--text-light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">${T.email.draft_label}</div>
-    <div class="email-box">
-      <div class="email-subject">Subject: ${esc(subject)}</div>
-      <div id="${bodyId}-t" style="white-space:pre-wrap;">${esc(body)}</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary btn-sm" onclick="copyText('${bodyId}-t','${bodyId}-cs','Subject: ${esc(subject).replace(/'/g,"&#39;")}\\n\\n')">${T.email.copy_btn}</button>
-      <span id="${bodyId}-cs" class="copy-success">${T.email.copied}</span>
-      <a href="${emailHref}" class="btn btn-outline btn-sm" onclick="window.open(this.href);return false;">${T.email.open_btn}</a>
-    </div>
-    <div class="info-box" style="margin-top:10px;font-size:0.8rem;">Copy the draft above first, then paste it into the email body after clicking Open.</div>
-    <div class="info-box" style="margin-top:8px;font-size:0.8rem;">${T.email.cant_find}</div>`;
+async function initEmailSection(prefix) {
+  const PRESIDENT_EMAIL = 'kenyatta.johnson@phila.gov';
+  const rcptEl = document.getElementById(prefix + '-rcpt');
+  const bodyEl = document.getElementById(prefix + '-body');
+  if (!rcptEl) return;
+  const zip = story.zip || '';
+  const member = zip ? await resolveMember(zip) : null;
+  const n    = story.name         || '[Your Name]';
+  const occ  = story.occupation   || '[your occupation]';
+  const hood = story.neighborhood || '[your neighborhood]';
+  const mName = member ? member.name : 'your district representative';
+  const impactPara = story.impact ? '\n' + story.impact + '\n' : '';
+  const storyPara  = (story.moment || story.why)
+    ? '\n' + [story.moment, story.why].filter(Boolean).join('\n\n') + '\n'
+    : '';
+  const extraPara  = story.extra ? '\n' + story.extra + '\n' : '';
+  const body = T.email.body(n, occ, hood, mName, impactPara, storyPara, extraPara);
+  if (member) {
+    const emails = member.district === 2
+      ? PRESIDENT_EMAIL
+      : PRESIDENT_EMAIL + ', ' + member.email;
+    rcptEl.className = '';
+    rcptEl.textContent = emails;
+  } else if (zip) {
+    rcptEl.className = '';
+    rcptEl.innerHTML = PRESIDENT_EMAIL + ' <span style="color:var(--text-light);font-size:0.8rem;">— couldn&#39;t find district rep for ' + esc(zip) + ', <a href="https://phlcouncil.com/council-members/" target="_blank">find yours &#8594;</a></span>';
+  } else {
+    rcptEl.className = '';
+    rcptEl.innerHTML = PRESIDENT_EMAIL + ' <span style="color:var(--text-light);font-size:0.8rem;">— add your zip in step 1 to include your district rep</span>';
+  }
+  if (bodyEl) bodyEl.textContent = body;
 }
 
 // ===== PHONE =====
