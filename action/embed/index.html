@@ -240,7 +240,7 @@
     <ul class="steps">
       <li data-i18n="support.step1">Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.</li>
       <li data-i18n="support.step2">Call your council member's office. You don't need a script — just say "I support Bill 251026 and want it brought to a vote."</li>
-      <li data-i18n="support.step3">Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.</li>
+      <li data-i18n="support.step3">Check liftphilly.org/hearings for upcoming town halls and hearing dates.</li>
     </ul>
     <div class="president-note" style="margin-top:16px;" data-i18n-html="support.president_note">
       <strong>Council President Kenyatta Johnson</strong> controls what comes to a floor vote.<br>
@@ -371,15 +371,7 @@ ${occ}, ${hood}`,
   testify: {
     heading:      'Testify at a Hearing',
     sub:          'Your 2-minute script — in your own words. Practice once or twice. You’ve got this.',
-    hearings: [
-      { month: 'APR', day: '28', name: 'City Council Town Hall',            details: '6:00–7:30 PM · Upper Room Baptist Church — good for practice', key: false },
-      { month: 'APR', day: '30', name: 'City Council Town Hall',            details: '6:00–7:30 PM · Mummers Museum',                                    key: false },
-      { month: 'MAY', day: '5',  name: 'City Council Town Hall',            details: '6:00–7:30 PM · Salt & Light Church — night before the budget hearing', key: false },
-      { month: 'MAY', day: '6',  name: 'Budget Hearing',                    details: '10:00 AM–4:00 PM · Room 400, City Hall — register by 3 PM on May 5', key: true },
-    ],
-    key_badge:      'Key Date',
-    register_note:  '<strong>To testify at the May 6 budget hearing:</strong> Call <strong>(215) 686-3407</strong> or email <strong>budget@phila.gov</strong> by <strong>3 PM on May 5</strong>. Provide your name, position (support), phone, and address.',
-    copy_btn:       'Copy Script',
+    register_note:  'See upcoming hearing dates and how to register at <a href="/hearings" style="font-weight:700;color:var(--navy);">liftphilly.org/hearings →</a>',
     copied:         '✓ Copied!',
     at_hearing:     '<strong>At the hearing:</strong> State your name, occupation, and bill number (251026). Keep it under 2–3 minutes. End with “That concludes my testimony.” Reading from paper is completely fine.',
     beat_labels:    ['Beat 1 — Who You Are', 'Beat 2 — The Stakes', 'Beat 3 — The Equity Argument', 'Beat 4 — The Policy Case', 'Beat 5 — The Close'],
@@ -397,7 +389,7 @@ ${occ}, ${hood}`,
     cant_attend:    'Can’t attend — but want to do more?',
     step1:          'Share this guide with other self-employed Philadelphians who may not know about the 2026 tax increase.',
     step2:          'Call your council member’s office. You don’t need a script — just say “I support Bill 251026 and want it brought to a vote.”',
-    step3:          'Show up to a town hall: April 28, April 30, or May 5 — all 6–7:30 PM.',
+    step3:          'Check liftphilly.org/hearings for upcoming town halls and hearing dates.',
     president_note: '<strong>Council President Kenyatta Johnson</strong> controls what comes to a floor vote.<br><strong>Phone:</strong> (215) 686-3412 &nbsp;|&nbsp; City Hall, Room 580<br><em>Even a 2-minute call from a constituent makes a difference.</em>',
   },
 };
@@ -787,15 +779,10 @@ function renderPhoneScript(member, bodyId) {
 }
 
 // ===== TESTIMONY =====
+// ===== TESTIMONY =====
 function testifySection(outputId) {
-  const hearingItems = T.testify.hearings.map(h => `
-    <li class="hearing-item${h.key ? ' key-hearing' : ''}">
-      <div class="hearing-date-block"><div class="month">${h.month}</div><div class="day">${h.day}</div></div>
-      <div class="hearing-info"><div class="hearing-name">${h.name}${h.key ? ` <span class="key-badge">${T.testify.key_badge}</span>` : ''}</div><div class="hearing-details">${h.details}</div></div>
-    </li>`).join('');
   return `<h2 class="section-heading">${T.testify.heading}</h2>
     <p class="section-sub">${T.testify.sub}</p>
-    <ul class="hearing-list">${hearingItems}</ul>
     <div class="info-box" style="margin-bottom:16px;">${T.testify.register_note}</div>
     <div class="testimony-output" id="${outputId}"></div>
     <div class="btn-row" style="margin-top:14px;">
