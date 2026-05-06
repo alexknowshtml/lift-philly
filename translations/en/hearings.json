@@ -21,19 +21,6 @@
   "intro": {
     "p1": "City Council responds when people show up publicly, consistently, and repeatedly. Every voice adds pressure. Every seat filled sends a message."
   },
-  "council_group": {
-    "title": "City Council Town Halls",
-    "description": "Speak directly to your Council member before the May 6 hearing"
-  },
-  "council3": {
-    "date": "Tue, May 5",
-    "time": "6:00 – 7:30 PM",
-    "venue": "Salt & Light Church",
-    "address": "5736 Chester Avenue, Philadelphia, PA 19143"
-  },
-  "common": {
-    "add_to_cal": "📅 Add to Calendar"
-  },
   "budget": {
     "label": "Most Important — Budget Hearing",
     "title": "Budget Hearing",
@@ -48,6 +35,9 @@
     "tip_testify": "<strong>Testify:</strong> You have 2 minutes (~300 words). Lead with your personal story — how this affects your work and income. Council responds to people, not statistics.",
     "tip_close": "<strong>Finish strong:</strong> End with <em>“That concludes my testimony.”</em>",
     "tip_bring": "<strong>Bring:</strong> Your ID, notes, water, and a pen."
+  },
+  "common": {
+    "add_to_cal": "📅 Add to Calendar"
   },
   "mayor_group": {
     "title": "Mayor Parker's Town Halls",
