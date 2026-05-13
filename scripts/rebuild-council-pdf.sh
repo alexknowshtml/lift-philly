@@ -22,7 +22,7 @@ TEST_URL="https://page.jfdi.bot/public/${FILENAME}"
 PROD_URL="https://liftphilly.org/petition-comments-council.pdf"
 
 # IDs excluded for off-message content (spam, profanity, defund tangents, factual errors)
-EXCLUDED_IDS="124,249,309,374,446,473,514,573,577,608,611,682,684"
+EXCLUDED_IDS="124,249,309,374,446,473,514,573,577,608,611,682,684,710,824,904"
 
 echo "=== LIFT Philly Council PDF Rebuild ==="
 echo ""
