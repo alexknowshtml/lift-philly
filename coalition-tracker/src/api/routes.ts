@@ -149,7 +149,8 @@ app.get('/login', async (c) => {
   if (token) {
     const session = await getSessionByToken(token);
     if (session) {
-      return c.redirect('/admin');
+      const dest = session.user.role === 'admin' ? '/admin' : '/admin/tracker';
+      return c.redirect(dest);
     }
   }
   return c.html(getLoginHtml());
