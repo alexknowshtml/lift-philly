@@ -871,7 +871,7 @@ export function getPetitionModHtml(
         const tzOpts = { timeZone: 'America/New_York' };
         const dateStr = d.toLocaleDateString('en-US', { ...tzOpts, month: 'short', day: 'numeric', year: 'numeric' });
         const timeStr = d.toLocaleTimeString('en-US', { ...tzOpts, hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
-        const bodyText = (e.text_body || '').split(/\\r?\\n--[\\s]*\\r?\\n/)[0];
+        const bodyText = (e.text_body || '').split(/\\r?\\n--[\\s]*\\r?\\n|\\n{3,}/)[0];
         const preview = bodyText.replace(/\\s+/g, ' ').trim().slice(0, 120);
         const status = e.status || 'pending';
         const statusOpts = ['pending','assigned','sent'].map(s =>
