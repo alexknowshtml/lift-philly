@@ -11,7 +11,7 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 // Cookie helpers
 export const SESSION_COOKIE_NAME = 'coalition_session';
 
-export function getSessionCookie(cookieHeader: string | null): string | null {
+export function getSessionCookie(cookieHeader: string | null | undefined): string | null {
   if (!cookieHeader) return null;
 
   const cookies = cookieHeader.split(';').reduce((acc, cookie) => {

@@ -355,7 +355,7 @@ export async function createPetitionSigner(
     sql: 'INSERT INTO petition_signers (name, email, zip_code, signer_type, business_name, business_url, industry, comment, anonymous) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
     args: [name, email, zip_code, signer_type || null, business_name || null, business_url || null, industry || null, comment || null, anonymous ? 1 : 0],
   });
-  const row = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE id = ?', args: [rs.lastInsertRowid] });
+  const row = await client.execute({ sql: 'SELECT * FROM petition_signers WHERE id = ?', args: [rs.lastInsertRowid!] });
   return rowToObj<PetitionSigner>(row.rows[0])!;
 }
 
@@ -382,7 +382,7 @@ export async function getRejectedPetitionSigners(): Promise<PetitionSigner[]> {
   return rowsToObj<PetitionSigner>(rs.rows);
 }
 
-export async function updatePetitionSignerStatus(id: number, status: 'approved' | 'rejected'): Promise<boolean> {
+export async function updatePetitionSignerStatus(id: number, status: 'approved' | 'rejected' | 'pending'): Promise<boolean> {
   const rs = await client.execute({ sql: 'UPDATE petition_signers SET status = ? WHERE id = ?', args: [status, id] });
   return rs.rowsAffected > 0;
 }
@@ -498,7 +498,7 @@ export async function createInboundEmail(
     const existing = await client.execute({ sql: 'SELECT * FROM inbound_emails WHERE message_id = ?', args: [message_id] });
     return rowToObj<InboundEmail>(existing.rows[0])!;
   }
-  const row = await client.execute({ sql: 'SELECT * FROM inbound_emails WHERE id = ?', args: [rs.lastInsertRowid] });
+  const row = await client.execute({ sql: 'SELECT * FROM inbound_emails WHERE id = ?', args: [rs.lastInsertRowid!] });
   return rowToObj<InboundEmail>(row.rows[0])!;
 }
 
