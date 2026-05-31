@@ -530,6 +530,9 @@ export function getPetitionModHtml(
       .charts-grid { grid-template-columns: 1fr; }
       .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
     }
+
+    .email-from { white-space: nowrap; font-weight: 500; color: var(--navy); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+    .email-preview { color: var(--text-muted); font-size: 0.8rem; max-width: 360px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
@@ -542,6 +545,7 @@ export function getPetitionModHtml(
       ${rejected.length > 0 ? `<button class="tab-btn" onclick="switchTab('rejected', this)">Rejected<span class="tab-badge tab-badge-rejected">${rejected.length}</span></button>` : ''}
       <button class="tab-btn${pending.length === 0 ? ' active' : ''}" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
       <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
+      <button class="tab-btn" onclick="switchTab('activation', this)">Activation</button>
     </div>
 
     <div id="tab-pending" class="tab-panel${pending.length > 0 ? ' active' : ''}">
@@ -589,6 +593,10 @@ export function getPetitionModHtml(
 
     <div id="tab-stats" class="tab-panel">
       <div id="stats-content"><div class="stats-loading">Loading stats…</div></div>
+    </div>
+
+    <div id="tab-activation" class="tab-panel">
+      <div id="activation-content"><div class="stats-loading">Loading emails…</div></div>
     </div>
   </div>
 
@@ -759,12 +767,14 @@ export function getPetitionModHtml(
 
     // ---- Tab navigation ----
     let statsLoaded = false;
+    let activationLoaded = false;
     function switchTab(name, btn) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('tab-' + name).classList.add('active');
       btn.classList.add('active');
       if (name === 'stats' && !statsLoaded) loadStats();
+      if (name === 'activation' && !activationLoaded) loadActivation();
     }
 
     // ---- Stats loader ----
@@ -819,6 +829,50 @@ export function getPetitionModHtml(
 
       // Load Leaflet then render map
       loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', () => renderMap(data.by_zip));
+    }
+
+    // ---- Activation tab loader ----
+    async function loadActivation() {
+      activationLoaded = true;
+      let emails = [];
+      try {
+        const res = await fetch('/api/inbound-email?limit=200');
+        if (!res.ok) throw new Error('Failed to load');
+        emails = await res.json();
+      } catch (e) {
+        document.getElementById('activation-content').innerHTML =
+          '<div class="stats-loading">Error loading emails — try refreshing.</div>';
+        return;
+      }
+      if (!emails.length) {
+        document.getElementById('activation-content').innerHTML =
+          '<div class="table-wrap"><p class="empty-state">No inbound emails yet.</p></div>';
+        return;
+      }
+      const rows = emails.map(e => {
+        const d = new Date(e.received_at.endsWith('Z') ? e.received_at : e.received_at + 'Z');
+        const tzOpts = { timeZone: 'America/New_York' };
+        const dateStr = d.toLocaleDateString('en-US', { ...tzOpts, month: 'short', day: 'numeric', year: 'numeric' });
+        const timeStr = d.toLocaleTimeString('en-US', { ...tzOpts, hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
+        const preview = (e.text_body || '').replace(/\\s+/g, ' ').trim().slice(0, 120);
+        return \`<tr>
+          <td class="name-cell email-from">\${escHtml(e.from_addr || '—')}</td>
+          <td>\${escHtml(e.subject || '—')}</td>
+          <td class="muted-cell email-preview">\${escHtml(preview)}\${preview.length === 120 ? '…' : ''}</td>
+          <td class="date-cell">\${dateStr}<br><span class="time-str">\${timeStr}</span></td>
+        </tr>\`;
+      }).join('');
+      document.getElementById('activation-content').innerHTML = \`
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>From</th><th>Subject</th><th>Preview</th><th>Received</th></tr></thead>
+            <tbody>\${rows}</tbody>
+          </table>
+        </div>\`;
+    }
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
     function loadScript(src, cb) {
