@@ -881,12 +881,18 @@ export function getPetitionModHtml(
         const statusOpts = ['pending','assigned','sent'].map(s =>
           \`<option value="\${s}"\${s === status ? ' selected' : ''}>\${s}</option>\`
         ).join('');
-        return \`<tr>
-          <td class="actions-cell"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
+        const bodyHtml = escHtml(e.text_body || '').replace(/\\n/g, '<br>');
+        return \`<tr id="act-row-\${e.id}" class="signer-row" style="cursor:pointer" onclick="toggleDetail('act',\${e.id})">
+          <td class="actions-cell" onclick="event.stopPropagation()"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
           <td class="name-cell email-from">\${escHtml(e.from_addr || '—')}</td>
           <td>\${escHtml(e.subject || '—')}</td>
-          <td class="muted-cell email-preview">\${escHtml(preview)}\${preview.length === 120 ? '…' : ''}</td>
+          <td class="muted-cell email-preview">\${escHtml(preview)}</td>
           <td class="date-cell">\${dateStr}<br><span class="time-str">\${timeStr}</span></td>
+        </tr>
+        <tr id="act-detail-\${e.id}" class="detail-row" style="display:none">
+          <td colspan="5" class="detail-cell">
+            <div style="font-size:0.85rem;line-height:1.6;white-space:pre-wrap;max-height:300px;overflow-y:auto">\${bodyHtml}</div>
+          </td>
         </tr>\`;
       }).join('');
       document.getElementById('activation-content').innerHTML = \`
