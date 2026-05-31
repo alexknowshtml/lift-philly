@@ -545,7 +545,7 @@ export function getPetitionModHtml(
       ${rejected.length > 0 ? `<button class="tab-btn" onclick="switchTab('rejected', this)">Rejected<span class="tab-badge tab-badge-rejected">${rejected.length}</span></button>` : ''}
       <button class="tab-btn${pending.length === 0 ? ' active' : ''}" onclick="switchTab('all', this)">All Signatures<span class="tab-badge tab-badge-all">${all.length}</span></button>
       <button class="tab-btn" onclick="switchTab('stats', this)">Stats &amp; Map</button>
-      <button class="tab-btn" onclick="switchTab('activation', this)">Activation</button>
+      <button class="tab-btn" onclick="switchTab('activation', this)">Activation<span id="activation-badge" class="tab-badge tab-badge-all" style="display:none"></span></button>
     </div>
 
     <div id="tab-pending" class="tab-panel${pending.length > 0 ? ' active' : ''}">
@@ -856,6 +856,8 @@ export function getPetitionModHtml(
           '<div class="stats-loading">Error loading emails — try refreshing.</div>';
         return;
       }
+      const badge = document.getElementById('activation-badge');
+      if (badge) { badge.textContent = emails.length; badge.style.display = ''; }
       if (!emails.length) {
         document.getElementById('activation-content').innerHTML =
           '<div class="table-wrap"><p class="empty-state">No inbound emails yet.</p></div>';
