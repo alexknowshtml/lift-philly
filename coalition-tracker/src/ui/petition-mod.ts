@@ -773,8 +773,20 @@ export function getPetitionModHtml(
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('tab-' + name).classList.add('active');
       btn.classList.add('active');
+      localStorage.setItem('petition-active-tab', name);
       if (name === 'stats' && !statsLoaded) loadStats();
       if (name === 'activation' && !activationLoaded) loadActivation();
+    }
+
+    // Restore last active tab on page load
+    const savedTab = localStorage.getItem('petition-active-tab');
+    if (savedTab) {
+      const savedBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+        b => b.getAttribute('onclick')?.includes("'" + savedTab + "'")
+      );
+      if (savedBtn && document.getElementById('tab-' + savedTab)) {
+        switchTab(savedTab, savedBtn);
+      }
     }
 
     // ---- Stats loader ----
