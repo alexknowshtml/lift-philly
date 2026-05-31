@@ -476,7 +476,8 @@ export interface InboundEmail {
   text_body: string | null;
   html_body: string | null;
   raw_headers: string | null;
-  received_at: string; // CURRENT_TIMESTAMP default
+  received_at: string;
+  status: 'pending' | 'assigned' | 'sent';
 }
 
 export async function createInboundEmail(
@@ -500,6 +501,11 @@ export async function createInboundEmail(
   }
   const row = await client.execute({ sql: 'SELECT * FROM inbound_emails WHERE id = ?', args: [rs.lastInsertRowid!] });
   return rowToObj<InboundEmail>(row.rows[0])!;
+}
+
+export async function updateInboundEmailStatus(id: number, status: 'pending' | 'assigned' | 'sent'): Promise<boolean> {
+  const rs = await client.execute({ sql: 'UPDATE inbound_emails SET status = ? WHERE id = ?', args: [status, id] });
+  return rs.rowsAffected > 0;
 }
 
 export async function getInboundEmails(limit = 50, offset = 0): Promise<InboundEmail[]> {

@@ -110,6 +110,7 @@ import {
   getPetitionAdminStats,
   createInboundEmail,
   getInboundEmails,
+  updateInboundEmailStatus,
   type CoalitionMember,
   type UserRole
 } from '../db/client';
@@ -634,6 +635,15 @@ app.get('/api/inbound-email', requireAuth, requireAdmin, async (c) => {
   const offset = parseInt(c.req.query('offset') || '0', 10);
   const emails = await getInboundEmails(limit, offset);
   return c.json(emails);
+});
+
+// PATCH /api/inbound-email/:id/status — update email status (admin only)
+app.patch('/api/inbound-email/:id/status', requireAuth, requireAdmin, async (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const { status } = await c.req.json<{ status: string }>();
+  if (!['pending', 'assigned', 'sent'].includes(status)) return c.json({ error: 'Invalid status' }, 400);
+  const ok = await updateInboundEmailStatus(id, status as 'pending' | 'assigned' | 'sent');
+  return ok ? c.json({ success: true }) : c.json({ error: 'Not found' }, 404);
 });
 
 // ============ UI Routes ============
