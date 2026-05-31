@@ -910,13 +910,14 @@ export function getPetitionModHtml(
         const tzOpts = { timeZone: 'America/New_York' };
         const dateStr = d.toLocaleDateString('en-US', { ...tzOpts, month: 'short', day: 'numeric', year: 'numeric' });
         const timeStr = d.toLocaleTimeString('en-US', { ...tzOpts, hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
-        const preview = (e.text_body || '').split('\\n').find(l => l.trim()) || '';
+        const cleanBody = stripQuotedReply(e.text_body || '');
+        const preview = cleanBody.split('\\n').find(l => l.trim()) || '';
         const status = e.status || 'pending';
         const statusOpts = ['pending','assigned','sent'].map(s =>
           \`<option value="\${s}"\${s === status ? ' selected' : ''}>\${s}</option>\`
         ).join('');
         const initials = (e.from_addr || '?').charAt(0).toUpperCase();
-        const bodyText = escHtml(e.text_body || '(no body)');
+        const bodyText = escHtml(cleanBody || '(no body)');
         return {
           row: \`<tr id="act-row-\${e.id}" class="signer-row" style="cursor:pointer" onclick="toggleDetail('act',\${e.id})">
             <td class="actions-cell" onclick="event.stopPropagation()"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
@@ -994,6 +995,24 @@ export function getPetitionModHtml(
 
     function escHtml(s) {
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function stripQuotedReply(text) {
+      if (!text) return text;
+      const lines = text.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        // "On [date] ... wrote:" attribution — may wrap across two lines
+        const twoLine = i < lines.length - 1 ? line + ' ' + lines[i + 1].trim() : line;
+        if (/^On .{10,} wrote:/.test(line) || /^On .{10,} wrote:/.test(twoLine)) {
+          return lines.slice(0, i).join('\n').trimEnd();
+        }
+        // Quoted block starting with >
+        if (line.startsWith('>')) {
+          return lines.slice(0, i).join('\n').trimEnd();
+        }
+      }
+      return text.trimEnd();
     }
 
     function loadScript(src, cb) {
