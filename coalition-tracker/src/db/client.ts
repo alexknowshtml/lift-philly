@@ -465,6 +465,51 @@ export async function getPetitionAdminStats(): Promise<PetitionAdminStats> {
   };
 }
 
+// ============ Inbound Email Functions ============
+
+export interface InboundEmail {
+  id: number;
+  message_id: string | null;
+  from_addr: string | null;
+  to_addr: string | null;
+  subject: string | null;
+  text_body: string | null;
+  html_body: string | null;
+  raw_headers: string | null;
+  received_at: string; // CURRENT_TIMESTAMP default
+}
+
+export async function createInboundEmail(
+  message_id: string | null,
+  from_addr: string | null,
+  to_addr: string | null,
+  subject: string | null,
+  text_body: string | null,
+  html_body: string | null,
+  raw_headers: string | null,
+): Promise<InboundEmail> {
+  const rs = await client.execute({
+    sql: `INSERT OR IGNORE INTO inbound_emails (message_id, from_addr, to_addr, subject, text_body, html_body, raw_headers)
+          VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    args: [message_id, from_addr, to_addr, subject, text_body, html_body, raw_headers],
+  });
+  if (rs.rowsAffected === 0) {
+    // Duplicate message_id — return existing
+    const existing = await client.execute({ sql: 'SELECT * FROM inbound_emails WHERE message_id = ?', args: [message_id] });
+    return rowToObj<InboundEmail>(existing.rows[0])!;
+  }
+  const row = await client.execute({ sql: 'SELECT * FROM inbound_emails WHERE id = ?', args: [rs.lastInsertRowid] });
+  return rowToObj<InboundEmail>(row.rows[0])!;
+}
+
+export async function getInboundEmails(limit = 50, offset = 0): Promise<InboundEmail[]> {
+  const rs = await client.execute({
+    sql: 'SELECT * FROM inbound_emails ORDER BY received_at DESC LIMIT ? OFFSET ?',
+    args: [limit, offset],
+  });
+  return rowsToObj<InboundEmail>(rs.rows);
+}
+
 // ============ Helper ============
 
 export function computeChanges(

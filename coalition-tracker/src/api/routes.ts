@@ -108,6 +108,8 @@ import {
   getPetitionStats,
   getPublicPetitionStats,
   getPetitionAdminStats,
+  createInboundEmail,
+  getInboundEmails,
   type CoalitionMember,
   type UserRole
 } from '../db/client';
@@ -569,6 +571,47 @@ app.delete('/api/petition/:id', requireAuth, requireAdmin, async (c) => {
   if (!ok) return c.json({ error: 'Not found' }, 404);
   invalidatePetitionCache();
   return c.json({ success: true });
+});
+
+// ============ Inbound Email (Resend webhook) ============
+
+// POST /api/inbound-email — called by Resend when action@liftphilly.org receives mail
+app.post('/api/inbound-email', async (c) => {
+  const secret = process.env.INBOUND_EMAIL_SECRET;
+  if (secret) {
+    const provided = c.req.header('x-resend-signature') || c.req.query('secret');
+    if (provided !== secret) return c.json({ error: 'Unauthorized' }, 401);
+  }
+
+  const body = await c.req.json<{
+    from?: string;
+    to?: string | string[];
+    subject?: string;
+    text?: string;
+    html?: string;
+    headers?: Record<string, string>;
+    messageId?: string;
+    id?: string;
+  }>();
+
+  const message_id = body.messageId || body.id || null;
+  const from_addr = body.from || null;
+  const to_addr = Array.isArray(body.to) ? body.to.join(', ') : (body.to || null);
+  const subject = body.subject || null;
+  const text_body = body.text || null;
+  const html_body = body.html || null;
+  const raw_headers = body.headers ? JSON.stringify(body.headers) : null;
+
+  const email = await createInboundEmail(message_id, from_addr, to_addr, subject, text_body, html_body, raw_headers);
+  return c.json({ success: true, id: email.id }, 201);
+});
+
+// GET /api/inbound-email — list received emails (admin only)
+app.get('/api/inbound-email', requireAuth, requireAdmin, async (c) => {
+  const limit = parseInt(c.req.query('limit') || '50', 10);
+  const offset = parseInt(c.req.query('offset') || '0', 10);
+  const emails = await getInboundEmails(limit, offset);
+  return c.json(emails);
 });
 
 // ============ UI Routes ============
