@@ -503,13 +503,14 @@ app.get('/api/petition/stats', async (c) => {
 // Mod queue page
 app.get('/admin/petition', requireAuth, requireAdmin, async (c) => {
   const user = c.get('user');
-  const [pending, rejected, all, stats] = await Promise.all([
+  const [pending, rejected, all, stats, inboundEmails] = await Promise.all([
     getPendingPetitionSigners(),
     getRejectedPetitionSigners(),
     getAllPetitionSigners(),
     getPetitionStats(),
+    getInboundEmails(1000, 0),
   ]);
-  return c.html(getPetitionModHtml(user, pending, rejected, all, stats));
+  return c.html(getPetitionModHtml(user, pending, rejected, all, stats, inboundEmails.length));
 });
 
 // Admin stats (admin)
