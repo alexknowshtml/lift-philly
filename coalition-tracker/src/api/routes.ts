@@ -622,7 +622,8 @@ app.post('/api/inbound-email', async (c) => {
   const message_id = (data.message_id as string) || null;
   const from_addr = (data.from as string) || null;
   const raw_to = data.to;
-  const to_addr = Array.isArray(raw_to) ? raw_to.join(', ') : ((raw_to as string) || null);
+  const raw_to_str = Array.isArray(raw_to) ? raw_to.join(', ') : ((raw_to as string) || null);
+  const to_addr = raw_to_str?.includes('resend.app') ? 'action@liftphilly.org' : raw_to_str;
   const subject = (data.subject as string) || null;
 
   const email = await createInboundEmail(message_id, from_addr, to_addr, subject, text_body, html_body, raw_headers);
