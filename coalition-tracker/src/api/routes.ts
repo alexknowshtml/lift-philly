@@ -584,30 +584,44 @@ app.post('/api/inbound-email', async (c) => {
   }
 
   // Use text() + JSON.parse() so Content-Type mismatch doesn't silently empty the body
-  let body: {
-    from?: string;
-    to?: string | string[];
-    subject?: string;
-    text?: string;
-    html?: string;
-    headers?: Record<string, string>;
-    message_id?: string; // Resend sends snake_case
-    id?: string;         // Resend webhook event UUID
-  } = {};
+  let payload: Record<string, unknown> = {};
   try {
-    const raw = await c.req.text();
-    body = JSON.parse(raw);
+    payload = JSON.parse(await c.req.text());
   } catch {
     return c.json({ error: 'Invalid JSON body' }, 400);
   }
 
-  const message_id = body.message_id || body.id || null;
-  const from_addr = body.from || null;
-  const to_addr = Array.isArray(body.to) ? body.to.join(', ') : (body.to || null);
-  const subject = body.subject || null;
-  const text_body = body.text || null;
-  const html_body = body.html || null;
-  const raw_headers = body.headers ? JSON.stringify(body.headers) : null;
+  // Resend sends: { type: "email.received", data: { email_id, from, to, subject, message_id, ... } }
+  if (payload.type !== 'email.received') {
+    return c.json({ skipped: true }, 200);
+  }
+
+  const data = (payload.data as Record<string, unknown>) || {};
+  const email_id = data.email_id as string | undefined;
+
+  // Fetch full email body from Resend — webhook only contains metadata
+  let text_body: string | null = null;
+  let html_body: string | null = null;
+  let raw_headers: string | null = null;
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (email_id && apiKey) {
+    const res = await fetch(`https://api.resend.com/emails/receiving/${email_id}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    if (res.ok) {
+      const full = await res.json() as Record<string, unknown>;
+      text_body = (full.text as string) || null;
+      html_body = (full.html as string) || null;
+      raw_headers = full.headers ? JSON.stringify(full.headers) : null;
+    }
+  }
+
+  const message_id = (data.message_id as string) || null;
+  const from_addr = (data.from as string) || null;
+  const raw_to = data.to;
+  const to_addr = Array.isArray(raw_to) ? raw_to.join(', ') : ((raw_to as string) || null);
+  const subject = (data.subject as string) || null;
 
   const email = await createInboundEmail(message_id, from_addr, to_addr, subject, text_body, html_body, raw_headers);
   return c.json({ success: true, id: email.id }, 201);
