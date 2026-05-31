@@ -551,6 +551,32 @@ export function getPetitionModHtml(
     .email-status-select.status-pending { background: #fef3c7; color: #d97706; border-color: #fde68a; }
     .email-status-select.status-assigned { background: #dbeafe; color: #2563eb; border-color: #93c5fd; }
     .email-status-select.status-sent { background: #dcfce7; color: #16a34a; border-color: #86efac; }
+    .email-cards { display: none; flex-direction: column; gap: 10px; }
+    @media (max-width: 640px) {
+      .activation-table-wrap .activation-table { display: none; }
+      .activation-table-wrap { overflow: visible; box-shadow: none; background: transparent; }
+      .email-cards { display: flex; }
+    }
+    .email-card {
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: var(--shadow-md);
+      padding: 14px 16px;
+      border-left: 4px solid var(--border);
+      cursor: pointer;
+    }
+    .email-card.status-pending { border-left-color: var(--warning); }
+    .email-card.status-assigned { border-left-color: #3b82f6; }
+    .email-card.status-sent { border-left-color: var(--success); }
+    .email-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+    .email-card-from { font-weight: 600; color: var(--navy); font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 55%; }
+    .email-card-date { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+    .email-card-subject { font-size: 0.85rem; color: var(--text); margin-bottom: 4px; }
+    .email-card-preview { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .email-card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .email-card-body { display: none; font-size: 0.85rem; line-height: 1.7; color: #333; white-space: pre-wrap; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 10px; max-height: 300px; overflow-y: auto; }
+    .email-card-body.open { display: block; }
+    .email-card-toggle { font-size: 0.75rem; color: #64748b; }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
@@ -879,7 +905,7 @@ export function getPetitionModHtml(
           '<div class="table-wrap"><p class="empty-state">No inbound emails yet.</p></div>';
         return;
       }
-      const rows = emails.map(e => {
+      const items = emails.map(e => {
         const d = new Date(e.received_at.endsWith('Z') ? e.received_at : e.received_at + 'Z');
         const tzOpts = { timeZone: 'America/New_York' };
         const dateStr = d.toLocaleDateString('en-US', { ...tzOpts, month: 'short', day: 'numeric', year: 'numeric' });
@@ -891,31 +917,48 @@ export function getPetitionModHtml(
         ).join('');
         const initials = (e.from_addr || '?').charAt(0).toUpperCase();
         const bodyText = escHtml(e.text_body || '(no body)');
-        return \`<tr id="act-row-\${e.id}" class="signer-row" style="cursor:pointer" onclick="toggleDetail('act',\${e.id})">
-          <td class="actions-cell" onclick="event.stopPropagation()"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
-          <td class="name-cell email-from">\${escHtml(e.from_addr || '—')}</td>
-          <td>\${escHtml(e.subject || '—')}</td>
-          <td class="muted-cell email-preview">\${escHtml(preview)}</td>
-          <td class="date-cell">\${dateStr}<br><span class="time-str">\${timeStr}</span></td>
-        </tr>
-        <tr id="act-detail-\${e.id}" class="detail-row" style="display:none">
-          <td colspan="5" class="detail-cell">
-            <div class="gmail-card">
-              <div class="gmail-header">
-                <div class="gmail-avatar">\${initials}</div>
-                <div class="gmail-meta">
-                  <div class="gmail-from">\${escHtml(e.from_addr || '—')}</div>
-                  <div class="gmail-to">to \${escHtml(e.to_addr || '—')}</div>
+        return {
+          row: \`<tr id="act-row-\${e.id}" class="signer-row" style="cursor:pointer" onclick="toggleDetail('act',\${e.id})">
+            <td class="actions-cell" onclick="event.stopPropagation()"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
+            <td class="name-cell email-from">\${escHtml(e.from_addr || '—')}</td>
+            <td>\${escHtml(e.subject || '—')}</td>
+            <td class="muted-cell email-preview">\${escHtml(preview)}</td>
+            <td class="date-cell">\${dateStr}<br><span class="time-str">\${timeStr}</span></td>
+          </tr>
+          <tr id="act-detail-\${e.id}" class="detail-row" style="display:none">
+            <td colspan="5" class="detail-cell">
+              <div class="gmail-card">
+                <div class="gmail-header">
+                  <div class="gmail-avatar">\${initials}</div>
+                  <div class="gmail-meta">
+                    <div class="gmail-from">\${escHtml(e.from_addr || '—')}</div>
+                    <div class="gmail-to">to \${escHtml(e.to_addr || '—')}</div>
+                  </div>
+                  <div class="gmail-date">\${dateStr} \${timeStr}</div>
                 </div>
-                <div class="gmail-date">\${dateStr} \${timeStr}</div>
+                <div class="gmail-body">\${bodyText}</div>
               </div>
-              <div class="gmail-body">\${bodyText}</div>
+            </td>
+          </tr>\`,
+          card: \`<div class="email-card status-\${status}" onclick="toggleEmailCard(this)">
+            <div class="email-card-top">
+              <div class="email-card-from">\${escHtml(e.from_addr || '—')}</div>
+              <div class="email-card-date">\${dateStr}</div>
             </div>
-          </td>
-        </tr>\`;
-      }).join('');
+            <div class="email-card-subject">\${escHtml(e.subject || '—')}</div>
+            <div class="email-card-preview">\${escHtml(preview)}</div>
+            <div class="email-card-footer" onclick="event.stopPropagation()">
+              <select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select>
+              <span class="email-card-toggle">tap to expand</span>
+            </div>
+            <div class="email-card-body">\${bodyText}</div>
+          </div>\`
+        };
+      });
+      const rows = items.map(i => i.row).join('');
+      const cards = items.map(i => i.card).join('');
       document.getElementById('activation-content').innerHTML = \`
-        <div class="table-wrap">
+        <div class="table-wrap activation-table-wrap">
           <table class="activation-table">
             <colgroup>
               <col class="col-status"><col class="col-from"><col class="col-subject"><col><col class="col-received">
@@ -923,7 +966,15 @@ export function getPetitionModHtml(
             <thead><tr><th>Status</th><th>From</th><th>Subject</th><th>Preview</th><th>Received</th></tr></thead>
             <tbody>\${rows}</tbody>
           </table>
-        </div>\`;
+        </div>
+        <div class="email-cards">\${cards}</div>\`;
+    }
+
+    function toggleEmailCard(card) {
+      const body = card.querySelector('.email-card-body');
+      const toggle = card.querySelector('.email-card-toggle');
+      const open = body.classList.toggle('open');
+      if (toggle) toggle.textContent = open ? 'tap to collapse' : 'tap to expand';
     }
 
     async function updateEmailStatus(id, sel) {
