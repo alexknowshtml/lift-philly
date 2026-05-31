@@ -999,17 +999,15 @@ export function getPetitionModHtml(
 
     function stripQuotedReply(text) {
       if (!text) return text;
-      const lines = text.split('\n');
+      const lines = text.split('\\n');
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        // "On [date] ... wrote:" attribution — may wrap across two lines
         const twoLine = i < lines.length - 1 ? line + ' ' + lines[i + 1].trim() : line;
         if (/^On .{10,} wrote:/.test(line) || /^On .{10,} wrote:/.test(twoLine)) {
-          return lines.slice(0, i).join('\n').trimEnd();
+          return lines.slice(0, i).join('\\n').trimEnd();
         }
-        // Quoted block starting with >
         if (line.startsWith('>')) {
-          return lines.slice(0, i).join('\n').trimEnd();
+          return lines.slice(0, i).join('\\n').trimEnd();
         }
       }
       return text.trimEnd();
