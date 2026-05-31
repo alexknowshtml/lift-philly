@@ -539,6 +539,14 @@ export function getPetitionModHtml(
     .activation-table .col-from   { width: 170px; }
     .activation-table .col-subject { width: 190px; }
     .activation-table .col-received { width: 130px; }
+    .gmail-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 4px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .gmail-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .gmail-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; flex-shrink: 0; }
+    .gmail-meta { flex: 1; min-width: 0; }
+    .gmail-from { font-weight: 600; font-size: 0.88rem; color: #1a1a1a; }
+    .gmail-to { font-size: 0.78rem; color: #888; margin-top: 1px; }
+    .gmail-date { font-size: 0.78rem; color: #888; white-space: nowrap; }
+    .gmail-body { font-size: 0.85rem; line-height: 1.7; color: #333; white-space: pre-wrap; max-height: 400px; overflow-y: auto; border-top: 1px solid #f1f5f9; padding-top: 14px; }
     .email-status-select { font-size: 0.78rem; padding: 3px 6px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer; font-weight: 500; }
     .email-status-select.status-pending { background: #fef3c7; color: #d97706; border-color: #fde68a; }
     .email-status-select.status-assigned { background: #dbeafe; color: #2563eb; border-color: #93c5fd; }
@@ -881,7 +889,8 @@ export function getPetitionModHtml(
         const statusOpts = ['pending','assigned','sent'].map(s =>
           \`<option value="\${s}"\${s === status ? ' selected' : ''}>\${s}</option>\`
         ).join('');
-        const bodyHtml = escHtml(e.text_body || '').replace(/\\n/g, '<br>');
+        const initials = (e.from_addr || '?').charAt(0).toUpperCase();
+        const bodyText = escHtml(e.text_body || '(no body)');
         return \`<tr id="act-row-\${e.id}" class="signer-row" style="cursor:pointer" onclick="toggleDetail('act',\${e.id})">
           <td class="actions-cell" onclick="event.stopPropagation()"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
           <td class="name-cell email-from">\${escHtml(e.from_addr || '—')}</td>
@@ -891,7 +900,17 @@ export function getPetitionModHtml(
         </tr>
         <tr id="act-detail-\${e.id}" class="detail-row" style="display:none">
           <td colspan="5" class="detail-cell">
-            <div style="font-size:0.85rem;line-height:1.6;white-space:pre-wrap;max-height:300px;overflow-y:auto">\${bodyHtml}</div>
+            <div class="gmail-card">
+              <div class="gmail-header">
+                <div class="gmail-avatar">\${initials}</div>
+                <div class="gmail-meta">
+                  <div class="gmail-from">\${escHtml(e.from_addr || '—')}</div>
+                  <div class="gmail-to">to \${escHtml(e.to_addr || '—')}</div>
+                </div>
+                <div class="gmail-date">\${dateStr} \${timeStr}</div>
+              </div>
+              <div class="gmail-body">\${bodyText}</div>
+            </div>
           </td>
         </tr>\`;
       }).join('');
