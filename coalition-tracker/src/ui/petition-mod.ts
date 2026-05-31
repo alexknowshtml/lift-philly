@@ -532,8 +532,13 @@ export function getPetitionModHtml(
       .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
     }
 
-    .email-from { white-space: nowrap; font-weight: 500; color: var(--navy); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
-    .email-preview { color: var(--text-muted); font-size: 0.8rem; max-width: 360px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .email-from { white-space: nowrap; font-weight: 500; color: var(--navy); overflow: hidden; text-overflow: ellipsis; }
+    .email-preview { color: var(--text-muted); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .activation-table { table-layout: fixed; width: 100%; }
+    .activation-table .col-status { width: 110px; }
+    .activation-table .col-from   { width: 170px; }
+    .activation-table .col-subject { width: 190px; }
+    .activation-table .col-received { width: 130px; }
     .email-status-select { font-size: 0.78rem; padding: 3px 6px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer; font-weight: 500; }
     .email-status-select.status-pending { background: #fef3c7; color: #d97706; border-color: #fde68a; }
     .email-status-select.status-assigned { background: #dbeafe; color: #2563eb; border-color: #93c5fd; }
@@ -886,7 +891,10 @@ export function getPetitionModHtml(
       }).join('');
       document.getElementById('activation-content').innerHTML = \`
         <div class="table-wrap">
-          <table>
+          <table class="activation-table">
+            <colgroup>
+              <col class="col-status"><col class="col-from"><col class="col-subject"><col><col class="col-received">
+            </colgroup>
             <thead><tr><th>Status</th><th>From</th><th>Subject</th><th>Preview</th><th>Received</th></tr></thead>
             <tbody>\${rows}</tbody>
           </table>
