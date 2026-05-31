@@ -877,17 +877,17 @@ export function getPetitionModHtml(
           \`<option value="\${s}"\${s === status ? ' selected' : ''}>\${s}</option>\`
         ).join('');
         return \`<tr>
+          <td class="actions-cell"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
           <td class="name-cell email-from">\${escHtml(e.from_addr || '—')}</td>
           <td>\${escHtml(e.subject || '—')}</td>
           <td class="muted-cell email-preview">\${escHtml(preview)}\${preview.length === 120 ? '…' : ''}</td>
           <td class="date-cell">\${dateStr}<br><span class="time-str">\${timeStr}</span></td>
-          <td class="actions-cell"><select class="email-status-select status-\${status}" onchange="updateEmailStatus(\${e.id}, this)">\${statusOpts}</select></td>
         </tr>\`;
       }).join('');
       document.getElementById('activation-content').innerHTML = \`
         <div class="table-wrap">
           <table>
-            <thead><tr><th>From</th><th>Subject</th><th>Preview</th><th>Received</th><th>Status</th></tr></thead>
+            <thead><tr><th>Status</th><th>From</th><th>Subject</th><th>Preview</th><th>Received</th></tr></thead>
             <tbody>\${rows}</tbody>
           </table>
         </div>\`;
