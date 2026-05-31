@@ -583,18 +583,25 @@ app.post('/api/inbound-email', async (c) => {
     if (provided !== secret) return c.json({ error: 'Unauthorized' }, 401);
   }
 
-  const body = await c.req.json<{
+  // Use text() + JSON.parse() so Content-Type mismatch doesn't silently empty the body
+  let body: {
     from?: string;
     to?: string | string[];
     subject?: string;
     text?: string;
     html?: string;
     headers?: Record<string, string>;
-    messageId?: string;
-    id?: string;
-  }>();
+    message_id?: string; // Resend sends snake_case
+    id?: string;         // Resend webhook event UUID
+  } = {};
+  try {
+    const raw = await c.req.text();
+    body = JSON.parse(raw);
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
 
-  const message_id = body.messageId || body.id || null;
+  const message_id = body.message_id || body.id || null;
   const from_addr = body.from || null;
   const to_addr = Array.isArray(body.to) ? body.to.join(', ') : (body.to || null);
   const subject = body.subject || null;
