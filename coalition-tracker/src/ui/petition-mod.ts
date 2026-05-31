@@ -712,10 +712,20 @@ export function getPetitionModHtml(
       html += btn(page+1, '›', page>=pages-1, false);
       el.innerHTML = html;
     }
+    let _activationCache = null;
     document.addEventListener('DOMContentLoaded', () => {
       initPagination('p', ${pending.length});
       initPagination('rj', ${rejected.length});
       initPagination('a', ${all.length});
+      // Pre-fetch activation emails so badge shows on load
+      fetch('/api/inbound-email?limit=200')
+        .then(r => r.ok ? r.json() : [])
+        .then(emails => {
+          _activationCache = emails;
+          const badge = document.getElementById('activation-badge');
+          if (badge && emails.length) { badge.textContent = emails.length; badge.style.display = ''; }
+        })
+        .catch(() => {});
     });
 
     // ---- Column sort ----
@@ -848,16 +858,19 @@ export function getPetitionModHtml(
       activationLoaded = true;
       let emails = [];
       try {
-        const res = await fetch('/api/inbound-email?limit=200');
-        if (!res.ok) throw new Error('Failed to load');
-        emails = await res.json();
+        if (_activationCache !== null) {
+          emails = _activationCache;
+        } else {
+          const res = await fetch('/api/inbound-email?limit=200');
+          if (!res.ok) throw new Error('Failed to load');
+          emails = await res.json();
+          _activationCache = emails;
+        }
       } catch (e) {
         document.getElementById('activation-content').innerHTML =
           '<div class="stats-loading">Error loading emails — try refreshing.</div>';
         return;
       }
-      const badge = document.getElementById('activation-badge');
-      if (badge) { badge.textContent = emails.length; badge.style.display = ''; }
       if (!emails.length) {
         document.getElementById('activation-content').innerHTML =
           '<div class="table-wrap"><p class="empty-state">No inbound emails yet.</p></div>';
