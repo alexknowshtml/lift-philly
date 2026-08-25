@@ -570,7 +570,7 @@ document.getElementById('btn-next').addEventListener('click',()=>{
   loadTestimonial(testiIdx < 0 ? 0 : (testiIdx+1) % TESTIMONIALS.length);
 });
 // Load first testimonial on startup
-fetch('https://page.jfdi.bot/public/lift-testimonials.json')
+fetch('/lift-testimonials.json')
   .then(r=>r.json())
   .then(data=>{
     TESTIMONIALS=data;
