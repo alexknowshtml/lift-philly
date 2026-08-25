@@ -116,7 +116,7 @@ function loadTestimonial(idx) {
   if (idx < 0 || idx >= TESTIMONIALS.length) return;
   testiIdx = idx;
   const t = TESTIMONIALS[idx];
-  document.getElementById('quote').value = t.quote;
+  document.getElementById('quote').value = t.card_quote || t.quote;
   document.getElementById('name').value = t.name;
   document.getElementById('industry').value = t.industry;
   document.getElementById('zip').value = t.zip;
