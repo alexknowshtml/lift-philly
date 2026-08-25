@@ -519,7 +519,19 @@ const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 if(isIOS) document.getElementById('btn-dl').textContent='Open Image to Save';
 document.getElementById('btn-dl').addEventListener('click',()=>{
   const url=canvas.toDataURL('image/png');
-  if(isIOS){window.open(url,'_blank');}
+  if(isIOS){
+    let ov=document.getElementById('ios-save-ov');
+    if(!ov){
+      ov=document.createElement('div');
+      ov.id='ios-save-ov';
+      ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:20px;box-sizing:border-box;';
+      ov.innerHTML='<p style="color:#fff;margin:0 0 14px;font-size:15px;text-align:center;line-height:1.4;">Long-press the image below,<br>then tap <strong>Save to Photos</strong></p><img id="ios-save-img" style="max-width:100%;max-height:65vh;border-radius:8px;"><button id="ios-save-close" style="margin-top:16px;padding:12px 28px;background:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;">Done</button>';
+      document.body.appendChild(ov);
+      document.getElementById('ios-save-close').addEventListener('click',()=>{ov.style.display='none';});
+    }
+    document.getElementById('ios-save-img').src=url;
+    ov.style.display='flex';
+  }
   else{const a=document.createElement('a');a.download=`lift-card-${tpl.toLowerCase()}-${Date.now()}.png`;a.href=url;a.click();}
 });
 
