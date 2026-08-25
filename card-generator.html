@@ -515,11 +515,12 @@ document.querySelectorAll('.tab').forEach(btn=>{
   document.getElementById(id).addEventListener('input',()=>{render();saveEdit();});
 });
 
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+if(isIOS) document.getElementById('btn-dl').textContent='Open Image to Save';
 document.getElementById('btn-dl').addEventListener('click',()=>{
-  const a=document.createElement('a');
-  a.download=`lift-card-${tpl.toLowerCase()}-${Date.now()}.png`;
-  a.href=canvas.toDataURL('image/png');
-  a.click();
+  const url=canvas.toDataURL('image/png');
+  if(isIOS){window.open(url,'_blank');}
+  else{const a=document.createElement('a');a.download=`lift-card-${tpl.toLowerCase()}-${Date.now()}.png`;a.href=url;a.click();}
 });
 
 
