@@ -365,7 +365,7 @@ function renderA(d){
   const logoLeft=W-90-lw2;
   const attrMaxW=logoLeft-P-24;
 
-  y=Math.max(y+64,1204);
+  y=1204;
   ctx.fillStyle='#111827';
   ctx.font=`bold 34px Montserrat,sans-serif`;
   ctx.fillText(formatName(d.name),P,y,attrMaxW);
@@ -411,7 +411,7 @@ function renderB(d){
   y+=drawRichLines(lines,P,y,qPx*1.45);
 
   // Attribution
-  y+=96; ctx.fillStyle='#111827';
+  y=1190; ctx.fillStyle='#111827';
   ctx.font=`bold 36px Montserrat,sans-serif`;
   ctx.fillText(formatName(d.name),P,y);
   ctx.font=`400 33px Montserrat,sans-serif`;
@@ -461,7 +461,7 @@ function renderC(d){
   ctx.letterSpacing='0px';
 
   // Attribution white — left aligned
-  y=Math.max(y+36,1107);
+  y=1107;
   ctx.textAlign='left'; ctx.fillStyle=WHITE;
   ctx.font=`bold 36px Montserrat,sans-serif`;
   ctx.fillText(formatName(d.name),P,y);
