@@ -331,7 +331,7 @@ function renderA(d){
   let qPx=56;
   let bodyLines,bcLines=[];
   while(qPx>=30){
-    bodyLines=wrapLines(`400 ${qPx}px Montserrat,sans-serif`,d.quote,TW);
+    bodyLines=wrapLines(`400 ${qPx}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
     const lh=qPx*1.45;
     let needed=bodyLines.length*lh;
     if(d.boldClose&&d.boldClose.trim()){
@@ -342,7 +342,7 @@ function renderA(d){
     qPx-=2;
   }
   // truncate if still overflows at floor
-  {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit(d.quote,`400 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`400 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
+  {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`400 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`400 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
   const lh=qPx*1.45;
   const bodyF=`400 ${qPx}px Montserrat,sans-serif`;
   ctx.fillStyle='#1f2937'; ctx.textAlign='left';
@@ -390,7 +390,7 @@ function renderB(d){
   ctx.fillText('“',W/2,435);
 
   // Split: bold first sentence, regular rest — flows inline
-  const full=d.quote.trim();
+  const full=(d.card_quote||d.quote).trim();
   const m=full.search(/[.!?]\s/);
   let first=full, rest='';
   if(m!==-1){first=full.slice(0,m+1); rest=full.slice(m+2);}
@@ -405,7 +405,7 @@ function renderB(d){
     qPx-=2;
   }
   // truncate if still overflows at floor
-  {const maxL=Math.floor(644/(qPx*1.45)); if(lines.length>maxL){const tq=truncateToFit(d.quote,`400 ${qPx}px Montserrat,sans-serif`,TW,maxL); lines=wrapRichLines([{text:tq,font:`bold ${qPx}px Montserrat,sans-serif`}],TW);}}
+  {const maxL=Math.floor(644/(qPx*1.45)); if(lines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`400 ${qPx}px Montserrat,sans-serif`,TW,maxL); lines=wrapRichLines([{text:tq,font:`bold ${qPx}px Montserrat,sans-serif`}],TW);}}
   const bF=`bold ${qPx}px Montserrat,sans-serif`;
   const rF=`400 ${qPx}px Montserrat,sans-serif`;
   y+=drawRichLines(lines,P,y,qPx*1.45);
@@ -450,7 +450,7 @@ function renderC(d){
   ctx.letterSpacing='6px';
   let qPxC=72,qL;
   while(qPxC>=30){
-    qL=wrapLines(`bold ${qPxC}px Montserrat,sans-serif`,d.quote,760);
+    qL=wrapLines(`bold ${qPxC}px Montserrat,sans-serif`,(d.card_quote||d.quote),760);
     if(qL.length*(qPxC*1.5)<=(1071-y)) break;
     qPxC-=2;
   }
