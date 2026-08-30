@@ -331,7 +331,7 @@ function renderA(d){
   let qPx=56;
   let bodyLines,bcLines=[];
   while(qPx>=30){
-    bodyLines=wrapLines(`500 ${qPx}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
+    bodyLines=wrapLines(`700 ${qPx}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
     const lh=qPx*1.45;
     let needed=bodyLines.length*lh;
     if(d.boldClose&&d.boldClose.trim()){
@@ -342,9 +342,9 @@ function renderA(d){
     qPx-=2;
   }
   // truncate if still overflows at floor
-  {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`500 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`500 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
+  {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`700 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`700 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
   const lh=qPx*1.45;
-  const bodyF=`500 ${qPx}px Montserrat,sans-serif`;
+  const bodyF=`700 ${qPx}px Montserrat,sans-serif`;
   ctx.fillStyle='#1f2937'; ctx.textAlign='left';
   ctx.font=bodyF;
   y+=drawLines(bodyLines,P,y,lh);
@@ -400,7 +400,7 @@ function renderB(d){
   let qPx=56,lines;
   while(qPx>=30){
     const tbF=`bold ${qPx}px Montserrat,sans-serif`;
-    const trF=`500 ${qPx}px Montserrat,sans-serif`;
+    const trF=`700 ${qPx}px Montserrat,sans-serif`;
     lines=wrapRichLines([{text:first,font:tbF},{text:rest,font:trF}],TW);
     if(lines.length*(qPx*1.45)<=644) break;
     qPx-=2;
@@ -408,7 +408,7 @@ function renderB(d){
   // truncate if still overflows at floor
   {const maxL=Math.floor(644/(qPx*1.45)); if(lines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`500 ${qPx}px Montserrat,sans-serif`,TW,maxL); lines=wrapRichLines([{text:tq,font:`bold ${qPx}px Montserrat,sans-serif`}],TW);}}
   const bF=`bold ${qPx}px Montserrat,sans-serif`;
-  const rF=`500 ${qPx}px Montserrat,sans-serif`;
+  const rF=`700 ${qPx}px Montserrat,sans-serif`;
   y+=drawRichLines(lines,P,y,qPx*1.45);
 
   // Attribution
@@ -464,7 +464,7 @@ function renderC(d){
     qPxC-=2;
   }
   const qLH=qPxC*1.5;
-  ctx.font=`bold ${qPxC}px Montserrat,sans-serif`; ctx.fillStyle=CGOLD;
+  ctx.font=`bold ${qPxC}px Montserrat,sans-serif`; ctx.fillStyle=GOLDBRIGHT;
   qL.forEach((l,i)=>ctx.fillText(l,P,y+i*qLH));
   // Attribution white — bottom left, anchored at 1300
   const nFC=1+(d.industry&&d.industry.trim()?1:0)+(d.zip&&d.zip.trim()?1:0);
