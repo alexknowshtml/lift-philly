@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <title>LIFT Philly Card Generator</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -140,11 +140,11 @@ function loadTestimonial(idx) {
 function fitFont(basePx, minPx, text, maxW) {
   let px = basePx;
   while (px > minPx) {
-    const lines = wrapLines(`400 ${px}px Montserrat,sans-serif`, text, maxW);
+    const lines = wrapLines(`500 ${px}px Montserrat,sans-serif`, text, maxW);
     if (lines.length <= Math.floor(700 / (px * 1.45))) return {px, lines};
     px -= 2;
   }
-  return {px: minPx, lines: wrapLines(`400 ${minPx}px Montserrat,sans-serif`, text, maxW)};
+  return {px: minPx, lines: wrapLines(`500 ${minPx}px Montserrat,sans-serif`, text, maxW)};
 }
 
 const TEMPLATES = {
@@ -244,14 +244,14 @@ function drawBg(overlay){
 
 function swipeHint(color){
   const c=color||'#ffffff';
-  ctx.font='400 25px Montserrat,sans-serif';
+  ctx.font='500 25px Montserrat,sans-serif';
   ctx.fillStyle=c;
   ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   const cx=890;
-  ctx.fillText('Swipe for',cx,1119);
-  ctx.fillText('more stories',cx,1155);
+  ctx.fillText('Swipe for',cx,1192);
+  ctx.fillText('more stories',cx,1228);
   // thick arrow
-  const ay=1205, x1=828, x2=938;
+  const ay=1278, x1=828, x2=938;
   ctx.strokeStyle=c; ctx.fillStyle=c; ctx.lineWidth=10; ctx.lineCap='butt';
   ctx.beginPath(); ctx.moveTo(x1,ay); ctx.lineTo(x2,ay); ctx.stroke();
   ctx.beginPath();
@@ -311,7 +311,7 @@ function formatName(n){
   return first+' '+last.charAt(0).toUpperCase()+'.';
 }
 function renderA(d){
-  drawBg('rgba(255,255,255,0.70)');
+  drawBg('rgba(255,255,255,0.88)');
   const P=95,TW=W-P*2;
 
   // Header text (no band, no divider — matches reference)
@@ -331,7 +331,7 @@ function renderA(d){
   let qPx=56;
   let bodyLines,bcLines=[];
   while(qPx>=30){
-    bodyLines=wrapLines(`400 ${qPx}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
+    bodyLines=wrapLines(`500 ${qPx}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
     const lh=qPx*1.45;
     let needed=bodyLines.length*lh;
     if(d.boldClose&&d.boldClose.trim()){
@@ -342,9 +342,9 @@ function renderA(d){
     qPx-=2;
   }
   // truncate if still overflows at floor
-  {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`400 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`400 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
+  {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`500 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`500 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
   const lh=qPx*1.45;
-  const bodyF=`400 ${qPx}px Montserrat,sans-serif`;
+  const bodyF=`500 ${qPx}px Montserrat,sans-serif`;
   ctx.fillStyle='#1f2937'; ctx.textAlign='left';
   ctx.font=bodyF;
   y+=drawLines(bodyLines,P,y,lh);
@@ -365,11 +365,12 @@ function renderA(d){
   const logoLeft=W-90-lw2;
   const attrMaxW=logoLeft-P-24;
 
-  y=1204;
+  const nFA=1+(d.industry&&d.industry.trim()?1:0)+(d.zip&&d.zip.trim()?1:0);
+  y=1300-(nFA-1)*45;
   ctx.fillStyle='#111827';
   ctx.font=`bold 34px Montserrat,sans-serif`;
   ctx.fillText(formatName(d.name),P,y,attrMaxW);
-  ctx.font=`400 31px Montserrat,sans-serif`;
+  ctx.font=`500 31px Montserrat,sans-serif`;
   let ay=y;
   if(d.industry&&d.industry.trim()){ay+=45;ctx.fillText(d.industry,P,ay,attrMaxW);}
   if(d.zip&&d.zip.trim()){ay+=45;ctx.fillText(d.zip,P,ay,attrMaxW);}
@@ -379,7 +380,7 @@ function renderA(d){
 }
 
 function renderB(d){
-  drawBg('rgba(255,255,255,0.52)');
+  drawBg('rgba(255,255,255,0.75)');
   const P=95,TW=W-P*2;
 
   liftLogo(P,80,1.5);
@@ -399,22 +400,23 @@ function renderB(d){
   let qPx=56,lines;
   while(qPx>=30){
     const tbF=`bold ${qPx}px Montserrat,sans-serif`;
-    const trF=`400 ${qPx}px Montserrat,sans-serif`;
+    const trF=`500 ${qPx}px Montserrat,sans-serif`;
     lines=wrapRichLines([{text:first,font:tbF},{text:rest,font:trF}],TW);
     if(lines.length*(qPx*1.45)<=644) break;
     qPx-=2;
   }
   // truncate if still overflows at floor
-  {const maxL=Math.floor(644/(qPx*1.45)); if(lines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`400 ${qPx}px Montserrat,sans-serif`,TW,maxL); lines=wrapRichLines([{text:tq,font:`bold ${qPx}px Montserrat,sans-serif`}],TW);}}
+  {const maxL=Math.floor(644/(qPx*1.45)); if(lines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`500 ${qPx}px Montserrat,sans-serif`,TW,maxL); lines=wrapRichLines([{text:tq,font:`bold ${qPx}px Montserrat,sans-serif`}],TW);}}
   const bF=`bold ${qPx}px Montserrat,sans-serif`;
-  const rF=`400 ${qPx}px Montserrat,sans-serif`;
+  const rF=`500 ${qPx}px Montserrat,sans-serif`;
   y+=drawRichLines(lines,P,y,qPx*1.45);
 
   // Attribution
-  y=1190; ctx.fillStyle='#111827';
+  const nFB=1+(d.industry&&d.industry.trim()?1:0)+(d.zip&&d.zip.trim()?1:0);
+  y=1300-(nFB-1)*59; ctx.fillStyle='#111827';
   ctx.font=`bold 36px Montserrat,sans-serif`;
   ctx.fillText(formatName(d.name),P,y);
-  ctx.font=`400 33px Montserrat,sans-serif`;
+  ctx.font=`500 33px Montserrat,sans-serif`;
   let ay=y;
   if(d.industry&&d.industry.trim()){ay+=59;ctx.fillText(d.industry,P,ay);}
   if(d.zip&&d.zip.trim()){ay+=59;ctx.fillText(d.zip,P,ay);}
@@ -423,55 +425,56 @@ function renderB(d){
 }
 
 function renderC(d){
-  drawBg('rgba(8,16,36,0.48)');
+  drawBg('rgba(8,16,36,0.65)');
   const P=95,TW=W-P*2;
   const CGOLD='#E8A33D';
 
   liftLogo(P,80,1.5);
 
-  // White headline — centered
-  let y=313; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-  ctx.fillStyle=WHITE;
-  ctx.letterSpacing='2px';
+  // “Constituent Testimonies / Bill 251026” — right-aligned beside the pill
+  const logoMidY=80+(32*1.5+12*1.5*2)/2;
+  ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillStyle='rgba(255,255,255,0.75)';
+  ctx.font=`500 24px Montserrat,sans-serif`;
+  ctx.fillText('Constituent Testimonies',W-P,logoMidY-15);
+  ctx.fillText('Bill 251026',W-P,logoMidY+15);
+  ctx.textBaseline='alphabetic';
+
+  // White headline — left aligned
+  let y=313; ctx.textAlign='left'; ctx.fillStyle=WHITE;
+  ctx.letterSpacing='1px';
   const hF=`bold 52px Montserrat,sans-serif`;
-  const hL=wrapLines(hF,d.headline.toUpperCase(),820);
+  const hL=wrapLines(hF,d.headline.toUpperCase(),TW);
   ctx.font=hF;
-  hL.forEach((l,i)=>ctx.fillText(l,W/2,y+i*85));
+  hL.forEach((l,i)=>ctx.fillText(l,P,y+i*85));
   y+=hL.length*85;
   ctx.letterSpacing='0px';
 
-  // Gold quote mark — centered
+  // Gold quote mark — left aligned
   y=Math.max(y+50,575);
-  ctx.font=`bold 150px "Playfair Display",serif`; ctx.fillStyle=CGOLD;
-  ctx.fillText('“',W/2,y);
+  ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle=CGOLD;
+  ctx.fillText('”',P,y);
 
-  // Gold quote — bold sans, centered, auto-scale
-  y+=73;
-  ctx.letterSpacing='6px';
+  // Gold quote — bold sans, left aligned, auto-scale, no letter-spacing
+  y+=36;
   let qPxC=72,qL;
   while(qPxC>=30){
-    qL=wrapLines(`bold ${qPxC}px Montserrat,sans-serif`,(d.card_quote||d.quote),760);
-    if(qL.length*(qPxC*1.5)<=(1071-y)) break;
+    qL=wrapLines(`bold ${qPxC}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
+    if(qL.length*(qPxC*1.5)<=(1200-y)) break;
     qPxC-=2;
   }
   const qLH=qPxC*1.5;
   ctx.font=`bold ${qPxC}px Montserrat,sans-serif`; ctx.fillStyle=CGOLD;
-  qL.forEach((l,i)=>ctx.fillText(l,W/2,y+i*qLH));
-  y+=qL.length*qLH;
-  ctx.letterSpacing='0px';
-
-  // Attribution white — left aligned
-  y=1107;
+  qL.forEach((l,i)=>ctx.fillText(l,P,y+i*qLH));
+  // Attribution white — bottom left, anchored at 1300
+  const nFC=1+(d.industry&&d.industry.trim()?1:0)+(d.zip&&d.zip.trim()?1:0);
+  let ay=1300-(nFC-1)*48;
   ctx.textAlign='left'; ctx.fillStyle=WHITE;
   ctx.font=`bold 36px Montserrat,sans-serif`;
-  ctx.fillText(formatName(d.name),P,y);
-  ctx.font=`400 33px Montserrat,sans-serif`;
-  let ay=y;
-  if(d.industry&&d.industry.trim()){ay+=59;ctx.fillText(d.industry,P,ay);}
-  if(d.zip&&d.zip.trim()){ay+=59;ctx.fillText(d.zip,P,ay);}
-  ctx.font=`400 29px Montserrat,sans-serif`;
-  ctx.fillStyle='rgba(255,255,255,0.75)';
-  ctx.fillText('Constituent Testimonies - Bill 251026',P,y+171);
+  ctx.fillText(formatName(d.name),P,ay);
+  ctx.font=`500 33px Montserrat,sans-serif`;
+  if(d.industry&&d.industry.trim()){ay+=48;ctx.fillText(d.industry,P,ay);}
+  if(d.zip&&d.zip.trim()){ay+=48;ctx.fillText(d.zip,P,ay);}
 
   swipeHint('#ffffff');
 }
