@@ -314,14 +314,18 @@ function renderA(d){
   drawBg('rgba(255,255,255,0.5)');
   const P=95,TW=W-P*2;
 
-  // Header text (no band, no divider — matches reference)
-  ctx.textAlign='center'; ctx.textBaseline='alphabetic'; ctx.fillStyle='#111827';
+  // Header — left: campaign title; right: bill info
+  ctx.textBaseline='alphabetic'; ctx.fillStyle='#111827';
+  ctx.textAlign='left';
   ctx.font=`bold 44px Montserrat,sans-serif`;
-  ctx.fillText("Save Philly's Small",W/2,110);
-  ctx.fillText("Business Community",W/2,162);
-  ctx.font=`bold 38px Montserrat,sans-serif`;
-  ctx.fillText('Constituent Testimonies',W/2,210);
-  ctx.fillText('Bill 251026',W/2,256);
+  ctx.fillText("Save Philly's Small",P,120,W/2-P-16);
+  ctx.fillText("Business Community",P,172,W/2-P-16);
+  ctx.textAlign='right';
+  ctx.font=`bold 30px Montserrat,sans-serif`;
+  ctx.fillText('Constituent Testimonies',W-P,130);
+  ctx.font=`500 28px Montserrat,sans-serif`;
+  ctx.fillText('Bill 251026',W-P,168);
+  ctx.textAlign='center';
 
   // Measure body first so we can size the box
   let y=468;
