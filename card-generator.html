@@ -367,8 +367,8 @@ function renderA(d){
   ctx.restore();
 
   // Quote mark — centered
-  ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle='#111827';
-  ctx.fillText('”',W/2,390);
+  ctx.font=`bold 150px "Playfair Display",serif`; ctx.fillStyle='#111827';
+  ctx.fillText('"',W/2,390);
 
   // Body quote
   const bodyF=`700 ${qPx}px Montserrat,sans-serif`;
@@ -415,8 +415,8 @@ function renderB(d){
   ctx.textBaseline='alphabetic'; ctx.fillStyle='#111827';
   ctx.textAlign='left';
   ctx.font=`bold 44px Montserrat,sans-serif`;
-  ctx.fillText(“Save Philly's Small”,P-40,120,W/2-P-16);
-  ctx.fillText(“Business Community”,P-40,172,W/2-P-16);
+  ctx.fillText("Save Philly's Small",P-40,120,W/2-P-16);
+  ctx.fillText("Business Community",P-40,172,W/2-P-16);
   ctx.textAlign='right';
   ctx.font=`bold 30px Montserrat,sans-serif`;
   ctx.fillText('Constituent Testimonies',W-P+40,130);
@@ -463,8 +463,8 @@ function renderB(d){
 
   // Quote mark
   ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-  ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle='#111827';
-  ctx.fillText('”',W/2,435);
+  ctx.font=`bold 150px "Playfair Display",serif`; ctx.fillStyle='#111827';
+  ctx.fillText('"',W/2,435);
 
   // Quote body
   ctx.textAlign='left'; ctx.fillStyle='#1f2937';
@@ -497,7 +497,7 @@ function renderC(d){
 
   liftLogo(P,80,1.5);
 
-  // “Constituent Testimonies / Bill 251026” — right-aligned beside the pill
+  // "Constituent Testimonies / Bill 251026" — right-aligned beside the pill
   const logoMidY=80+(32*1.5+12*1.5*2)/2;
   ctx.textAlign='right'; ctx.textBaseline='middle';
   ctx.fillStyle='rgba(255,255,255,0.75)';
@@ -518,8 +518,8 @@ function renderC(d){
 
   // Gold quote mark — left aligned
   y=Math.max(y+50,575);
-  ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle=CGOLD;
-  ctx.fillText('”',P,y);
+  ctx.font=`bold 150px "Playfair Display",serif`; ctx.fillStyle=CGOLD;
+  ctx.fillText('"',P,y);
 
   // Gold quote — bold sans, left aligned, auto-scale, no letter-spacing
   y+=36;
