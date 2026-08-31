@@ -321,11 +321,7 @@ function renderA(d){
   ctx.font=`bold 38px Montserrat,sans-serif`;
   ctx.fillText('Constituent Testimonies - Bill 251026',W/2,214);
 
-  // Quote mark — centered
-  ctx.font=`bold 150px "Playfair Display",serif`; ctx.fillStyle='#111827';
-  ctx.fillText('“',W/2,390);
-
-  // Body quote — auto-scale to fit available space (y=468 to ~1140)
+  // Measure body first so we can size the box
   let y=468;
   const AVAIL_H=672; // 1140-468
   let qPx=56;
@@ -344,6 +340,17 @@ function renderA(d){
   // truncate if still overflows at floor
   {const maxL=Math.floor(AVAIL_H/(qPx*1.45)); if(bodyLines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`700 ${qPx}px Montserrat,sans-serif`,TW,maxL); bodyLines=wrapLines(`700 ${qPx}px Montserrat,sans-serif`,tq,TW);}}
   const lh=qPx*1.45;
+  const quoteContentH=bodyLines.length*lh+((d.boldClose&&d.boldClose.trim())?56+bcLines.length*lh:0);
+
+  // Rounded box tight around just the quote (mark + body + bold close)
+  // Box top=300 (90px above mark baseline at 390), height=168 (to y=468) + text + 30px bottom pad
+  drawRoundedBox(P-40,300,TW+80,168+quoteContentH+30,20,'rgba(255,255,255,0.95)');
+
+  // Quote mark — centered
+  ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle='#111827';
+  ctx.fillText('”',W/2,390);
+
+  // Body quote
   const bodyF=`700 ${qPx}px Montserrat,sans-serif`;
   ctx.fillStyle='#1f2937'; ctx.textAlign='left';
   ctx.font=bodyF;
