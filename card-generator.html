@@ -485,13 +485,13 @@ function renderC(d){
 
   // Gold quote — bold sans, left aligned, auto-scale, no letter-spacing
   y+=36;
-  let qPxC=72,qL;
+  let qPxC=56,qL;
   while(qPxC>=30){
     qL=wrapLines(`bold ${qPxC}px Montserrat,sans-serif`,(d.card_quote||d.quote),TW);
-    if(qL.length*(qPxC*1.5)<=(1200-y)) break;
+    if(qL.length*(qPxC*1.25)<=(1200-y)) break;
     qPxC-=2;
   }
-  const qLH=qPxC*1.5;
+  const qLH=qPxC*1.25;
   ctx.font=`bold ${qPxC}px Montserrat,sans-serif`; ctx.fillStyle=GOLDBRIGHT;
   qL.forEach((l,i)=>ctx.fillText(l,P,y+i*qLH));
   // Attribution white — bottom left, anchored at 1300
