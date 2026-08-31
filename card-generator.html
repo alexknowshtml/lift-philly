@@ -384,17 +384,18 @@ function renderA(d){
   ctx.font=`bold 48px Montserrat,sans-serif`;
   const lw2=ctx.measureText('LIFT').width+ctx.measureText(' Philly').width+72;
   const logoLeft=W-90-lw2;
-  const attrMaxW=logoLeft-P-24;
+  const attrX=P-40; // align with left edge of quote box
+  const attrMaxW=logoLeft-attrX-24;
 
   const nFA=1+(d.industry&&d.industry.trim()?1:0)+(d.zip&&d.zip.trim()?1:0);
   y=1300-(nFA-1)*45;
   ctx.fillStyle='#111827';
   ctx.font=`bold 34px Montserrat,sans-serif`;
-  ctx.fillText(formatName(d.name),P,y,attrMaxW);
+  ctx.fillText(formatName(d.name),attrX,y,attrMaxW);
   ctx.font=`500 31px Montserrat,sans-serif`;
   let ay=y;
-  if(d.industry&&d.industry.trim()){ay+=45;ctx.fillText(d.industry,P,ay,attrMaxW);}
-  if(d.zip&&d.zip.trim()){ay+=45;ctx.fillText(d.zip,P,ay,attrMaxW);}
+  if(d.industry&&d.industry.trim()){ay+=45;ctx.fillText(d.industry,attrX,ay,attrMaxW);}
+  if(d.zip&&d.zip.trim()){ay+=45;ctx.fillText(d.zip,attrX,ay,attrMaxW);}
 
   // LIFT logo bottom right
   liftLogo(logoLeft,1216,1.5);
