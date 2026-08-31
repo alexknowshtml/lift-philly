@@ -343,8 +343,22 @@ function renderA(d){
   const quoteContentH=bodyLines.length*lh+((d.boldClose&&d.boldClose.trim())?56+bcLines.length*lh:0);
 
   // Rounded box tight around just the quote (mark + body + bold close)
-  // Box top=300 (90px above mark baseline at 390), height=168 (to y=468) + text + 30px bottom pad
-  drawRoundedBox(P-40,300,TW+80,168+quoteContentH+30,20,'rgba(255,255,255,0.95)');
+  const boxX=P-40,boxY=300,boxW=TW+80,boxH=168+quoteContentH+30,boxR=20;
+  ctx.save();
+  ctx.fillStyle='rgba(255,255,255,0.95)';
+  ctx.beginPath();
+  ctx.moveTo(boxX+boxR,boxY);
+  ctx.lineTo(boxX+boxW-boxR,boxY);
+  ctx.arcTo(boxX+boxW,boxY,boxX+boxW,boxY+boxR,boxR);
+  ctx.lineTo(boxX+boxW,boxY+boxH-boxR);
+  ctx.arcTo(boxX+boxW,boxY+boxH,boxX+boxW-boxR,boxY+boxH,boxR);
+  ctx.lineTo(boxX+boxR,boxY+boxH);
+  ctx.arcTo(boxX,boxY+boxH,boxX,boxY+boxH-boxR,boxR);
+  ctx.lineTo(boxX,boxY+boxR);
+  ctx.arcTo(boxX,boxY,boxX+boxR,boxY,boxR);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
 
   // Quote mark — centered
   ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle='#111827';
