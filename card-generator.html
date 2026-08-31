@@ -408,23 +408,29 @@ function renderA(d){
 }
 
 function renderB(d){
-  drawBg('rgba(255,255,255,0.75)');
+  drawBg('rgba(255,255,255,0.5)');
   const P=95,TW=W-P*2;
 
-  liftLogo(P,80,1.5);
+  // Header — left: campaign title; right: bill info (box-edge aligned)
+  ctx.textBaseline='alphabetic'; ctx.fillStyle='#111827';
+  ctx.textAlign='left';
+  ctx.font=`bold 44px Montserrat,sans-serif`;
+  ctx.fillText(“Save Philly's Small”,P-40,120,W/2-P-16);
+  ctx.fillText(“Business Community”,P-40,172,W/2-P-16);
+  ctx.textAlign='right';
+  ctx.font=`bold 30px Montserrat,sans-serif`;
+  ctx.fillText('Constituent Testimonies',W-P+40,130);
+  ctx.font=`500 28px Montserrat,sans-serif`;
+  ctx.fillText('Bill 251026',W-P+40,168);
+  ctx.textAlign='center';
 
-  // Quote mark — centered
-  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-  ctx.font=`bold 150px "Playfair Display",serif`; ctx.fillStyle='#111827';
-  ctx.fillText('“',W/2,435);
-
-  // Split: bold first sentence, regular rest — flows inline
+  // Measure quote lines first so we can size the rounded box
   const full=(d.card_quote||d.quote).trim();
   const m=full.search(/[.!?]\s/);
   let first=full, rest='';
   if(m!==-1){first=full.slice(0,m+1); rest=full.slice(m+2);}
 
-  let y=506; ctx.textAlign='left'; ctx.fillStyle='#1f2937';
+  let y=506;
   let qPx=56,lines;
   while(qPx>=30){
     const tbF=`bold ${qPx}px Montserrat,sans-serif`;
@@ -433,23 +439,55 @@ function renderB(d){
     if(lines.length*(qPx*1.45)<=644) break;
     qPx-=2;
   }
-  // truncate if still overflows at floor
   {const maxL=Math.floor(644/(qPx*1.45)); if(lines.length>maxL){const tq=truncateToFit((d.card_quote||d.quote),`500 ${qPx}px Montserrat,sans-serif`,TW,maxL); lines=wrapRichLines([{text:tq,font:`bold ${qPx}px Montserrat,sans-serif`}],TW);}}
-  const bF=`bold ${qPx}px Montserrat,sans-serif`;
-  const rF=`700 ${qPx}px Montserrat,sans-serif`;
-  y+=drawRichLines(lines,P,y,qPx*1.45);
+  const lh=qPx*1.45;
+  const quoteContentH=lines.length*lh;
 
-  // Attribution
+  // Rounded box around quote mark + body
+  const boxX=P-40,boxY=300,boxW=TW+80,boxH=206+quoteContentH+30,boxR=20;
+  ctx.save();
+  ctx.fillStyle='rgba(255,255,255,0.95)';
+  ctx.beginPath();
+  ctx.moveTo(boxX+boxR,boxY);
+  ctx.lineTo(boxX+boxW-boxR,boxY);
+  ctx.arcTo(boxX+boxW,boxY,boxX+boxW,boxY+boxR,boxR);
+  ctx.lineTo(boxX+boxW,boxY+boxH-boxR);
+  ctx.arcTo(boxX+boxW,boxY+boxH,boxX+boxW-boxR,boxY+boxH,boxR);
+  ctx.lineTo(boxX+boxR,boxY+boxH);
+  ctx.arcTo(boxX,boxY+boxH,boxX,boxY+boxH-boxR,boxR);
+  ctx.lineTo(boxX,boxY+boxR);
+  ctx.arcTo(boxX,boxY,boxX+boxR,boxY,boxR);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // Quote mark
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  ctx.font=`bold 150px “Playfair Display”,serif`; ctx.fillStyle='#111827';
+  ctx.fillText('”',W/2,435);
+
+  // Quote body
+  ctx.textAlign='left'; ctx.fillStyle='#1f2937';
+  y+=drawRichLines(lines,P,y,lh);
+
+  // Attribution — aligned to box left edge, constrained by logo
+  ctx.font=`bold 48px Montserrat,sans-serif`;
+  const lw2=ctx.measureText('LIFT').width+ctx.measureText(' Philly').width+72;
+  const logoLeft=W-90-lw2;
+  const attrX=P-40;
+  const attrMaxW=logoLeft-attrX-24;
+
   const nFB=1+(d.industry&&d.industry.trim()?1:0)+(d.zip&&d.zip.trim()?1:0);
   y=1300-(nFB-1)*59; ctx.fillStyle='#111827';
   ctx.font=`bold 36px Montserrat,sans-serif`;
-  ctx.fillText(formatName(d.name),P,y);
+  ctx.fillText(formatName(d.name),attrX,y,attrMaxW);
   ctx.font=`500 33px Montserrat,sans-serif`;
   let ay=y;
-  if(d.industry&&d.industry.trim()){ay+=59;ctx.fillText(d.industry,P,ay);}
-  if(d.zip&&d.zip.trim()){ay+=59;ctx.fillText(d.zip,P,ay);}
+  if(d.industry&&d.industry.trim()){ay+=59;ctx.fillText(d.industry,attrX,ay,attrMaxW);}
+  if(d.zip&&d.zip.trim()){ay+=59;ctx.fillText(d.zip,attrX,ay,attrMaxW);}
 
-  swipeHint('#111827');
+  // LIFT logo bottom right
+  liftLogo(logoLeft,1216,1.5);
 }
 
 function renderC(d){
