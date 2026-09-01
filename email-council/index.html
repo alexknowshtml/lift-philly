@@ -728,7 +728,14 @@ Thank you,
             var params = new URLSearchParams(window.location.search);
 
             var addr = params.get('address');
-            if (addr) { input.value = addr; lookupAddress(); }
+            var zip = params.get('zip');
+            if (addr) {
+                input.value = addr;
+                lookupAddress();
+            } else if (zip) {
+                input.value = zip + ' Philadelphia';
+                lookupAddress();
+            }
 
             var name = params.get('name');
             if (name) {
