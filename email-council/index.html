@@ -520,9 +520,9 @@
         <div class="container">
 
             <div class="steps">
-                <div class="step"><div class="step-num">1</div><span>Find your district</span></div>
+                <div class="step"><div class="step-num">1</div><span>Enter your address or zip</span></div>
                 <div class="step-divider">&#x2192;</div>
-                <div class="step"><div class="step-num">2</div><span>Click your rep</span></div>
+                <div class="step"><div class="step-num">2</div><span>Your rep is auto-selected</span></div>
                 <div class="step-divider">&#x2192;</div>
                 <div class="step"><div class="step-num">3</div><span>Personalize &amp; send</span></div>
             </div>
@@ -548,7 +548,7 @@
                 <div class="lookup-result" id="lookup-result"></div>
             </div>
 
-            <p class="section-label">Select your council members</p>
+            <p class="section-label">Your council members</p>
             <div class="council-list" id="council-list">
                 <div class="council-link" data-district="1" data-email="mark.squilla@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
@@ -880,6 +880,11 @@ Thank you,
             '19154':10
         };
 
+        function scrollToSelected() {
+            var first = document.querySelector('.council-link.selected');
+            if (first) first.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
         async function lookupAddress() {
             var btn = document.getElementById('lookup-btn');
             var result = document.getElementById('lookup-result');
@@ -896,15 +901,15 @@ Thank you,
                     result.className = 'lookup-result visible error';
                     result.innerHTML = zip + " covers " + dNames + " — we've selected both reps below. To find your exact one, enter your full street address (e.g. \"" + split.hint + "\").";
                     highlightDistricts(split.districts);
-                    document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    scrollToSelected();
                     return;
                 }
                 var zipDistrict = ZIP_TO_DISTRICT[zip];
                 if (zipDistrict) {
                     result.className = 'lookup-result visible';
-                    result.innerHTML = 'Zip code ' + zip + ' is in <strong>Council District ' + zipDistrict + '</strong>. Your rep is highlighted below.';
+                    result.innerHTML = 'Zip code ' + zip + ' is in <strong>Council District ' + zipDistrict + '</strong>. Your rep is selected — hit <strong>Send email</strong> below.';
                     highlightDistrict(zipDistrict);
-                    document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    scrollToSelected();
                 } else {
                     result.className = 'lookup-result visible error';
                     result.textContent = "That zip code doesn't appear to be in Philadelphia. Try entering your full street address. You can also contact the Majority Leader below.";
@@ -944,9 +949,9 @@ Thank you,
                     } else {
                         var distNum = parseInt(district, 10);
                         result.className = 'lookup-result visible';
-                        result.innerHTML = 'Your address is in <strong>Council District ' + distNum + '</strong>. Your rep is highlighted below.';
+                        result.innerHTML = 'Your address is in <strong>Council District ' + distNum + '</strong>. Your rep is selected — hit <strong>Send email</strong> below.';
                         highlightDistrict(distNum);
-                        document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        scrollToSelected();
                     }
                 }
             } catch (err) {
