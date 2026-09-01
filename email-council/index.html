@@ -221,6 +221,29 @@
 
         .council-link.dimmed { display: none; }
 
+        .personalizer-section { background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 32px 0; }
+        .personalizer-section h2 { margin-bottom: 6px; }
+        .personalizer-section .hint { margin-bottom: 24px; }
+        .personalizer-fields { display: grid; gap: 16px; }
+        @media (min-width: 600px) { .personalizer-fields { grid-template-columns: 1fr 1fr; } }
+        .personalizer-field { display: flex; flex-direction: column; gap: 6px; }
+        .personalizer-field.full-width { grid-column: 1 / -1; }
+        .personalizer-field label { font-size: 0.85rem; font-weight: 600; color: var(--navy); }
+        .personalizer-field input,
+        .personalizer-field textarea {
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--navy);
+            background: white;
+        }
+        .personalizer-field input:focus,
+        .personalizer-field textarea:focus { outline: none; border-color: var(--gold); }
+        .personalizer-field textarea { resize: vertical; min-height: 90px; }
+        tpl-highlight { background: rgba(251,191,36,0.25); border-radius: 3px; }
+
         .show-all-toggle {
             display: none;
             background: none;
@@ -601,17 +624,38 @@
         </div>
     </section>
 
+    <section class="personalizer-section">
+        <div class="container">
+            <h2>Personalize your email</h2>
+            <p class="hint">Fill these in and they'll update live in the template below.</p>
+            <div class="personalizer-fields">
+                <div class="personalizer-field">
+                    <label for="pi-name">Your name</label>
+                    <input type="text" id="pi-name" placeholder="Jane Doe" autocomplete="name">
+                </div>
+                <div class="personalizer-field">
+                    <label for="pi-neighborhood">Your ward or neighborhood</label>
+                    <input type="text" id="pi-neighborhood" placeholder="e.g. Fishtown, West Philly">
+                </div>
+                <div class="personalizer-field full-width">
+                    <label for="pi-impact">How the BIRT rollback impacted you</label>
+                    <textarea id="pi-impact" placeholder="1-3 sentences about your personal experience with this year's BIRT rollback and how it affected you and your community."></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="template-section">
         <div class="container">
             <h2>Email template</h2>
-            <p class="hint">Personalize the sections in brackets — personal details make the biggest impact.</p>
+            <p class="hint">Copy and send — or personalize further before hitting send.</p>
             <div class="template-box" id="template-text">Subject: Need your support for Bill 251026
 
-My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in [YOUR WARD OR NEIGHBORHOOD].
+My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
 
 I am writing in support of Bill 251026, introduced by Councilman Mike Driscoll and sponsored by 8 other council members. I would like you to publicly support a finance hearing this fall.
 
-[1-3 sentences about how this year's BIRT rollback impacted you and our community directly]
+<span id="tpl-impact">[1-3 sentences about how this year's BIRT rollback impacted you and our community directly]</span>
 
 I know I'm not alone in this request. I'm one of over 1,150 Philadelphians who signed in support of the LIFT act, because we're taxed higher than corporations, on the same income, twice.
 
@@ -652,6 +696,33 @@ Thank you,
             if (e.key === 'Enter') { e.preventDefault(); lookupAddress(); }
         });
 
+        // Personalizer: live-update template spans from inputs
+        function bindPersonalizer() {
+            var piName = document.getElementById('pi-name');
+            var piNeighborhood = document.getElementById('pi-neighborhood');
+            var piImpact = document.getElementById('pi-impact');
+
+            function updateName(val) {
+                var v = val.trim() || '[YOUR NAME]';
+                var inl = document.getElementById('tpl-name-inline');
+                var sig = document.getElementById('tpl-name-sig');
+                if (inl) inl.textContent = v;
+                if (sig) sig.textContent = val.trim() || '[Your Name]';
+            }
+            function updateNeighborhood(val) {
+                var el = document.getElementById('tpl-neighborhood');
+                if (el) el.textContent = val.trim() || '[YOUR WARD OR NEIGHBORHOOD]';
+            }
+            function updateImpact(val) {
+                var el = document.getElementById('tpl-impact');
+                if (el) el.textContent = val.trim() || '[1-3 sentences about how this year\'s BIRT rollback impacted you and our community directly]';
+            }
+
+            if (piName) piName.addEventListener('input', function() { updateName(this.value); });
+            if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); });
+            if (piImpact) piImpact.addEventListener('input', function() { updateImpact(this.value); });
+        }
+
         // Pre-fill from query params: ?address= ?name= ?email=
         (function() {
             var params = new URLSearchParams(window.location.search);
@@ -661,6 +732,8 @@ Thank you,
 
             var name = params.get('name');
             if (name) {
+                var piName = document.getElementById('pi-name');
+                if (piName) { piName.value = name; }
                 var inl = document.getElementById('tpl-name-inline');
                 var sig = document.getElementById('tpl-name-sig');
                 if (inl) inl.textContent = name;
@@ -673,6 +746,8 @@ Thank you,
                 if (esig) { esig.textContent = email; esig.style.display = ''; }
             }
         })();
+
+        bindPersonalizer();
 
         async function lookupAddress() {
             var btn = document.getElementById('lookup-btn');
