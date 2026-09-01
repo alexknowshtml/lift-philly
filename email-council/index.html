@@ -719,6 +719,8 @@
             <p class="hint">Copy and send — or personalize further before hitting send.</p>
             <div class="template-box" id="template-text">Subject: Need your support for Bill 251026
 
+Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
+
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
 
 I am writing in support of Bill 251026, introduced by Councilman Mike Driscoll and sponsored by 8 other council members. I would like you to publicly support a finance hearing this fall.
@@ -845,15 +847,33 @@ Thank you,
             var bar = document.getElementById('sticky-email-bar');
             var btn = document.getElementById('sticky-email-btn');
             var countEl = document.getElementById('sticky-count');
+            var greetingEl = document.getElementById('tpl-greeting');
             if (!bar) return;
-            if (selected.length === 0) { bar.style.display = 'none'; return; }
+
+            if (selected.length === 0) {
+                bar.style.display = 'none';
+                document.body.style.paddingBottom = '';
+                if (greetingEl) greetingEl.textContent = '[COUNCIL MEMBER NAME]';
+                return;
+            }
+
             bar.style.display = '';
+            document.body.style.paddingBottom = '72px';
+
             var cc = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }).join(',');
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
             btn.setAttribute('href', href);
             var n = selected.length;
             countEl.textContent = n === 1 ? '1 member selected' : n + ' members selected';
+
+            if (greetingEl) {
+                var names = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
+                    var nameEl = el.querySelector('.council-name');
+                    return nameEl ? nameEl.textContent.trim() : '';
+                }).filter(Boolean);
+                greetingEl.textContent = names.join(', ');
+            }
         }
 
         document.addEventListener('keydown', function(e) {
