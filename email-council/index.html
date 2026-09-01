@@ -536,7 +536,6 @@
                             autocomplete="off"
                             data-1p-ignore
                             data-lpignore="true"
-                            autofocus
                         />
                     </div>
                     <button class="lookup-btn" id="lookup-btn" onclick="lookupAddress()">Find my rep</button>
@@ -817,6 +816,9 @@ Thank you,
                     if (tplImpact) tplImpact.textContent = testimonial;
                     try { localStorage.setItem('liftphilly_impact', testimonial); } catch(e) {}
                 }
+            }
+            if (!params.get('address') && !params.get('zip')) {
+                if (input) input.focus();
             }
         })();
 
