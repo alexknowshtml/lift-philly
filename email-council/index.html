@@ -756,12 +756,43 @@ Thank you,
 
         bindPersonalizer();
 
+        var ZIP_TO_DISTRICT = {
+            '19102':1,'19103':2,'19104':3,'19106':1,'19107':1,
+            '19111':9,'19114':6,'19115':10,'19116':10,'19118':8,
+            '19119':8,'19120':7,'19121':5,'19122':7,'19123':5,
+            '19124':7,'19125':1,'19126':9,'19127':4,'19128':4,
+            '19129':4,'19130':5,'19131':4,'19132':8,'19133':7,
+            '19134':1,'19135':6,'19136':6,'19137':7,'19138':9,
+            '19139':3,'19140':8,'19141':8,'19142':2,'19143':3,
+            '19144':8,'19145':2,'19146':2,'19147':1,'19148':1,
+            '19149':6,'19150':9,'19151':4,'19152':10,'19153':2,
+            '19154':10
+        };
+
         async function lookupAddress() {
             var btn = document.getElementById('lookup-btn');
             var result = document.getElementById('lookup-result');
             var address = input.value.trim();
 
             if (!address) return;
+
+            var zipMatch = address.match(/^\s*(\d{5})\s*$/);
+            if (zipMatch) {
+                var zip = zipMatch[1];
+                var zipDistrict = ZIP_TO_DISTRICT[zip];
+                if (zipDistrict) {
+                    result.className = 'lookup-result visible';
+                    result.innerHTML = 'Zip code ' + zip + ' is in <strong>Council District ' + zipDistrict + '</strong>. Your rep is highlighted below.';
+                    highlightDistrict(zipDistrict);
+                    document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    result.className = 'lookup-result visible error';
+                    result.textContent = 'That zip code doesn’t appear to be in Philadelphia. Try entering your full street address. You can also contact the Majority Leader below.';
+                    resetList();
+                    showFallbackRep();
+                }
+                return;
+            }
 
             btn.disabled = true;
             btn.textContent = 'Looking up...';
