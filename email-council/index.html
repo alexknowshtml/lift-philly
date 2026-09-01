@@ -917,7 +917,7 @@ Thank you,
                     var split = ZIP_SPLIT[zip];
                     var dNames = split.districts.map(function(d) { return ‘District ‘ + d; }).join(‘ and ‘);
                     result.className = ‘lookup-result visible error’;
-                    result.innerHTML = zip + ‘ covers ‘ + dNames + ‘ — we’ve selected both reps below. To find your exact one, enter your full street address (e.g. “’ + split.hint + ‘”).’;
+                    result.innerHTML = zip + “ covers “ + dNames + “ — we’ve selected both reps below. To find your exact one, enter your full street address (e.g. \”” + split.hint + “\”).”;
                     highlightDistricts(split.districts);
                     document.getElementById(‘council-list’).scrollIntoView({ behavior: ‘smooth’, block: ‘nearest’ });
                     return;
