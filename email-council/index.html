@@ -807,6 +807,17 @@ Thank you,
                 var esig = document.getElementById('tpl-email-sig');
                 if (esig) { esig.textContent = email; esig.style.display = ''; }
             }
+
+            var testimonial = params.get('testimonial');
+            if (testimonial) {
+                var piImpactPre = document.getElementById('pi-impact');
+                if (piImpactPre) {
+                    piImpactPre.value = testimonial;
+                    var tplImpact = document.getElementById('tpl-impact');
+                    if (tplImpact) tplImpact.textContent = testimonial;
+                    try { localStorage.setItem('liftphilly_impact', testimonial); } catch(e) {}
+                }
+            }
         })();
 
         bindPersonalizer();
