@@ -559,8 +559,10 @@
                             type="text"
                             id="address-input"
                             class="lookup-input"
-                            placeholder="e.g. 1234 Market St Philadelphia"
+                            placeholder="e.g. 1234 Market St or zip code"
                             autocomplete="off"
+                            data-1p-ignore
+                            data-lpignore="true"
                             autofocus
                         />
                     </div>
@@ -914,7 +916,7 @@ Thank you,
                     document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     result.className = 'lookup-result visible error';
-                    result.textContent = 'That zip code doesn’t appear to be in Philadelphia. Try entering your full street address. You can also contact the Majority Leader below.';
+                    result.textContent = "That zip code doesn’t appear to be in Philadelphia. Try entering your full street address. You can also contact the Majority Leader below.";
                     resetList();
                     showFallbackRep();
                 }
