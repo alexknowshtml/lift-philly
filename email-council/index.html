@@ -590,7 +590,7 @@
             <p class="hint">Personalize the sections in brackets — personal details make the biggest impact.</p>
             <div class="template-box" id="template-text">Subject: Need your support for Bill 251026
 
-My name is [YOUR NAME], a constituent in [YOUR WARD OR NEIGHBORHOOD].
+My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in [YOUR WARD OR NEIGHBORHOOD].
 
 I am writing in support of Bill 251026, introduced by Councilman Mike Driscoll and sponsored by 8 other council members. I would like you to publicly support a finance hearing this fall.
 
@@ -601,7 +601,8 @@ I know I'm not alone in this request. I'm one of over 1,150 Philadelphians who s
 I need you to get Bill 251026 done before we're forced out of our businesses and homes.
 
 Thank you,
-[Your Name]
+<span id="tpl-name-sig">[Your Name]</span>
+<span id="tpl-email-sig" style="display:none"></span>
                 <button class="copy-btn" id="copy-btn" onclick="copyTemplate()">Copy</button>
             </div>
 
@@ -634,13 +635,25 @@ Thank you,
             if (e.key === 'Enter') { e.preventDefault(); lookupAddress(); }
         });
 
-        // Pre-fill from ?address= query param and auto-lookup
+        // Pre-fill from query params: ?address= ?name= ?email=
         (function() {
             var params = new URLSearchParams(window.location.search);
+
             var addr = params.get('address');
-            if (addr) {
-                input.value = addr;
-                lookupAddress();
+            if (addr) { input.value = addr; lookupAddress(); }
+
+            var name = params.get('name');
+            if (name) {
+                var inl = document.getElementById('tpl-name-inline');
+                var sig = document.getElementById('tpl-name-sig');
+                if (inl) inl.textContent = name;
+                if (sig) sig.textContent = name;
+            }
+
+            var email = params.get('email');
+            if (email) {
+                var esig = document.getElementById('tpl-email-sig');
+                if (esig) { esig.textContent = email; esig.style.display = ''; }
             }
         })();
 
