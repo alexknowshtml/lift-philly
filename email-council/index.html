@@ -428,6 +428,14 @@
             padding: 20px 22px;
             white-space: pre-wrap;
         }
+        .template-header-row {
+            padding: 8px 22px;
+            border-bottom: 1.5px solid #e2e8f0;
+            background: #eef2f7;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
 
         .copy-btn {
             position: absolute;
@@ -686,7 +694,7 @@
     <div class="sticky-email-bar" id="sticky-email-bar" style="display:none">
         <div class="sticky-email-inner">
             <span class="sticky-count" id="sticky-count"></span>
-            <button class="sticky-email-btn" id="sticky-email-btn" onclick="(function(){var s=document.getElementById('personalizer-section');var nav=document.querySelector('.nav');var offset=nav?nav.offsetHeight:0;var top=s.getBoundingClientRect().top+window.scrollY-offset-16;window.scrollTo({top:top,behavior:'smooth'});})()">Personalize</button>
+            <button class="sticky-email-btn" id="sticky-email-btn" onclick="handleStickyClick()">Personalize</button>
         </div>
     </div>
 
@@ -708,7 +716,7 @@
                     <textarea id="pi-impact" placeholder="1-3 sentences about your personal experience with this year's BIRT rollback and how it affected you and your community."></textarea>
                 </div>
             </div>
-            <div class="template-box" id="template-text" style="margin-top:24px;"><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
+            <div class="template-box" id="template-text" style="margin-top:24px;"><div class="template-header-row" id="tpl-to-row" style="display:none"><span class="template-subject-label">To:</span><span class="template-subject-text" id="tpl-to-text"></span></div><div class="template-header-row" id="tpl-cc-row" style="display:none"><span class="template-subject-label">CC:</span><span class="template-subject-text" id="tpl-cc-text"></span></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
@@ -904,6 +912,10 @@ Thank you,
                 bar.style.display = 'none';
                 document.body.style.paddingBottom = '';
                 if (greetingEl) greetingEl.textContent = '[COUNCIL MEMBER NAME]';
+                var toRowZ = document.getElementById('tpl-to-row');
+                var ccRowZ = document.getElementById('tpl-cc-row');
+                if (toRowZ) toRowZ.style.display = 'none';
+                if (ccRowZ) ccRowZ.style.display = 'none';
                 return;
             }
 
@@ -919,6 +931,26 @@ Thank you,
                 return nameEl ? nameEl.textContent.trim() : '';
             }).filter(Boolean);
             countEl.innerHTML = selectedNames.join('<br>');
+
+            var toRow = document.getElementById('tpl-to-row');
+            var ccRow = document.getElementById('tpl-cc-row');
+            var toText = document.getElementById('tpl-to-text');
+            var ccText = document.getElementById('tpl-cc-text');
+            var EMAIL_TO_NAME_MAP = {'kenyatta.johnson@phila.gov':'Kenyatta Johnson','katherine.gilmore.richardson@phila.gov':'Katherine Gilmore Richardson'};
+            if (toRow && toText) {
+                var toNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
+                    var n = el.querySelector('.council-name');
+                    return n ? n.childNodes[0].textContent.trim() : '';
+                }).filter(Boolean);
+                toText.textContent = toNames.join(', ');
+                toRow.style.display = '';
+            }
+            if (ccRow && ccText) {
+                var ccList = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; });
+                var ccDisplayNames = ccList.map(function(e) { return EMAIL_TO_NAME_MAP[e] || e; });
+                if (ccDisplayNames.length) { ccText.textContent = ccDisplayNames.join(', '); ccRow.style.display = ''; }
+                else ccRow.style.display = 'none';
+            }
 
             if (greetingEl) {
                 greetingEl.textContent = selectedNames.join(', ');
@@ -959,6 +991,17 @@ Thank you,
                 var top = first.getBoundingClientRect().top + window.scrollY - offset - 32;
                 window.scrollTo({ top: top, behavior: 'smooth' });
             });
+        }
+
+        function handleStickyClick() {
+            var btn = document.getElementById('sticky-email-btn');
+            var isPreview = btn && btn.textContent.trim() === 'Preview';
+            var target = document.getElementById(isPreview ? 'template-text' : 'personalizer-section');
+            if (!target) return;
+            var nav = document.querySelector('.nav');
+            var offset = nav ? nav.offsetHeight : 0;
+            var top = target.getBoundingClientRect().top + window.scrollY - offset - 16;
+            window.scrollTo({ top: top, behavior: 'smooth' });
         }
 
         async function lookupAddress() {
