@@ -634,6 +634,16 @@ Thank you,
             if (e.key === 'Enter') { e.preventDefault(); lookupAddress(); }
         });
 
+        // Pre-fill from ?address= query param and auto-lookup
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var addr = params.get('address');
+            if (addr) {
+                input.value = addr;
+                lookupAddress();
+            }
+        })();
+
         async function lookupAddress() {
             var btn = document.getElementById('lookup-btn');
             var result = document.getElementById('lookup-result');
