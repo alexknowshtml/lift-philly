@@ -47,11 +47,7 @@
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+        .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
         /* Hero */
         .hero {
@@ -89,86 +85,96 @@
         }
 
         /* Steps */
-        .steps-section {
-            background: #f8fafc;
-            padding: 40px 0;
-        }
-
         .steps {
             display: flex;
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
+            padding: 28px 0 20px;
         }
 
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
+        .step { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text); }
 
         .step-num {
-            width: 28px;
-            height: 28px;
+            width: 28px; height: 28px;
             background: var(--gold);
             color: var(--navy);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.8rem;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.8rem; flex-shrink: 0;
         }
 
-        .step-divider {
-            color: #cbd5e1;
-            font-size: 1.2rem;
-        }
+        .step-divider { color: #cbd5e1; font-size: 1.2rem; }
 
-        /* Find district */
-        .find-district {
+        /* Address lookup */
+        .lookup-box {
             background: var(--cream);
             border: 1.5px solid var(--gold);
             border-radius: 12px;
             padding: 20px 24px;
-            margin: 32px 0 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
+            margin-bottom: 28px;
         }
 
-        .find-district p {
-            font-size: 0.95rem;
-            color: var(--navy);
-            font-weight: 500;
-        }
-
-        .find-district a {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--navy);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
+        .lookup-box label {
+            display: block;
             font-size: 0.875rem;
             font-weight: 600;
-            text-decoration: none;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .lookup-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lookup-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--navy);
+            background: white;
+            min-width: 0;
+        }
+
+        .lookup-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .lookup-btn {
+            padding: 10px 18px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
             white-space: nowrap;
         }
 
-        .find-district a:hover { opacity: 0.85; }
+        .lookup-btn:hover { opacity: 0.85; }
+        .lookup-btn:disabled { opacity: 0.5; cursor: default; }
+
+        .lookup-result {
+            margin-top: 12px;
+            font-size: 0.875rem;
+            color: var(--text);
+            display: none;
+        }
+
+        .lookup-result.visible { display: block; }
+        .lookup-result.error { color: #dc2626; }
+
+        .lookup-result strong { color: var(--navy); }
 
         /* Council list */
-        .council-section {
-            padding: 0 0 48px;
-            background: #f8fafc;
-        }
+        .council-section { background: #f8fafc; padding: 0 0 48px; }
 
         .section-label {
             font-size: 0.75rem;
@@ -179,10 +185,7 @@
             margin: 0 0 12px;
         }
 
-        .council-list {
-            display: grid;
-            gap: 10px;
-        }
+        .council-list { display: grid; gap: 10px; }
 
         .council-link {
             display: flex;
@@ -196,7 +199,7 @@
             color: var(--navy);
             font-weight: 600;
             font-size: 0.95rem;
-            transition: border-color 0.15s, box-shadow 0.15s;
+            transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s;
             gap: 12px;
         }
 
@@ -205,11 +208,15 @@
             box-shadow: 0 2px 12px rgba(251,191,36,0.2);
         }
 
-        .council-link-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .council-link.highlighted {
+            border-color: var(--gold);
+            background: var(--cream);
+            box-shadow: 0 2px 16px rgba(251,191,36,0.3);
         }
+
+        .council-link.dimmed { opacity: 0.4; }
+
+        .council-link-left { display: flex; align-items: center; gap: 12px; }
 
         .district-badge {
             background: #f1f5f9;
@@ -227,13 +234,22 @@
         }
 
         .council-name { flex: 1; }
+        .council-name .role { font-weight: 400; color: var(--text-light); font-size: 0.85em; }
 
-        .email-icon {
-            color: var(--text-light);
-            flex-shrink: 0;
+        .your-rep-badge {
+            background: var(--gold);
+            color: var(--navy);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .council-link:hover .email-icon { color: var(--gold-dark); }
+        .email-icon { color: var(--text-light); flex-shrink: 0; }
+        .council-link:hover .email-icon,
+        .council-link.highlighted .email-icon { color: var(--gold-dark); }
 
         /* Template */
         .template-section {
@@ -269,8 +285,7 @@
 
         .copy-btn {
             position: absolute;
-            top: 12px;
-            right: 12px;
+            top: 12px; right: 12px;
             background: var(--navy);
             color: white;
             border: none;
@@ -312,7 +327,6 @@
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav class="nav">
         <div class="container">
             <a href="/" class="nav-brand">LIFT <span>Philly</span></a>
@@ -336,7 +350,6 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="container">
             <div class="eyebrow">Take Action</div>
@@ -345,119 +358,152 @@
         </div>
     </section>
 
-    <!-- Steps + Council List -->
     <section class="council-section">
         <div class="container">
 
-            <!-- Step tracker -->
-            <div class="steps-section" style="background:transparent; padding: 28px 0 20px;">
-                <div class="steps">
-                    <div class="step"><div class="step-num">1</div><span>Find your district</span></div>
-                    <div class="step-divider">→</div>
-                    <div class="step"><div class="step-num">2</div><span>Click your rep</span></div>
-                    <div class="step-divider">→</div>
-                    <div class="step"><div class="step-num">3</div><span>Personalize &amp; send</span></div>
+            <div class="steps">
+                <div class="step"><div class="step-num">1</div><span>Find your district</span></div>
+                <div class="step-divider">&#x2192;</div>
+                <div class="step"><div class="step-num">2</div><span>Click your rep</span></div>
+                <div class="step-divider">&#x2192;</div>
+                <div class="step"><div class="step-num">3</div><span>Personalize &amp; send</span></div>
+            </div>
+
+            <!-- Address lookup -->
+            <div class="lookup-box">
+                <label for="address-input">Look up your district by address</label>
+                <div class="lookup-row">
+                    <input
+                        type="text"
+                        id="address-input"
+                        class="lookup-input"
+                        placeholder="e.g. 123 Main St Philadelphia"
+                        autocomplete="street-address"
+                    />
+                    <button class="lookup-btn" id="lookup-btn" onclick="lookupAddress()">Find my rep</button>
                 </div>
+                <div class="lookup-result" id="lookup-result"></div>
             </div>
 
-            <!-- District lookup -->
-            <div class="find-district">
-                <p>Don't know your district?</p>
-                <a href="https://www.phila.gov/services/municipal-court-taxes-licenses/voting-elections/find-your-polling-place/" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    Look up your district
-                </a>
-            </div>
-
-            <!-- Council member list -->
-            <p class="section-label" style="margin-top: 28px;">Click your district representative</p>
-            <div class="council-list">
-                <a class="council-link" href="mailto:mark.squilla@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+            <p class="section-label">All council members — click to email</p>
+            <div class="council-list" id="council-list">
+                <a class="council-link" data-district="1" href="mailto:mark.squilla@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 1</span>
                         <span class="council-name">Mark Squilla</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:kenyatta.johnson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="2" href="mailto:kenyatta.johnson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 2</span>
-                        <span class="council-name">Kenyatta Johnson <span style="font-weight:400;color:var(--text-light);font-size:0.85em">(Council President)</span></span>
+                        <span class="council-name">Kenyatta Johnson <span class="role">(Council President)</span></span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:jamie.gauthier@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="3" href="mailto:jamie.gauthier@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 3</span>
                         <span class="council-name">Jamie Gauthier</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:curtis.jones.jr@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="4" href="mailto:curtis.jones.jr@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 4</span>
                         <span class="council-name">Curtis Jones Jr.</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:jeffery.young@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="5" href="mailto:jeffery.young@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 5</span>
                         <span class="council-name">Jeffery Young Jr.</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:mike.driscoll@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="6" href="mailto:mike.driscoll@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 6</span>
                         <span class="council-name">Michael Driscoll</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:quetcy.lozada@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="7" href="mailto:quetcy.lozada@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 7</span>
                         <span class="council-name">Quetcy Lozada</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:cindy.bass@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="8" href="mailto:cindy.bass@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 8</span>
                         <span class="council-name">Cindy Bass</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:anthony.phillips@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="9" href="mailto:anthony.phillips@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 9</span>
                         <span class="council-name">Anthony Phillips</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:brian.oneill@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <a class="council-link" data-district="10" href="mailto:brian.oneill@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge">District 10</span>
                         <span class="council-name">Brian O'Neill</span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="your-rep-badge" style="display:none">Your Rep</span>
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
-                <a class="council-link" href="mailto:katherine.gilmore.richardson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&cc=kenyatta.johnson@phila.gov">
+                <a class="council-link" data-district="at-large" href="mailto:katherine.gilmore.richardson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge at-large-badge">At-Large</span>
-                        <span class="council-name">Katherine Gilmore Richardson <span style="font-weight:400;color:var(--text-light);font-size:0.85em">(Majority Leader)</span></span>
+                        <span class="council-name">Katherine Gilmore Richardson <span class="role">(Majority Leader)</span></span>
                     </div>
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Template -->
     <section class="template-section">
         <div class="container">
             <h2>Email template</h2>
-            <p class="hint">Personalize the sections in brackets before you send — personal details make the biggest impact.</p>
+            <p class="hint">Personalize the sections in brackets — personal details make the biggest impact.</p>
             <div class="template-box" id="template-text">Subject: Need your support for Bill 251026
 
 My name is [YOUR NAME], a constituent in [YOUR WARD OR NEIGHBORHOOD].
@@ -481,7 +527,6 @@ Thank you,
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-brand">LIFT <span>Philly</span></div>
@@ -496,14 +541,97 @@ Thank you,
     </footer>
 
     <script>
+        var currentDistrict = null;
+
+        document.getElementById('address-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') lookupAddress();
+        });
+
+        async function lookupAddress() {
+            var input = document.getElementById('address-input');
+            var btn = document.getElementById('lookup-btn');
+            var result = document.getElementById('lookup-result');
+            var address = input.value.trim();
+
+            if (!address) return;
+
+            btn.disabled = true;
+            btn.textContent = 'Looking up...';
+            result.className = 'lookup-result visible';
+            result.textContent = 'Checking the city address database...';
+
+            // Append Philadelphia if not present
+            var query = address;
+            if (!/philadelphia/i.test(query)) query += ', Philadelphia';
+
+            try {
+                var url = 'https://api.phila.gov/ais/v1/search/' + encodeURIComponent(query) + '?include_units=false';
+                var resp = await fetch(url);
+                var data = await resp.json();
+
+                if (!data.features || data.features.length === 0) {
+                    result.className = 'lookup-result visible error';
+                    result.textContent = 'Address not found. Try adding more detail, e.g. "1234 Market St Philadelphia".';
+                    resetList();
+                } else {
+                    var props = data.features[0].properties;
+                    // AIS returns council_district_2016 as a string like "5"
+                    var district = props.council_district_2016 || props.council_district || null;
+
+                    if (!district) {
+                        result.className = 'lookup-result visible error';
+                        result.textContent = 'District info not found for that address. Try scrolling the list below.';
+                        resetList();
+                    } else {
+                        var distNum = parseInt(district, 10);
+                        result.className = 'lookup-result visible';
+                        result.innerHTML = 'Your address is in <strong>Council District ' + distNum + '</strong>. Your rep is highlighted below.';
+                        highlightDistrict(distNum);
+                        // Scroll list into view
+                        document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            } catch (err) {
+                result.className = 'lookup-result visible error';
+                result.textContent = 'Lookup failed. Check your connection and try again, or scroll the list below.';
+                resetList();
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Find my rep';
+        }
+
+        function highlightDistrict(district) {
+            currentDistrict = district;
+            var links = document.querySelectorAll('.council-link');
+            links.forEach(function(link) {
+                var d = link.getAttribute('data-district');
+                var badge = link.querySelector('.your-rep-badge');
+                var isMatch = d === String(district);
+                link.classList.toggle('highlighted', isMatch);
+                link.classList.toggle('dimmed', !isMatch && d !== 'at-large');
+                if (badge) badge.style.display = isMatch ? 'inline-block' : 'none';
+            });
+        }
+
+        function resetList() {
+            currentDistrict = null;
+            var links = document.querySelectorAll('.council-link');
+            links.forEach(function(link) {
+                link.classList.remove('highlighted', 'dimmed');
+                var badge = link.querySelector('.your-rep-badge');
+                if (badge) badge.style.display = 'none';
+            });
+        }
+
         function copyTemplate() {
-            const box = document.getElementById('template-text');
-            const btn = document.getElementById('copy-btn');
-            const text = box.innerText.replace('Copy', '').trim();
-            navigator.clipboard.writeText(text).then(() => {
+            var box = document.getElementById('template-text');
+            var btn = document.getElementById('copy-btn');
+            var text = box.innerText.replace('Copy', '').trim();
+            navigator.clipboard.writeText(text).then(function() {
                 btn.textContent = 'Copied!';
                 btn.classList.add('copied');
-                setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+                setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
             });
         }
     </script>
