@@ -909,7 +909,7 @@ Thank you,
             if (!first) return;
             var nav = document.querySelector('.nav');
             var offset = nav ? nav.offsetHeight : 0;
-            var top = first.getBoundingClientRect().top + window.scrollY - offset - 12;
+            var top = first.getBoundingClientRect().top + window.scrollY - offset - 32;
             window.scrollTo({ top: top, behavior: 'smooth' });
         }
 
