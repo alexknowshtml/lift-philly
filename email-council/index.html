@@ -818,6 +818,7 @@ Thank you,
                 } else {
                     highlightDistrict(parseInt(d, 10));
                 }
+                scrollToSelected();
             }
         }
 
@@ -905,7 +906,11 @@ Thank you,
 
         function scrollToSelected() {
             var first = document.querySelector('.council-link.selected');
-            if (first) first.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if (!first) return;
+            var nav = document.querySelector('.nav');
+            var offset = nav ? nav.offsetHeight : 0;
+            var top = first.getBoundingClientRect().top + window.scrollY - offset - 12;
+            window.scrollTo({ top: top, behavior: 'smooth' });
         }
 
         async function lookupAddress() {
