@@ -587,7 +587,7 @@
                         <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                     </div>
                 </a>
-                <a class="council-link" data-district="at-large" href="mailto:katherine.gilmore.richardson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov">
+                <a class="council-link" data-district="at-large" id="at-large-link" style="display:none" href="mailto:katherine.gilmore.richardson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov">
                     <div class="council-link-left">
                         <span class="district-badge at-large-badge">At-Large</span>
                         <span class="council-name">Katherine Gilmore Richardson <span class="role">(Majority Leader)</span></span>
@@ -696,16 +696,18 @@ Thank you,
 
                 if (!data.features || data.features.length === 0) {
                     result.className = 'lookup-result visible error';
-                    result.textContent = 'Address not found. Try adding more detail, e.g. "1234 Market St".';
+                    result.textContent = 'Address not found. Try adding more detail, e.g. "1234 Market St Philadelphia". You can also contact the Majority Leader below.';
                     resetList();
+                    showFallbackRep();
                 } else {
                     var props = data.features[0].properties;
                     var district = props.council_district_2016 || props.council_district || null;
 
                     if (!district) {
                         result.className = 'lookup-result visible error';
-                        result.textContent = 'District info not found for that address.';
+                        result.textContent = 'District info not found for that address. You can also contact the Majority Leader below.';
                         resetList();
+                        showFallbackRep();
                     } else {
                         var distNum = parseInt(district, 10);
                         result.className = 'lookup-result visible';
@@ -734,6 +736,7 @@ Thank you,
                 var isMatch = d === String(district);
                 link.classList.toggle('highlighted', isMatch);
                 link.classList.toggle('dimmed', !isMatch && d !== 'at-large');
+                if (d === 'at-large') link.style.display = 'none';
                 if (badge) badge.style.display = isMatch ? 'inline-block' : 'none';
             });
             if (toggle) { toggle.style.display = 'block'; toggle.textContent = 'Want to email a different district council member? Show all'; }
@@ -742,13 +745,21 @@ Thank you,
         function resetList() {
             currentDistrict = null;
             var toggle = document.getElementById('show-all-toggle');
+            var atLarge = document.getElementById('at-large-link');
             var links = document.querySelectorAll('.council-link');
             links.forEach(function(link) {
                 link.classList.remove('highlighted', 'dimmed');
+                link.style.display = '';
                 var badge = link.querySelector('.your-rep-badge');
                 if (badge) badge.style.display = 'none';
             });
+            if (atLarge) atLarge.style.display = 'none';
             if (toggle) toggle.style.display = 'none';
+        }
+
+        function showFallbackRep() {
+            var atLarge = document.getElementById('at-large-link');
+            if (atLarge) { atLarge.style.display = ''; atLarge.classList.add('highlighted'); }
         }
 
         function toggleAllReps() {
