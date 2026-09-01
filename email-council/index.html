@@ -778,10 +778,10 @@ Thank you,
             var zip = params.get('zip');
             if (addr) {
                 input.value = addr;
-                lookupAddress();
+                setTimeout(lookupAddress, 0);
             } else if (zip) {
                 input.value = zip;
-                lookupAddress();
+                setTimeout(lookupAddress, 0);
             }
 
             var name = params.get('name');
