@@ -915,22 +915,22 @@ Thank you,
                 var zip = zipMatch[1];
                 if (ZIP_SPLIT[zip]) {
                     var split = ZIP_SPLIT[zip];
-                    var dNames = split.districts.map(function(d) { return ‘District ‘ + d; }).join(‘ and ‘);
-                    result.className = ‘lookup-result visible error’;
-                    result.innerHTML = zip + “ covers “ + dNames + “ — we’ve selected both reps below. To find your exact one, enter your full street address (e.g. \”” + split.hint + “\”).”;
+                    var dNames = split.districts.map(function(d) { return 'District ' + d; }).join(' and ');
+                    result.className = 'lookup-result visible error';
+                    result.innerHTML = zip + " covers " + dNames + " — we've selected both reps below. To find your exact one, enter your full street address (e.g. \"" + split.hint + "\").";
                     highlightDistricts(split.districts);
-                    document.getElementById(‘council-list’).scrollIntoView({ behavior: ‘smooth’, block: ‘nearest’ });
+                    document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     return;
                 }
                 var zipDistrict = ZIP_TO_DISTRICT[zip];
                 if (zipDistrict) {
-                    result.className = ‘lookup-result visible’;
-                    result.innerHTML = ‘Zip code ‘ + zip + ‘ is in <strong>Council District ‘ + zipDistrict + ‘</strong>. Your rep is highlighted below.’;
+                    result.className = 'lookup-result visible';
+                    result.innerHTML = 'Zip code ' + zip + ' is in <strong>Council District ' + zipDistrict + '</strong>. Your rep is highlighted below.';
                     highlightDistrict(zipDistrict);
-                    document.getElementById(‘council-list’).scrollIntoView({ behavior: ‘smooth’, block: ‘nearest’ });
+                    document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
-                    result.className = ‘lookup-result visible error’;
-                    result.textContent = "That zip code doesn’t appear to be in Philadelphia. Try entering your full street address. You can also contact the Majority Leader below.";
+                    result.className = 'lookup-result visible error';
+                    result.textContent = "That zip code doesn't appear to be in Philadelphia. Try entering your full street address. You can also contact the Majority Leader below.";
                     resetList();
                     showFallbackRep();
                 }
