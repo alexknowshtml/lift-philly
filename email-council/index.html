@@ -686,14 +686,33 @@
     <div class="sticky-email-bar" id="sticky-email-bar" style="display:none">
         <div class="sticky-email-inner">
             <span class="sticky-count" id="sticky-count"></span>
-            <a class="sticky-email-btn" id="sticky-email-btn" href="#">Send email</a>
+            <button class="sticky-email-btn" id="sticky-email-btn" onclick="document.getElementById('personalizer-section').scrollIntoView({behavior:'smooth',block:'start'})">Personalize your email ↓</button>
         </div>
     </div>
 
-    <section class="personalizer-section">
+    <section class="personalizer-section" id="personalizer-section">
         <div class="container">
+            <div class="template-box" id="template-text" style="margin-bottom:24px;"><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
+Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
+
+My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
+
+I am writing in support of Bill 251026, introduced by Councilman Mike Driscoll and sponsored by 8 other council members. I would like you to publicly support a finance hearing this fall.
+
+<span id="tpl-impact">[1-3 sentences about how this year's BIRT rollback impacted you and our community directly]</span>
+
+I know I'm not alone in this request. I'm one of over 1,150 Philadelphians who signed in support of the LIFT act, because we're taxed higher than corporations, on the same income, twice.
+
+I need you to get Bill 251026 done before we're forced out of our businesses and homes.
+
+Thank you,
+<span id="tpl-name-sig">[Your Name]</span>
+<span id="tpl-email-sig" style="display:none"></span>
+</div>
+                <button class="copy-btn" id="copy-btn" onclick="copyTemplate()">Copy</button>
+            </div>
             <h2 style="display:flex;align-items:center;gap:10px;"><div class="step-num">2</div>Personalize your email</h2>
-            <p class="hint">Fill these in and they'll update live in the template below.</p>
+            <p class="hint">Fill these in and they'll update live in the template above.</p>
             <div class="personalizer-fields">
                 <div class="personalizer-field">
                     <label for="pi-name">Your name</label>
@@ -713,28 +732,6 @@
 
     <section class="template-section">
         <div class="container">
-            <h2>Email template</h2>
-            <p class="hint">Copy and send — or personalize further before hitting send.</p>
-            <div class="template-box" id="template-text"><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
-Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
-
-My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
-
-I am writing in support of Bill 251026, introduced by Councilman Mike Driscoll and sponsored by 8 other council members. I would like you to publicly support a finance hearing this fall.
-
-<span id="tpl-impact">[1-3 sentences about how this year's BIRT rollback impacted you and our community directly]</span>
-
-I know I'm not alone in this request. I'm one of over 1,150 Philadelphians who signed in support of the LIFT act, because we're taxed higher than corporations, on the same income, twice.
-
-I need you to get Bill 251026 done before we're forced out of our businesses and homes.
-
-Thank you,
-<span id="tpl-name-sig">[Your Name]</span>
-<span id="tpl-email-sig" style="display:none"></span>
-</div>
-                <button class="copy-btn" id="copy-btn" onclick="copyTemplate()">Copy</button>
-            </div>
-
             <div class="voicemail-note">
                 <strong>Want to make an even bigger impact?</strong> Call the office of each person you just emailed and leave a voicemail with the same message. For elected officials, voicemails carry more weight than emails — and emails carry more weight than social media comments.
             </div>
@@ -909,7 +906,7 @@ Thank you,
             var cc = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }).join(',');
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
-            btn.setAttribute('href', href);
+            btn.dataset.mailto = href;
             var selectedNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
                 var nameEl = el.querySelector('.council-name');
                 return nameEl ? nameEl.textContent.trim() : '';
