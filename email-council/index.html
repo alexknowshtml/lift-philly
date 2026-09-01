@@ -221,6 +221,68 @@
 
         .council-link.dimmed { display: none; }
 
+        .council-link.selected {
+            background: rgba(251,191,36,0.1);
+            border-color: var(--gold);
+        }
+
+        .check-icon {
+            display: inline-block;
+            width: 22px; height: 22px;
+            border: 2px solid #cbd5e1;
+            border-radius: 5px;
+            flex-shrink: 0;
+            position: relative;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .council-link.selected .check-icon {
+            background: var(--gold);
+            border-color: var(--gold-dark);
+        }
+        .council-link.selected .check-icon::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 6px;
+            width: 7px; height: 11px;
+            border: 2.5px solid var(--navy);
+            border-top: none; border-left: none;
+            transform: rotate(45deg);
+        }
+
+        .sticky-email-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--navy);
+            padding: 14px 24px;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+        .sticky-email-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .sticky-count {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        .sticky-email-btn {
+            background: var(--gold);
+            color: var(--navy);
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            display: inline-block;
+            transition: background 0.15s;
+        }
+        .sticky-email-btn:hover { background: var(--gold-dark); }
+
         .personalizer-section { background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 32px 0; }
         .personalizer-section h2 { margin-bottom: 6px; }
         .personalizer-section .hint { margin-bottom: 24px; }
@@ -332,8 +394,7 @@
         }
 
         .email-icon { color: var(--text-light); flex-shrink: 0; }
-        .council-link:hover .email-icon,
-        .council-link.highlighted .email-icon { color: var(--gold-dark); }
+        .council-link:focus { outline: 2px solid var(--gold); outline-offset: -2px; }
 
         /* Template */
         .template-section {
@@ -508,121 +569,128 @@
                 <div class="lookup-result" id="lookup-result"></div>
             </div>
 
-            <p class="section-label">All council members — click to email</p>
+            <p class="section-label">Select your council members</p>
             <div class="council-list" id="council-list">
-                <a class="council-link" data-district="1" href="mailto:mark.squilla@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                <div class="council-link" data-district="1" data-email="mark.squilla@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 1</span>
                         <span class="council-name">Mark Squilla</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="2" href="mailto:kenyatta.johnson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="2" data-email="kenyatta.johnson@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 2</span>
                         <span class="council-name">Kenyatta Johnson <span class="role">(Council President)</span></span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="3" href="mailto:jamie.gauthier@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="3" data-email="jamie.gauthier@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 3</span>
                         <span class="council-name">Jamie Gauthier</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="4" href="mailto:curtis.jones.jr@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="4" data-email="curtis.jones.jr@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 4</span>
                         <span class="council-name">Curtis Jones Jr.</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="5" href="mailto:jeffery.young@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="5" data-email="jeffery.young@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 5</span>
                         <span class="council-name">Jeffery Young Jr.</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="6" href="mailto:mike.driscoll@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="6" data-email="mike.driscoll@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 6</span>
                         <span class="council-name">Michael Driscoll</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="7" href="mailto:quetcy.lozada@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="7" data-email="quetcy.lozada@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 7</span>
                         <span class="council-name">Quetcy Lozada</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="8" href="mailto:cindy.bass@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="8" data-email="cindy.bass@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 8</span>
                         <span class="council-name">Cindy Bass</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="9" href="mailto:anthony.phillips@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="9" data-email="anthony.phillips@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 9</span>
                         <span class="council-name">Anthony Phillips</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="10" href="mailto:brian.oneill@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov,katherine.gilmore.richardson@phila.gov">
+                </div>
+                <div class="council-link" data-district="10" data-email="brian.oneill@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge">District 10</span>
                         <span class="council-name">Brian O'Neill</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span class="your-rep-badge" style="display:none">Your Rep</span>
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
-                <a class="council-link" data-district="at-large" id="at-large-link" style="display:none" href="mailto:katherine.gilmore.richardson@phila.gov?subject=Need%20your%20support%20for%20Bill%20251026&amp;cc=kenyatta.johnson@phila.gov">
+                </div>
+                <div class="council-link" data-district="at-large" id="at-large-link" style="display:none" data-email="katherine.gilmore.richardson@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge at-large-badge">At-Large</span>
                         <span class="council-name">Katherine Gilmore Richardson <span class="role">(Majority Leader)</span></span>
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
-                        <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <span class="check-icon"></span>
                     </div>
-                </a>
+                </div>
             </div>
             <button class="show-all-toggle" id="show-all-toggle" onclick="toggleAllReps()">Show all council members</button>
         </div>
     </section>
+
+    <div class="sticky-email-bar" id="sticky-email-bar" style="display:none">
+        <div class="sticky-email-inner">
+            <span class="sticky-count" id="sticky-count"></span>
+            <a class="sticky-email-btn" id="sticky-email-btn" href="#">Send email</a>
+        </div>
+    </div>
 
     <section class="personalizer-section">
         <div class="container">
@@ -756,6 +824,45 @@ Thank you,
 
         bindPersonalizer();
 
+        var ALWAYS_CC = ['kenyatta.johnson@phila.gov', 'katherine.gilmore.richardson@phila.gov'];
+        var EMAIL_SUBJECT = 'Need your support for Bill 251026';
+
+        function toggleSelect(el) {
+            var nowSelected = !el.classList.contains('selected');
+            el.classList.toggle('selected', nowSelected);
+            el.setAttribute('aria-checked', String(nowSelected));
+            updateStickyBar();
+        }
+
+        function getSelectedEmails() {
+            return Array.from(document.querySelectorAll('.council-link.selected'))
+                .map(function(el) { return el.getAttribute('data-email'); })
+                .filter(Boolean);
+        }
+
+        function updateStickyBar() {
+            var selected = getSelectedEmails();
+            var bar = document.getElementById('sticky-email-bar');
+            var btn = document.getElementById('sticky-email-btn');
+            var countEl = document.getElementById('sticky-count');
+            if (!bar) return;
+            if (selected.length === 0) { bar.style.display = 'none'; return; }
+            bar.style.display = '';
+            var cc = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }).join(',');
+            var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
+            if (cc) href += '&cc=' + encodeURIComponent(cc);
+            btn.setAttribute('href', href);
+            var n = selected.length;
+            countEl.textContent = n === 1 ? '1 member selected' : n + ' members selected';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('council-link')) {
+                e.preventDefault();
+                toggleSelect(e.target);
+            }
+        });
+
         var ZIP_TO_DISTRICT = {
             '19102':1,'19103':2,'19104':3,'19106':1,'19107':1,
             '19111':9,'19114':6,'19115':10,'19116':10,'19118':8,
@@ -849,10 +956,13 @@ Thank you,
                 var isMatch = d === String(district);
                 link.classList.toggle('highlighted', isMatch);
                 link.classList.toggle('dimmed', !isMatch && d !== 'at-large');
+                link.classList.toggle('selected', isMatch);
+                link.setAttribute('aria-checked', String(isMatch));
                 if (d === 'at-large') link.style.display = 'none';
                 if (badge) badge.style.display = isMatch ? 'inline-block' : 'none';
             });
             if (toggle) { toggle.style.display = 'block'; toggle.textContent = 'Want to email a different district council member? Show all'; }
+            updateStickyBar();
         }
 
         function resetList() {
@@ -861,18 +971,25 @@ Thank you,
             var atLarge = document.getElementById('at-large-link');
             var links = document.querySelectorAll('.council-link');
             links.forEach(function(link) {
-                link.classList.remove('highlighted', 'dimmed');
+                link.classList.remove('highlighted', 'dimmed', 'selected');
+                link.setAttribute('aria-checked', 'false');
                 link.style.display = '';
                 var badge = link.querySelector('.your-rep-badge');
                 if (badge) badge.style.display = 'none';
             });
             if (atLarge) atLarge.style.display = 'none';
             if (toggle) toggle.style.display = 'none';
+            updateStickyBar();
         }
 
         function showFallbackRep() {
             var atLarge = document.getElementById('at-large-link');
-            if (atLarge) { atLarge.style.display = ''; atLarge.classList.add('highlighted'); }
+            if (atLarge) {
+                atLarge.style.display = '';
+                atLarge.classList.add('highlighted', 'selected');
+                atLarge.setAttribute('aria-checked', 'true');
+                updateStickyBar();
+            }
         }
 
         function toggleAllReps() {
@@ -889,49 +1006,44 @@ Thank you,
             }
         }
 
-        // mailto intercept: attempt the link AND show copy modal (fixes sandboxed browsers like Discord's)
+        // Sticky button: attempt mailto AND show copy modal (fixes sandboxed browsers like Discord's)
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    var raw = this.getAttribute('href').replace(/&amp;/g, '&');
-                    var emailMatch = raw.match(/^mailto:([^?]+)/);
-                    var toEmail = emailMatch ? decodeURIComponent(emailMatch[1]) : '';
-                    var ccMatch = raw.match(/[?&]cc=([^&]+)/);
-                    var ccEmails = ccMatch ? decodeURIComponent(ccMatch[1]).split(',') : [];
-                    var subjMatch = raw.match(/[?&]subject=([^&]+)/);
-                    var subject = subjMatch ? decodeURIComponent(subjMatch[1]) : '';
+            var stickyBtn = document.getElementById('sticky-email-btn');
+            if (!stickyBtn) return;
+            stickyBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var raw = this.getAttribute('href');
+                if (!raw || raw === '#') return;
+                var emailMatch = raw.match(/^mailto:([^?]+)/);
+                var toEmails = emailMatch ? decodeURIComponent(emailMatch[1]).split(',') : [];
+                var ccMatch = raw.match(/[?&]cc=([^&]+)/);
+                var ccEmails = ccMatch ? decodeURIComponent(ccMatch[1]).split(',') : [];
 
-                    // Attempt real mailto (works in OS-integrated browsers)
-                    try { window.location.href = raw; } catch(err) {}
+                try { window.location.href = raw; } catch(err) {}
 
-                    // Show modal (stays for sandboxed browsers; closeable for real ones)
-                    var overlay = document.createElement('div');
-                    overlay.className = 'mailto-overlay';
-                    var ccHtml = ccEmails.length ? '<p class="mailto-cc-note">CC: ' + ccEmails.join(', ') + '</p>' : '';
-                    overlay.innerHTML = '<div class="mailto-modal">'
-                        + '<h3>Email this council member</h3>'
-                        + '<p>If your email app didn\'t open, copy the address below.</p>'
-                        + '<div class="mailto-email-row">'
-                        + '<input readonly id="_mc_addr" value="' + toEmail + '" onclick="this.select()">'
-                        + '<button class="mailto-copy-btn" id="_mc_copy">Copy</button>'
-                        + '</div>'
-                        + ccHtml
-                        + '<a class="mailto-open-btn" href="' + raw + '">Open in email app</a>'
-                        + '<button class="mailto-close-btn" id="_mc_close">Close</button>'
-                        + '</div>';
-                    document.body.appendChild(overlay);
-                    overlay.querySelector('#_mc_copy').addEventListener('click', function() {
+                var overlay = document.createElement('div');
+                overlay.className = 'mailto-overlay';
+                var toHtml = '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + toEmails[0] + '" onclick="this.select()"><button class="mailto-copy-btn" id="_mc_copy">Copy</button></div>';
+                if (toEmails.length > 1) toHtml += '<p class="mailto-cc-note">+ ' + (toEmails.length - 1) + ' more: ' + toEmails.slice(1).join(', ') + '</p>';
+                var ccHtml = ccEmails.length ? '<p class="mailto-cc-note">CC: ' + ccEmails.join(', ') + '</p>' : '';
+                overlay.innerHTML = '<div class="mailto-modal">'
+                    + '<h3>Email council members</h3>'
+                    + '<p>If your email app didn\'t open, copy the address below.</p>'
+                    + toHtml + ccHtml
+                    + '<a class="mailto-open-btn" href="' + raw + '">Open in email app</a>'
+                    + '<button class="mailto-close-btn" id="_mc_close">Close</button>'
+                    + '</div>';
+                document.body.appendChild(overlay);
+                overlay.querySelector('#_mc_copy').addEventListener('click', function() {
+                    navigator.clipboard.writeText(toEmails[0]).catch(function() {
                         var inp = overlay.querySelector('#_mc_addr');
-                        navigator.clipboard.writeText(toEmail).catch(function() {
-                            inp.select(); document.execCommand('copy');
-                        });
-                        this.textContent = 'Copied!';
-                        this.classList.add('copied');
+                        inp.select(); document.execCommand('copy');
                     });
-                    overlay.querySelector('#_mc_close').addEventListener('click', function() { overlay.remove(); });
-                    overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
+                    this.textContent = 'Copied!';
+                    this.classList.add('copied');
                 });
+                overlay.querySelector('#_mc_close').addEventListener('click', function() { overlay.remove(); });
+                overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
             });
         });
 
