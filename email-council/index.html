@@ -873,15 +873,14 @@ Thank you,
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
             btn.setAttribute('href', href);
-            var n = selected.length;
-            countEl.textContent = n === 1 ? '1 member selected' : n + ' members selected';
+            var selectedNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
+                var nameEl = el.querySelector('.council-name');
+                return nameEl ? nameEl.textContent.trim() : '';
+            }).filter(Boolean);
+            countEl.textContent = selectedNames.join(', ');
 
             if (greetingEl) {
-                var names = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
-                    var nameEl = el.querySelector('.council-name');
-                    return nameEl ? nameEl.textContent.trim() : '';
-                }).filter(Boolean);
-                greetingEl.textContent = names.join(', ');
+                greetingEl.textContent = selectedNames.join(', ');
             }
         }
 
