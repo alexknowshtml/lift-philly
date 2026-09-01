@@ -650,7 +650,7 @@
                         
                     </div>
                 </div>
-                <div class="council-link" data-district="at-large" id="at-large-link" style="display:none" data-email="katherine.gilmore.richardson@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
+                <div class="council-link" data-district="at-large" id="at-large-link" data-email="katherine.gilmore.richardson@phila.gov" onclick="toggleSelect(this)" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="council-link-left">
                         <span class="district-badge at-large-badge">At-Large</span>
                         <span class="council-name">Katherine Gilmore Richardson <span class="role">(Majority Leader)</span></span>
@@ -809,9 +809,32 @@ Thank you,
         var EMAIL_SUBJECT = 'Need your support for Bill 251026';
 
         function toggleSelect(el) {
-            var nowSelected = !el.classList.contains('selected');
-            el.classList.toggle('selected', nowSelected);
-            el.setAttribute('aria-checked', String(nowSelected));
+            if (el.classList.contains('selected')) {
+                resetList();
+            } else {
+                var d = el.getAttribute('data-district');
+                if (d === 'at-large') {
+                    filterToRep(el);
+                } else {
+                    highlightDistrict(parseInt(d, 10));
+                }
+            }
+        }
+
+        function filterToRep(el) {
+            currentDistrict = null;
+            var toggle = document.getElementById('show-all-toggle');
+            document.querySelectorAll('.council-link').forEach(function(link) {
+                var isTarget = link === el;
+                link.style.display = '';
+                link.classList.toggle('highlighted', isTarget);
+                link.classList.toggle('selected', isTarget);
+                link.classList.toggle('dimmed', !isTarget);
+                link.setAttribute('aria-checked', String(isTarget));
+                var badge = link.querySelector('.your-rep-badge');
+                if (badge) badge.style.display = 'none';
+            });
+            if (toggle) { toggle.style.display = 'block'; toggle.textContent = 'Show all council members'; }
             updateStickyBar();
         }
 
@@ -1014,7 +1037,6 @@ Thank you,
                 var badge = link.querySelector('.your-rep-badge');
                 if (badge) badge.style.display = 'none';
             });
-            if (atLarge) atLarge.style.display = 'none';
             if (toggle) toggle.style.display = 'none';
             updateStickyBar();
         }
@@ -1038,8 +1060,11 @@ Thank you,
                 if (atLarge) { atLarge.style.display = ''; atLarge.classList.remove('dimmed'); }
                 if (toggle) toggle.textContent = 'Collapse — show my rep only';
             } else {
-                if (atLarge) atLarge.style.display = 'none';
-                if (currentDistrict) highlightDistrict(currentDistrict);
+                if (currentDistrict) {
+                    highlightDistrict(currentDistrict);
+                } else {
+                    resetList();
+                }
             }
         }
 
