@@ -877,7 +877,7 @@ Thank you,
                 var nameEl = el.querySelector('.council-name');
                 return nameEl ? nameEl.textContent.trim() : '';
             }).filter(Boolean);
-            countEl.textContent = selectedNames.join(', ');
+            countEl.innerHTML = selectedNames.join('<br>');
 
             if (greetingEl) {
                 greetingEl.textContent = selectedNames.join(', ');
