@@ -408,10 +408,9 @@
             padding: 10px 22px;
             border-bottom: 1.5px solid #e2e8f0;
             background: #eef2f7;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
         .template-subject-label {
             font-size: 0.75rem;
@@ -419,7 +418,10 @@
             letter-spacing: 0.06em;
             color: var(--text-light);
             font-weight: 700;
-            margin-right: 4px;
+        }
+        .template-subject-text {
+            font-weight: 600;
+            font-size: 0.95rem;
         }
         .template-body {
             padding: 20px 22px;
@@ -712,7 +714,7 @@
         <div class="container">
             <h2>Email template</h2>
             <p class="hint">Copy and send — or personalize further before hitting send.</p>
-            <div class="template-box" id="template-text"><div class="template-subject"><span class="template-subject-label">Subject:</span> Need your support for Bill 251026</div><div class="template-body">
+            <div class="template-box" id="template-text"><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
