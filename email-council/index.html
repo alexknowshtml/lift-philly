@@ -128,8 +128,14 @@
             gap: 10px;
         }
 
-        .lookup-input {
+        .lookup-input-wrap {
+            position: relative;
             flex: 1;
+            min-width: 0;
+        }
+
+        .lookup-input {
+            width: 100%;
             padding: 10px 14px;
             border: 1.5px solid #cbd5e1;
             border-radius: 8px;
@@ -137,13 +143,38 @@
             font-size: 0.9rem;
             color: var(--navy);
             background: white;
-            min-width: 0;
         }
 
         .lookup-input:focus {
             outline: none;
             border-color: var(--gold);
         }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0; right: 0;
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            z-index: 100;
+            overflow: hidden;
+            display: none;
+        }
+
+        .autocomplete-dropdown.open { display: block; }
+
+        .autocomplete-item {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            color: var(--text);
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-item:hover, .autocomplete-item.active { background: var(--cream); }
 
         .lookup-btn {
             padding: 10px 18px;
@@ -373,13 +404,16 @@
             <div class="lookup-box">
                 <label for="address-input">Look up your district by address</label>
                 <div class="lookup-row">
-                    <input
-                        type="text"
-                        id="address-input"
-                        class="lookup-input"
-                        placeholder="e.g. 123 Main St Philadelphia"
-                        autocomplete="street-address"
-                    />
+                    <div class="lookup-input-wrap">
+                        <input
+                            type="text"
+                            id="address-input"
+                            class="lookup-input"
+                            placeholder="e.g. 123 Market St"
+                            autocomplete="off"
+                        />
+                        <div class="autocomplete-dropdown" id="autocomplete-dropdown"></div>
+                    </div>
                     <button class="lookup-btn" id="lookup-btn" onclick="lookupAddress()">Find my rep</button>
                 </div>
                 <div class="lookup-result" id="lookup-result"></div>
@@ -542,27 +576,102 @@ Thank you,
 
     <script>
         var currentDistrict = null;
+        var acTimer = null;
+        var acActive = -1;
 
-        document.getElementById('address-input').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') lookupAddress();
+        var input = document.getElementById('address-input');
+        var dropdown = document.getElementById('autocomplete-dropdown');
+
+        input.addEventListener('input', function() {
+            clearTimeout(acTimer);
+            var val = input.value.trim();
+            if (val.length < 2) { closeDropdown(); return; }
+            acTimer = setTimeout(function() { fetchSuggestions(val); }, 280);
         });
 
+        input.addEventListener('keydown', function(e) {
+            var items = dropdown.querySelectorAll('.autocomplete-item');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                acActive = Math.min(acActive + 1, items.length - 1);
+                items.forEach(function(el, i) { el.classList.toggle('active', i === acActive); });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                acActive = Math.max(acActive - 1, -1);
+                items.forEach(function(el, i) { el.classList.toggle('active', i === acActive); });
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (acActive >= 0 && items[acActive]) {
+                    selectSuggestion(items[acActive].dataset.address);
+                } else {
+                    lookupAddress();
+                }
+            } else if (e.key === 'Escape') {
+                closeDropdown();
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lookup-input-wrap')) closeDropdown();
+        });
+
+        async function fetchSuggestions(query) {
+            try {
+                var q = query;
+                if (!/philadelphia/i.test(q)) q += ' Philadelphia';
+                var url = 'https://api.phila.gov/ais/v1/search/' + encodeURIComponent(q) + '?include_units=false&opa_only=false';
+                var resp = await fetch(url);
+                var data = await resp.json();
+                var features = (data.features || []).slice(0, 6);
+                if (!features.length) { closeDropdown(); return; }
+
+                acActive = -1;
+                dropdown.innerHTML = '';
+                features.forEach(function(f) {
+                    var addr = f.properties.street_address || f.properties.address || '';
+                    if (!addr) return;
+                    var item = document.createElement('div');
+                    item.className = 'autocomplete-item';
+                    item.textContent = addr;
+                    item.dataset.address = addr;
+                    item.addEventListener('mousedown', function(e) {
+                        e.preventDefault();
+                        selectSuggestion(addr);
+                    });
+                    dropdown.appendChild(item);
+                });
+                dropdown.classList.add('open');
+            } catch (err) {
+                closeDropdown();
+            }
+        }
+
+        function selectSuggestion(address) {
+            input.value = address;
+            closeDropdown();
+            lookupAddress();
+        }
+
+        function closeDropdown() {
+            dropdown.classList.remove('open');
+            acActive = -1;
+        }
+
         async function lookupAddress() {
-            var input = document.getElementById('address-input');
             var btn = document.getElementById('lookup-btn');
             var result = document.getElementById('lookup-result');
             var address = input.value.trim();
 
             if (!address) return;
+            closeDropdown();
 
             btn.disabled = true;
             btn.textContent = 'Looking up...';
             result.className = 'lookup-result visible';
             result.textContent = 'Checking the city address database...';
 
-            // Append Philadelphia if not present
             var query = address;
-            if (!/philadelphia/i.test(query)) query += ', Philadelphia';
+            if (!/philadelphia/i.test(query)) query += ' Philadelphia';
 
             try {
                 var url = 'https://api.phila.gov/ais/v1/search/' + encodeURIComponent(query) + '?include_units=false';
@@ -571,29 +680,27 @@ Thank you,
 
                 if (!data.features || data.features.length === 0) {
                     result.className = 'lookup-result visible error';
-                    result.textContent = 'Address not found. Try adding more detail, e.g. "1234 Market St Philadelphia".';
+                    result.textContent = 'Address not found. Try adding more detail, e.g. "1234 Market St".';
                     resetList();
                 } else {
                     var props = data.features[0].properties;
-                    // AIS returns council_district_2016 as a string like "5"
                     var district = props.council_district_2016 || props.council_district || null;
 
                     if (!district) {
                         result.className = 'lookup-result visible error';
-                        result.textContent = 'District info not found for that address. Try scrolling the list below.';
+                        result.textContent = 'District info not found for that address.';
                         resetList();
                     } else {
                         var distNum = parseInt(district, 10);
                         result.className = 'lookup-result visible';
                         result.innerHTML = 'Your address is in <strong>Council District ' + distNum + '</strong>. Your rep is highlighted below.';
                         highlightDistrict(distNum);
-                        // Scroll list into view
                         document.getElementById('council-list').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                 }
             } catch (err) {
                 result.className = 'lookup-result visible error';
-                result.textContent = 'Lookup failed. Check your connection and try again, or scroll the list below.';
+                result.textContent = 'Lookup failed. Check your connection and try again.';
                 resetList();
             }
 
