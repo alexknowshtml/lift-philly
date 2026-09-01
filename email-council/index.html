@@ -903,12 +903,14 @@ Thank you,
         };
 
         function scrollToSelected() {
-            var first = document.querySelector('.council-link.selected');
-            if (!first) return;
-            var nav = document.querySelector('.nav');
-            var offset = nav ? nav.offsetHeight : 0;
-            var top = first.getBoundingClientRect().top + window.scrollY - offset - 32;
-            window.scrollTo({ top: top, behavior: 'smooth' });
+            requestAnimationFrame(function() {
+                var first = document.querySelector('.council-link.selected');
+                if (!first) return;
+                var nav = document.querySelector('.nav');
+                var offset = nav ? nav.offsetHeight : 0;
+                var top = first.getBoundingClientRect().top + window.scrollY - offset - 32;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            });
         }
 
         async function lookupAddress() {
