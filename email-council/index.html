@@ -219,7 +219,23 @@
             box-shadow: 0 2px 16px rgba(251,191,36,0.3);
         }
 
-        .council-link.dimmed { opacity: 0.4; }
+        .council-link.dimmed { display: none; }
+
+        .show-all-toggle {
+            display: none;
+            background: none;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 16px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            cursor: pointer;
+            margin-top: 4px;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .show-all-toggle:hover { border-color: var(--gold); color: var(--navy); }
 
         /* mailto fallback modal */
         .mailto-overlay {
@@ -581,6 +597,7 @@
                     </div>
                 </a>
             </div>
+            <button class="show-all-toggle" id="show-all-toggle" onclick="toggleAllReps()">Show all council members</button>
         </div>
     </section>
 
@@ -709,6 +726,7 @@ Thank you,
 
         function highlightDistrict(district) {
             currentDistrict = district;
+            var toggle = document.getElementById('show-all-toggle');
             var links = document.querySelectorAll('.council-link');
             links.forEach(function(link) {
                 var d = link.getAttribute('data-district');
@@ -718,16 +736,30 @@ Thank you,
                 link.classList.toggle('dimmed', !isMatch && d !== 'at-large');
                 if (badge) badge.style.display = isMatch ? 'inline-block' : 'none';
             });
+            if (toggle) { toggle.style.display = 'block'; toggle.textContent = 'Want to email a different district council member? Show all'; }
         }
 
         function resetList() {
             currentDistrict = null;
+            var toggle = document.getElementById('show-all-toggle');
             var links = document.querySelectorAll('.council-link');
             links.forEach(function(link) {
                 link.classList.remove('highlighted', 'dimmed');
                 var badge = link.querySelector('.your-rep-badge');
                 if (badge) badge.style.display = 'none';
             });
+            if (toggle) toggle.style.display = 'none';
+        }
+
+        function toggleAllReps() {
+            var toggle = document.getElementById('show-all-toggle');
+            var links = document.querySelectorAll('.council-link.dimmed');
+            if (links.length) {
+                links.forEach(function(l) { l.classList.remove('dimmed'); });
+                if (toggle) toggle.textContent = 'Collapse — show my rep only';
+            } else {
+                if (currentDistrict) highlightDistrict(currentDistrict);
+            }
         }
 
         // mailto intercept: attempt the link AND show copy modal (fixes sandboxed browsers like Discord's)
