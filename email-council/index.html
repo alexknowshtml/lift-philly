@@ -247,6 +247,46 @@
 
         .council-link.dimmed { opacity: 0.4; }
 
+        /* mailto fallback modal */
+        .mailto-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mailto-modal {
+            background: white; border-radius: 12px;
+            padding: 24px; max-width: 400px; width: 90%;
+        }
+        .mailto-modal h3 { margin: 0 0 4px; font-size: 1rem; color: var(--navy); }
+        .mailto-modal p { margin: 0 0 16px; font-size: 0.85rem; color: var(--text-light); }
+        .mailto-email-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .mailto-email-row input {
+            flex: 1; padding: 8px 12px;
+            border: 1.5px solid #e2e8f0; border-radius: 8px;
+            font-size: 0.875rem; color: var(--navy);
+            background: #f8fafc;
+        }
+        .mailto-copy-btn {
+            padding: 8px 14px; background: var(--navy); color: white;
+            border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 600; white-space: nowrap; font-size: 0.875rem;
+        }
+        .mailto-copy-btn.copied { background: #16a34a; }
+        .mailto-open-btn {
+            display: block; width: 100%; padding: 10px;
+            background: var(--gold); color: var(--navy);
+            border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 700; font-size: 0.9rem; margin-bottom: 10px;
+            text-align: center; text-decoration: none;
+        }
+        .mailto-close-btn {
+            background: none; border: none; color: var(--text-light);
+            cursor: pointer; font-size: 0.85rem; display: block;
+            margin: 0 auto;
+        }
+        .mailto-cc-note { font-size: 0.78rem; color: var(--text-light); margin: 0 0 14px; }
+
         .council-link-left { display: flex; align-items: center; gap: 12px; }
 
         .district-badge {
@@ -767,6 +807,52 @@ Thank you,
                 if (badge) badge.style.display = 'none';
             });
         }
+
+        // mailto intercept: attempt the link AND show copy modal (fixes sandboxed browsers like Discord's)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var raw = this.getAttribute('href').replace(/&amp;/g, '&');
+                    var emailMatch = raw.match(/^mailto:([^?]+)/);
+                    var toEmail = emailMatch ? decodeURIComponent(emailMatch[1]) : '';
+                    var ccMatch = raw.match(/[?&]cc=([^&]+)/);
+                    var ccEmails = ccMatch ? decodeURIComponent(ccMatch[1]).split(',') : [];
+                    var subjMatch = raw.match(/[?&]subject=([^&]+)/);
+                    var subject = subjMatch ? decodeURIComponent(subjMatch[1]) : '';
+
+                    // Attempt real mailto (works in OS-integrated browsers)
+                    try { window.location.href = raw; } catch(err) {}
+
+                    // Show modal (stays for sandboxed browsers; closeable for real ones)
+                    var overlay = document.createElement('div');
+                    overlay.className = 'mailto-overlay';
+                    var ccHtml = ccEmails.length ? '<p class="mailto-cc-note">CC: ' + ccEmails.join(', ') + '</p>' : '';
+                    overlay.innerHTML = '<div class="mailto-modal">'
+                        + '<h3>Email this council member</h3>'
+                        + '<p>If your email app didn\'t open, copy the address below.</p>'
+                        + '<div class="mailto-email-row">'
+                        + '<input readonly id="_mc_addr" value="' + toEmail + '" onclick="this.select()">'
+                        + '<button class="mailto-copy-btn" id="_mc_copy">Copy</button>'
+                        + '</div>'
+                        + ccHtml
+                        + '<a class="mailto-open-btn" href="' + raw + '">Open in email app</a>'
+                        + '<button class="mailto-close-btn" id="_mc_close">Close</button>'
+                        + '</div>';
+                    document.body.appendChild(overlay);
+                    overlay.querySelector('#_mc_copy').addEventListener('click', function() {
+                        var inp = overlay.querySelector('#_mc_addr');
+                        navigator.clipboard.writeText(toEmail).catch(function() {
+                            inp.select(); document.execCommand('copy');
+                        });
+                        this.textContent = 'Copied!';
+                        this.classList.add('copied');
+                    });
+                    overlay.querySelector('#_mc_close').addEventListener('click', function() { overlay.remove(); });
+                    overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
+                });
+            });
+        });
 
         function copyTemplate() {
             var box = document.getElementById('template-text');
