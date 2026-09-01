@@ -885,7 +885,10 @@ Thank you,
             }
         });
 
-        var ZIP_SPLIT = {'19122':true,'19123':true};
+        var ZIP_SPLIT = {
+            '19122': { districts: [5,7], hint: '1500 N 5th St' },
+            '19123': { districts: [1,5], hint: '400 Fairmount Ave' }
+        };
 
         var ZIP_TO_DISTRICT = {
             '19102':1,'19103':2,'19104':3,'19106':1,'19107':1,
@@ -911,9 +914,12 @@ Thank you,
             if (zipMatch) {
                 var zip = zipMatch[1];
                 if (ZIP_SPLIT[zip]) {
+                    var split = ZIP_SPLIT[zip];
+                    var dNames = split.districts.map(function(d) { return ‘District ‘ + d; }).join(‘ and ‘);
                     result.className = ‘lookup-result visible error’;
-                    result.textContent = zip + ‘ spans multiple council districts. Enter your full street address to find your exact rep.’;
-                    resetList();
+                    result.innerHTML = zip + ‘ covers ‘ + dNames + ‘ — we’ve selected both reps below. To find your exact one, enter your full street address (e.g. “’ + split.hint + ‘”).’;
+                    highlightDistricts(split.districts);
+                    document.getElementById(‘council-list’).scrollIntoView({ behavior: ‘smooth’, block: ‘nearest’ });
                     return;
                 }
                 var zipDistrict = ZIP_TO_DISTRICT[zip];
@@ -974,6 +980,25 @@ Thank you,
 
             btn.disabled = false;
             btn.textContent = 'Find my rep';
+        }
+
+        function highlightDistricts(districts) {
+            currentDistrict = districts[0];
+            var toggle = document.getElementById('show-all-toggle');
+            var links = document.querySelectorAll('.council-link');
+            links.forEach(function(link) {
+                var d = parseInt(link.getAttribute('data-district'), 10);
+                var badge = link.querySelector('.your-rep-badge');
+                var isMatch = districts.indexOf(d) !== -1;
+                link.classList.toggle('highlighted', isMatch);
+                link.classList.toggle('dimmed', !isMatch && link.getAttribute('data-district') !== 'at-large');
+                link.classList.toggle('selected', isMatch);
+                link.setAttribute('aria-checked', String(isMatch));
+                if (link.getAttribute('data-district') === 'at-large') link.style.display = 'none';
+                if (badge) badge.style.display = isMatch ? 'inline-block' : 'none';
+            });
+            if (toggle) { toggle.style.display = 'block'; toggle.textContent = 'Want to email a different district council member? Show all'; }
+            updateStickyBar();
         }
 
         function highlightDistrict(district) {
