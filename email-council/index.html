@@ -783,16 +783,24 @@ Thank you,
             }
 
             var LS_KEY = 'liftphilly_impact';
-            if (piName) piName.addEventListener('input', function() { updateName(this.value); });
+            function syncStickyLabel() {
+                var btn = document.getElementById('sticky-email-btn');
+                if (!btn) return;
+                var hasName = piName && piName.value.trim();
+                var hasImpact = piImpact && piImpact.value.trim();
+                btn.textContent = (hasName || hasImpact) ? 'Preview' : 'Personalize';
+            }
+            if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); });
             if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); });
             if (piImpact) {
                 piImpact.addEventListener('input', function() {
                     updateImpact(this.value);
                     try { localStorage.setItem(LS_KEY, this.value); } catch(e) {}
+                    syncStickyLabel();
                 });
                 try {
                     var saved = localStorage.getItem(LS_KEY);
-                    if (saved) { piImpact.value = saved; updateImpact(saved); }
+                    if (saved) { piImpact.value = saved; updateImpact(saved); syncStickyLabel(); }
                 } catch(e) {}
             }
         }
