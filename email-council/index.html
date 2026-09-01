@@ -764,11 +764,14 @@ Thank you,
 
         function toggleAllReps() {
             var toggle = document.getElementById('show-all-toggle');
+            var atLarge = document.getElementById('at-large-link');
             var links = document.querySelectorAll('.council-link.dimmed');
             if (links.length) {
                 links.forEach(function(l) { l.classList.remove('dimmed'); });
+                if (atLarge) { atLarge.style.display = ''; atLarge.classList.remove('dimmed'); }
                 if (toggle) toggle.textContent = 'Collapse — show my rep only';
             } else {
+                if (atLarge) atLarge.style.display = 'none';
                 if (currentDistrict) highlightDistrict(currentDistrict);
             }
         }
