@@ -686,7 +686,7 @@
     <div class="sticky-email-bar" id="sticky-email-bar" style="display:none">
         <div class="sticky-email-inner">
             <span class="sticky-count" id="sticky-count"></span>
-            <button class="sticky-email-btn" id="sticky-email-btn" onclick="document.getElementById('personalizer-section').scrollIntoView({behavior:'smooth',block:'start'})">Personalize</button>
+            <button class="sticky-email-btn" id="sticky-email-btn" onclick="(function(){var s=document.getElementById('personalizer-section');var nav=document.querySelector('.nav');var offset=nav?nav.offsetHeight:0;var top=s.getBoundingClientRect().top+window.scrollY-offset-16;window.scrollTo({top:top,behavior:'smooth'});})()">Personalize</button>
         </div>
     </div>
 
