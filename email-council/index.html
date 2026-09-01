@@ -692,7 +692,23 @@
 
     <section class="personalizer-section" id="personalizer-section">
         <div class="container">
-            <div class="template-box" id="template-text" style="margin-bottom:24px;"><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
+            <h2 style="display:flex;align-items:center;gap:10px;"><div class="step-num">2</div>Personalize your email</h2>
+            <p class="hint">Fill these in and they'll update live in the template below.</p>
+            <div class="personalizer-fields">
+                <div class="personalizer-field">
+                    <label for="pi-name">Your name</label>
+                    <input type="text" id="pi-name" placeholder="Jane Doe" autocomplete="name">
+                </div>
+                <div class="personalizer-field">
+                    <label for="pi-neighborhood">Your ward or neighborhood</label>
+                    <input type="text" id="pi-neighborhood" placeholder="e.g. Fishtown, West Philly">
+                </div>
+                <div class="personalizer-field full-width">
+                    <label for="pi-impact">How the BIRT rollback impacted you</label>
+                    <textarea id="pi-impact" placeholder="1-3 sentences about your personal experience with this year's BIRT rollback and how it affected you and your community."></textarea>
+                </div>
+            </div>
+            <div class="template-box" id="template-text" style="margin-top:24px;"><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
@@ -709,22 +725,6 @@ Thank you,
 <span id="tpl-name-sig">[Your Name]</span>
 <span id="tpl-email-sig" style="display:none"></span>
 </div>
-            </div>
-            <h2 style="display:flex;align-items:center;gap:10px;"><div class="step-num">2</div>Personalize your email</h2>
-            <p class="hint">Fill these in and they'll update live in the template above.</p>
-            <div class="personalizer-fields">
-                <div class="personalizer-field">
-                    <label for="pi-name">Your name</label>
-                    <input type="text" id="pi-name" placeholder="Jane Doe" autocomplete="name">
-                </div>
-                <div class="personalizer-field">
-                    <label for="pi-neighborhood">Your ward or neighborhood</label>
-                    <input type="text" id="pi-neighborhood" placeholder="e.g. Fishtown, West Philly">
-                </div>
-                <div class="personalizer-field full-width">
-                    <label for="pi-impact">How the BIRT rollback impacted you</label>
-                    <textarea id="pi-impact" placeholder="1-3 sentences about your personal experience with this year's BIRT rollback and how it affected you and your community."></textarea>
-                </div>
             </div>
         </div>
     </section>
