@@ -721,7 +721,7 @@
             <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-to-row" style="display:none"><span class="template-subject-label">To:</span><span class="template-subject-text" id="tpl-to-text"></span></div><div class="template-header-row" id="tpl-cc-row" style="display:none"><span class="template-subject-label">CC:</span><span class="template-subject-text" id="tpl-cc-text"></span></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
 
-My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">[YOUR WARD OR NEIGHBORHOOD]</span>.
+My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">your district</span>.
 
 I am writing in support of Bill 251026, introduced by Councilman Mike Driscoll and sponsored by 8 other council members. I would like you to publicly support a finance hearing this fall.
 
@@ -785,7 +785,7 @@ Thank you,
             }
             function updateNeighborhood(val) {
                 var el = document.getElementById('tpl-neighborhood');
-                if (el) el.textContent = val.trim() || '[YOUR WARD OR NEIGHBORHOOD]';
+                if (el) el.textContent = val.trim() || 'your district';
             }
             function updateImpact(val) {
                 var el = document.getElementById('tpl-impact');
