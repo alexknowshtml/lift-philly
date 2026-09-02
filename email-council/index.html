@@ -764,6 +764,7 @@ Thank you,
     <script>
         var currentDistrict = null;
         var previewInView = false;
+        var sendItReached = false;
 
         var input = document.getElementById('address-input');
 
@@ -800,12 +801,15 @@ Thank you,
                 var hasName = piName && piName.value.trim();
                 var hasImpact = piImpact && piImpact.value.trim();
                 var filled = hasName || hasImpact;
-                if (filled && previewInView && !hasPlaceholders()) {
+                var complete = filled && !hasPlaceholders();
+                if (!complete) {
+                    sendItReached = false;
+                    btn.textContent = filled ? 'Preview' : 'Personalize';
+                } else if (previewInView || sendItReached) {
+                    sendItReached = true;
                     btn.textContent = 'Send it';
-                } else if (filled) {
-                    btn.textContent = 'Preview';
                 } else {
-                    btn.textContent = 'Personalize';
+                    btn.textContent = 'Preview';
                 }
             }
             if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); });
@@ -881,12 +885,15 @@ Thank you,
                 var piName = document.getElementById('pi-name');
                 var piImpact = document.getElementById('pi-impact');
                 var filled = (piName && piName.value.trim()) || (piImpact && piImpact.value.trim());
-                if (filled && previewInView && !hasPlaceholders()) {
+                var complete = filled && !hasPlaceholders();
+                if (!complete) {
+                    sendItReached = false;
+                    btn.textContent = filled ? 'Preview' : 'Personalize';
+                } else if (previewInView || sendItReached) {
+                    sendItReached = true;
                     btn.textContent = 'Send it';
-                } else if (filled) {
-                    btn.textContent = 'Preview';
                 } else {
-                    btn.textContent = 'Personalize';
+                    btn.textContent = 'Preview';
                 }
             }, { threshold: 0.1 }).observe(previewEl);
         })();
