@@ -874,7 +874,8 @@ Thank you,
             var previewEl = document.getElementById('preview-header');
             if (!previewEl || !('IntersectionObserver' in window)) return;
             new IntersectionObserver(function(entries) {
-                previewInView = entries[0].isIntersecting;
+                var entry = entries[0];
+                previewInView = entry.isIntersecting || entry.boundingClientRect.top < 0;
                 var btn = document.getElementById('sticky-email-btn');
                 if (!btn) return;
                 var piName = document.getElementById('pi-name');
