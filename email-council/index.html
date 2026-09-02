@@ -763,6 +763,7 @@ Thank you,
 
     <script>
         var currentDistrict = null;
+        var previewInView = false;
 
         var input = document.getElementById('address-input');
 
@@ -798,7 +799,14 @@ Thank you,
                 if (!btn) return;
                 var hasName = piName && piName.value.trim();
                 var hasImpact = piImpact && piImpact.value.trim();
-                btn.textContent = (hasName || hasImpact) ? 'Preview' : 'Personalize';
+                var filled = hasName || hasImpact;
+                if (filled && previewInView && !hasPlaceholders()) {
+                    btn.textContent = 'Send it';
+                } else if (filled) {
+                    btn.textContent = 'Preview';
+                } else {
+                    btn.textContent = 'Personalize';
+                }
             }
             if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); });
             if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); });
@@ -861,6 +869,26 @@ Thank you,
         })();
 
         bindPersonalizer();
+
+        (function() {
+            var previewEl = document.getElementById('preview-header');
+            if (!previewEl || !('IntersectionObserver' in window)) return;
+            new IntersectionObserver(function(entries) {
+                previewInView = entries[0].isIntersecting;
+                var btn = document.getElementById('sticky-email-btn');
+                if (!btn) return;
+                var piName = document.getElementById('pi-name');
+                var piImpact = document.getElementById('pi-impact');
+                var filled = (piName && piName.value.trim()) || (piImpact && piImpact.value.trim());
+                if (filled && previewInView && !hasPlaceholders()) {
+                    btn.textContent = 'Send it';
+                } else if (filled) {
+                    btn.textContent = 'Preview';
+                } else {
+                    btn.textContent = 'Personalize';
+                }
+            }, { threshold: 0.1 }).observe(previewEl);
+        })();
 
         var ALWAYS_CC = ['kenyatta.johnson@phila.gov', 'katherine.gilmore.richardson@phila.gov'];
         var EMAIL_SUBJECT = 'Need your support for Bill 251026';
@@ -995,9 +1023,20 @@ Thank you,
             });
         }
 
+        function hasPlaceholders() {
+            var box = document.getElementById('template-text');
+            return box ? box.innerText.indexOf('[') !== -1 : true;
+        }
+
         function handleStickyClick() {
             var btn = document.getElementById('sticky-email-btn');
-            var isPreview = btn && btn.textContent.trim() === 'Preview';
+            var label = btn ? btn.textContent.trim() : '';
+            if (label === 'Send it') {
+                var href = btn.dataset.mailto;
+                if (href) { try { window.location.href = href; } catch(e) {} }
+                return;
+            }
+            var isPreview = label === 'Preview';
             var target = document.getElementById(isPreview ? 'preview-header' : 'personalizer-section');
             if (!target) return;
             var nav = document.querySelector('.nav');
