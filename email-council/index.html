@@ -718,7 +718,7 @@
             </div>
             <h2 id="preview-header" style="display:flex;align-items:center;gap:10px;margin-top:32px;"><div class="step-num">3</div>Preview your email</h2>
             <p class="hint" style="margin-bottom:16px;">Copy the text below and paste it into your email app.</p>
-            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-to-row" style="display:none"><span class="template-subject-label">To:</span><span class="template-subject-text" id="tpl-to-text"></span></div><div class="template-header-row" id="tpl-cc-row" style="display:none"><span class="template-subject-label">CC:</span><span class="template-subject-text" id="tpl-cc-text"></span></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
+            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none"><div style="display:flex;gap:8px;"><span class="template-subject-label">To:</span><span class="template-subject-text" style="font-weight:400;word-break:break-all" id="tpl-to-text"></span></div><div style="display:flex;gap:8px;margin-top:4px;"><span class="template-subject-label">CC:</span><span class="template-subject-text" style="font-weight:400;word-break:break-all" id="tpl-cc-text"></span></div></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">your district</span>.
@@ -950,10 +950,8 @@ Thank you,
                 bar.style.display = 'none';
                 document.body.style.paddingBottom = '';
                 if (greetingEl) greetingEl.textContent = '[COUNCIL MEMBER NAME]';
-                var toRowZ = document.getElementById('tpl-to-row');
-                var ccRowZ = document.getElementById('tpl-cc-row');
-                if (toRowZ) toRowZ.style.display = 'none';
-                if (ccRowZ) ccRowZ.style.display = 'none';
+                var toccRowZ = document.getElementById('tpl-tocc-row');
+                if (toccRowZ) toccRowZ.style.display = 'none';
                 return;
             }
 
@@ -972,24 +970,14 @@ Thank you,
             }).filter(Boolean);
             countEl.innerHTML = '<strong>Prepare an email for:</strong><br>' + selected.join('<br>');
 
-            var toRow = document.getElementById('tpl-to-row');
-            var ccRow = document.getElementById('tpl-cc-row');
+            var toccRow = document.getElementById('tpl-tocc-row');
             var toText = document.getElementById('tpl-to-text');
             var ccText = document.getElementById('tpl-cc-text');
-            var EMAIL_TO_NAME_MAP = {'kenyatta.johnson@phila.gov':'Kenyatta Johnson','katherine.gilmore.richardson@phila.gov':'Katherine Gilmore Richardson'};
-            if (toRow && toText) {
-                var toNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
-                    var n = el.querySelector('.council-name');
-                    return n ? n.childNodes[0].textContent.trim() : '';
-                }).filter(Boolean);
-                toText.textContent = toNames.join(', ');
-                toRow.style.display = '';
-            }
-            if (ccRow && ccText) {
+            if (toccRow && toText) {
+                toText.textContent = selected.join(', ');
                 var ccList = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; });
-                var ccDisplayNames = ccList.map(function(e) { return EMAIL_TO_NAME_MAP[e] || e; });
-                if (ccDisplayNames.length) { ccText.textContent = ccDisplayNames.join(', '); ccRow.style.display = ''; }
-                else ccRow.style.display = 'none';
+                if (ccText) ccText.textContent = ccList.join(', ');
+                toccRow.style.display = '';
             }
 
             if (greetingEl) {
