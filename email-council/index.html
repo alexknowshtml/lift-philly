@@ -932,7 +932,7 @@ Thank you,
                 var nameEl = el.querySelector('.council-name');
                 return nameEl ? nameEl.textContent.trim() : '';
             }).filter(Boolean);
-            countEl.innerHTML = selectedNames.join('<br>');
+            countEl.innerHTML = '<strong>Prepare an email for:</strong><br>' + selectedNames.join('<br>');
 
             var toRow = document.getElementById('tpl-to-row');
             var ccRow = document.getElementById('tpl-cc-row');
