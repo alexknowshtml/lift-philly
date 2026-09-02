@@ -955,6 +955,8 @@ Thank you,
             var cc = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }).join(',');
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
+            var bodyEl = document.querySelector('#template-text .template-body');
+            if (bodyEl) href += '&body=' + encodeURIComponent(bodyEl.innerText.trim());
             btn.dataset.mailto = href;
             var selectedNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
                 var nameEl = el.querySelector('.council-name');
