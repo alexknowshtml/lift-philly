@@ -1099,7 +1099,7 @@ Thank you,
             var ready = document.getElementById('step4-ready');
             if (!locked || !ready) return;
             var isReady = btn && btn.textContent === 'Open in email';
-            locked.style.display = isReady ? 'none' : '';
+            locked.style.display = isReady ? 'none' : 'flex';
             ready.style.display = isReady ? 'flex' : 'none';
         }
 
