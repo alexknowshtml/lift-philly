@@ -897,9 +897,7 @@ Thank you,
                     try { localStorage.setItem('liftphilly_impact', testimonial); } catch(e) {}
                 }
             }
-            if (!params.get('address') && !params.get('zip')) {
-                if (input) input.focus();
-            }
+            // autofocus removed
         })();
 
         bindPersonalizer();
