@@ -813,13 +813,14 @@ Thank you,
                     btn.textContent = 'Preview';
                 }
             }
-            if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); });
-            if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); });
+            if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); updateStickyBar(); });
+            if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); updateStickyBar(); });
             if (piImpact) {
                 piImpact.addEventListener('input', function() {
                     updateImpact(this.value);
                     try { localStorage.setItem(LS_KEY, this.value); } catch(e) {}
                     syncStickyLabel();
+                    updateStickyBar();
                 });
                 try {
                     var saved = localStorage.getItem(LS_KEY);
