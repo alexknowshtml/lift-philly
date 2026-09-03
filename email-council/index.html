@@ -807,7 +807,7 @@ Thank you,
                     btn.textContent = filled ? 'Preview' : 'Personalize';
                 } else if (previewInView || sendItReached) {
                     sendItReached = true;
-                    btn.textContent = 'Send it';
+                    btn.textContent = 'Open in email';
                 } else {
                     btn.textContent = 'Preview';
                 }
@@ -891,7 +891,7 @@ Thank you,
                     btn.textContent = filled ? 'Preview' : 'Personalize';
                 } else if (previewInView || sendItReached) {
                     sendItReached = true;
-                    btn.textContent = 'Send it';
+                    btn.textContent = 'Open in email';
                 } else {
                     btn.textContent = 'Preview';
                 }
@@ -1037,7 +1037,7 @@ Thank you,
         function handleStickyClick() {
             var btn = document.getElementById('sticky-email-btn');
             var label = btn ? btn.textContent.trim() : '';
-            if (label === 'Send it') {
+            if (label === 'Open in email') {
                 var href = btn.dataset.mailto;
                 if (href) { try { window.location.href = href; } catch(e) {} }
                 return;
