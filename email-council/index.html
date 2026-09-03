@@ -718,7 +718,7 @@
             </div>
             <h2 id="preview-header" style="display:flex;align-items:center;gap:10px;margin-top:32px;"><div class="step-num">3</div>Preview your email</h2>
             <p class="hint" style="margin-bottom:16px;">Copy the text below and paste it into your email app.</p>
-            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none"><div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">To:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;" id="tpl-to-text"></div></div><div style="display:flex;gap:10px;align-items:flex-start;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">CC:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;" id="tpl-cc-text"></div></div></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
+            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none;position:relative;"><button id="copy-tocc-btn" onclick="copyToCC()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy</button><div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;padding-right:60px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">To:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;" id="tpl-to-text"></div></div><div style="display:flex;gap:10px;align-items:flex-start;padding-right:60px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">CC:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;" id="tpl-cc-text"></div></div></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>:
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">your district</span>.
@@ -1251,6 +1251,20 @@ Thank you,
                 overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
             });
         });
+
+        function copyToCC() {
+            var toEl = document.getElementById('tpl-to-text');
+            var ccEl = document.getElementById('tpl-cc-text');
+            var toEmails = Array.from(toEl.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
+            var ccEmails = Array.from(ccEl.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
+            var text = 'To: ' + toEmails.join(', ') + '\nCC: ' + ccEmails.join(', ');
+            var btn = document.getElementById('copy-tocc-btn');
+            navigator.clipboard.writeText(text).catch(function() {
+                var ta = document.createElement('textarea');
+                ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            }).finally(function() {});
+            if (btn) { btn.textContent = 'Copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 2000); }
+        }
 
         function copyTemplate() {
             var box = document.getElementById('template-text');
