@@ -1026,13 +1026,13 @@ Thank you,
                 if (greetingEl) greetingEl.textContent = 'Council Members';
                 var toccRowZ = document.getElementById('tpl-tocc-row');
                 var toTextZ = document.getElementById('tpl-to-text');
+                var ccTextZ = document.getElementById('tpl-cc-text');
                 if (toccRowZ && toTextZ) {
-                    var allEmails = Array.from(document.querySelectorAll('.council-link'))
+                    toTextZ.innerHTML = ALWAYS_CC.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
+                    var otherEmails = Array.from(document.querySelectorAll('.council-link'))
                         .map(function(el) { return el.getAttribute('data-email'); })
-                        .filter(Boolean);
-                    toTextZ.innerHTML = allEmails.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
-                    var ccTextZ = document.getElementById('tpl-cc-text');
-                    if (ccTextZ) ccTextZ.innerHTML = '';
+                        .filter(function(e) { return e && ALWAYS_CC.indexOf(e) === -1; });
+                    if (ccTextZ) ccTextZ.innerHTML = otherEmails.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
                     toccRowZ.style.display = '';
                 }
                 return;
