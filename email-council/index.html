@@ -731,7 +731,7 @@
             </div>
             <h2 id="preview-header" style="display:flex;align-items:center;gap:10px;margin-top:32px;"><div class="step-num">3</div>Preview your email</h2>
             <p class="hint" style="margin-bottom:16px;">Here's a sample email you can send. You'll be able to edit it in the next step below.</p>
-            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none;position:relative;"><button id="copy-tocc-btn" onclick="copyToCC()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy</button><div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;padding-right:60px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">To:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;" id="tpl-to-text"></div></div><div style="display:flex;gap:10px;align-items:flex-start;padding-right:60px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">CC:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;" id="tpl-cc-text"></div></div></div><div class="template-subject"><button id="copy-subject-btn" onclick="copySubject()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy</button><span class="template-subject-label">Subject:</span><span class="template-subject-text" style="font-weight:400;">Need your support for Bill 251026</span></div><div class="template-body" style="position:relative;"><button id="copy-btn" onclick="copyTemplate()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy</button>
+            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none;position:relative;"><button id="copy-tocc-btn" onclick="copyToCC()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy Emails</button><div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;padding-right:60px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">To:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;" id="tpl-to-text"></div></div><div style="display:flex;gap:10px;align-items:flex-start;padding-right:60px;"><span class="template-subject-label" style="flex-shrink:0;min-width:28px;">CC:</span><div style="font-size:0.8rem;line-height:1.5;overflow-wrap:break-word;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;" id="tpl-cc-text"></div></div></div><div class="template-subject"><button id="copy-subject-btn" onclick="copySubject()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy Subject</button><span class="template-subject-label">Subject:</span><span class="template-subject-text" style="font-weight:400;">Need your support for Bill 251026</span></div><div class="template-body" style="position:relative;"><button id="copy-btn" onclick="copyTemplate()" style="position:absolute;top:8px;right:8px;background:var(--navy);color:white;border:none;border-radius:5px;padding:4px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">Copy Message Template</button>
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>:
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">your district</span>.
@@ -1387,7 +1387,7 @@ Thank you,
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             }).finally(function() {});
-            if (btn) { btn.textContent = 'Emails copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 2000); }
+            if (btn) { btn.textContent = 'Emails copied!'; setTimeout(function() { btn.textContent = 'Copy Emails'; }, 2000); }
         }
 
         function copySubject() {
@@ -1397,7 +1397,7 @@ Thank you,
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             });
-            if (btn) { btn.textContent = 'Subject copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 2000); }
+            if (btn) { btn.textContent = 'Subject copied!'; setTimeout(function() { btn.textContent = 'Copy Subject'; }, 2000); }
         }
 
         function copyTemplate() {
@@ -1415,7 +1415,7 @@ Thank you,
                     setTimeout(function() {
                         btn.style.background = 'var(--navy)';
                         btn.style.color = 'white';
-                        btn.textContent = 'Copy';
+                        btn.textContent = 'Copy Message Template';
                     }, 3000);
                 }
                 var _pTarget = document.getElementById('personalizer-section');
@@ -1429,7 +1429,7 @@ Thank you,
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             });
-            if (btn) { btn.textContent = 'Body copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 2000); }
+            if (btn) { btn.textContent = 'Body copied!'; setTimeout(function() { btn.textContent = 'Copy Message Template'; }, 2000); }
         }
     </script>
     <script src="/nav.js"></script>
