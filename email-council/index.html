@@ -981,7 +981,15 @@ Thank you,
             }
 
             if (greetingEl) {
-                greetingEl.textContent = selectedNames.join(', ');
+                var suffixes = ['jr.', 'sr.', 'ii', 'iii', 'iv'];
+                var greetingNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
+                    var n = el.querySelector('.council-name');
+                    var cleanName = n ? n.childNodes[0].textContent.trim() : '';
+                    var parts = cleanName.split(/\s+/);
+                    while (parts.length > 1 && suffixes.indexOf(parts[parts.length - 1].toLowerCase()) !== -1) { parts.pop(); }
+                    return 'Councilmember ' + (parts[parts.length - 1] || cleanName);
+                }).filter(Boolean);
+                greetingEl.textContent = greetingNames.join(', ');
             }
         }
 
