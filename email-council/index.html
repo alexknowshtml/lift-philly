@@ -968,7 +968,7 @@ Thank you,
                 var nameEl = el.querySelector('.council-name');
                 return nameEl ? nameEl.textContent.trim() : '';
             }).filter(Boolean);
-            countEl.innerHTML = '<strong>Prepare an email for:</strong><br>' + selected.join('<br>');
+            countEl.innerHTML = selected.join('<br>');
 
             var toccRow = document.getElementById('tpl-tocc-row');
             var toText = document.getElementById('tpl-to-text');
