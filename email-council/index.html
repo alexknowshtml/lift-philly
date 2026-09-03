@@ -969,7 +969,11 @@ Thank you,
                     var cleanName = n ? n.childNodes[0].textContent.trim() : '';
                     var parts = cleanName.split(/\s+/);
                     while (parts.length > 1 && suffixes.indexOf(parts[parts.length - 1].toLowerCase()) !== -1) { parts.pop(); }
-                    return 'Councilmember ' + (parts[parts.length - 1] || cleanName);
+                    var lastName = parts[parts.length - 1] || cleanName;
+                    var roleEl = n ? n.querySelector('.role') : null;
+                    var roleText = roleEl ? roleEl.textContent.replace(/[()]/g, '').trim() : '';
+                    var title = roleText === 'Council President' ? 'Council President' : 'Councilmember';
+                    return title + ' ' + lastName;
                 };
                 var greetingNames = Array.from(document.querySelectorAll('.council-link.selected')).map(buildGreetingName).filter(Boolean);
                 var selectedEmails = getSelectedEmails();
