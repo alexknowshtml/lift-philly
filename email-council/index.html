@@ -1405,9 +1405,23 @@ Thank you,
             var btn = document.getElementById('copy-btn');
             if (!bodyEl) return;
             if (btn) btn.style.display = 'none';
-            var text = bodyEl.innerText.trim().replace(/\n/g, '\r\n');
+            var text = bodyEl.innerText.trim();
             if (btn) btn.style.display = '';
-            navigator.clipboard.writeText(text).catch(function() {
+            if (/\[[A-Z][A-Z ]+\]/.test(text)) {
+                var errId = 'copy-body-err';
+                var existing = document.getElementById(errId);
+                if (!existing) {
+                    var err = document.createElement('div');
+                    err.id = errId;
+                    err.style.cssText = 'font-size:0.78rem;color:#dc2626;margin-top:6px;text-align:right;';
+                    err.innerHTML = 'Fill in your info first — <a href="#personalizer-section" style="color:#dc2626;font-weight:600;">go to Step 3</a>';
+                    btn.parentNode.appendChild(err);
+                    setTimeout(function() { var e = document.getElementById(errId); if (e) e.remove(); }, 4000);
+                }
+                document.getElementById('personalizer-section').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            navigator.clipboard.writeText(text.replace(/\n/g, '\r\n')).catch(function() {
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             });
