@@ -963,7 +963,12 @@ Thank you,
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
             var bodyEl = document.querySelector('#template-text .template-body');
-            if (bodyEl) href += '&body=' + encodeURIComponent(bodyEl.innerText.trim().replace(/\n/g, '\r\n'));
+            if (bodyEl) {
+                var _cb = bodyEl.querySelector('#copy-btn');
+                if (_cb) _cb.style.display = 'none';
+                href += '&body=' + encodeURIComponent(bodyEl.innerText.trim().replace(/\n/g, '\r\n'));
+                if (_cb) _cb.style.display = '';
+            }
             btn.dataset.mailto = href;
             var selectedNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
                 var nameEl = el.querySelector('.council-name');
@@ -1280,7 +1285,10 @@ Thank you,
         function copyTemplate() {
             var bodyEl = document.querySelector('#template-text .template-body');
             var btn = document.getElementById('copy-btn');
-            var text = bodyEl ? bodyEl.innerText.replace('Copy', '').trim().replace(/\n/g, '\r\n') : '';
+            if (!bodyEl) return;
+            if (btn) btn.style.display = 'none';
+            var text = bodyEl.innerText.trim().replace(/\n/g, '\r\n');
+            if (btn) btn.style.display = '';
             navigator.clipboard.writeText(text).catch(function() {
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
