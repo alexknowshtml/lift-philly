@@ -1257,7 +1257,7 @@ Thank you,
             var ccEl = document.getElementById('tpl-cc-text');
             var toEmails = Array.from(toEl.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
             var ccEmails = Array.from(ccEl.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
-            var text = 'To: ' + toEmails.join(', ') + '\nCC: ' + ccEmails.join(', ');
+            var text = toEmails.concat(ccEmails).join(', ');
             var btn = document.getElementById('copy-tocc-btn');
             navigator.clipboard.writeText(text).catch(function() {
                 var ta = document.createElement('textarea');
