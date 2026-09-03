@@ -695,7 +695,7 @@
 
     <div class="sticky-email-bar" id="sticky-email-bar" style="display:none">
         <div class="sticky-email-inner">
-            <span class="sticky-count" id="sticky-count"></span>
+            <span class="sticky-count" id="sticky-count" style="font-size:0.8rem;line-height:1.4;max-width:480px;">Use this helpful tool to prepare an email to council, then click or copy to send from your email for the greatest impact.</span>
             <button class="sticky-email-btn" id="sticky-email-btn" onclick="handleStickyClick()">Personalize</button>
         </div>
     </div>
@@ -999,7 +999,7 @@ Thank you,
                 var nameEl = el.querySelector('.council-name');
                 return nameEl ? nameEl.textContent.trim() : '';
             }).filter(Boolean);
-            countEl.innerHTML = '';
+            countEl.innerHTML = 'Use this helpful tool to prepare an email to council, then click or copy to send from your email for the greatest impact.';
 
             var toccRow = document.getElementById('tpl-tocc-row');
             var toText = document.getElementById('tpl-to-text');
