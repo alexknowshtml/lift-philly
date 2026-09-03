@@ -962,6 +962,17 @@ Thank you,
             var cc = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }).join(',');
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
+            if (greetingEl) {
+                var suffixes = ['jr.', 'sr.', 'ii', 'iii', 'iv'];
+                var greetingNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
+                    var n = el.querySelector('.council-name');
+                    var cleanName = n ? n.childNodes[0].textContent.trim() : '';
+                    var parts = cleanName.split(/\s+/);
+                    while (parts.length > 1 && suffixes.indexOf(parts[parts.length - 1].toLowerCase()) !== -1) { parts.pop(); }
+                    return 'Councilmember ' + (parts[parts.length - 1] || cleanName);
+                }).filter(Boolean);
+                greetingEl.textContent = greetingNames.join(', ');
+            }
             var bodyEl = document.querySelector('#template-text .template-body');
             if (bodyEl) {
                 var _cb = bodyEl.querySelector('#copy-btn');
@@ -986,17 +997,6 @@ Thank you,
                 toccRow.style.display = '';
             }
 
-            if (greetingEl) {
-                var suffixes = ['jr.', 'sr.', 'ii', 'iii', 'iv'];
-                var greetingNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
-                    var n = el.querySelector('.council-name');
-                    var cleanName = n ? n.childNodes[0].textContent.trim() : '';
-                    var parts = cleanName.split(/\s+/);
-                    while (parts.length > 1 && suffixes.indexOf(parts[parts.length - 1].toLowerCase()) !== -1) { parts.pop(); }
-                    return 'Councilmember ' + (parts[parts.length - 1] || cleanName);
-                }).filter(Boolean);
-                greetingEl.textContent = greetingNames.join(', ');
-            }
         }
 
         document.addEventListener('keydown', function(e) {
