@@ -394,6 +394,15 @@
             color: var(--text-light);
             margin-bottom: 20px;
         }
+        #step4-locked { opacity: 0.4; pointer-events: none; user-select: none; }
+        .step4-email-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--gold); color: var(--navy);
+            font-weight: 700; border: none; border-radius: 8px;
+            padding: 14px 28px; font-size: 1rem; cursor: pointer;
+            font-family: inherit; margin-bottom: 12px;
+        }
+        .step4-email-btn:hover { background: var(--gold-dark); }
 
         .template-box {
             background: #f8fafc;
@@ -742,7 +751,13 @@ Thank you,
     <section class="template-section">
         <div class="container">
             <h2 style="display:flex;align-items:center;gap:10px;margin-top:0;"><div class="step-num">4</div>Send your email</h2>
-            <p class="hint" style="margin-bottom:16px;">To send the email above, click <strong>Open in email</strong> — or use the <strong>Copy</strong> buttons to paste each piece manually if that doesn't work.</p>
+            <div id="step4-locked">
+                <p class="hint">Complete steps 1–3 above and your send options will appear here.</p>
+            </div>
+            <div id="step4-ready" style="display:none;">
+                <button class="step4-email-btn" onclick="handleStickyClick()">Open in email</button>
+                <p class="hint" style="margin-bottom:0;">If that doesn't work, use the <strong>Copy</strong> buttons above to paste each piece manually.</p>
+            </div>
         </div>
     </section>
 
@@ -823,6 +838,7 @@ Thank you,
                 } else {
                     btn.textContent = 'Preview';
                 }
+                updateStep4State();
             }
             if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); updateStickyBar(); });
             if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); updateStickyBar(); });
@@ -908,6 +924,7 @@ Thank you,
                 } else {
                     btn.textContent = 'Preview';
                 }
+                updateStep4State();
             }, { threshold: 0.1 }).observe(previewEl);
         })();
 
@@ -1066,6 +1083,17 @@ Thank you,
             }
 
             updatePhoneList();
+            updateStep4State();
+        }
+
+        function updateStep4State() {
+            var btn = document.getElementById('sticky-email-btn');
+            var locked = document.getElementById('step4-locked');
+            var ready = document.getElementById('step4-ready');
+            if (!locked || !ready) return;
+            var isReady = btn && btn.textContent === 'Open in email';
+            locked.style.display = isReady ? 'none' : '';
+            ready.style.display = isReady ? '' : 'none';
         }
 
         document.addEventListener('keydown', function(e) {
