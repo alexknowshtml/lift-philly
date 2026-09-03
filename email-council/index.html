@@ -964,13 +964,21 @@ Thank you,
             if (cc) href += '&cc=' + encodeURIComponent(cc);
             if (greetingEl) {
                 var suffixes = ['jr.', 'sr.', 'ii', 'iii', 'iv'];
-                var greetingNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
+                var buildGreetingName = function(el) {
                     var n = el.querySelector('.council-name');
                     var cleanName = n ? n.childNodes[0].textContent.trim() : '';
                     var parts = cleanName.split(/\s+/);
                     while (parts.length > 1 && suffixes.indexOf(parts[parts.length - 1].toLowerCase()) !== -1) { parts.pop(); }
                     return 'Councilmember ' + (parts[parts.length - 1] || cleanName);
-                }).filter(Boolean);
+                };
+                var greetingNames = Array.from(document.querySelectorAll('.council-link.selected')).map(buildGreetingName).filter(Boolean);
+                var selectedEmails = getSelectedEmails();
+                ALWAYS_CC.forEach(function(email) {
+                    if (selectedEmails.indexOf(email) === -1) {
+                        var ccEl = document.querySelector('.council-link[data-email="' + email + '"]');
+                        if (ccEl) greetingNames.push(buildGreetingName(ccEl));
+                    }
+                });
                 greetingEl.textContent = greetingNames.join(', ');
             }
             var bodyEl = document.querySelector('#template-text .template-body');
