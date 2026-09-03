@@ -762,7 +762,7 @@ Thank you,
         </div>
     </section>
 
-    <section class="template-section">
+    <section class="template-section" id="step5-section" style="display:none;">
         <div class="container">
             <h2 style="display:flex;align-items:center;gap:10px;margin-top:0;"><div class="step-num">5</div>Want to make an even bigger impact?</h2>
             <div class="voicemail-note">
@@ -1083,6 +1083,14 @@ Thank you,
 
             updatePhoneList();
             updateStep4State();
+            updateStep5Visibility();
+        }
+
+        function updateStep5Visibility() {
+            var section = document.getElementById('step5-section');
+            if (!section) return;
+            var hasSelected = document.querySelectorAll('.council-link.selected').length > 0;
+            section.style.display = hasSelected ? '' : 'none';
         }
 
         function updateStep4State() {
