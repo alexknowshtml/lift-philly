@@ -718,7 +718,7 @@
             </div>
             <h2 id="preview-header" style="display:flex;align-items:center;gap:10px;margin-top:32px;"><div class="step-num">3</div>Preview your email</h2>
             <p class="hint" style="margin-bottom:16px;">Copy the text below and paste it into your email app.</p>
-            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none"><div style="display:flex;gap:8px;"><span class="template-subject-label">To:</span><span class="template-subject-text" style="font-weight:400;word-break:break-all" id="tpl-to-text"></span></div><div style="display:flex;gap:8px;margin-top:4px;"><span class="template-subject-label">CC:</span><span class="template-subject-text" style="font-weight:400;word-break:break-all" id="tpl-cc-text"></span></div></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
+            <div class="template-box" id="template-text"><div class="template-header-row" id="tpl-tocc-row" style="display:none"><div style="margin-bottom:6px;"><span class="template-subject-label">To:</span><div style="font-size:0.8rem;line-height:1.5;margin-top:2px;overflow-wrap:break-word;" id="tpl-to-text"></div></div><div><span class="template-subject-label">CC:</span><div style="font-size:0.8rem;line-height:1.5;margin-top:2px;overflow-wrap:break-word;" id="tpl-cc-text"></div></div></div><div class="template-subject"><span class="template-subject-label">Subject:</span><span class="template-subject-text">Need your support for Bill 251026</span></div><div class="template-body">
 Dear <span id="tpl-greeting">[COUNCIL MEMBER NAME]</span>,
 
 My name is <span id="tpl-name-inline">[YOUR NAME]</span>, a constituent in <span id="tpl-neighborhood">your district</span>.
@@ -974,9 +974,9 @@ Thank you,
             var toText = document.getElementById('tpl-to-text');
             var ccText = document.getElementById('tpl-cc-text');
             if (toccRow && toText) {
-                toText.textContent = selected.join(', ');
+                toText.innerHTML = selected.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
                 var ccList = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; });
-                if (ccText) ccText.textContent = ccList.join(', ');
+                if (ccText) ccText.innerHTML = ccList.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
                 toccRow.style.display = '';
             }
 
