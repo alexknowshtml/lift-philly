@@ -1418,7 +1418,11 @@ Thank you,
                         btn.textContent = 'Copy';
                     }, 3000);
                 }
-                document.getElementById('personalizer-section').scrollIntoView({ behavior: 'smooth' });
+                var _pTarget = document.getElementById('personalizer-section');
+                var _pNav = document.querySelector('nav');
+                var _pOffset = _pNav ? _pNav.offsetHeight : 0;
+                var _pTop = _pTarget.getBoundingClientRect().top + window.pageYOffset - _pOffset;
+                window.scrollTo({ top: _pTop, behavior: 'smooth' });
                 return;
             }
             navigator.clipboard.writeText(text.replace(/\n/g, '\r\n')).catch(function() {
