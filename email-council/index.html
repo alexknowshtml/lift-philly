@@ -246,7 +246,22 @@
         }
         .sticky-count {
             color: var(--navy);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .sticky-progress-track {
+            height: 4px;
+            background: rgba(15,23,42,0.12);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .sticky-progress-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            width: 0%;
         }
         .sticky-email-btn {
             background: var(--gold);
@@ -708,9 +723,10 @@
 
     <div class="sticky-email-bar" id="sticky-email-bar" style="display:none">
         <div class="sticky-email-inner">
-            <span class="sticky-count" id="sticky-count" style="font-size:0.8rem;line-height:1.4;max-width:480px;">Use this helpful tool to prepare an email to council, then click or copy to send from your email for the greatest impact.</span>
+            <span class="sticky-count" id="sticky-count" style="line-height:1.4;max-width:480px;">Personalize your message to get started.</span>
             <button class="sticky-email-btn" id="sticky-email-btn" onclick="handleStickyClick()">Personalize</button>
         </div>
+        <div class="sticky-progress-track"><div class="sticky-progress-fill" id="sticky-progress-fill"></div></div>
     </div>
 
     <section class="personalizer-section" id="personalizer-section">
@@ -1085,7 +1101,17 @@ Thank you,
                 var nameEl = el.querySelector('.council-name');
                 return nameEl ? nameEl.textContent.trim() : '';
             }).filter(Boolean);
-            countEl.innerHTML = 'Use this helpful tool to prepare an email to council, then click or copy to send from your email for the greatest impact.';
+            var nameEl = document.getElementById('tpl-name-inline');
+            var impactEl = document.getElementById('tpl-impact');
+            var nameDone = nameEl && !nameEl.textContent.includes('[');
+            var impactDone = impactEl && !impactEl.textContent.includes('[');
+            var pct = (nameDone && impactDone) ? 100 : nameDone ? 67 : 33;
+            var label = pct === 100 ? '✓ Your email is ready to send!'
+                      : pct === 67  ? 'Almost there — add your personal story to the template.'
+                      :               'Great start! Now personalize your message below.';
+            countEl.innerHTML = label;
+            var fillEl = document.getElementById('sticky-progress-fill');
+            if (fillEl) fillEl.style.width = pct + '%';
 
             var toccRow = document.getElementById('tpl-tocc-row');
             var toText = document.getElementById('tpl-to-text');
