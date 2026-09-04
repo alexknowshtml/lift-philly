@@ -1272,10 +1272,12 @@ Thank you,
                 overlay.className = 'mailto-overlay';
                 overlay.innerHTML = '<div class="mailto-modal">'
                     + '<h3>Did you send the email?</h3>'
-                    + '<p>Click below to copy all of the addresses at once.</p>'
+                    + '<p>Copy each piece into your email app.</p>'
                     + '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + allEmails + '" onclick="this.select()" style="font-size:0.75rem;"></div>'
-                    + '<button class="mailto-copy-btn" id="_mc_copy" style="width:100%;margin-bottom:6px;">Copy addresses</button>'
-                    + '<button class="mailto-close-btn" id="_mc_close">Close</button>'
+                    + '<button class="mailto-copy-btn" id="_mc_copy" style="width:100%;margin-bottom:6px;">Copy emails</button>'
+                    + '<button class="mailto-copy-btn" id="_mc_subj" style="width:100%;margin-bottom:6px;">Copy subject</button>'
+                    + '<button class="mailto-copy-btn" id="_mc_body" style="width:100%;margin-bottom:6px;">Copy email body</button>'
+                    + '<button class="mailto-close-btn" id="_mc_preview">Return to preview</button>'
                     + '</div>';
                 document.body.appendChild(overlay);
                 overlay.querySelector('#_mc_copy').addEventListener('click', function() {
@@ -1286,8 +1288,50 @@ Thank you,
                     });
                     btn.textContent = 'Copied!';
                     btn.classList.add('copied');
+                    setTimeout(function() { btn.textContent = 'Copy emails'; btn.classList.remove('copied'); }, 2000);
                 });
-                overlay.querySelector('#_mc_close').addEventListener('click', function() { overlay.remove(); });
+                overlay.querySelector('#_mc_subj').addEventListener('click', function() {
+                    var btn = this;
+                    var text = 'Need your support for Bill 251026';
+                    navigator.clipboard.writeText(text).catch(function() {
+                        var ta = document.createElement('textarea');
+                        ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+                    });
+                    btn.textContent = 'Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(function() { btn.textContent = 'Copy subject'; btn.classList.remove('copied'); }, 2000);
+                });
+                overlay.querySelector('#_mc_body').addEventListener('click', function() {
+                    var btn = this;
+                    var bodyEl = document.querySelector('#template-text .template-body');
+                    if (!bodyEl) return;
+                    if (E.copyBtn) E.copyBtn.style.display = 'none';
+                    var text = bodyEl.innerText.trim();
+                    if (E.copyBtn) E.copyBtn.style.display = '';
+                    if (!text || /\[[^\]]+\]/.test(text)) {
+                        btn.style.background = '#dc2626';
+                        btn.style.color = '#fff';
+                        btn.textContent = '⚠ Fill in step 2 first';
+                        setTimeout(function() { btn.style.background = ''; btn.style.color = ''; btn.textContent = 'Copy email body'; }, 3000);
+                        return;
+                    }
+                    navigator.clipboard.writeText(text.replace(/\n/g, '\r\n')).catch(function() {
+                        var ta = document.createElement('textarea');
+                        ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+                    });
+                    btn.textContent = 'Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(function() { btn.textContent = 'Copy email body'; btn.classList.remove('copied'); }, 2000);
+                });
+                overlay.querySelector('#_mc_preview').addEventListener('click', function() {
+                    overlay.remove();
+                    if (E.previewHeader) {
+                        var nav = document.querySelector('nav');
+                        var offset = nav ? nav.offsetHeight : 0;
+                        var top = E.previewHeader.getBoundingClientRect().top + window.scrollY - offset - 16;
+                        window.scrollTo({ top: top, behavior: 'smooth' });
+                    }
+                });
                 overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
                 return;
             }
