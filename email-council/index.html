@@ -1272,7 +1272,8 @@ Thank you,
                 overlay.className = 'mailto-overlay';
                 overlay.innerHTML = '<div class="mailto-modal">'
                     + '<h3>Did you send the email?</h3>'
-                    + '<p>Copy each piece into your email app.</p>'
+                    + '<button class="mailto-copy-btn" id="_mc_yes" style="width:100%;margin-bottom:16px;">Yes!</button>'
+                    + '<p style="margin:0 0 10px;font-size:0.8rem;font-weight:600;color:var(--navy);">If your app didn\'t open automatically...</p>'
                     + '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + allEmails + '" onclick="this.select()" style="font-size:0.75rem;"></div>'
                     + '<button class="mailto-copy-btn" id="_mc_copy" style="width:100%;margin-bottom:6px;">Copy emails</button>'
                     + '<button class="mailto-copy-btn" id="_mc_subj" style="width:100%;margin-bottom:6px;">Copy subject</button>'
@@ -1280,6 +1281,7 @@ Thank you,
                     + '<button class="mailto-close-btn" id="_mc_preview">Return to preview</button>'
                     + '</div>';
                 document.body.appendChild(overlay);
+                overlay.querySelector('#_mc_yes').addEventListener('click', function() { overlay.remove(); });
                 overlay.querySelector('#_mc_copy').addEventListener('click', function() {
                     var btn = this;
                     navigator.clipboard.writeText(allEmails).catch(function() {
