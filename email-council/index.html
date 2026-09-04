@@ -1417,6 +1417,7 @@ Thank you,
             var stickyBtn = document.getElementById('sticky-email-btn');
             if (!stickyBtn) return;
             stickyBtn.addEventListener('click', function(e) {
+                if (this.textContent.trim() !== 'Open in email') return;
                 e.preventDefault();
                 var raw = this.dataset.mailto;
                 if (!raw || raw === '#') return;
