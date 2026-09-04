@@ -885,7 +885,8 @@ Thank you,
 
             var LS_KEY = 'liftphilly_impact';
             if (E.piName) {
-                E.piName.addEventListener('input', function() { updateName(this.value); syncSticky(); updateStickyBar(); });
+                E.piName.addEventListener('input',  function() { updateName(this.value); syncSticky(); updateStickyBar(); });
+                E.piName.addEventListener('change', function() { updateName(this.value); syncSticky(); updateStickyBar(); });
                 E.piName.addEventListener('focus', function() { editingField = true; syncSticky(); });
                 E.piName.addEventListener('blur',  function() { editingField = false; syncSticky(); });
             }
@@ -896,6 +897,11 @@ Thank you,
                     try { localStorage.setItem(LS_KEY, this.value); } catch(e) {}
                     syncSticky();
                     updateStickyBar();
+                });
+                E.piImpact.addEventListener('change', function() {
+                    updateImpact(this.value);
+                    try { localStorage.setItem(LS_KEY, this.value); } catch(e) {}
+                    syncSticky(); updateStickyBar();
                 });
                 E.piImpact.addEventListener('focus', function() { editingField = true; syncSticky(); });
                 E.piImpact.addEventListener('blur',  function() { editingField = false; syncSticky(); });
@@ -1166,7 +1172,9 @@ Thank you,
         function syncSticky() {
             if (!E.stickyBtn) return;
             if (getSelectedEmails().length === 0) return;
-            var bothFilled = !!(E.piName && E.piName.value.trim() && E.piImpact && E.piImpact.value.trim());
+            var nameDone   = E.tplNameInline && !E.tplNameInline.textContent.includes('[');
+            var impactDone = E.tplImpact    && !E.tplImpact.textContent.includes('[');
+            var bothFilled = !!(nameDone && impactDone);
             if (!bothFilled) {
                 previewSeen = false;
                 sendItReached = false;
