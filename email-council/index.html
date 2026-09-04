@@ -249,21 +249,7 @@
             font-size: 0.85rem;
             font-weight: 600;
         }
-        .sticky-progress-track {
-            height: 4px;
-            background: rgba(15,23,42,0.12);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .sticky-progress-fill {
-            height: 100%;
-            background: var(--gold);
-            border-radius: 2px;
-            transition: width 0.5s ease;
-            width: 0%;
-        }
-        .sticky-email-btn {
+.sticky-email-btn {
             background: var(--gold);
             color: var(--navy);
             font-weight: 700;
@@ -734,7 +720,6 @@
             <span class="sticky-count" id="sticky-count" style="line-height:1.4;max-width:480px;">Personalize your message to get started.</span>
             <button class="sticky-email-btn" id="sticky-email-btn" onclick="handleStickyClick()">Personalize</button>
         </div>
-        <div class="sticky-progress-track"><div class="sticky-progress-fill" id="sticky-progress-fill"></div></div>
     </div>
 
     <section class="personalizer-section" id="personalizer-section">
@@ -837,7 +822,6 @@ Thank you,
             stickyBar:           document.getElementById('sticky-email-bar'),
             stickyBtn:           document.getElementById('sticky-email-btn'),
             stickyCount:         document.getElementById('sticky-count'),
-            stickyProgressFill:  document.getElementById('sticky-progress-fill'),
             tplGreeting:         document.getElementById('tpl-greeting'),
             tplNameInline:       document.getElementById('tpl-name-inline'),
             tplNameSig:          document.getElementById('tpl-name-sig'),
@@ -1101,7 +1085,6 @@ Thank you,
                       : pct === 67  ? 'Almost there — add your personal story to the template.'
                       :               'Great start! Now personalize your message below.';
             if (E.stickyCount) E.stickyCount.innerHTML = label;
-            if (E.stickyProgressFill) E.stickyProgressFill.style.width = pct + '%';
 
             renderToCCRow(selected, ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }));
 
