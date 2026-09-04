@@ -1052,6 +1052,8 @@ Thank you,
             if (!E.stickyBar) return;
 
             if (selected.length === 0) {
+                sendItReached = false;
+                previewSeen = false;
                 E.stickyBar.style.display = '';
                 document.body.style.paddingBottom = '72px';
                 if (E.stickyCount) E.stickyCount.innerHTML = 'Step 1: Find and select your district council member.';
@@ -1414,7 +1416,7 @@ Thank you,
             if (!stickyBtn) return;
             stickyBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                var raw = this.getAttribute('href');
+                var raw = this.dataset.mailto;
                 if (!raw || raw === '#') return;
                 var emailMatch = raw.match(/^mailto:([^?]+)/);
                 var toEmails = emailMatch ? decodeURIComponent(emailMatch[1]).split(',') : [];
