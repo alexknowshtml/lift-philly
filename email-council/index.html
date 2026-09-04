@@ -322,12 +322,18 @@
             font-size: 0.875rem; color: var(--navy);
             background: #f8fafc;
         }
-        .mailto-copy-btn {
-            padding: 8px 14px; background: var(--navy); color: white;
+        .mailto-yes-btn {
+            display: block; width: 100%; padding: 10px;
+            background: var(--gold); color: var(--navy);
             border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 700; font-size: 0.95rem; margin-bottom: 16px;
+        }
+        .mailto-copy-btn {
+            padding: 8px 14px; background: white; color: var(--navy);
+            border: 2px solid var(--navy); border-radius: 8px; cursor: pointer;
             font-weight: 600; white-space: nowrap; font-size: 0.875rem;
         }
-        .mailto-copy-btn.copied { background: #16a34a; }
+        .mailto-copy-btn.copied { background: #16a34a; color: white; border-color: #16a34a; }
         .mailto-open-btn {
             display: block; width: 100%; padding: 10px;
             background: var(--gold); color: var(--navy);
@@ -1272,7 +1278,7 @@ Thank you,
                 overlay.className = 'mailto-overlay';
                 overlay.innerHTML = '<div class="mailto-modal">'
                     + '<h3>Did you send the email?</h3>'
-                    + '<button class="mailto-copy-btn" id="_mc_yes" style="width:100%;margin-bottom:16px;">Yes!</button>'
+                    + '<button class="mailto-yes-btn" id="_mc_yes">Yes!</button>'
                     + '<p style="margin:0 0 10px;font-size:0.8rem;font-weight:600;color:var(--navy);">If your app didn\'t open automatically...</p>'
                     + '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + allEmails + '" onclick="this.select()" style="font-size:0.75rem;"></div>'
                     + '<button class="mailto-copy-btn" id="_mc_copy" style="width:100%;margin-bottom:6px;">Copy emails</button>'
