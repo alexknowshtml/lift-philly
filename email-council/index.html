@@ -312,6 +312,13 @@
         .mailto-modal {
             background: white; border-radius: 12px;
             padding: 24px; max-width: 400px; width: 90%;
+            position: relative;
+        }
+        .mailto-modal-x {
+            position: absolute; top: 12px; right: 14px;
+            background: none; border: none; cursor: pointer;
+            font-size: 1.25rem; color: var(--text-light); line-height: 1;
+            padding: 0;
         }
         .mailto-modal h3 { margin: 0 0 4px; font-size: 1rem; color: var(--navy); }
         .mailto-modal p { margin: 0 0 16px; font-size: 0.85rem; color: var(--text-light); }
@@ -1277,6 +1284,7 @@ Thank you,
                 var overlay = document.createElement('div');
                 overlay.className = 'mailto-overlay';
                 overlay.innerHTML = '<div class="mailto-modal">'
+                    + '<button class="mailto-modal-x" id="_mc_x" aria-label="Close">&times;</button>'
                     + '<h3>Did you send the email?</h3>'
                     + '<button class="mailto-yes-btn" id="_mc_yes">Yes!</button>'
                     + '<p style="margin:0 0 10px;font-size:0.8rem;font-weight:600;color:var(--navy);">If your app didn\'t open automatically...</p>'
@@ -1287,6 +1295,7 @@ Thank you,
                     + '<button class="mailto-close-btn" id="_mc_preview" style="margin-top:12px;">Return to preview</button>'
                     + '</div>';
                 document.body.appendChild(overlay);
+                overlay.querySelector('#_mc_x').addEventListener('click', function() { overlay.remove(); });
                 overlay.querySelector('#_mc_yes').addEventListener('click', function() {
                     overlay.remove();
                     var step5 = document.getElementById('step-5-header');
