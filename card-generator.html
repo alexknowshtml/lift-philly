@@ -51,11 +51,7 @@ body{flex-direction:column;height:auto;overflow-y:auto;overflow-x:hidden}
 
   <div class="field">
     <label>Template</label>
-    <div class="tabs">
-      <button class="tab active" data-tpl="A">A · Council</button>
-      <button class="tab" data-tpl="B">B · Story</button>
-      <button class="tab" data-tpl="C">C · Highlight</button>
-    </div>
+    <div class="tabs" id="tpl-tabs"></div>
   </div>
 
 
@@ -149,19 +145,23 @@ function fitFont(basePx, minPx, text, maxW) {
 
 const TEMPLATES = {
   A: {
-    desc: 'Header banner "CITY COUNCIL / Constituent Testimonies". Best for full paragraph testimonies with a bold closing line.',
+    label: 'A · Council',
+    desc: 'Header banner with campaign title and bill info. Best for full paragraph testimonies with a bold closing line.',
     showHeadline: false, showBoldClose: true,
     q: "New as a small business after years as a W2 and I was shocked by the BIRT. I had no realization that partnering with a colleague as a pass-through would mean I'd even be taxed on what I paid right out to him. How many others aren't in a position then to pay these taxes and then pay the next year's estimates at the very same time?",
     bc: "It isn't a policy that supports entrepreneurial life for the smallest ventures among us.",
     name:'Margaret B.', industry:'Business Consulting', zip:'19119'
   },
   B: {
+    label: 'B · Story',
+    hidden: true,
     desc: 'LIFT logo top-left, light background. First sentence renders bold automatically. Good for medium-length testimonies.',
     showHeadline: false, showBoldClose: false,
     q: "The BIRT tax and the requirement to pay my estimated tax for 2026 up front this year was crushing. I'm now behind on my other bills because I had to meet this obligation for the city. I didn't get a letter about the BIRT update until December of last year, and I had no idea that I would have to pay tax year 2026 up front. The roll-out of this new policy has felt punishing for indie workers.",
     bc: '', name:'Alaina J.', industry:'Writing & Journalism', zip:'19148'
   },
   C: {
+    label: 'C · Highlight',
     desc: 'Dark overlay + yellow headline + large gold pullquote. Best for short punchy one-liners.',
     showHeadline: true, showBoldClose: false,
     q: 'My taxes went up more than $7K while corporations get tax breaks.',
@@ -523,13 +523,18 @@ function render(){
   else renderC(d);
 }
 
-// Tab switching
-document.querySelectorAll('.tab').forEach(btn=>{
+// Build tabs dynamically from TEMPLATES config (hidden:true = excluded)
+const tabsEl=document.getElementById('tpl-tabs');
+const visibleTpls=Object.entries(TEMPLATES).filter(([,T])=>!T.hidden);
+visibleTpls.forEach(([key,T],i)=>{
+  const btn=document.createElement('button');
+  btn.className='tab'+(i===0?' active':'');
+  btn.dataset.tpl=key;
+  btn.textContent=T.label;
   btn.addEventListener('click',()=>{
-    tpl=btn.dataset.tpl;
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    tpl=key;
+    tabsEl.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    const T=TEMPLATES[tpl];
     document.getElementById('tpl-desc').textContent=T.desc;
     document.getElementById('field-headline').classList.toggle('hidden',!T.showHeadline);
     document.getElementById('field-bold-close').classList.toggle('hidden',!T.showBoldClose);
@@ -540,7 +545,10 @@ document.querySelectorAll('.tab').forEach(btn=>{
     document.getElementById('zip').value=T.zip;
     render();
   });
+  tabsEl.appendChild(btn);
 });
+// Set default to first visible template
+tpl=visibleTpls[0][0];
 
 ['quote','bold-close','headline','name','industry','zip'].forEach(id=>{
   document.getElementById(id).addEventListener('input',()=>{render();saveEdit();});
