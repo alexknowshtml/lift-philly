@@ -1014,6 +1014,8 @@ Thank you,
             if (el.classList.contains('selected')) {
                 resetList();
             } else {
+                sendItReached = false;
+                previewSeen = false;
                 var d = el.getAttribute('data-district');
                 if (d === 'at-large') {
                     filterToRep(el);
