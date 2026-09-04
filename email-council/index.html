@@ -794,7 +794,7 @@ Thank you,
             <h2 style="display:flex;align-items:center;gap:10px;margin-top:0;"><div class="step-num">4</div>Send your email</h2>
             <div id="step4-locked" style="display:flex;align-items:center;gap:16px;">
                 <p class="hint" style="margin-bottom:0;flex:1;">Complete steps 1–3 above and your send options will appear here.</p>
-                <button class="step4-email-btn" style="margin-bottom:0;white-space:nowrap;" onclick="document.getElementById('personalizer-section').scrollIntoView({behavior:'smooth'})">Personalize now</button>
+                <button class="step4-email-btn" style="margin-bottom:0;white-space:nowrap;" onclick="(function(){ var nameDone = document.getElementById('tpl-name-inline') && !document.getElementById('tpl-name-inline').textContent.includes('['); var impactDone = document.getElementById('tpl-impact') && !document.getElementById('tpl-impact').textContent.includes('['); var target = (nameDone && impactDone) ? document.getElementById('preview-header') : document.getElementById('personalizer-section'); if(target) target.scrollIntoView({behavior:'smooth'}); })()">Personalize now</button>
             </div>
             <div id="step4-ready" style="display:none;align-items:center;gap:16px;">
                 <p class="hint" style="margin-bottom:0;flex:1;">If the button doesn't work, use the <strong>Copy</strong> buttons above to paste each piece manually.</p>
@@ -1213,7 +1213,10 @@ Thank you,
 
         function updateStep4State() {
             if (!E.step4Locked || !E.step4Ready) return;
-            var isReady = E.stickyBtn && E.stickyBtn.textContent === 'Open in email';
+            var nameDone   = E.tplNameInline && !E.tplNameInline.textContent.includes('[');
+            var impactDone = E.tplImpact    && !E.tplImpact.textContent.includes('[');
+            var repSelected = getSelectedEmails().length > 0;
+            var isReady = nameDone && impactDone && repSelected;
             E.step4Locked.style.display = isReady ? 'none' : 'flex';
             E.step4Ready.style.display = isReady ? 'flex' : 'none';
         }
