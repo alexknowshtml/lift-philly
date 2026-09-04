@@ -1193,9 +1193,10 @@
                             <p style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 20px 0 2px;" data-i18n="hero.cta.take_action">Take Action</p>
                             <div class="btn-group" style="flex-direction:column;gap:8px;align-items:stretch;margin-top:0;">
                                 <a href="/petition" class="btn btn-primary" style="background:var(--gold);color:var(--navy);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.6;font-weight:400;flex-shrink:0;">1.</span><span data-i18n="hero.cta.sign_petition">Sign the Petition →</span></a>
-                                <a href="/hearings" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">2.</span><span data-i18n="hero.cta.testify">Testify at Council</span></a>
-                                <button class="btn btn-outline" onclick="shareModal.showModal()" style="background:var(--white);color:var(--navy);border-color:var(--white);cursor:pointer;justify-content:flex-start;width:100%;text-align:left;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">3.</span><span data-i18n="hero.cta.share">Share This Page</span></button>
-                                <a href="#join" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">4.</span><span data-i18n="hero.cta.join_coalition">Join the Coalition</span></a>
+                                <a href="/email-council/" class="btn btn-primary" style="background:var(--gold);color:var(--navy);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.6;font-weight:400;flex-shrink:0;">2.</span><span>Contact your council member →</span></a>
+                                <a href="/hearings" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">3.</span><span data-i18n="hero.cta.testify">Testify at Council</span></a>
+                                <button class="btn btn-outline" onclick="shareModal.showModal()" style="background:var(--white);color:var(--navy);border-color:var(--white);cursor:pointer;justify-content:flex-start;width:100%;text-align:left;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">4.</span><span data-i18n="hero.cta.share">Share This Page</span></button>
+                                <a href="#join" class="btn btn-outline" style="background:var(--white);color:var(--navy);border-color:var(--white);justify-content:flex-start;"><span style="display:inline-block;width:1.8em;opacity:0.5;font-weight:400;flex-shrink:0;">5.</span><span data-i18n="hero.cta.join_coalition">Join the Coalition</span></a>
                             </div>
                         </div>
                         <div>
@@ -1494,37 +1495,5 @@
     </footer>
 
     <script src="/nav.js"></script>
-    <script>
-    (function() {
-        try {
-            if (!localStorage.getItem('lift_philly_signed')) return;
-            var petitionBtn = document.querySelector('.btn-group a[href="/petition"]');
-            if (!petitionBtn) return;
-
-            // Mark petition as completed
-            var numEl = petitionBtn.querySelector('span:first-child');
-            var txtEl = petitionBtn.querySelector('span:last-child');
-            if (numEl) numEl.textContent = '✓';
-            if (txtEl) { txtEl.removeAttribute('data-i18n'); txtEl.textContent = 'Petition Signed'; }
-            petitionBtn.style.cssText = 'background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);justify-content:flex-start;pointer-events:none;';
-
-            // Insert email council CTA right after
-            var emailBtn = document.createElement('a');
-            emailBtn.href = '/email-council/';
-            emailBtn.className = 'btn btn-primary';
-            emailBtn.style.cssText = 'background:var(--gold);color:var(--navy);justify-content:flex-start;';
-            emailBtn.innerHTML = '<span style="display:inline-block;width:1.8em;opacity:0.6;font-weight:400;flex-shrink:0;">2.</span><span>Email your council member →</span>';
-            petitionBtn.insertAdjacentElement('afterend', emailBtn);
-
-            // Renumber remaining steps
-            var n = 3;
-            Array.from(petitionBtn.parentNode.children).forEach(function(el) {
-                if (el === petitionBtn || el === emailBtn) return;
-                var s = el.querySelector('span:first-child');
-                if (s && /^\d+\./.test(s.textContent)) { s.textContent = n + '.'; n++; }
-            });
-        } catch(e) {}
-    })();
-    </script>
 </body>
 </html>
