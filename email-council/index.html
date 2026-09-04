@@ -1042,8 +1042,10 @@ Thank you,
             if (!E.stickyBar) return;
 
             if (selected.length === 0) {
-                E.stickyBar.style.display = 'none';
-                document.body.style.paddingBottom = '';
+                E.stickyBar.style.display = '';
+                document.body.style.paddingBottom = '72px';
+                if (E.stickyCount) E.stickyCount.innerHTML = 'Step 1: Find and select your district council member.';
+                if (E.stickyBtn) E.stickyBtn.textContent = 'Find my rep';
                 if (E.tplGreeting) E.tplGreeting.textContent = 'Council Members';
                 var otherEmails = Array.from(document.querySelectorAll('.council-link'))
                     .map(function(el) { return el.getAttribute('data-email'); })
@@ -1154,6 +1156,7 @@ Thank you,
         // Single source of truth for sticky button state
         function syncSticky() {
             if (!E.stickyBtn) return;
+            if (getSelectedEmails().length === 0) return;
             var bothFilled = !!(E.piName && E.piName.value.trim() && E.piImpact && E.piImpact.value.trim());
             if (!bothFilled) {
                 previewSeen = false;
@@ -1227,6 +1230,16 @@ Thank you,
 
         function handleStickyClick() {
             var label = E.stickyBtn ? E.stickyBtn.textContent.trim() : '';
+            if (label === 'Find my rep') {
+                var nav = document.querySelector('.nav');
+                var offset = nav ? nav.offsetHeight : 0;
+                var section = document.querySelector('.council-section');
+                if (section) {
+                    var top = section.getBoundingClientRect().top + window.scrollY - offset - 16;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+                return;
+            }
             if (label === 'Open in email') {
                 var href = E.stickyBtn.dataset.mailto;
                 if (href) { try { window.location.href = href; } catch(e) {} }
