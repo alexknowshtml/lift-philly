@@ -1322,6 +1322,7 @@
                 // Show success message, keep form visible
                 document.getElementById('sign-success').style.display = 'block';
                 btn.textContent = 'Signed ✓';
+                try { localStorage.setItem('lift_philly_signed', '1'); } catch(e) {}
                 try { localStorage.setItem('petition_pending_signer', JSON.stringify(data)); } catch(e) {}
 
                 // Add their name immediately to the list (optimistic)
