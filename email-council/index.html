@@ -418,6 +418,13 @@
             font-family: inherit; margin-bottom: 12px;
         }
         .step4-email-btn:hover { background: var(--gold-dark); }
+        @keyframes btn-pop {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.13); }
+            70%  { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        .step4-email-btn.btn-pop { animation: btn-pop 0.35s ease-out; }
 
         .template-box {
             background: #f8fafc;
@@ -1117,8 +1124,17 @@ Thank you,
                 sendItReached = false;
                 E.stickyBtn.textContent = 'Personalize';
             } else if (sendItReached && (impactScrolledPast || !editingField)) {
+                var wasNotReady = E.stickyBtn.textContent !== 'Open in email';
                 sendItReached = true;
                 E.stickyBtn.textContent = 'Open in email';
+                if (wasNotReady) {
+                    E.stickyBtn.classList.remove('btn-pop');
+                    void E.stickyBtn.offsetWidth;
+                    E.stickyBtn.classList.add('btn-pop');
+                    E.stickyBtn.addEventListener('animationend', function() {
+                        E.stickyBtn.classList.remove('btn-pop');
+                    }, { once: true });
+                }
             } else {
                 E.stickyBtn.textContent = 'Preview';
             }
