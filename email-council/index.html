@@ -850,7 +850,7 @@ Thank you,
                 if (!btn) return;
                 var hasName = piName && piName.value.trim();
                 var hasImpact = piImpact && piImpact.value.trim();
-                var filled = hasName || hasImpact;
+                var filled = hasName && hasImpact;
                 var complete = filled && !hasPlaceholders();
                 if (!complete) {
                     sendItReached = false;
@@ -934,7 +934,7 @@ Thank you,
                 if (!btn) return;
                 var piName = document.getElementById('pi-name');
                 var piImpact = document.getElementById('pi-impact');
-                var filled = (piName && piName.value.trim()) || (piImpact && piImpact.value.trim());
+                var filled = (piName && piName.value.trim()) && (piImpact && piImpact.value.trim());
                 var complete = filled && !hasPlaceholders();
                 if (!complete) {
                     sendItReached = false;
