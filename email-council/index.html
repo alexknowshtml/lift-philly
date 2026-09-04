@@ -845,36 +845,18 @@ Thank you,
             }
 
             var LS_KEY = 'liftphilly_impact';
-            function syncStickyLabel() {
-                var btn = document.getElementById('sticky-email-btn');
-                if (!btn) return;
-                var hasName = piName && piName.value.trim();
-                var hasImpact = piImpact && piImpact.value.trim();
-                var filled = hasName && hasImpact;
-                var complete = filled && !hasPlaceholders();
-                if (!complete) {
-                    sendItReached = false;
-                    btn.textContent = filled ? 'Preview' : 'Personalize';
-                } else if (previewInView || sendItReached) {
-                    sendItReached = true;
-                    btn.textContent = 'Open in email';
-                } else {
-                    btn.textContent = 'Preview';
-                }
-                updateStep4State();
-            }
-            if (piName) piName.addEventListener('input', function() { updateName(this.value); syncStickyLabel(); updateStickyBar(); });
+            if (piName) piName.addEventListener('input', function() { updateName(this.value); syncSticky(); updateStickyBar(); });
             if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); updateStickyBar(); });
             if (piImpact) {
                 piImpact.addEventListener('input', function() {
                     updateImpact(this.value);
                     try { localStorage.setItem(LS_KEY, this.value); } catch(e) {}
-                    syncStickyLabel();
+                    syncSticky();
                     updateStickyBar();
                 });
                 try {
                     var saved = localStorage.getItem(LS_KEY);
-                    if (saved) { piImpact.value = saved; updateImpact(saved); syncStickyLabel(); }
+                    if (saved) { piImpact.value = saved; updateImpact(saved); syncSticky(); }
                 } catch(e) {}
             }
         }
@@ -930,22 +912,7 @@ Thank you,
             new IntersectionObserver(function(entries) {
                 var entry = entries[0];
                 previewInView = entry.isIntersecting || entry.boundingClientRect.top < 0;
-                var btn = document.getElementById('sticky-email-btn');
-                if (!btn) return;
-                var piName = document.getElementById('pi-name');
-                var piImpact = document.getElementById('pi-impact');
-                var filled = (piName && piName.value.trim()) && (piImpact && piImpact.value.trim());
-                var complete = filled && !hasPlaceholders();
-                if (!complete) {
-                    sendItReached = false;
-                    btn.textContent = filled ? 'Preview' : 'Personalize';
-                } else if (previewInView || sendItReached) {
-                    sendItReached = true;
-                    btn.textContent = 'Open in email';
-                } else {
-                    btn.textContent = 'Preview';
-                }
-                updateStep4State();
+                syncSticky();
             }, { threshold: 0.1 }).observe(previewEl);
         })();
 
@@ -1124,7 +1091,7 @@ Thank you,
             }
 
             updatePhoneList();
-            updateStep4State();
+            syncSticky();
             updateStep5Visibility();
         }
 
@@ -1133,6 +1100,24 @@ Thank you,
             if (!section) return;
             var hasSelected = document.querySelectorAll('.council-link.selected').length > 0;
             section.style.display = hasSelected ? '' : 'none';
+        }
+
+        function syncSticky() {
+            var btn = document.getElementById('sticky-email-btn');
+            if (!btn) return;
+            var piName = document.getElementById('pi-name');
+            var piImpact = document.getElementById('pi-impact');
+            var bothFilled = !!(piName && piName.value.trim() && piImpact && piImpact.value.trim());
+            if (!bothFilled) {
+                sendItReached = false;
+                btn.textContent = 'Personalize';
+            } else if (previewInView || sendItReached) {
+                sendItReached = true;
+                btn.textContent = 'Open in email';
+            } else {
+                btn.textContent = 'Preview';
+            }
+            updateStep4State();
         }
 
         function updateStep4State() {
