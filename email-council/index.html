@@ -1428,26 +1428,39 @@ Thank you,
 
                 try { window.location.href = raw; } catch(err) {}
 
+                var allEmails = toEmails.concat(ccEmails).join(', ');
                 var overlay = document.createElement('div');
                 overlay.className = 'mailto-overlay';
-                var toHtml = '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + toEmails[0] + '" onclick="this.select()"><button class="mailto-copy-btn" id="_mc_copy">Copy</button></div>';
-                if (toEmails.length > 1) toHtml += '<p class="mailto-cc-note">+ ' + (toEmails.length - 1) + ' more: ' + toEmails.slice(1).join(', ') + '</p>';
-                var ccHtml = ccEmails.length ? '<p class="mailto-cc-note">CC: ' + ccEmails.join(', ') + '</p>' : '';
                 overlay.innerHTML = '<div class="mailto-modal">'
                     + '<h3>Email council members</h3>'
-                    + '<p>If your email app didn\'t open, copy the address below.</p>'
-                    + toHtml + ccHtml
-                    + '<a class="mailto-open-btn" href="' + raw + '">Open in email app</a>'
+                    + '<p>If your email app didn\'t open, here\'s how to send manually:</p>'
+                    + '<ol style="font-size:0.85rem;color:var(--text);padding-left:18px;margin:0 0 14px;line-height:1.8;">'
+                    + '<li>Copy all the addresses below and paste them into the <strong>To:</strong> field of a new email</li>'
+                    + '<li>Scroll down to copy the subject line and message body from the preview</li>'
+                    + '</ol>'
+                    + '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + allEmails + '" onclick="this.select()" style="font-size:0.75rem;"><button class="mailto-copy-btn" id="_mc_copy">Copy all</button></div>'
+                    + '<a class="mailto-open-btn" href="' + raw + '" style="margin-top:12px;">Try opening in email app</a>'
+                    + '<button class="mailto-close-btn" id="_mc_scroll" style="margin-bottom:6px;color:var(--navy);font-weight:600;">↓ Scroll to preview to copy message</button>'
                     + '<button class="mailto-close-btn" id="_mc_close">Close</button>'
                     + '</div>';
                 document.body.appendChild(overlay);
                 overlay.querySelector('#_mc_copy').addEventListener('click', function() {
-                    navigator.clipboard.writeText(toEmails[0]).catch(function() {
+                    navigator.clipboard.writeText(allEmails).catch(function() {
                         var inp = overlay.querySelector('#_mc_addr');
                         inp.select(); document.execCommand('copy');
                     });
                     this.textContent = 'Copied!';
                     this.classList.add('copied');
+                });
+                overlay.querySelector('#_mc_scroll').addEventListener('click', function() {
+                    overlay.remove();
+                    var preview = document.getElementById('preview-header');
+                    if (preview) {
+                        var nav = document.querySelector('.nav');
+                        var offset = nav ? nav.offsetHeight : 0;
+                        var top = preview.getBoundingClientRect().top + window.scrollY - offset - 16;
+                        window.scrollTo({ top: top, behavior: 'smooth' });
+                    }
                 });
                 overlay.querySelector('#_mc_close').addEventListener('click', function() { overlay.remove(); });
                 overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
