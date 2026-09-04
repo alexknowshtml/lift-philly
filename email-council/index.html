@@ -817,6 +817,7 @@ Thank you,
         var previewSeen = false;
         var sendItReached = false;
         var editingField = false;
+        var impactScrolledPast = false;
 
         var input = document.getElementById('address-input');
 
@@ -945,6 +946,14 @@ Thank you,
 
         var ALWAYS_CC = ['kenyatta.johnson@phila.gov', 'katherine.gilmore.richardson@phila.gov', 'mike.driscoll@phila.gov'];
         updateStickyBar();
+
+        window.addEventListener('scroll', function() {
+            if (!E.piImpact) return;
+            var nav = document.querySelector('.nav');
+            var navH = nav ? nav.offsetHeight : 0;
+            impactScrolledPast = E.piImpact.getBoundingClientRect().bottom < navH;
+            syncSticky();
+        }, { passive: true });
 
         function updatePhoneList() {
             if (!E.phoneList || !E.phoneListItems) return;
@@ -1107,7 +1116,7 @@ Thank you,
                 previewSeen = false;
                 sendItReached = false;
                 E.stickyBtn.textContent = 'Personalize';
-            } else if (sendItReached && !editingField) {
+            } else if (sendItReached && (impactScrolledPast || !editingField)) {
                 sendItReached = true;
                 E.stickyBtn.textContent = 'Open in email';
             } else {
