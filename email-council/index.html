@@ -818,37 +818,67 @@ Thank you,
 
         var input = document.getElementById('address-input');
 
+        // DOM element cache — looked up once at init
+        var E = {
+            piName:              document.getElementById('pi-name'),
+            piNeighborhood:      document.getElementById('pi-neighborhood'),
+            piImpact:            document.getElementById('pi-impact'),
+            stickyBar:           document.getElementById('sticky-email-bar'),
+            stickyBtn:           document.getElementById('sticky-email-btn'),
+            stickyCount:         document.getElementById('sticky-count'),
+            stickyProgressFill:  document.getElementById('sticky-progress-fill'),
+            tplGreeting:         document.getElementById('tpl-greeting'),
+            tplNameInline:       document.getElementById('tpl-name-inline'),
+            tplNameSig:          document.getElementById('tpl-name-sig'),
+            tplNeighborhood:     document.getElementById('tpl-neighborhood'),
+            tplImpact:           document.getElementById('tpl-impact'),
+            tplToccRow:          document.getElementById('tpl-tocc-row'),
+            tplToText:           document.getElementById('tpl-to-text'),
+            tplCcText:           document.getElementById('tpl-cc-text'),
+            tplEmailSig:         document.getElementById('tpl-email-sig'),
+            previewHeader:       document.getElementById('preview-header'),
+            personalizerSection: document.getElementById('personalizer-section'),
+            step4Locked:         document.getElementById('step4-locked'),
+            step4Ready:          document.getElementById('step4-ready'),
+            step5Section:        document.getElementById('step5-section'),
+            phoneList:           document.getElementById('phone-list'),
+            phoneListItems:      document.getElementById('phone-list-items'),
+            copyBtn:             document.getElementById('copy-btn'),
+            copySubjectBtn:      document.getElementById('copy-subject-btn'),
+            copyToccBtn:         document.getElementById('copy-tocc-btn'),
+        };
+
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') { e.preventDefault(); lookupAddress(); }
         });
 
+        // Single helper for setting a template span to a value or its placeholder fallback
+        function setTpl(el, val, fallback) {
+            if (el) el.textContent = val.trim() || fallback;
+        }
+
+        // Render the To/CC email row — single source of truth for both selection states
+        function renderToCCRow(toEmails, ccEmails) {
+            var span = function(e) { return '<span style="display:block">' + e + '</span>'; };
+            if (E.tplToText) E.tplToText.innerHTML = toEmails.map(span).join('');
+            if (E.tplCcText) E.tplCcText.innerHTML = ccEmails.map(span).join('');
+            if (E.tplToccRow) E.tplToccRow.style.display = '';
+        }
+
         // Personalizer: live-update template spans from inputs
         function bindPersonalizer() {
-            var piName = document.getElementById('pi-name');
-            var piNeighborhood = document.getElementById('pi-neighborhood');
-            var piImpact = document.getElementById('pi-impact');
-
             function updateName(val) {
-                var v = val.trim() || '[YOUR NAME]';
-                var inl = document.getElementById('tpl-name-inline');
-                var sig = document.getElementById('tpl-name-sig');
-                if (inl) inl.textContent = v;
-                if (sig) sig.textContent = val.trim() || '[Your Name]';
+                setTpl(E.tplNameInline, val, '[YOUR NAME]');
+                setTpl(E.tplNameSig, val, '[Your Name]');
             }
-            function updateNeighborhood(val) {
-                var el = document.getElementById('tpl-neighborhood');
-                if (el) el.textContent = val.trim() || 'your district';
-            }
-            function updateImpact(val) {
-                var el = document.getElementById('tpl-impact');
-                if (el) el.textContent = val.trim() || '[1-3 sentences about how this year\'s BIRT rollback impacted you and our community directly]';
-            }
+            function updateNeighborhood(val) { setTpl(E.tplNeighborhood, val, 'your district'); }
+            function updateImpact(val) { setTpl(E.tplImpact, val, '[1-3 sentences about how this year\'s BIRT rollback impacted you and our community directly]'); }
 
             var LS_KEY = 'liftphilly_impact';
-            if (piName) piName.addEventListener('input', function() { updateName(this.value); syncSticky(); updateStickyBar(); });
-            if (piNeighborhood) piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); updateStickyBar(); });
-            if (piImpact) {
-                piImpact.addEventListener('input', function() {
+            if (E.piName) E.piName.addEventListener('input', function() { updateName(this.value); syncSticky(); updateStickyBar(); });
+            if (E.piNeighborhood) E.piNeighborhood.addEventListener('input', function() { updateNeighborhood(this.value); updateStickyBar(); });
+            if (E.piImpact) {
+                E.piImpact.addEventListener('input', function() {
                     updateImpact(this.value);
                     try { localStorage.setItem(LS_KEY, this.value); } catch(e) {}
                     syncSticky();
@@ -856,12 +886,12 @@ Thank you,
                 });
                 try {
                     var saved = localStorage.getItem(LS_KEY);
-                    if (saved) { piImpact.value = saved; updateImpact(saved); syncSticky(); }
+                    if (saved) { E.piImpact.value = saved; updateImpact(saved); syncSticky(); }
                 } catch(e) {}
             }
         }
 
-        // Pre-fill from query params: ?address= ?name= ?email=
+        // Pre-fill from query params: ?address= ?name= ?email= ?testimonial=
         (function() {
             var params = new URLSearchParams(window.location.search);
 
@@ -877,29 +907,19 @@ Thank you,
 
             var name = params.get('name');
             if (name) {
-                var piName = document.getElementById('pi-name');
-                if (piName) { piName.value = name; }
-                var inl = document.getElementById('tpl-name-inline');
-                var sig = document.getElementById('tpl-name-sig');
-                if (inl) inl.textContent = name;
-                if (sig) sig.textContent = name;
+                if (E.piName) E.piName.value = name;
+                if (E.tplNameInline) E.tplNameInline.textContent = name;
+                if (E.tplNameSig) E.tplNameSig.textContent = name;
             }
 
             var email = params.get('email');
-            if (email) {
-                var esig = document.getElementById('tpl-email-sig');
-                if (esig) { esig.textContent = email; esig.style.display = ''; }
-            }
+            if (email && E.tplEmailSig) { E.tplEmailSig.textContent = email; E.tplEmailSig.style.display = ''; }
 
             var testimonial = params.get('testimonial');
-            if (testimonial) {
-                var piImpactPre = document.getElementById('pi-impact');
-                if (piImpactPre) {
-                    piImpactPre.value = testimonial;
-                    var tplImpact = document.getElementById('tpl-impact');
-                    if (tplImpact) tplImpact.textContent = testimonial;
-                    try { localStorage.setItem('liftphilly_impact', testimonial); } catch(e) {}
-                }
+            if (testimonial && E.piImpact) {
+                E.piImpact.value = testimonial;
+                if (E.tplImpact) E.tplImpact.textContent = testimonial;
+                try { localStorage.setItem('liftphilly_impact', testimonial); } catch(e) {}
             }
             // autofocus removed
         })();
@@ -907,27 +927,23 @@ Thank you,
         bindPersonalizer();
 
         (function() {
-            var previewEl = document.getElementById('preview-header');
-            if (!previewEl || !('IntersectionObserver' in window)) return;
+            if (!E.previewHeader || !('IntersectionObserver' in window)) return;
             new IntersectionObserver(function(entries) {
                 var entry = entries[0];
                 previewInView = entry.isIntersecting || entry.boundingClientRect.top < 0;
                 syncSticky();
-            }, { threshold: 0.1 }).observe(previewEl);
+            }, { threshold: 0.1 }).observe(E.previewHeader);
         })();
 
         var ALWAYS_CC = ['kenyatta.johnson@phila.gov', 'katherine.gilmore.richardson@phila.gov', 'mike.driscoll@phila.gov'];
         updateStickyBar();
 
         function updatePhoneList() {
-            var phoneListEl = document.getElementById('phone-list');
-            var itemsEl = document.getElementById('phone-list-items');
-            if (!phoneListEl || !itemsEl) return;
+            if (!E.phoneList || !E.phoneListItems) return;
 
             var selected = Array.from(document.querySelectorAll('.council-link.selected'));
             var selectedEmails = selected.map(function(el) { return el.getAttribute('data-email'); });
 
-            // Collect all To + CC members with names and phones
             var seen = {};
             var entries = [];
 
@@ -949,19 +965,17 @@ Thank you,
                 }
             });
 
-            if (entries.length === 0) {
-                phoneListEl.style.display = 'none';
-                return;
-            }
+            if (entries.length === 0) { E.phoneList.style.display = 'none'; return; }
 
-            phoneListEl.style.display = '';
-            itemsEl.innerHTML = entries.map(function(e) {
+            E.phoneList.style.display = '';
+            E.phoneListItems.innerHTML = entries.map(function(e) {
                 return '<li style="font-size:0.85rem;display:flex;align-items:center;justify-content:space-between;gap:12px;">'
                     + '<span style="color:var(--text);">' + e.name + '</span>'
                     + '<a href="tel:' + e.phone.replace(/[^0-9]/g,'') + '" style="color:var(--navy);font-weight:700;text-decoration:none;white-space:nowrap;">' + e.phone + '</a>'
                     + '</li>';
             }).join('');
         }
+
         var EMAIL_SUBJECT = 'Need your support for Bill 251026';
 
         function toggleSelect(el) {
@@ -1003,37 +1017,27 @@ Thank you,
 
         function updateStickyBar() {
             var selected = getSelectedEmails();
-            var bar = document.getElementById('sticky-email-bar');
-            var btn = document.getElementById('sticky-email-btn');
-            var countEl = document.getElementById('sticky-count');
-            var greetingEl = document.getElementById('tpl-greeting');
-            if (!bar) return;
+            if (!E.stickyBar) return;
 
             if (selected.length === 0) {
-                bar.style.display = 'none';
+                E.stickyBar.style.display = 'none';
                 document.body.style.paddingBottom = '';
-                if (greetingEl) greetingEl.textContent = 'Council Members';
-                var toccRowZ = document.getElementById('tpl-tocc-row');
-                var toTextZ = document.getElementById('tpl-to-text');
-                var ccTextZ = document.getElementById('tpl-cc-text');
-                if (toccRowZ && toTextZ) {
-                    toTextZ.innerHTML = ALWAYS_CC.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
-                    var otherEmails = Array.from(document.querySelectorAll('.council-link'))
-                        .map(function(el) { return el.getAttribute('data-email'); })
-                        .filter(function(e) { return e && ALWAYS_CC.indexOf(e) === -1; });
-                    if (ccTextZ) ccTextZ.innerHTML = otherEmails.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
-                    toccRowZ.style.display = '';
-                }
+                if (E.tplGreeting) E.tplGreeting.textContent = 'Council Members';
+                var otherEmails = Array.from(document.querySelectorAll('.council-link'))
+                    .map(function(el) { return el.getAttribute('data-email'); })
+                    .filter(function(e) { return e && ALWAYS_CC.indexOf(e) === -1; });
+                renderToCCRow(ALWAYS_CC, otherEmails);
                 return;
             }
 
-            bar.style.display = '';
+            E.stickyBar.style.display = '';
             document.body.style.paddingBottom = '72px';
 
             var cc = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }).join(',');
             var href = 'mailto:' + selected.join(',') + '?subject=' + encodeURIComponent(EMAIL_SUBJECT);
             if (cc) href += '&cc=' + encodeURIComponent(cc);
-            if (greetingEl) {
+
+            if (E.tplGreeting) {
                 var suffixes = ['jr.', 'sr.', 'ii', 'iii', 'iv'];
                 var buildGreetingName = function(el) {
                     var n = el.querySelector('.council-name');
@@ -1054,41 +1058,27 @@ Thank you,
                         if (ccEl) greetingNames.push(buildGreetingName(ccEl));
                     }
                 });
-                greetingEl.textContent = greetingNames.join(', ');
+                E.tplGreeting.textContent = greetingNames.join(', ');
             }
+
             var bodyEl = document.querySelector('#template-text .template-body');
             if (bodyEl) {
-                var _cb = bodyEl.querySelector('#copy-btn');
-                if (_cb) _cb.style.display = 'none';
+                if (E.copyBtn) E.copyBtn.style.display = 'none';
                 href += '&body=' + encodeURIComponent(bodyEl.innerText.trim().replace(/\n/g, '\r\n'));
-                if (_cb) _cb.style.display = '';
+                if (E.copyBtn) E.copyBtn.style.display = '';
             }
-            btn.dataset.mailto = href;
-            var selectedNames = Array.from(document.querySelectorAll('.council-link.selected')).map(function(el) {
-                var nameEl = el.querySelector('.council-name');
-                return nameEl ? nameEl.textContent.trim() : '';
-            }).filter(Boolean);
-            var nameEl = document.getElementById('tpl-name-inline');
-            var impactEl = document.getElementById('tpl-impact');
-            var nameDone = nameEl && !nameEl.textContent.includes('[');
-            var impactDone = impactEl && !impactEl.textContent.includes('[');
+            E.stickyBtn.dataset.mailto = href;
+
+            var nameDone = E.tplNameInline && !E.tplNameInline.textContent.includes('[');
+            var impactDone = E.tplImpact && !E.tplImpact.textContent.includes('[');
             var pct = (nameDone && impactDone) ? 100 : nameDone ? 67 : 33;
             var label = pct === 100 ? '✓ Your email is ready to send!'
                       : pct === 67  ? 'Almost there — add your personal story to the template.'
                       :               'Great start! Now personalize your message below.';
-            countEl.innerHTML = label;
-            var fillEl = document.getElementById('sticky-progress-fill');
-            if (fillEl) fillEl.style.width = pct + '%';
+            if (E.stickyCount) E.stickyCount.innerHTML = label;
+            if (E.stickyProgressFill) E.stickyProgressFill.style.width = pct + '%';
 
-            var toccRow = document.getElementById('tpl-tocc-row');
-            var toText = document.getElementById('tpl-to-text');
-            var ccText = document.getElementById('tpl-cc-text');
-            if (toccRow && toText) {
-                toText.innerHTML = selected.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
-                var ccList = ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; });
-                if (ccText) ccText.innerHTML = ccList.map(function(e) { return '<span style="display:block">' + e + '</span>'; }).join('');
-                toccRow.style.display = '';
-            }
+            renderToCCRow(selected, ALWAYS_CC.filter(function(e) { return selected.indexOf(e) === -1; }));
 
             updatePhoneList();
             syncSticky();
@@ -1096,38 +1086,32 @@ Thank you,
         }
 
         function updateStep5Visibility() {
-            var section = document.getElementById('step5-section');
-            if (!section) return;
+            if (!E.step5Section) return;
             var hasSelected = document.querySelectorAll('.council-link.selected').length > 0;
-            section.style.display = hasSelected ? '' : 'none';
+            E.step5Section.style.display = hasSelected ? '' : 'none';
         }
 
+        // Single source of truth for sticky button state
         function syncSticky() {
-            var btn = document.getElementById('sticky-email-btn');
-            if (!btn) return;
-            var piName = document.getElementById('pi-name');
-            var piImpact = document.getElementById('pi-impact');
-            var bothFilled = !!(piName && piName.value.trim() && piImpact && piImpact.value.trim());
+            if (!E.stickyBtn) return;
+            var bothFilled = !!(E.piName && E.piName.value.trim() && E.piImpact && E.piImpact.value.trim());
             if (!bothFilled) {
                 sendItReached = false;
-                btn.textContent = 'Personalize';
+                E.stickyBtn.textContent = 'Personalize';
             } else if (previewInView || sendItReached) {
                 sendItReached = true;
-                btn.textContent = 'Open in email';
+                E.stickyBtn.textContent = 'Open in email';
             } else {
-                btn.textContent = 'Preview';
+                E.stickyBtn.textContent = 'Preview';
             }
             updateStep4State();
         }
 
         function updateStep4State() {
-            var btn = document.getElementById('sticky-email-btn');
-            var locked = document.getElementById('step4-locked');
-            var ready = document.getElementById('step4-ready');
-            if (!locked || !ready) return;
-            var isReady = btn && btn.textContent === 'Open in email';
-            locked.style.display = isReady ? 'none' : 'flex';
-            ready.style.display = isReady ? 'flex' : 'none';
+            if (!E.step4Locked || !E.step4Ready) return;
+            var isReady = E.stickyBtn && E.stickyBtn.textContent === 'Open in email';
+            E.step4Locked.style.display = isReady ? 'none' : 'flex';
+            E.step4Ready.style.display = isReady ? 'flex' : 'none';
         }
 
         document.addEventListener('keydown', function(e) {
@@ -1172,15 +1156,13 @@ Thank you,
         }
 
         function handleStickyClick() {
-            var btn = document.getElementById('sticky-email-btn');
-            var label = btn ? btn.textContent.trim() : '';
+            var label = E.stickyBtn ? E.stickyBtn.textContent.trim() : '';
             if (label === 'Open in email') {
-                var href = btn.dataset.mailto;
+                var href = E.stickyBtn.dataset.mailto;
                 if (href) { try { window.location.href = href; } catch(e) {} }
                 return;
             }
-            var isPreview = label === 'Preview';
-            var target = document.getElementById(isPreview ? 'preview-header' : 'personalizer-section');
+            var target = label === 'Preview' ? E.previewHeader : E.personalizerSection;
             if (!target) return;
             var nav = document.querySelector('.nav');
             var offset = nav ? nav.offsetHeight : 0;
@@ -1308,7 +1290,6 @@ Thank you,
         function resetList() {
             currentDistrict = null;
             var toggle = document.getElementById('show-all-toggle');
-            var atLarge = document.getElementById('at-large-link');
             var links = document.querySelectorAll('.council-link');
             links.forEach(function(link) {
                 link.classList.remove('highlighted', 'dimmed', 'selected');
@@ -1390,59 +1371,56 @@ Thank you,
         });
 
         function copyToCC() {
-            var toEl = document.getElementById('tpl-to-text');
-            var ccEl = document.getElementById('tpl-cc-text');
-            var toEmails = Array.from(toEl.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
-            var ccEmails = Array.from(ccEl.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
+            if (!E.tplToText || !E.tplCcText) return;
+            var toEmails = Array.from(E.tplToText.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
+            var ccEmails = Array.from(E.tplCcText.querySelectorAll('span')).map(function(s) { return s.textContent.trim(); }).filter(Boolean);
             var text = toEmails.concat(ccEmails).join(', ');
-            var btn = document.getElementById('copy-tocc-btn');
             navigator.clipboard.writeText(text).catch(function() {
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             }).finally(function() {});
-            if (btn) { btn.textContent = 'Emails copied!'; setTimeout(function() { btn.textContent = 'Copy Emails'; }, 2000); }
+            if (E.copyToccBtn) { E.copyToccBtn.textContent = 'Emails copied!'; setTimeout(function() { E.copyToccBtn.textContent = 'Copy Emails'; }, 2000); }
         }
 
         function copySubject() {
             var text = 'Need your support for Bill 251026';
-            var btn = document.getElementById('copy-subject-btn');
             navigator.clipboard.writeText(text).catch(function() {
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             });
-            if (btn) { btn.textContent = 'Subject copied!'; setTimeout(function() { btn.textContent = 'Copy Subject'; }, 2000); }
+            if (E.copySubjectBtn) { E.copySubjectBtn.textContent = 'Subject copied!'; setTimeout(function() { E.copySubjectBtn.textContent = 'Copy Subject'; }, 2000); }
         }
 
         function copyTemplate() {
             var bodyEl = document.querySelector('#template-text .template-body');
-            var btn = document.getElementById('copy-btn');
             if (!bodyEl) return;
-            if (btn) btn.style.display = 'none';
+            if (E.copyBtn) E.copyBtn.style.display = 'none';
             var text = bodyEl.innerText.trim();
-            if (btn) btn.style.display = '';
+            if (E.copyBtn) E.copyBtn.style.display = '';
             if (!text || /\[[^\]]+\]/.test(text)) {
-                if (btn) {
-                    btn.style.background = '#dc2626';
-                    btn.style.color = '#fff';
-                    btn.innerHTML = '⚠ Fill in step 2 before copying the template';
+                if (E.copyBtn) {
+                    E.copyBtn.style.background = '#dc2626';
+                    E.copyBtn.style.color = '#fff';
+                    E.copyBtn.innerHTML = '⚠ Fill in step 2 before copying the template';
                     setTimeout(function() {
-                        btn.style.background = 'var(--navy)';
-                        btn.style.color = 'white';
-                        btn.textContent = 'Copy Message Template';
+                        E.copyBtn.style.background = 'var(--navy)';
+                        E.copyBtn.style.color = 'white';
+                        E.copyBtn.textContent = 'Copy Message Template';
                     }, 3000);
                 }
-                var _pTarget = document.getElementById('personalizer-section');
-                var _pNav = document.querySelector('nav');
-                var _pOffset = _pNav ? _pNav.offsetHeight : 0;
-                var _pTop = _pTarget.getBoundingClientRect().top + window.pageYOffset - _pOffset;
-                window.scrollTo({ top: _pTop, behavior: 'smooth' });
+                if (E.personalizerSection) {
+                    var _pNav = document.querySelector('nav');
+                    var _pOffset = _pNav ? _pNav.offsetHeight : 0;
+                    var _pTop = E.personalizerSection.getBoundingClientRect().top + window.pageYOffset - _pOffset;
+                    window.scrollTo({ top: _pTop, behavior: 'smooth' });
+                }
                 return;
             }
             navigator.clipboard.writeText(text.replace(/\n/g, '\r\n')).catch(function() {
                 var ta = document.createElement('textarea');
                 ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
             });
-            if (btn) { btn.textContent = 'Body copied!'; setTimeout(function() { btn.textContent = 'Copy Message Template'; }, 2000); }
+            if (E.copyBtn) { E.copyBtn.textContent = 'Body copied!'; setTimeout(function() { E.copyBtn.textContent = 'Copy Message Template'; }, 2000); }
         }
     </script>
     <script src="/nav.js"></script>
