@@ -824,6 +824,7 @@ Thank you,
         var sendItReached = false;
         var editingField = false;
         var impactScrolledPast = false;
+        var stickyBtnPendingLabel = null;
 
         var input = document.getElementById('address-input');
 
@@ -939,6 +940,15 @@ Thank you,
         })();
 
         bindPersonalizer();
+
+        if (E.stickyBtn) {
+            E.stickyBtn.addEventListener('mousedown', function() {
+                stickyBtnPendingLabel = this.textContent.trim();
+            });
+            E.stickyBtn.addEventListener('touchstart', function() {
+                stickyBtnPendingLabel = this.textContent.trim();
+            }, { passive: true });
+        }
 
         (function() {
             if (!E.previewHeader || !('IntersectionObserver' in window)) return;
@@ -1228,7 +1238,8 @@ Thank you,
         }
 
         function handleStickyClick() {
-            var label = E.stickyBtn ? E.stickyBtn.textContent.trim() : '';
+            var label = (stickyBtnPendingLabel !== null ? stickyBtnPendingLabel : (E.stickyBtn ? E.stickyBtn.textContent.trim() : ''));
+            stickyBtnPendingLabel = null;
             if (label === 'Find my rep') {
                 var nav = document.querySelector('.nav');
                 var offset = nav ? nav.offsetHeight : 0;
