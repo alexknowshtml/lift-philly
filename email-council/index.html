@@ -939,7 +939,6 @@ Thank you,
             new IntersectionObserver(function(entries) {
                 var entry = entries[0];
                 previewInView = entry.isIntersecting || entry.boundingClientRect.top < 0;
-                if (entry.isIntersecting) previewSeen = true;
                 syncSticky();
             }, { threshold: 0.1 }).observe(E.previewHeader);
         })();
@@ -1108,7 +1107,7 @@ Thank you,
                 previewSeen = false;
                 sendItReached = false;
                 E.stickyBtn.textContent = 'Personalize';
-            } else if ((previewSeen || sendItReached) && !editingField) {
+            } else if (sendItReached && !editingField) {
                 sendItReached = true;
                 E.stickyBtn.textContent = 'Open in email';
             } else {
@@ -1174,6 +1173,7 @@ Thank you,
             }
             var target = label === 'Preview' ? E.previewHeader : E.personalizerSection;
             if (!target) return;
+            if (label === 'Preview') sendItReached = true;
             var nav = document.querySelector('.nav');
             var offset = nav ? nav.offsetHeight : 0;
             var top = target.getBoundingClientRect().top + window.scrollY - offset - 16;
