@@ -1276,20 +1276,11 @@ Thank you,
                     + '<li>Copy all the addresses below and paste them into the <strong>To:</strong> field of a new email</li>'
                     + '<li>Scroll down to copy the subject line and message body from the preview</li>'
                     + '</ol>'
-                    + '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + allEmails + '" onclick="this.select()" style="font-size:0.75rem;"><button class="mailto-copy-btn" id="_mc_copy">Copy all</button></div>'
-                    + '<a class="mailto-open-btn" href="' + raw + '" style="margin-top:12px;">Try opening in email app</a>'
+                    + '<div class="mailto-email-row"><input readonly id="_mc_addr" value="' + allEmails + '" onclick="this.select()" style="font-size:0.75rem;"></div>'
                     + '<button class="mailto-close-btn" id="_mc_scroll" style="margin-bottom:6px;color:var(--navy);font-weight:600;">↓ Scroll to preview to copy message</button>'
                     + '<button class="mailto-close-btn" id="_mc_close">Close</button>'
                     + '</div>';
                 document.body.appendChild(overlay);
-                overlay.querySelector('#_mc_copy').addEventListener('click', function() {
-                    navigator.clipboard.writeText(allEmails).catch(function() {
-                        var inp = overlay.querySelector('#_mc_addr');
-                        inp.select(); document.execCommand('copy');
-                    });
-                    this.textContent = 'Copied!';
-                    this.classList.add('copied');
-                });
                 overlay.querySelector('#_mc_scroll').addEventListener('click', function() {
                     overlay.remove();
                     var preview = document.getElementById('preview-header');
