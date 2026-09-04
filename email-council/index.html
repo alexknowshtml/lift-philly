@@ -958,6 +958,16 @@ Thank you,
             var navH = nav ? nav.offsetHeight : 0;
             impactScrolledPast = E.piImpact.getBoundingClientRect().bottom < navH;
             syncSticky();
+            if (!step5CelebFired && E.step5Section && E.step5Section.style.display !== 'none') {
+                var h2 = E.step5Section.querySelector('h2');
+                if (h2) {
+                    var h2r = h2.getBoundingClientRect();
+                    if (h2r.top >= navH && h2r.top < window.innerHeight * 0.8) {
+                        step5CelebFired = true;
+                        fireStep5Celebration(h2r);
+                    }
+                }
+            }
         }, { passive: true });
 
         function updatePhoneList() {
@@ -1109,7 +1119,6 @@ Thank you,
         }
 
         var step5CelebFired = false;
-        var step5Observer = null;
 
         function fireStep5Celebration(rect) {
             var emojis = ['🎉', '✉️', '⭐', '💪', '🏛️', '🎊', '📣', '✊'];
@@ -1133,24 +1142,10 @@ Thank you,
             }
         }
 
-        function setupStep5Celebration() {
-            if (!E.step5Section || step5Observer) return;
-            step5Observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting && !step5CelebFired) {
-                        step5CelebFired = true;
-                        fireStep5Celebration(entry.boundingClientRect);
-                    }
-                });
-            }, { threshold: 0.25 });
-            step5Observer.observe(E.step5Section);
-        }
-
         function updateStep5Visibility() {
             if (!E.step5Section) return;
             var hasSelected = document.querySelectorAll('.council-link.selected').length > 0;
             E.step5Section.style.display = hasSelected ? '' : 'none';
-            if (hasSelected) setupStep5Celebration();
         }
 
         // Single source of truth for sticky button state
