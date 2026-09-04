@@ -1199,7 +1199,7 @@ Thank you,
             }
             var target = label === 'Preview' ? E.previewHeader : E.personalizerSection;
             if (!target) return;
-            if (label === 'Preview') sendItReached = true;
+            if (label === 'Preview') { sendItReached = true; syncSticky(); }
             var nav = document.querySelector('.nav');
             var offset = nav ? nav.offsetHeight : 0;
             var top = target.getBoundingClientRect().top + window.scrollY - offset - 16;
