@@ -986,9 +986,9 @@ Thank you,
 
             E.phoneList.style.display = '';
             E.phoneListItems.innerHTML = entries.map(function(e) {
-                return '<li style="font-size:0.85rem;display:flex;align-items:center;justify-content:space-between;gap:12px;">'
+                return '<li style="font-size:0.85rem;display:grid;grid-template-columns:1fr max-content;align-items:center;gap:12px;">'
                     + '<span style="color:var(--text);">' + e.name + '</span>'
-                    + '<a href="tel:' + e.phone.replace(/[^0-9]/g,'') + '" style="color:var(--navy);font-weight:700;text-decoration:none;white-space:nowrap;">' + e.phone + '</a>'
+                    + '<a href="tel:' + e.phone.replace(/[^0-9]/g,'') + '" style="color:var(--navy);font-weight:700;text-decoration:none;white-space:nowrap;font-variant-numeric:tabular-nums;">' + e.phone + '</a>'
                     + '</li>';
             }).join('');
         }
