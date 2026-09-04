@@ -798,7 +798,7 @@ Thank you,
 
     <section class="template-section" id="step5-section" style="display:none;">
         <div class="container">
-            <h2 style="display:flex;align-items:center;gap:10px;margin-top:0;"><div class="step-num">5</div>Want to make an even bigger impact?</h2>
+            <h2 id="step-5-header" style="display:flex;align-items:center;gap:10px;margin-top:0;"><div class="step-num">5</div>Want to make an even bigger impact?</h2>
             <div class="voicemail-note">
                 Call the office of each person you just emailed and leave a voicemail with the same message. For elected officials, voicemails carry more weight than emails.
                 <p>Emails carry more weight than social media comments.</p>
@@ -1287,7 +1287,16 @@ Thank you,
                     + '<button class="mailto-close-btn" id="_mc_preview">Return to preview</button>'
                     + '</div>';
                 document.body.appendChild(overlay);
-                overlay.querySelector('#_mc_yes').addEventListener('click', function() { overlay.remove(); });
+                overlay.querySelector('#_mc_yes').addEventListener('click', function() {
+                    overlay.remove();
+                    var step5 = document.getElementById('step-5-header');
+                    if (step5) {
+                        var nav = document.querySelector('nav');
+                        var offset = nav ? nav.offsetHeight : 0;
+                        var top = step5.getBoundingClientRect().top + window.scrollY - offset - 16;
+                        window.scrollTo({ top: top, behavior: 'smooth' });
+                    }
+                });
                 overlay.querySelector('#_mc_copy').addEventListener('click', function() {
                     var btn = this;
                     navigator.clipboard.writeText(allEmails).catch(function() {
